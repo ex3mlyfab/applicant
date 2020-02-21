@@ -3,8 +3,9 @@
         <h3 class="block-title">Follow Up Visit</h3>
     </div>
     <div class="block-content block-content-full">
-        <form action="" method="post">
+    <form action="{{route('followup.store')}}" method="post">
             @csrf
+    <input type="hidden" name="clinical_appointment_id" value="{{ $appointment->id }}">
             <div class="form-group">
                 <label class="form-control-label-lg">Subjective complaints:</label>
                 <textarea name="subjective_complaints"   class="form-control" rows="5">

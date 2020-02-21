@@ -16,4 +16,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('consult/{consult}', 'Admin\Consult\ConsultController@consult')->name('consult.create');
     Route::resource('followup', 'Admin\Consult\FollowUpController');
     Route::resource('consults', 'Admin\Consult\ConsultController');
+    Route::resource('pharmreq', 'Admin\Consult\PharmreqController');
 });

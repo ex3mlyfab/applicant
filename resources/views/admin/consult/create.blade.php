@@ -114,7 +114,7 @@
 <script src="{{asset('public/backend')}}/assets/js/plugins/jquery-bootstrap-wizard/bs4/jquery.bootstrap.wizard.min.js"></script>
 <script src="{{asset('public/backend')}}/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="{{asset('public/backend')}}/assets/js/plugins/jquery-validation/additional-methods.js"></script>
-<script src="{{asset('public/backend')}}/assets/js/plugins/ckeditor/ckeditor.js"></script>
+
 <!-- Page JS Code -->
 <script src="{{asset('public/backend')}}/assets/js/pages/be_forms_wizard.min.js"></script>
 <script>
@@ -127,7 +127,28 @@
                 $('#username123').hide();
             });
     });
+    function addRow()
+{
+    var tr='<tr>'+
+            '<td><input type="text" name="medicine[]" class="form-control form-control-lg"></td>'+
+            '<td><input type="text" name="quantity[]" class="form-control form-control-lg"></td>'+
+            '<td><input type="text" name="dosage[]" class="form-control form-control-lg"></td>'+
+
+            '<td class="remove" style="text-align: center"><a href="#" class="btn btn-danger" onclick="deleteRow()"><i class="fa fa-times"></i></a></td>'+
+            '</tr>';
+
+    $('#drugs tbody').append(tr);
+}
+
+function deleteRow()
+{
+    $(document).on('click', '.remove', function()
+    {
+        $(this).parent('tr').remove();
+    });
+}
+
 </script>
-<script>jQuery(function(){ One.helpers(['ckeditor']); });</script>
+
 
 @endsection
