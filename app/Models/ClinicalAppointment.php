@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ClinicalAppointment extends Model
 {
@@ -20,9 +21,9 @@ class ClinicalAppointment extends Model
         'appointment_due',
     ];
 
-    public function consults(): HasMany
+    public function consult(): HasOne
     {
-        return $this->hasMany(Consult::class);
+        return $this->hasone(Consult::class);
     }
 
     public function presentingComplaints(): HasMany
@@ -40,6 +41,34 @@ class ClinicalAppointment extends Model
         return $this->hasMany(FollowUp::class);
     }
 
+    public function pharmreqs(): HasMany
+    {
+        return $this->hasMany(Pharmreq::class);
+    }
+
+    public function haematologyreqs(): HasMany
+    {
+        return $this->hasMany(Haematologyreq::class);
+    }
+
+    public function microbiologyreqs(): HasMany
+    {
+        return $this->hasMany(Microbiologyreq::class);
+    }
+
+    public function radiologyreqs(): HasMany
+    {
+        return $this->hasMany(Radiologyreq::class);
+    }
+    public function bloodreqs(): HasMany
+    {
+        return $this->hasMany(Bloodreq::class);
+    }
+
+    public function ultrasoundreqs(): HasMany
+    {
+        return $this->hasMany(Ultrasoundreq::class);
+    }
     // public function vitalsigns() : HasManyThrough
     // {
     //     return $this->hasManyThrough(VitalSign::class,

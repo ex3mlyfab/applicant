@@ -126,6 +126,24 @@
             $('#radio234').on('click', function(){
                 $('#username123').hide();
             });
+            @if($consults->count() >= 1)
+               @foreach($consults as $consult)
+               @if($consult->presentingComplaint)
+               $('.presenting').hide();
+               @endif
+               @if($consult->physicalExam)
+               $('.physical').hide();
+               @endif
+               @endforeach
+
+
+            @endif
+            $('#phx').on('click', function(){
+                $('#presenting').toggle();
+            });
+            $('#physical').on('click', function(){
+                $('#presenting').toggle();
+            });
     });
     function addRow()
 {

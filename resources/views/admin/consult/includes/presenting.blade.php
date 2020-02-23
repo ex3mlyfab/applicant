@@ -22,8 +22,9 @@
         <!-- END Step Tabs -->
 
         <!-- Form -->
-        <form action="#" method="POST">
+    <form action="{{route('pc.store')}}" method="POST">
             @csrf
+    <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
             <!-- Steps Content -->
             <div class="block-content block-content-full tab-content px-md-5" style="min-height: 314px;">
                 <!-- Step 1 -->
@@ -139,7 +140,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="skin" >Skin:</label>
-                            <input type="text" name="mss" class="form-control form-control-lg" id="skin"
+                            <input type="text" name="skin" class="form-control form-control-lg" id="skin"
                             value="{{old('mss') ?? ''}}">
                         </div>
                     </div>

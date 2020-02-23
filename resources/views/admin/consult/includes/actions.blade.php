@@ -1,18 +1,29 @@
 <div class="row gutters-tiny">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="block block-fx-shadow block-rounded">
             <div class="block-header bg-info-light">
                 <h3 class="block-title">Select Actions</h3>
             </div>
             <div class="block-content block-content-full">
-                 <!-- Activity -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="block invisible"  data-toggle="appear">
+                            <div class="block-content block-content-full">
+                                <div class="py-5 text-center">
+                                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#modal-block-normal">Launch Modal</button>
+                                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
+                                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#blood-block-normal"> blood request</button>
+                                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#microbiology-block-normal"> microbiology Test</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8"> <!-- Activity -->
                  <div class="block">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Recent Activity</h3>
+                        <h3 class="block-title">Recent Action plan</h3>
                         <div class="block-options">
-                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
-                                <i class="si si-refresh"></i>
-                            </button>
+
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
                         </div>
                     </div>
@@ -31,39 +42,15 @@
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
-                                    <div class="mr-3 ml-2">
-                                        <i class="si si-pencil text-info"></i>
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="font-w600">You edited the file</div>
-                                        <div class="text-info">
-                                            <i class="fa fa-file-text"></i> Documentation.doc
-                                        </div>
-                                        <small class="text-muted">15 min ago</small>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
-                                    <div class="mr-3 ml-2">
-                                        <i class="si si-close text-danger"></i>
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="font-w600">Project deleted</div>
-                                        <div class="text-danger">Line Icon Set</div>
-                                        <small class="text-muted">4 hours ago</small>
-                                    </div>
-                                </a>
-                            </li>
+
                         </ul>
                         <!-- END Activity List -->
                     </div>
                 </div>
-                <button type="button" class="btn btn-sm btn-primary push" data-toggle="modal" data-target="#modal-block-normal">Launch Modal</button>
-                <button type="button" class="btn btn-sm btn-primary push" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
+            </div>
 
+
+            </div>
             </div>
         </div>
     </div>

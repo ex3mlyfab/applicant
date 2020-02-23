@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
+use App\Models\Consult;
+use App\Models\PresentingComplaint;
 use Illuminate\Http\Request;
 
 
@@ -36,7 +38,17 @@ class PresentingComplaintController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->except('_token');
+        $pc = PresentingComplaint::create($validated);
+        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
+        $consult->update([
+            'presenting_complaint_id' => $pc->id
+        ]);
+        $notification = array(
+            'message' => 'Presenting Complaints recorded successfully!',
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
     }
 
     /**

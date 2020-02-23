@@ -14,8 +14,10 @@
     <!-- END Step Tabs -->
 
     <!-- Form -->
-    <form action="be_forms_wizard.html" method="POST">
+<form action="{{route('physical.store')}}" method="POST">
+        @csrf
         <!-- Steps Content -->
+        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
         <div class="block-content block-content-full tab-content px-md-5" style="min-height: 314px;">
             <!-- Step 1 -->
             <div class="tab-pane active" id="wizard-progress2-1" role="tabpanel">

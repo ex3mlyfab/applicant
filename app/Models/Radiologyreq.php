@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class PresentingComplaint extends Model
+class Radiologyreq extends Model
 {
+    //
     protected $guarded = [];
 
     public function clinicalAppointment(): BelongsTo
     {
         return $this->belongsTo(ClinicalAppointment::class);
     }
-    public function consult(): HasOne
+    public function consultTest(): BelongsTo
     {
-        return $this->hasOne(Consult::class);
+        return $this->belongsTo(ConsultTest::class);
     }
 }

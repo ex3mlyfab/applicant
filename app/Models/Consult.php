@@ -15,8 +15,22 @@ class Consult extends Model
         return $this->belongsTo(ClinicalAppointment::class);
     }
 
-    public function consultTest(): HasMany
+    public function consultTests(): HasMany
     {
         return $this->hasMany(ConsultTest::class);
+    }
+    public function presentingComplaint(): BelongsTo
+    {
+        return $this->belongsTo(PresentingComplaint::class);
+    }
+
+    public function physicalExam(): BelongsTo
+    {
+        return $this->belongsTo(PhysicalExam::class);
+    }
+
+    public function followUps(): HasMany
+    {
+        return $this->hasMany(FollowUp::class);
     }
 }

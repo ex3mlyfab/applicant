@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
-use App\Models\Consult;
-use App\Models\PhysicalExam;
 use Illuminate\Http\Request;
 
-class PhysicalExamController extends Controller
+class PathologyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +25,6 @@ class PhysicalExamController extends Controller
     public function create()
     {
         //
-
     }
 
     /**
@@ -39,17 +36,6 @@ class PhysicalExamController extends Controller
     public function store(Request $request)
     {
         //
-        $validated = $request->except('_token');
-        $pc = PhysicalExam::create($validated);
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
-        $consult->update([
-            'physical_exam_id' => $pc->id
-        ]);
-        $notification = array(
-            'message' => 'Physical exams recorded successfully!',
-            'alert-type' => 'success'
-        );
-        return back()->with($notification);
     }
 
     /**
