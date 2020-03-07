@@ -98,6 +98,8 @@
                         </div>
                     </div>
                 <form action="{{route('bloodreq.store')}}" method="post">
+                    @csrf
+                    <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                     <div class="form-group form-row">
                         <div class="col-md-8">
                             <label for="diagnosis">Diagnosis</label>
@@ -151,13 +153,13 @@
                             <input type="text" name="no_of_jaundiced_babies" id="no_of_jaundiced_babies" class="form-control form-control-lg">
                         </div>
                     </div>
-                    <fieldset class="bordered">
+                    <fieldset>
                         <legend>Cross Match Request</legend>
                         <div class="form-group form-row">
                         <div class="col-md-4">
                             <label for="no_of_units_required">no of units required
                             </label>
-                            <input type="text" name="no_of_units_required" id="no_of_units_required" class="form-control form-control-lg">
+                            <input type="text" name="no_of_units_required" id="no_of_units_required" class="form-control form-control-lg" required>
                         </div>
                         <div class="col-md-4">
                             <label for="mode">form needed</label>
@@ -314,7 +316,7 @@
                 </div>
                 <div class="block-content block-content-full text-right border-top">
                     <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+
                 </div>
             </div>
         </div>

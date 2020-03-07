@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePharmreqDetailsTable extends Migration
+class CreateDrugBadStocksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreatePharmreqDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('pharmreq_details', function (Blueprint $table) {
+        Schema::create('drug_bad_stocks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('pharmreq_id');
             $table->unsignedBigInteger('drug_model_id');
-            $table->string('dosage');
+            $table->unsignedBigInteger('admin_id');
+            $table->date('outward_date')->nullable();
+            $table->date('expiry_date')->nullable();
             $table->string('quantity');
-            $table->foreign('pharmreq_id')->references('id')->on('pharmreqs')->onDelete('cascade');
+            $table->string('note');
+            $table->timestamps();
         });
     }
 
@@ -30,6 +32,6 @@ class CreatePharmreqDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pharmreq_details');
+        Schema::dropIfExists('drug_bad_stocks');
     }
 }

@@ -19,7 +19,7 @@ class CreatePharmreqsTable extends Migration
             $table->unsignedBigInteger('seen_by');
             $table->string('status')->nullable();
             $table->timestamps();
-            $table->foreign('appointment_id')->references('id')->on('clinical_appointments');
+            $table->foreign('clinical_appointment_id')->references('id')->on('clinical_appointments');
         });
     }
 

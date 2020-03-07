@@ -201,7 +201,8 @@
                 sex: "value",
                 folder_number: "value"
                 }),
-             error : function(data){console.log("error:" + data)
+             error : function(data){
+                 console.log("error:" + data)
                 },
 
              success : function(response) {

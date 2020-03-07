@@ -90,7 +90,7 @@ take vital signs
                     <div class="col-md-3">
                         <label for="height">height</label>
                         <div class="input-group">
-                        <input type="text" name="height" id="height" placeholder="Respiratory Rate" class="form-control form-control-lg">
+                        <input type="text" name="height" id="height" placeholder="Height in meters" class="form-control form-control-lg">
                         <div class="input-group-append">
                             <span class="input-group-text">
                                m
@@ -101,7 +101,7 @@ take vital signs
                     <div class="col-md-3">
                         <label for="weight">weight</label>
                         <div class="input-group">
-                        <input type="text" name="weight" id="weight" placeholder="Pulse Rate" class="form-control form-control-lg">
+                        <input type="text" name="weight" id="weight" placeholder="Weight" class="form-control form-control-lg">
                         <div class="input-group-append">
                             <span class="input-group-text">
                           kg

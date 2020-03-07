@@ -29,8 +29,8 @@ class Consult extends Model
         return $this->belongsTo(PhysicalExam::class);
     }
 
-    public function followUps(): HasMany
+    public function followUp(): BelongsTo
     {
-        return $this->hasMany(FollowUp::class);
+        return $this->belongsTo(FollowUp::class);
     }
 }

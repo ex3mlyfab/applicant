@@ -26,9 +26,9 @@ class ConsultController extends Controller
     {
         //
         $patient = User::findOrFail($id);
-        $appointment = ClinicalAppointment::all();
+        $appointment = ClinicalAppointment::all()->where('status', "completed");
         $appointment = $appointment->where('patient_id', $patient->id)->last();
-        $consults = Consult::whereIn('clinical_appointment_id', $patient->clinicalAppointments->pluck('id'))->get();
+        $consults = Consult::all()->whereIn('clinical_appointment_id', $patient->clinicalAppointments->pluck('id'));
 
         // $consults = $consults->toArray();
         return view('admin.consult.create', compact('patient', 'consults', 'appointment'));

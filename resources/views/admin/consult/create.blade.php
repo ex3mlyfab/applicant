@@ -85,9 +85,10 @@
                                     </span>
                                     @include('admin.consult.includes.physicalHistory')
                                 </div>
-                                @if (!($consults->count() <= 1))
+                                @if (($consults->count() >= 1))
                                     <div class="tab-pane" id="btabs-alt-static-followup" role="tabpanel">
                                     <h4 class="font-w400">Follow Up </h4>
+                                    @include('admin.consult.includes.followupHistory')
                                     @include('admin.consult.includes.followup')
 
 
@@ -139,10 +140,10 @@
 
             @endif
             $('#phx').on('click', function(){
-                $('#presenting').toggle();
+                $('.presenting').toggle();
             });
             $('#physical').on('click', function(){
-                $('#presenting').toggle();
+                $('.physical').toggle();
             });
     });
     function addRow()

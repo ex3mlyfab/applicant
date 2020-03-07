@@ -32,7 +32,7 @@
      <!-- Dynamic Table with Export Buttons -->
      <div class="block">
         <div class="block-header">
-
+            {{(date('m') > 7)? date('Y') . '-' . date('Y', strtotime('+1 year')) : date('Y', strtotime('-1 year')) . '-' . date('Y')}}
         </div>
         <div class="block-content block-content-full">
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->

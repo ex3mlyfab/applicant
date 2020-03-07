@@ -43,11 +43,11 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                    <a href="{{route('vitals.create', $item->user->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="take vitals">
+                                                    <a href="{{route('vitals.create', $item->user->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="take vitals sign">
                                                             <i class="fa fa-fw fa-clipboard"></i>
                                                         </a>
-                                                        @if ($item->status == 'vital sign taken')
-                                                            <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
+                                                        @if (($item->status == "vitals sign taken"))
+                                                        <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
                                                             <i class="fa fa-fw fa-times"></i>
                                                         </button>
                                                         @endif

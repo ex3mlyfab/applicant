@@ -40,9 +40,13 @@ class PresentingComplaintController extends Controller
     {
         $validated = $request->except('_token');
         $pc = PresentingComplaint::create($validated);
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
+        $status = $pc->clinical_appointment_id;
+        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
         $consult->update([
             'presenting_complaint_id' => $pc->id
+        ]);
+        $consult->clinicalAppointment()->update([
+            'status' => 'completed'
         ]);
         $notification = array(
             'message' => 'Presenting Complaints recorded successfully!',

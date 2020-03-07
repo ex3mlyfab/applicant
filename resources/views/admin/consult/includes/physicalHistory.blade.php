@@ -107,7 +107,7 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-action" id="phx">take a new History</button>
+        <button class="btn btn-action" id="physical">take a new History</button>
     </div>
 </div>
 @endif
