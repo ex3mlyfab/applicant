@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
@@ -61,6 +62,15 @@ class User extends Authenticatable
     public function vitalSigns(): HasMany
     {
         return $this->hasMany(VitalSign::class, 'patient_id');
+    }
+
+    public function family(): BelongsTo
+    {
+        return $this->belongsTo(Family::class, 'user_id');
+    }
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
     }
 
     /**

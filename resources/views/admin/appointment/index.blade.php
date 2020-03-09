@@ -105,7 +105,7 @@
                         </div>
                         <div class="tab-pane fade fade-left" id="btabs-animated-slideleft-settings" role="tabpanel">
                             <div class="content content-full">
-                            <form action="{{route('clinicalappointment.store')}}" method="post">
+                            <form action="{{route('clinicalappointment.store')}}" method="post" autocomplete="off">
                                 @csrf
                                 <div class="form-group form-row">
                                     <div class="col-md-4">

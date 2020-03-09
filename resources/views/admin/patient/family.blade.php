@@ -49,8 +49,14 @@
                         <div class="tab-pane active" id="wizard-validation2-step1" role="tabpanel">
                             <div class="form-group">
                                 <label class="d-block">Registration Type</label>
-                            <input type="text" class="form-control form-control-lg" name="registration_type_id" readonly value="{{get_charge_amount(1)}}">
 
+                                @foreach ($families as $item)
+                                    <div class="form-check">
+                                    <input class="form-check-input regtype" type="radio" id="example-radios-inline{{$item->id}}" name="registration_type" value="{{$item->id}}" required>
+                                        <label class="form-check-label" for="example-radios-inline{{$item->id}}">{{$item->name}} | &nbsp; <span class="text-info"> Charge: {{ $item->charge->amount }}</span></label>
+                                    </div>
+
+                                @endforeach
 
                             </div>
 

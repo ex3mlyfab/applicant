@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Consult;
+namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RegistrationTypesResource;
+use App\Models\RegistrationType;
 use Illuminate\Http\Request;
-use App\Models\ClinicalAppointment;
-use App\Models\Consult;
-use App\Models\User;
+use Illuminate\Support\Facades\Response;
 
-class ConsultController extends Controller
+class RegistrationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,24 +17,10 @@ class ConsultController extends Controller
      */
     public function index()
     {
-        $appointments = ClinicalAppointment::all();
-        $today = $appointments->where('appointment_due', now()->today());
-        $patients = User::all();
-        return view('admin.consult.index', compact('appointments', 'today', 'patients'));
+        $regtypes = RegistrationType::all();
+        return view('admin.settings.registrationtype', compact('regtypes'));
     }
-    public function consult($id)
-    {
-        //
-        $patient = User::findOrFail($id);
-        $appointment = ClinicalAppointment::all();
-        $appointmentcompleted = $appointment->where('status', "completed");
-        $appointment = $appointment->where('patient_id', $patient->id)->last();
 
-        $consults = Consult::all()->whereIn('clinical_appointment_id', $patient->clinicalAppointments->pluck('id'));
-
-        // $consults = $consults->toArray();
-        return view('admin.consult.create', compact('patient', 'consults', 'appointment'));
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -54,6 +40,14 @@ class ConsultController extends Controller
     public function store(Request $request)
     {
         //
+        $link = RegistrationType::create($request->all());
+
+        $notification = [
+            'message' => 'Regtype added succesfully',
+            'alert-type' => 'success'
+        ];
+        // return Response::json($link);
+        return back()->with($notification);
     }
 
     /**
@@ -75,7 +69,8 @@ class ConsultController extends Controller
      */
     public function edit($id)
     {
-        //
+        $regtype = RegistrationType::findOrFail($id);
+        return Response::json($regtype);
     }
 
     /**
@@ -85,9 +80,14 @@ class ConsultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, RegistrationType $regtype)
     {
-        //
+        $data = $request->except('_token');
+        $regtype->update($data);
+
+        $link = $regtype->with('charge:id, amount');
+        $link = json_encode($link);
+        return Response::json($link);
     }
 
     /**
@@ -96,8 +96,10 @@ class ConsultController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(RegistrationType $regtype)
     {
-        //
+        $regid = $regtype->id;
+        $regtype->delete();
+        return Response::json($regid);
     }
 }

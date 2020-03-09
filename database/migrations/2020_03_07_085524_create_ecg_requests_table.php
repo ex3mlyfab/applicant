@@ -15,6 +15,18 @@ class CreateEcgRequestsTable extends Migration
     {
         Schema::create('ecg_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->unsignedBigInteger('doctor_id')->nullable();
+            $table->string('reason', 100)->nullable();
+            $table->string('clinical_summary', 200)->nullable();
+            $table->string('drugs', 200)->nullable();
+            $table->string('status', 20)->nullable();
+            $table->text('frequency', 20)->nullable();
+            $table->string('rhythm_strip', 10)->nullable();
+            $table->string('exercise_test', 10)->nullable();
+            $table->string('daily', 10)->nullable();
+            $table->string('twice_a_week', 10)->nullable();
+            $table->string('echo', 10)->nullable();
             $table->timestamps();
         });
     }

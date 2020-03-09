@@ -43,6 +43,7 @@
                         </div>
                     </div>
                 </div>
+                @include('admin.consult.includes.vitalsigns')
             </div>
             <div class="col-md-10">
                 <div class="block block-fx-pop">

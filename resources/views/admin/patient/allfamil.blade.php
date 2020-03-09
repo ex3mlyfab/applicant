@@ -1,7 +1,7 @@
 @extends('admin.admin')
 
 @section('title')
-    All patients
+    All Family Account
 
 @endsection
 
@@ -22,10 +22,9 @@
                 Patients Register
             </h1>
             <span class="ml-md-auto">
-            <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Patient</a>
-            <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Family Account</a>
-            <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Company Account</a>
-            </span>
+
+            <a href="{{route('family.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Family Account</a>
+
         </div>
     </div>
 </div>
@@ -41,34 +40,39 @@
                 <thead>
                     <tr>
                         <th class="text-center" style="width: 80px;">Folder Number</th>
-                        <th>Name </th>
+                        <th> Anchor Person Name </th>
                         <th class="d-none d-sm-table-cell">Picture</th>
-                        <th class="d-none d-sm-table-cell" style="width: 5%;">sex</th>
-                        <th class="d-none d-sm-table-cell" style="width: 5%;">Age</th>
-                        <th style="width: 15%;">Last visit</th>
+                        <th class="d-none d-sm-table-cell" style="width: 5%;">No enrolled</th>
+                        <th class="d-none d-sm-table-cell" style="width: 5%;">account type</th>
+                        <th style="width: 15%;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($patients as $patient)
+                    @foreach ($families as $family)
 
 
                     <tr>
-                        <td class="text-center font-size-sm">{{$patient->folder_number}}</td>
+                        <td class="text-center font-size-sm">{{$family->folder_number}}</td>
                         <td class="font-w600 font-size-sm">
-                            <a href="{{route('patient.show',$patient->id)}}">{{$patient->full_name}}</a>
+                           {{ $family->user->full_name}}
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm">
-                        <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="{{$patient->full_name}}" class="img-avatar img-avatar128">
+                        <img src="{{asset('public/backend')}}/images/avatar/{{$family->user->avatar}}" alt="{{$patient->full_name}}" class="img-avatar img-avatar128">
 
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm">
-                            {{$patient->sex}}
+                            {{$family->enrolment_count}}
                         </td>
                         <td class="d-none d-sm-table-cell">
-                            {{$patient->age}}
+                            {{$family->registrationType->name}}
                         </td>
                         <td>
-                            <em class="text-muted font-size-sm">{{$patient->last_vist}}</em>
+                            <button class="btn btn-warning"> Edit </button>
+                            <button class="btn btn-warning"> delete </button>
+                            @if ($family->enrolment_count <= $family->registrationType->max_enrollment)
+                                <a href="{{route('family.enroll', $family->id)}}" class="btn btn-info">Enroll members</a>
+                            @endif
+
                         </td>
                     </tr>
                      @endforeach

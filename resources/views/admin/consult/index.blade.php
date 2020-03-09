@@ -66,7 +66,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="btn-group">
-                                                                    <a href="{{route('vitals.create', $item->user->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="take vitals">
+                                                                    <a href="{{route('vitals.create', $item->user->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="take vitals signs">
                                                                             <i class="fa fa-fw fa-clipboard"></i>
                                                                         </a>
                                                                         @if ( ($item->status == "vitals sign taken"))

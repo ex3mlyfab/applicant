@@ -55,6 +55,7 @@ class VitalSignController extends Controller
             'systolic' => 'required',
             'diastolic' => 'required',
             'patient_id' => 'required',
+            'bmi' => 'nullable'
         ]);
 
         $validated['done_by'] = 1;

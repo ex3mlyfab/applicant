@@ -1,5 +1,5 @@
 <!-- Progress Wizard 2 -->
-<div class="js-wizard-simple block block">
+<div class="js-wizard-simple block">
 
     <!-- Step Tabs -->
     <ul class="nav nav-tabs nav-tabs-alt nav-justified" role="tablist">
@@ -7,7 +7,7 @@
             <a class="nav-link active" href="#wizard-progress2-1" data-toggle="tab">1. General Examinations</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#wizard-progress2-2" data-toggle="tab">2. Local Examinations</a>
+            <a class="nav-link" href="#wizard-progress2-2" data-toggle="tab">2. syxtemic  Examinations</a>
         </li>
 
     </ul>

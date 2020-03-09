@@ -13,7 +13,7 @@
                 <a class="nav-link active" href="#wizard-progress2-step1" data-toggle="tab">1. History</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#wizard-progress2-step2" data-toggle="tab">2. Details</a>
+                <a class="nav-link" href="#wizard-progress2-step2" data-toggle="tab">2. Past Medical History</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#wizard-progress2-step3" data-toggle="tab">3. Systemic Review</a>
@@ -30,15 +30,16 @@
                 <!-- Step 1 -->
                 <div class="tab-pane active" id="wizard-progress2-step1" role="tabpanel">
                     <div class="form-group">
-                        <label for="pchx">1. History of Presenting Complaints</label>
+                        <label for="pchx">1. Presenting Complaints</label>
+                        <textarea name="pchx" id="pc"  rows="4" class="form-control">{{old('pc') ?? ''}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="pchx">2. History of Presenting Complaints</label>
                         <textarea name="pchx" id="pchx"  rows="4" class="form-control">{{old('pchx') ?? ''}}</textarea>
                     </div>
+
                     <div class="form-group">
-                        <label for="pmhx">2. Past Medical History</label>
-                        <textarea name="pmhx" id="pmhx"  rows="4" class="form-control">{{old('pmhx') ?? ''}}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="fshx">2. Family and Social History</label>
+                        <label for="fshx">3. Family and Social History</label>
                         <textarea name="fshx" id="fshx"  rows="4" class="form-control">{{old('fshx') ?? ''}}</textarea>
                     </div>
                 </div>
@@ -113,14 +114,14 @@
                         </div>
                         <div class="col-md-4">
                             <label for="rs" >Respiratory System (rs) </label>
-							<input type="text" name="resp_system"class="form-control form-control-lg" id="rs" placeholder="" value="{{old('resp_system') ?? ''}}">
+							<input type="text" name="resp_system" class="form-control form-control-lg" id="rs" placeholder="" value="{{old('resp_system') ?? ''}}">
                         </div>
 
                     </div>
                     <div class="form-group form-row">
                         <div class="col-md-4">
                             <label for="git" >GIT </label>
-							<input type="text" name="git"class="form-control form-control-lg" id="git" placeholder="" value="{{old('git') ?? ''}}">
+							<input type="text" name="git" class="form-control form-control-lg" id="git" placeholder="" value="{{old('git') ?? ''}}">
                         </div>
                         <div class="col-md-4">
                             <label for="us">Urinary System :</label>

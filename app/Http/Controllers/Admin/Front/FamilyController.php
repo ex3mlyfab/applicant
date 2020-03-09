@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Family;
+use App\Models\Payment;
+use App\Models\RegistrationType;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
-use App\Models\User;
 
-
-class PatientController extends Controller
+class FamilyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +19,9 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = User::all();
-        return view('admin.patient.index', compact('patients'));
+        $families = Family::all();
+
+        return view('admin.patient.allfamil', compact('families'));
     }
 
     /**
@@ -30,8 +31,14 @@ class PatientController extends Controller
      */
     public function create()
     {
-        $families = Family::all();
-        return view('admin.patient.create', compact('families'));
+        $families = RegistrationType::where('name', 'Like', 'family%')->get();
+        return view('admin.patient.family', compact('families'));
+        //
+    }
+
+    public function familyEnroll(Family $family)
+    {
+        return view('admin.patient.familyenroll', compact('family'));
     }
 
     /**
@@ -60,6 +67,8 @@ class PatientController extends Controller
             'city' => 'nullable|string',
             'age_at_reg' => 'nullable|string',
             'marital_status' => 'nullable|string',
+            'registration_type_id' => 'required',
+            'belongs_to' => 'nullable',
 
         ]);
 
@@ -74,11 +83,14 @@ class PatientController extends Controller
         } else {
             $validated['source'] = 'online';
         }
-
-        $validated['folder_number'] = $this->assignFNo();
-
-
-
+        if ($request->has('belongs_to')) {
+            $number = Family::where('id', $request->belongs_to);
+            $getletter = num_to_letters(($number->enrolment_count + 1));
+            $validated['folder_number'] = $number->folder_number . $getletter;
+            $number->update([
+                'enrolment_count' => $number->enrolment_count + 1,
+            ]);
+        }
         if ($request->has('avatar')) {
             //
             $image = $request->avatar;  // your base64 encoded
@@ -97,14 +109,35 @@ class PatientController extends Controller
 
         $validated['password'] = Hash::make('pentacare');
 
-        User::create($validated);
+        $anchor = User::create($validated);
+        if (!($request->has('belongs_to'))) {
+            $id = Family::create([
+                'enrolment_count' => 1,
+                'folder_number' => assign_Fno(),
+                'registration_type_id' => $request->registration_type_id,
+                'user_id' => $anchor->id,
+            ]);
+
+            $anchor->update([
+                'folder_number' => $id->folder_number . num_to_letters(1),
+                'belongs_to' => $id->id
+            ]);
+            Payment::create([
+                'payment_mode_id' => 1,
+                'user_id' => $anchor->id,
+                'admin_id' => 1,
+                'service' => 'Payments for new family account registration',
+                'amount' => $id->registrationType->charge->amount,
+                'invoice_no' => generate_invoice_no(),
+            ]);
+        }
 
         $notification = array(
             'message' => 'Patient created successfully!',
             'alert-type' => 'success'
         );
 
-        return redirect('admin/patient')->with($notification);
+        return redirect('admin/family')->with($notification);
     }
 
     /**
@@ -113,10 +146,9 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $patient)
+    public function show($id)
     {
-
-        return view('admin.patient.show', compact('patient'));
+        //
     }
 
     /**
@@ -125,9 +157,9 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $patient)
+    public function edit($id)
     {
-        return view('admin.patient.edit', compact('patient'));
+        //
     }
 
     /**
@@ -137,67 +169,11 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $patient)
+    public function update(Request $request, $id)
     {
         //
-        $validated = $request->validate([
-            'last_name' => 'required|string|max:255',
-            'other_names' => 'required|string|max:255',
-            'phone' => 'required|string|max:255|unique:users',
-            'sex' => 'nullable|string',
-            'email' => 'nullable|email|max:255',
-            'nok' => 'nullable|string|max:255',
-            'nok_phone' => 'nullable|string|max:255',
-            'nok_relationship' => 'nullable|string|max:255',
-            'nok_address' => 'nullable|string',
-            'address' => 'nullable|string',
-            'email' => 'nullable|string',
-            'national_id' => 'nullable|string',
-            'state' => 'nullable|string',
-            'city' => 'nullable|string',
-            'age_at_reg' => 'nullable|string',
-            'marital_status' => 'nullable|string',
-
-        ]);
-        if ($request->has('password')) {
-            $validated['password'] = Hash::make($request->password);
-        }
-
-        if ($request->has('dob')) {
-            $dob = strtotime($request->dob);
-            $newDate = date('Y-m-d', $dob);
-            $validated['dob'] = $newDate;
-        }
-        if ($request->has('avatar')) {
-            //
-            $image = $request->avatar;  // your base64 encoded
-
-            // $image = str_replace('data:image/png;base64,', '', $image);
-
-            // $image = str_replace(' ', '+', $image);
-            @list($type, $file_data) = explode(';', $image);
-            @list(, $file_data) = explode(',', $file_data);
-            $storage_path = public_path() . '/backend/images/avatar';
-            $imageName = $request->last_name . $request->other_names . Date('Y-m-d') . '.' . 'png';
-            $validated['avatar'] = $imageName;
-            \File::put($storage_path . '/' . $imageName, base64_decode($file_data));
-        }
-
-        $patient->update($validated);
-
-        $notification = array(
-            'message' => 'Patient created successfully!',
-            'alert-type' => 'success'
-        );
-
-        return redirect('admin/patient')->with($notification);
     }
-    public function patientAjax($id)
-    {
-        $user = User::select('avatar', 'sex', 'folder_number')->where('id', $id)->get();
 
-        return json_encode($user);
-    }
     /**
      * Remove the specified resource from storage.
      *
@@ -207,17 +183,5 @@ class PatientController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function assignFNo()
-    {
-
-        $year = Carbon::now()->year;
-        $users = new User();
-        $count = $users->whereYear('created_at', '=', $year)
-            ->count();
-        $count += 1;
-        $formatted_value = sprintf("%04d", $count);
-
-        return $formatted_value . "/" . $year;
     }
 }

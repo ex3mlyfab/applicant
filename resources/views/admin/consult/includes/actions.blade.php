@@ -10,10 +10,10 @@
                         <div class="block invisible"  data-toggle="appear">
                             <div class="block-content block-content-full">
                                 <div class="py-5 text-center">
-                                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#modal-block-normal">Launch Modal</button>
-                                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
+
                                     <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#blood-block-normal"> blood request</button>
                                     <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#microbiology-block-normal"> microbiology Test</button>
+                                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                         <!-- Activity List -->
                         <ul class="nav-items mb-0">
                             <li>
-                                <a class="text-dark media py-2" href="javascript:void(0)">
+                                {{-- <a class="text-dark media py-2" href="javascript:void(0)">
                                     <div class="mr-3 ml-2">
                                         <i class="si si-wallet text-success"></i>
                                     </div>
@@ -40,7 +40,7 @@
                                         <div class="text-success">Admin Template</div>
                                         <small class="text-muted">3 min ago</small>
                                     </div>
-                                </a>
+                                </a> --}}
                             </li>
 
                         </ul>

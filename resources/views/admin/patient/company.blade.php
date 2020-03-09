@@ -1,7 +1,7 @@
 @extends('admin.admin')
 
 @section('title')
-    All patients
+    All Companies Account
 
 @endsection
 
@@ -19,12 +19,11 @@
     <div class="content content-full">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
             <h1 class="flex-sm-fill h3 my-2">
-                Patients Register
+                Companies Register
             </h1>
             <span class="ml-md-auto">
-            <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Patient</a>
-            <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Family Account</a>
-            <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Company Account</a>
+
+            <a href="{{route('company.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Company Account</a>
             </span>
         </div>
     </div>
@@ -34,41 +33,50 @@
      <!-- Dynamic Table with Export Buttons -->
      <div class="block">
         <div class="block-header">
-             </div>
+
+    </div>
         <div class="block-content block-content-full">
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 80px;">Folder Number</th>
+                        <th class="text-center" style="width: 80px;">S/no</th>
                         <th>Name </th>
-                        <th class="d-none d-sm-table-cell">Picture</th>
-                        <th class="d-none d-sm-table-cell" style="width: 5%;">sex</th>
-                        <th class="d-none d-sm-table-cell" style="width: 5%;">Age</th>
-                        <th style="width: 15%;">Last visit</th>
+                        <th class="d-none d-sm-table-cell">Address</th>
+                        <th class="d-none d-sm-table-cell" style="width:10%;">Phone</th>
+                        <th class="d-none d-sm-table-cell" style="width: 5%;">Reg. Type</th>
+                        <th style="width: 15%;">Number Enrolled</th>
+                        <th>action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($patients as $patient)
+                    @foreach ($companies as $item)
 
 
                     <tr>
-                        <td class="text-center font-size-sm">{{$patient->folder_number}}</td>
+                        <td class="text-center font-size-sm">{{$loop->iteration}}</td>
                         <td class="font-w600 font-size-sm">
-                            <a href="{{route('patient.show',$patient->id)}}">{{$patient->full_name}}</a>
+                            {{$item->organisation_name}}
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm">
-                        <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="{{$patient->full_name}}" class="img-avatar img-avatar128">
-
+                            {{$item->address}}
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm">
-                            {{$patient->sex}}
+                            {{$item->contact_phone}}
                         </td>
                         <td class="d-none d-sm-table-cell">
-                            {{$patient->age}}
+                            {{$item->registrationType->name}}
                         </td>
                         <td>
-                            <em class="text-muted font-size-sm">{{$patient->last_vist}}</em>
+                            <em class="text-muted font-size-sm">{{$item->enrolment_count}}</em>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning"> Edit </button>
+                            <button class="btn btn-warning"> delete </button>
+                            @if ($item->enrolment_count <= $item->registrationType->max_enrollment)
+                                <a href="{{route('company.enroll', $item->id)}}" class="btn btn-info">Enroll members</a>
+                            @endif
+
                         </td>
                     </tr>
                      @endforeach

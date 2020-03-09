@@ -26,7 +26,7 @@
                 <!-- Step Tabs -->
                 <ul class="nav nav-tabs nav-tabs-alt nav-justified" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#wizard-validation2-step1" data-toggle="tab">1. Registration Type</a>
+                        <a class="nav-link active" href="#wizard-validation2-step1" data-toggle="tab">1. Family Name</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#wizard-validation2-step2" data-toggle="tab">2. Personal Info</a>
@@ -41,23 +41,21 @@
                 <!-- END Step Tabs -->
 
                 <!-- Form -->
-            <form class="js-wizard-validation2-form" action="{{route('patient.store')}}" method="POST">
+            <form class="js-wizard-validation2-form" action="{{route('family.store')}}" method="POST">
                 @csrf
                     <!-- Steps Content -->
                     <div class="block-content block-content-full tab-content px-md-5" style="min-height: 303px;">
                         <!-- Step 1 -->
                         <div class="tab-pane active" id="wizard-validation2-step1" role="tabpanel">
                             <div class="form-group">
-                                <label class="d-block">Registration Type</label>
-                            <input type="text" class="form-control form-control-lg" name="registration_type_id" readonly value="{{get_charge_amount(1)}}">
-
+                                <label class="d-block">Family Name</label>
+                            <input type="hidden"  name="registration_type_id" readonly value="{{ $family->registration_type_id }}">
+                            <input type="text"  class="form-control form-control-lg" readonly value="{{ $family->user->last_name}}" >
+                            <input type="hidden" name="belongs_to" value="{{$family->id}}" >
 
                             </div>
 
-                        <div class="form-group">
-                            <input type="checkbox" name="paid" id="paid" class="form-check-inline" required>
-                            <label for="paid" class="form-check-label">Paid</label>
-                        </div>
+
                         </div>
                         <!-- END Step 1 -->
                         <!-- Step 2 -->

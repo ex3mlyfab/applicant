@@ -8,8 +8,8 @@ take vital signs
 @section('content')
 <div class="content">
     <div class="block block-fx-pop">
-        <div class="block-header bg-info">
-            <h3 class="block-title">Take Vitals</h3>
+        <div class="block-header bg-info text-white-75">
+            <h3 class="block-title text-center">Record Vitals Sign</h3>
         </div>
         <div class="block-content content-full">
             <form action="{{route('nursing.store')}}" method="post">
@@ -109,6 +109,17 @@ take vital signs
                         </div>
                     </div>
                     </div>
+                    <div class="col-md-3">
+                        <label for="bmi">bmi</label>
+                        <div class="input-group">
+                        <input type="text" name="bmi" id="bmi" placeholder="bmi" class="form-control form-control-lg" readonly>
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                          kg/m<sup>2</sup>
+                            </span>
+                        </div>
+                    </div>
+                    </div>
                 </div>
 
 
@@ -119,4 +130,29 @@ take vital signs
 
     </div>
 </div>
+@endsection
+@section('foot_js')
+<script>
+    $(function(){
+        var weight, height, bmi;
+        $('#weight').prop("readonly", true);
+        $('#bmi').val('Enter weight and Height for Bmi');
+
+        $('#height').on('blur', function(){
+            height = $(this).val();
+            $('#weight').prop("readonly",false );
+
+        });
+        $('#weight').on('blur', function(){
+            weight = $(this).val();
+            bmi = weight/(height*height);
+
+            $('#bmi').val(bmi.toFixed(2));
+        });
+
+
+});
+
+</script>
+
 @endsection
