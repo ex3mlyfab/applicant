@@ -57,7 +57,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-profile">Physical Exam</a>
                                 </li>
-                                @if (!($consults->count() <= 1))
+                                @if (($consults->count() >= 1))
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-followup">Follow Up</a>
                                 </li>
@@ -89,7 +89,10 @@
                                 @if (($consults->count() >= 1))
                                     <div class="tab-pane" id="btabs-alt-static-followup" role="tabpanel">
                                     <h4 class="font-w400">Follow Up </h4>
-                                    @include('admin.consult.includes.followupHistory')
+
+                                        @include('admin.consult.includes.followupHistory')
+
+
                                     @include('admin.consult.includes.followup')
 
 
@@ -145,6 +148,13 @@
             });
             $('#physical').on('click', function(){
                 $('.physical').toggle();
+            });
+            $('#fbc').change(function(){
+                if(this.checked){
+
+                    $('.fbc').prop("checked",true );
+                    $('#investigation_required').val('Full Blood Count');
+                }
             });
     });
     function addRow()

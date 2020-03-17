@@ -75,7 +75,7 @@ class PatientController extends Controller
             $validated['source'] = 'online';
         }
 
-        $validated['folder_number'] = $this->assignFNo();
+        $validated['folder_number'] = assign_Fno();
 
 
 
@@ -184,6 +184,7 @@ class PatientController extends Controller
         }
 
         $patient->update($validated);
+
 
         $notification = array(
             'message' => 'Patient created successfully!',

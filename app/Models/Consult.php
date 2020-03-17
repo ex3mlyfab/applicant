@@ -12,7 +12,7 @@ class Consult extends Model
 
     public function clinicalAppointment(): BelongsTo
     {
-        return $this->belongsTo(ClinicalAppointment::class);
+        return $this->belongsTo(ClinicalAppointment::class, 'clinical_appointment_id');
     }
 
     public function consultTests(): HasMany

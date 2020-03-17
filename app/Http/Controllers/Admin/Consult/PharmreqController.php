@@ -61,12 +61,11 @@ class PharmreqController extends Controller
         $consult->consultTests()->create([
             'test_id' => $pc->id,
             'type' => 'Drug Prescription',
+            'status' => 'waiting',
         ]);
-        $consult->clinicalAppointment()->update([
-            'status' => 'completed'
-        ]);
+
         $notification = array(
-            'message' => 'Presenting Complaints recorded successfully!',
+            'message' => 'Pharmacy request sent successfully!',
             'alert-type' => 'success'
         );
         return back()->with($notification);

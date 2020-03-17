@@ -23,8 +23,8 @@
             </h1>
             <span class="ml-md-auto">
             <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Patient</a>
-            <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Family Account</a>
-            <a href="{{route('patient.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Company Account</a>
+            <a href="{{route('family.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Family Account</a>
+            <a href="{{route('company.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Company Account</a>
             </span>
         </div>
     </div>

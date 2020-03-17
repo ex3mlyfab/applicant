@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bloodreq;
+use App\Models\Consult;
 use Illuminate\Http\Request;
 
 class BloodreqController extends Controller
@@ -36,6 +38,22 @@ class BloodreqController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->except('_token');
+        $data['status'] = 'waiting';
+        $id = Bloodreq::create($data);
+
+        $status = $id->clinical_appointment_id;
+        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
+        $consult->consultTests()->create([
+            'test_id' => $id->id,
+            'type' => $request->examination_required . ' in Serotology',
+            'status' => 'waiting',
+        ]);
+        $notification = array(
+            'message' => 'Test requested successfully!',
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
     }
 
     /**

@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class DrugBadStock extends Model
 {
     //
+    protected $guarded = [];
 }

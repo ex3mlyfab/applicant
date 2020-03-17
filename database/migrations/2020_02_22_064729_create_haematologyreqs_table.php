@@ -17,6 +17,8 @@ class CreateHaematologyreqsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('clinical_appointment_id');
             $table->unsignedBigInteger('requested_by')->nullable();
+            $table->string('clinical_details')->nullable();
+            $table->string('investigation_required')->nullable();
             $table->string('fbc', 10)->nullable();
             $table->string('pcv', 10)->nullable();
             $table->string('rbc', 10)->nullable();
@@ -27,6 +29,8 @@ class CreateHaematologyreqsTable extends Migration
             $table->string('wbc', 10)->nullable();
             $table->string('plat', 10)->nullable();
             $table->string('esr', 10)->nullable();
+            $table->unsignedBigInteger('payment_id')->nullable();
+            $table->string('payment_status')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

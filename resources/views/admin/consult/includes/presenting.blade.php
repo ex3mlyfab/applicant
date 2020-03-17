@@ -10,13 +10,13 @@
         <!-- Step Tabs -->
         <ul class="nav nav-tabs nav-tabs-alt nav-justified" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" href="#wizard-progress2-step1" data-toggle="tab">1. History</a>
+                <a class="nav-link active" href="#wizard-progress2-step1" data-toggle="tab">A. History</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#wizard-progress2-step2" data-toggle="tab">2. Past Medical History</a>
+                <a class="nav-link" href="#wizard-progress2-step2" data-toggle="tab">B. Past Medical History</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#wizard-progress2-step3" data-toggle="tab">3. Systemic Review</a>
+                <a class="nav-link" href="#wizard-progress2-step3" data-toggle="tab">C. Systemic Review</a>
             </li>
         </ul>
         <!-- END Step Tabs -->

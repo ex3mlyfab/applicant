@@ -1,5 +1,5 @@
 <!-- Progress Wizard 2 -->
-<div class="js-wizard-simple block">
+<div class="js-wizard-simple block block">
 
     <!-- Step Tabs -->
     <ul class="nav nav-tabs nav-tabs-alt nav-justified" role="tablist">
@@ -7,7 +7,7 @@
             <a class="nav-link active" href="#wizard-progress2-1" data-toggle="tab">1. General Examinations</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#wizard-progress2-2" data-toggle="tab">2. syxtemic  Examinations</a>
+            <a class="nav-link" href="#wizard-progress2-2" data-toggle="tab">2. systemic  Examinations</a>
         </li>
 
     </ul>
@@ -17,21 +17,22 @@
 <form action="{{route('physical.store')}}" method="POST">
         @csrf
         <!-- Steps Content -->
-        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+
         <div class="block-content block-content-full tab-content px-md-5" style="min-height: 314px;">
             <!-- Step 1 -->
             <div class="tab-pane active" id="wizard-progress2-1" role="tabpanel">
+                <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                 <div class="form-group">
                     <label for="firstName5">1. General Examinations </label>
                     <textarea name="general_exam" class="form-control auto-expand" rows="4" placeholder="Patient's General examination"> {{old('general_exam') ?? ''}}</textarea>
 
                 </div>
                 <div class="form-group">
-                    <label for="firstName6">2. Local Exam </label>
+                    <label for="firstName6">2. Local Examinations </label>
                     <textarea name="local_exam" class="form-control auto-expand" rows="4" placeholder="Patient Local exam">{{old('local_exam') ?? ''}}</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="firstName7">3. Regional Exam</label>
+                    <label for="firstName7">3. Regional Examinations</label>
                     <textarea name="regional_exam" class="form-control auto-expand" rows="4" placeholder="Patient Regional Exam" id="firstName7">{{old('regional_exam') ?? ''}}</textarea>
                 </div>
             </div>
@@ -74,7 +75,8 @@
 
                     </div>
                     <div class="col-md-4"> <label for="addressine13" class="form-control-label-lg">MusculoSkeletal System :</label>
-                        <input type="text" name="musculo_skeletal" class="form-control form-control-lg" id="addressine13" value="{{old('musculo_skeletal') ?? ''}}"></div>
+                        <input type="text" name="musculo_skeletal" class="form-control form-control-lg" id="addressine13" value="{{old('musculo_skeletal') ?? ''}}">
+                    </div>
                     <div class="col-md-4"></div>
                 </div>
                 <div class="form-group">

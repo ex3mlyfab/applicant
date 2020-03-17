@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
+use App\Models\Consult;
+use App\Models\Pathologyreq;
 use Illuminate\Http\Request;
 
 class PathologyController extends Controller
@@ -36,6 +38,22 @@ class PathologyController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->except('_token');
+        $data['status'] = 'waiting';
+        $id = Pathologyreq::create($data);
+
+        $status = $id->clinical_appointment_id;
+        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
+        $consult->consultTests()->create([
+            'test_id' => $id->id,
+            'type' => $request->examination_required . ' in Radiology',
+            'status' => 'waiting',
+        ]);
+        $notification = array(
+            'message' => 'Xray requested successfully!',
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
     }
 
     /**

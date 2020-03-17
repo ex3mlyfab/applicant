@@ -23,7 +23,7 @@ class ClinicalAppointment extends Model
 
     public function consult(): HasOne
     {
-        return $this->hasone(Consult::class);
+        return $this->hasone(Consult::class, 'clinical_appointment_id');
     }
 
     public function presentingComplaints(): HasMany

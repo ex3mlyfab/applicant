@@ -22,18 +22,21 @@ class ConsultController extends Controller
         $patients = User::all();
         return view('admin.consult.index', compact('appointments', 'today', 'patients'));
     }
+
     public function consult($id)
     {
         //
         $patient = User::findOrFail($id);
-        $appointment = ClinicalAppointment::all();
-        $appointmentcompleted = $appointment->where('status', "completed");
-        $appointment = $appointment->where('patient_id', $patient->id)->last();
+
+        $appointmentcompleted = ClinicalAppointment::where('status', "completed");
+        $appointment = ClinicalAppointment::where('patient_id', $patient->id)->where('appointment_due', now()->today())->first();
+
 
         $consults = Consult::all()->whereIn('clinical_appointment_id', $patient->clinicalAppointments->pluck('id'));
+        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $appointment->id]);
 
         // $consults = $consults->toArray();
-        return view('admin.consult.create', compact('patient', 'consults', 'appointment'));
+        return view('admin.consult.create', compact('patient', 'consults', 'appointment', 'consult'));
     }
     /**
      * Show the form for creating a new resource.
