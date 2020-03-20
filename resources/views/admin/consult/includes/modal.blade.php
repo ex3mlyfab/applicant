@@ -22,13 +22,13 @@
         </div>
     </div>
 </div>
- <!-- Haematology blood Block Modal -->
- <div class="modal" id="haematology-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+ <!-- Histology Block Modal -->
+ <div class="modal" id="histology-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-top modal-lg" role="document"style=" width: 80%;">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-danger">
-                    <h3 class="block-title">Haematology Request</h3>
+                    <h3 class="block-title">Histopathology</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
@@ -54,16 +54,179 @@
 
                         </div>
                     </div>
+                    <form action="" method="post" class="px-3">
+                        @csrf
+                        <div class="form-group">
+                            <label for="clinical_details">Clinical Details</label><input type="text" name="clinical_details" id="clinical_details" class="form-control"></div>
+                        <div class="form-group form-row">
+                            <div class="col-sm-3">
+                                <label for="test-date">Test Date</label>
+                                <input type="text" name="test_date" id="test-date" class="js-datepicker form-control"  data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="lmp">L. M. P</label>
+                                <input type="text" name="lmp" id="lmp" class="js-datepicker form-control" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="last_test-date">Last Test Date</label>
+                                <input type="text" name="last_test_date" id="last_test-date" class="form-control">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="last_test_id">Test Details</label>
+                                <input type="text" name="last_test_id" id="last_test_id" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group form-row">
+                            <div class="col-sm-4">
+                                <label for="religion">Religion</label>
+                                <select name="religion" id="religion" class="form-control">
+                                    <option value="">select one ....</option>
+                                    <option value="muslim">Muslim</option>
+                                    <option value="christian">Christian</option>
+                                    <option value="traditional">Traditional</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="marriage_type">Marriage_Type</label>
+                                <select name="marriage_type" id="marriage_type" class="form-control">
+                                    <option value="">select one....</option>
+                                    <option value="monogamous">Monogamous</option>
+                                    <option value="polygamous">Polygamous</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="husband_occupation">Husband Occupation</label>
+                                <input type="text" name="husband_occupation" id="husband_occupation" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group form-row">
+                            <div class="col-md-6">
+                                <label >Specimen Type</label>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input specimen" id="cervical_scrape" name="specimen_type" value="Cervical Scrape" checked>
+                                    <label class="custom-control-label" for="cervical_scrape">Cervical Scrape</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input specimen" id="vaginal_scrape" name="specimen_type" value="Vaginal Scrape" >
+                                    <label class="custom-control-label" for="vaginal_scrape">Vaginal Scrape</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input specimen" id="cytopipette" name="specimen_type" value="Cytopipette" >
+                                    <label class="custom-control-label" for="cytopipette">Cytopipette</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input specimen" id="fine_needle_aspiration" name="specimen_type" value="Fine needle aspiration" >
+                                   <label class="custom-control-label" for="fine_needle_aspiration">Fine needle aspiration</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="others" name="specimen_type" value="Fine needle aspiration" >
+                                    <label class="custom-control-label" for="others">Others (specify)</label>
+                                    <input type="text" name="specify" id="specify" class="form-control form-control-lg">
+                                </div>
 
+                            </div>
+                            <div class="col-md-6">
+                            <fieldset class="border border-success p-2 bg-amethyst-light">
+                                <legend class="px-1">Pregnancies</legend>
+                            
+                                <label for="total_birth">Total births(lives & still)</label>
+                                <input type="text" name="total_birth" id="total_birth" class="form-control">
+                            
+                                <label for="abortion_miscarriage">Total Abortion &amp; Miscarriage</label>
+                                <input type="text" name="abortion_miscarriage" id="abortion_miscarriage" class="form-control">
+
+                           
+                        </fieldset>
+                    </div>
+                        </div>
+                        <div class="form-group form-row">
+                            <div class="col-md-4">
+                                <label>Condition</label>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="pregnant" name="condition" value="pregnant" >
+                                    <label class="custom-control-label" for="pregnant">Pregnant</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="post_natal" name="condition" value="post_natal" >
+                                    <label class="custom-control-label" for="post_natal">Post Natal</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="iucd" name="condition" value="iucd" >
+                                    <label class="custom-control-label" for="iucd">IUCD</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="copper" name="condition" value="copper" >
+                                    <label class="custom-control-label" for="copper">Copper</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="oral_contra" name="condition" value="oral_contra" >
+                                    <label class="custom-control-label" for="oral_contra">Oral Contra</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="dpo_provera" name="condition" value="dpo_provera" >
+                                    <label class="custom-control-label" for="dpo_provera">Dpo-Provera</label>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <label>Appearance of Cervix</label>
+                                    <div class="custom-control custom-radio custom-control-lg mb-1">
+                                        <input type="radio" class="custom-control-input" id="normal" name="cervix_appearance" value="normal" >
+                                        <label class="custom-control-label" for="normal">Normal</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-lg mb-1">
+                                        <input type="radio" class="custom-control-input" id="cervicitis" name="cervix_appearance" value="cervicitis" >
+                                        <label class="custom-control-label" for="cervicitis">Cervicitis</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-lg mb-1">
+                                        <input type="radio" class="custom-control-input" id="malignant" name="cervix_appearance" value="malignant" >
+                                        <label class="custom-control-label" for="malignant">Malignant</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-lg mb-1">
+                                        <input type="radio" class="custom-control-input" id="eroded" name="cervix_appearance" value="eroded" >
+                                        <label class="custom-control-label" for="eroded">Eroded</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-lg mb-1">
+                                        <input type="radio" class="custom-control-input" id="polyps" name="cervix_appearance" value="polyps" >
+                                        <label class="custom-control-label" for="polyps">Polyps</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-lg mb-1">
+                                        <input type="radio" class="custom-control-input" id="organ" name="cervix_appearance" value="organ" >
+                                        <label class="custom-control-label" for="organ">Organ/site of needle aspiration</label>
+                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label> Symptoms</label>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="discharge" name="symptoms" value="discharge" >
+                                    <label class="custom-control-label" for="discharge">Discharge</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="post_coital_bleeding" name="symptoms" value="post coital bleeding" >
+                                    <label class="custom-control-label" for="post_coital_bleeding">Post Coital Bleeding</label>
+
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="post_menopausal_bleeding" name="symptoms" value="post menopausal bleeding" >
+                                    <label class="custom-control-label" for="post_menopausal_bleeding">Post menopausal Bleeding</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-lg mb-1">
+                                    <input type="radio" class="custom-control-input" id="others_symptoms" name="symptoms" value="Fine needle aspiration" >
+                                    <label class="custom-control-label" for="others_symptoms">Others (specify)</label>
+                                    <input type="text" id="specify_symptoms" class="form-control form-control-lg">
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div class="block-content block-content-full text-right border-top">
-
+                    <button type="submit" class="btn btn-outline-info btn-lg w-100"> Submit</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>
 </div>
-<!-- END NormaHaematology blood Block Modal -->
+<!-- END Histology Block Modal -->
  <!-- Blood Block Modal -->
  <div class="modal" id="blood-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-top modal-lg" role="document"style=" width: 80%;">
@@ -221,6 +384,7 @@
                         <div class="form-group">
                             <label for="specimen"> Nature of Specimen</label>
                             <input type="text" name="specimen" id="specimen" class="form-control form-control-lg">
+                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                         </div>
                         <div class="form-group">
                             <label for="clinical_information"> Diagnosis and Clinical Details</label>

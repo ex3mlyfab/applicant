@@ -55,7 +55,11 @@ class HaematologyReqController extends Controller
         );
         return back()->with($notification);
     }
-
+    public function invoiceAjax($id)
+    {
+        $invoice = Haematologyreq::where('id', $id)->first();
+        return json_encode($invoice);
+    }
     /**
      * Display the specified resource.
      *

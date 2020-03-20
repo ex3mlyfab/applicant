@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -32,9 +33,12 @@ if (!function_exists('get_charge_amount')) {
 if (!function_exists('generate_invoice_no')) {
     function generate_invoice_no()
     {
-        $no = DB::statement("SELECT MAX(invoice_no) FROM payments");
+        $invoice = new Invoice();
+        $number = $invoice->whereYear('created_at', '=', date('Y'))->count();
+        $number += 1;
+        $formatted_value = sprintf("%04d", $number);
 
-        return ($no + 1);
+        return $formatted_value . "/" . date('Y');
     }
 }
 if (!function_exists('assign_Fno')) {

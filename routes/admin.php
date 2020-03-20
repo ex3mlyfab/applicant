@@ -21,8 +21,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('bloodreq', 'Admin\Consult\BloodreqController');
     Route::resource('radiologyreq', 'Admin\Consult\RadiologyreqController');
     Route::resource('ultrasoundreq', 'Admin\Consult\UltrasoundreqController');
+
     Route::resource('haematologyreq', 'Admin\Consult\HaematologyReqController');
-    Route::resource('pathologyreq', 'Admin\Consult\PhatologyReqController');
+    Route::resource('pathologyreq', 'Admin\Consult\PathologyReqController');
 
     Route::get('family/familyenroll/{family}', 'Admin\Front\CompanyController@familyEnroll')->name('family.enroll');
     Route::resource('family', 'Admin\Front\FamilyController');
@@ -36,8 +37,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('drug', 'Admin\Pharmacy\DrugController');
     Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController');
     Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController');
+    Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');
     Route::get('haematology/completed', 'Admin\Laboratory\HaematologyController@completed')->name('haematology.completed');
     Route::resource('haematology', 'Admin\Laboratory\HaematologyController');
+    Route::resource('microbiology', 'Admin\Laboratory\MicrobiologyController');
     Route::group(['prefix' => 'subcategory'], function () {
         Route::post('store/{drugcategory}', 'Admin\Pharmacy\DrugCategoryController@subCategorystore')->name('drugsubcategory.store');
         Route::get('edit/{drugsubcategory}', 'Admin\Pharmacy\DrugCategoryController@subCategoryedit')->name('drugsubcategory.edit');

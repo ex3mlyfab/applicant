@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Laboratory;
+namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
-use App\Models\Microbiologyreq;
 use Illuminate\Http\Request;
 
-class MicrobiologyController extends Controller
+class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,7 @@ class MicrobiologyController extends Controller
      */
     public function index()
     {
-        $microreqs = Microbiologyreq::where('status', '!=', 'completed')->get();
-
-        return view('admin.laboratories.microbiology.index', compact('microreqs'));
+        //
     }
 
     /**
@@ -60,8 +57,7 @@ class MicrobiologyController extends Controller
      */
     public function edit($id)
     {
-        $number = Microbiologyreq::findOrFail($id);
-        return view('admin.laboratories.microbiology.test', compact('number'));
+        //
     }
 
     /**

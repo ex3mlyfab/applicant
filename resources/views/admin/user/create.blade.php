@@ -36,6 +36,10 @@ add new user
                 <div class="form-group form-row">
                     <div class="col-md-3">
                         <label for="gender">Gender</label>
+                        <select name="gender" id="gender" class="form_control">
+                            <option value="">Male</option>
+                            <option value="">Female</option>
+                        </select>
                     </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-3"></div>

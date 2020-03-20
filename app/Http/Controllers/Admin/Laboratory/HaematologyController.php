@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Laboratory;
 
 use App\Http\Controllers\Controller;
+use App\Models\Charge;
 use App\Models\Consult;
 use App\Models\Haematologyreq;
 use Illuminate\Http\Request;
@@ -75,6 +76,12 @@ class HaematologyController extends Controller
         //
     }
 
+    public function invoice($id)
+    {
+        $item = Haematologyreq::findOrFail($id);
+        $charge = Charge::where('name', $item->investigation_required)->first();
+        return view('admin.laboratories.haematology.invoice', compact('item', 'charge'));
+    }
     /**
      * Show the form for editing the specified resource.
      *

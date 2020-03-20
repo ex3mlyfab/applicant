@@ -4,7 +4,7 @@
     consultation
 @endsection
 @section('head_css')
-
+<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
 @endsection
 
 @section('content')
@@ -57,7 +57,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-profile">Physical Exam</a>
                                 </li>
-                                @if (($consults->count() >= 1))
+                                @if (($consults->count() > 1))
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-followup">Follow Up</a>
                                 </li>
@@ -86,7 +86,7 @@
                                     </span>
                                     @include('admin.consult.includes.physicalHistory')
                                 </div>
-                                @if (($consults->count() >= 1))
+                                @if (($consults->count() > 1))
                                     <div class="tab-pane" id="btabs-alt-static-followup" role="tabpanel">
                                     <h4 class="font-w400">Follow Up </h4>
 
@@ -119,11 +119,15 @@
 <script src="{{asset('public/backend')}}/assets/js/plugins/jquery-bootstrap-wizard/bs4/jquery.bootstrap.wizard.min.js"></script>
 <script src="{{asset('public/backend')}}/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="{{asset('public/backend')}}/assets/js/plugins/jquery-validation/additional-methods.js"></script>
-
+<script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <!-- Page JS Code -->
 <script src="{{asset('public/backend')}}/assets/js/pages/be_forms_wizard.min.js"></script>
+<script>jQuery(function(){ One.helpers(['datepicker']); });</script>
 <script>
     $(function(){
+            $('#specify').hide();
+            $('#specify_symptoms').hide();
+
             $('#username123').hide();
             $('#radio123').on('click', function(){
                 $('#username123').show();
@@ -155,6 +159,21 @@
                     $('.fbc').prop("checked",true );
                     $('#investigation_required').val('Full Blood Count');
                 }
+            });
+            $('.specimen').bind('change', function(){
+                if(this.checked){
+                    $('#specify').hide();
+                }
+            });
+            $('#others').change(function(){
+                if(this.checked){
+                    $('#specify').show();    
+                }
+            });
+            $('#specify').on('blur', function(){
+                var valid = $(this).val();
+                $('input[name="specimen_type"]').val(valid);
+                console.log($('input[name="specimen_type"]').val());
             });
     });
     function addRow()
