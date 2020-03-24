@@ -20,8 +20,9 @@ class Histopathologyreq extends Model
         return $this->belongsTo(ClinicalAppointment::class);
     }
 
-    public function consultTest(): BelongsTo
+
+    public function labinfos(): MorphMany
     {
-        return $this->belongsTo(ConsultTest::class);
+        return $this->morphMany(ConsultTest::class, 'labtest');
     }
 }

@@ -43,6 +43,9 @@ class DrugController extends Controller
             'forms' => 'required',
             'strength' => 'nullable',
             'dosage' => 'nullable',
+            'maximum_level' => 'nullable',
+            'minimum_level' => 'nullable',
+            'reorder_level' => 'nullable',
         ]);
 
         DrugModel::create($data);
@@ -74,7 +77,11 @@ class DrugController extends Controller
     public function edit($id)
     {
     }
-
+    public function drugAjax(DrugModel $drug)
+    {
+        $sections = $drug->subjects->pluck("name", "id");
+        return json_encode($sections);
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -82,9 +89,28 @@ class DrugController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, DrugModel $drug)
     {
-        //
+        //dd($request->all());
+
+        $data = $request->validate([
+            'drug_sub_category_id' => 'required',
+            'name' => 'required',
+            'forms' => 'required',
+            'strength' => 'nullable',
+            'dosage' => 'nullable',
+            'maximum_level' => 'nullable',
+            'minimum_level' => 'nullable',
+            'reorder_level' => 'nullable',
+        ]);
+
+        $drug->update($data);
+        $notification = [
+            'message' => 'drug updated successfully',
+            'alert-type' => 'info'
+        ];
+
+        return back()->with($notification);
     }
 
     /**
@@ -93,7 +119,14 @@ class DrugController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DrugModel $drug)
     {
+        $drug->delete();
+        $notification = [
+            'message' => 'drug updated successfully',
+            'alert-type' => 'info'
+        ];
+
+        return back()->with($notification);
     }
 }

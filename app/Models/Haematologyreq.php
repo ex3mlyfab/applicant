@@ -15,11 +15,12 @@ class Haematologyreq extends Model
     {
         return $this->belongsTo(ClinicalAppointment::class);
     }
-    public function consultTest(): BelongsTo
-    {
-        return $this->belongsTo(ConsultTest::class);
-    }
 
+
+    public function labinfos(): MorphMany
+    {
+        return $this->morphMany(ConsultTest::class, 'labtest');
+    }
     public function invoices(): MorphMany
     {
         return $this->morphMany(InvoiceItem::class, 'bill');

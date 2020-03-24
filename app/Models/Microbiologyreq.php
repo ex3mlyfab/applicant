@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Microbiologyreq extends Model
 {
@@ -13,8 +15,18 @@ class Microbiologyreq extends Model
     {
         return $this->belongsTo(ClinicalAppointment::class);
     }
-    public function consultTest(): BelongsTo
+
+    public function labinfos(): MorphMany
     {
-        return $this->belongsTo(ConsultTest::class);
+        return $this->morphMany(ConsultTest::class, 'labtest');
+    }
+    public function invoices(): MorphMany
+    {
+        return $this->morphMany(InvoiceItem::class, 'bill');
+    }
+
+    public function microbiologyReport(): HasOne
+    {
+        return $this->hasOne(MicrobiologyReport::class);
     }
 }

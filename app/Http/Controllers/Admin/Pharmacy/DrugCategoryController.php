@@ -20,6 +20,11 @@ class DrugCategoryController extends Controller
         return View('admin.pharmacy.drugcategories', compact('drugcategories'));
     }
 
+    public function categoryAjax()
+    {
+        $sections = DrugCategory::all();
+        return json_encode($sections);
+    }
     /**
      * Show the form for creating a new resource.
      *

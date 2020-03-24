@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -35,7 +37,15 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        // $invoice = Invoice::where('user_id', $request->user_id)->where('created_at', now()->today())->first();
+        // if(isset($invoice)){
+        //     InvoiceItem::create([
+        //         'invoice_id' => $invoice->id,
+        //         'item'
+
+        //     ])
+        // }
     }
 
     /**

@@ -28,26 +28,28 @@
                     </div>
 
                 </div>
-                <form action="" method="post">
+            <form action="{{route('haematology.prepareinvoice')}}" method="post">
+                    <!--generate invoice item line-->
+                    @csrf
                     <div class="form-group form-row">
-                        <div class="col-md-4">
 
-                            <label for="charge">Charge</label>
+                        <div class="col-md-5">
 
-                        <input type="text" id="full_name" class="form-control" value="{{$charge->amount}}" readonly>
+                        <label for="charge">Charge</label>
+
+                        <input type="text" id="full_name" name="amount" class="form-control" value="{{$charge->amount}}" readonly>
                         </div>
-                        <div class="col-md-2">
+                    <input type="hidden" name="haem_id" value="{{$item->id}}">
+                    <input type="hidden" name="charge_id" value="{{$charge->id}}">
+                    <input type="hidden" name="user_id" value="{{$item->clinicalAppointment->user->id}}">
+                        <div class="col-md-7">
                             <label for="folder_number">for</label>
-                        <input type="text" id="folder_number" class="form-control" value="{{$item->investigation_required}}" readonly>
+                        <input type="text" id="folder_number" name="item_description" class="form-control" value="{{$item->investigation_required}}" readonly>
                         </div>
-                        <div class="col-md-2">
-                            <label for="sex">sex</label>
-                            <input type="text" id="sex" class="form-control" disabled>
-                        </div>
-                        <div class="col-md-4">
-                            <img >
-                        </div>
+
+
                     </div>
+                    <button type="submit" class="btn btn-primary w-100">Generate Invoice</button>
                 </form>
             </div>
         </div>

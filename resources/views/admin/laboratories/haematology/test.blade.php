@@ -51,8 +51,8 @@ Record Test
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-condensed">
-                            <tr>
+                        <table class="table table-bordered table-condensed" style="font-size:12px;">
+                            <tr style="font-size:12px;">
                                 <td style="width:5%;" class="pr-0 mr-0">
                                     <div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg  mb-1 fbc">
                                     <input type="checkbox" name="hb" id="hb" class="custom-control-input fbc" @if ($number->fbc)
@@ -104,7 +104,7 @@ Record Test
                                     </div>
                                 </td>
                             </tr>
-                            <tr class="m-0 p-0">
+                            <tr class="m-0 p-0" style="font-size:12px;">
                                 <td style="width:5%;" class="pr-0 mr-0">
                                     <div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg  mb-1 fbc">
                                     <input type="checkbox" name="pcv" id="pcv" class="custom-control-input fbc" @if ($number->fbc)

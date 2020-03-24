@@ -37,19 +37,22 @@ class MicrobiologyreqController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $data = $request->except('_token');
         $data['status'] = 'waiting';
+        $data['requested_by'] = 1;
         $id = Microbiologyreq::create($data);
 
         $status = $id->clinical_appointment_id;
         $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $consult->consultTests()->create([
-            'test_id' => $id->id,
-            'type' => $request->examination_required . ' in microbiology',
+        $id->labinfos()->create([
+            'consult_id' => $consult->id,
+            'type' => $request->examination_required . ' sent to microbiology',
             'status' => 'waiting',
+
         ]);
         $notification = array(
-            'message' => 'Test requested successfully!',
+            'message' => 'Haematology test requested successfully!',
             'alert-type' => 'success'
         );
         return back()->with($notification);

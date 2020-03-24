@@ -36,6 +36,31 @@
                                 <h3>{{$drug->drugSubCategory->drugCategory->name}}</h3>
                             </div>
                         </div>
+                        <div class="bg-white border-top">
+                            <div class="content content-boxed">
+                                <div class="row items-pus text-center">
+                                    <div class="col-md-4 border-right">
+                                        <div class="font-size-sm font-w600 text-muted text-uppercase bg-success-light">Maximum Level</div>
+                                        <a href="javascript:void(0)" class="link-fx font-size-h3">
+                                          <span class="badge badge-pill badge-success">{{$drug->maximum_level}}</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 border-right">
+                                        <div class="font-size-sm font-w600 text-muted text-uppercase bg-danger-light">Minimum level</div>
+                                        <a href="javascript:void(0)" class="link-fx font-size-h3">
+                                            <span class="badge badge-pill badge-danger">{{$drug->minimum_level}}</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="font-size-sm font-w600 text-muted text-uppercase bg-warning-light">Reorder level</div>
+                                        <a href="javascript:void(0)" class="link-fx font-size-h3">
+                                            <span class="badge badge-pill badge-warning">{{$drug->reorder_level}}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                     <hr>
@@ -46,23 +71,27 @@
                                     s/no
                                 </th>
                                 <th>
-                                    Batch No
+                                    Purchase Date
                                 </th>
                                 <th>
                                     Expiry Date
                                 </th>
                                 <th>
-                                    Quantity Supplied
+                                    Quantity purchased
                                 </th>
                                 <th>
-                                    Quantity remaining
+                                    B/F
+                                </th>
+                                <th>
+                                    Balance
+                                </th>
+                                <th>
+                                    Purchase Price
                                 </th>
                                 <th>
                                     cost
                                 </th>
-                                <th>
-                                    Supplier
-                                </th>
+
                                 <th>
                                     Actions
                                 </th>
@@ -74,7 +103,7 @@
                                             {{$loop->iteration}}
                                         </td>
                                         <td>
-                                            {{$item->batch_no}}
+                                            {{$item->purchase_date}}
                                         </td>
                                         <td>
                                             {{$item->expiry_date}}
@@ -82,17 +111,29 @@
                                         <td>
                                             {{$item->quantity_supplied}}
                                         </td>
+
+                                        <td>
+                                            {{$item->brought_forward}}
+                                        </td>
                                         <td>
                                             {{$item->available_quantity}}
                                         </td>
                                         <td>
+                                            {{$item->purchase_price}}
+                                        </td>
+                                        <td>
                                             {{$item->cost}}
                                         </td>
-                                        <td>
-                                            {{$item->supplier}}
-                                        </td>
-                                        <td>
 
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{{route('charge.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
+                                                    <i class="fa fa-fw fa-pencil-alt"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
+                                                    <i class="fa fa-fw fa-times"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -129,24 +170,41 @@
                                     <input type="text" name="batch_no" id="bn"   class="form-control form-control-lg"  >
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="ed"> Quantity Supplied</label>
+                                    <label for="ed"> Quantity Purchased</label>
                                 <input type="number" name="quantity_supplied" id="ed"   class="form-control form-control-lg"  >
                             </div>
 
                             </div>
 
                             <div class="form-group form-row">
-                                <label for="qs"> Expiry Date</label>
+                                <div class="col-md-6">
+                                    <label for="pd"> Purchase Date</label>
+                                <input type="text" name="purchase_date" id="pd"   class="js-datepicker form-control form-control-lg" data-week-start="1" data-autoclose="true" data-startDate="today" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" required>
+                            </div>
+                                <div class="col-md-6">
+                                    <label for="qs"> Expiry Date</label>
                                 <input type="text" name="expiry_date" id="qs"   class="js-datepicker form-control form-control-lg" data-week-start="1" data-autoclose="true" data-startDate="today" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" required>
+                                </div>
+
                             </div>
                             <div class="form-group form-row">
-                                <label for="cost">Cost</label>
+                                <div class="col-md-6">
+                                    <label for="purchase_price">Purchase Price</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₦ </span>
+                                        <input type="number" name="purchase_price" id="purchase_price"   class="form-control" required>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-md-6"><label for="cost">Cost</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">₦ </span>
                                         <input type="number" name="cost" id="cost"   class="form-control" required>
                                     </div>
-                                </div>
+                                </div></div>
+
                             </div>
                             <div class="form-group form-row">
                                 <label for="supplier"> Name of Supplier</label>

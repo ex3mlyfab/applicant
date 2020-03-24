@@ -17,17 +17,19 @@
                 </div>
             </div>
                 <div class="block-content block-content-full">
-
+<div class="table-responsive">
 <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
 <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
     <thead>
         <tr>
-            <th class="text-center" style="width: 5%;">S/No</th>
+            <th class="text-center" style="width:3%;">S/No</th>
             <th>Drug Name</th>
             <th class="text-center" style="width: 15%;">Drug Category/Subcategory</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Form</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Strength</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Dosage</th>
+            <th class="d-none d-sm-table-cell" style="width: 15%;"><span class="text-success">Maximum Order Level</span>
+            <br><span class="text-warning"> Reorder Level</span><br><span class="text-danger">Minimum Order Level</span></th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Quantity Available</th>
 
 
@@ -56,11 +58,24 @@
                 {{$drug->dosage}}
                 </td>
                 <td class="d-none d-sm-table-cell text-center">
+                    <span class="badge-success">{{$drug->maximum_level}}</span><br>
+                    <span class="badge-warning">{{$drug->reorder_level}}</span><br>
+                    <span class="badge-danger">{{$drug->minimum_level}}</span>
+                </td>
+                <td>
 
                 </td>
                 <td>
                     <div class="btn-group">
-
+                        <button  class="btn btn-sm btn-primary drugedit" data-gate="{{route('drug.update', $drug->id)}}"
+                        data-drug_id="{{$drug->drugSubCategory->drugCategory->id}}"
+                        data-subcategory="{{$drug->drugSubCategory->id}}"
+                        data-name="{{$drug->name}}" data-dosage="{{$drug->dosage}}" data-form="{{$drug->forms}}"  data-strength="{{$drug->strength}}" data-maximum_level="{{$drug->maximum_level}}" data-minimum_level="{{$drug->minimum_level}}" data-reorder_level="{{$drug->reorder_level}}" data-toggle="modal" data-target="#drug-block-normal" title="Edit">
+                            <i class="fa fa-fw fa-pencil-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
                     </div>
                 </td>
         </tr>
@@ -68,7 +83,7 @@
 
     </tbody>
 </table>
-
+</div>
             </div>
             </div>
     </div>
@@ -88,18 +103,18 @@
                     </div>
                 </div>
                 <div class="block-content font-size-sm">
-                <form action="{{route('drug.store')}}" method="post">
+                <form action="{{route('drug.store')}}" method="post" id="register">
                         @csrf
                         <div class="form-group">
                             <label for="drug_id">Drug Category</label>
-                            <select id="drug_id" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." >
+                            <select id="drug_id" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." required>
                                 <option></option>
                                 {{create_option('drug_categories','id', 'name')}}
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="sub_category">Drug Sub Category</label>
-                            <select name="drug_sub_category_id" id="sub_category" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." >
+                            <select name="drug_sub_category_id" id="sub_category" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." required>
                                 <option></option>
                             </select>
                         </div>
@@ -118,6 +133,21 @@
                         <div class="form-group">
                             <label for="strength">Strength</label>
                             <input type="text" name="strength" id="strength" class="form-control form-control-lg">
+                        </div>
+                        <div class="form-group form-row">
+                            <div class="col-md-4 pr-0 bg-info-light">
+                                <label for="maximum_level">Maximum Stock Level</label>
+                            <input type="number" name="maximum_level" id="maximum_level" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="minimum_level">Minimum Stock Level</label>
+                            <input type="number" name="minimum_level" id="minimum_level" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-4 bg-info-light">
+                                <label for="reorder_level"> Stock Reorder Level</label>
+                                <input type="number" name="reorder_level" id="reorder_level" class="form-control form-control-lg">
+                            </div>
+
                         </div>
 
 
@@ -178,6 +208,22 @@
 
  });
 
+$('.drugedit').on('click', function(){
+    let  thin = '<input type="hidden" name="_method" value="PATCH">';
+    $('#register').attr('action', $(this).data('gate'));
+    $('#register').prepend(thin);
+    $('#name').val($(this).data('name'));
+    $('#drug_id').val($(this).data('drug_id')).change();
+    $('#dosage').val($(this).data('dosage'));
+    $('#form').val($(this).data('form'));
+    $('#strength').val($(this).data('strength'));
+    $('#maximum_level').val($(this).data('maximum_level'));
+    $('#minimum_level').val($(this).data('minimum_level'));
+    $('#reorder_level').val($(this).data('reorder_level'));
+
+
+
+});
 
 });
  </script>

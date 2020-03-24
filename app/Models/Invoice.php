@@ -10,12 +10,29 @@ class Invoice extends Model
 {
     protected $guarded = [];
 
-    public function payments(): BelongsTo
+    public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class);
+    }
+
+    public function User(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getBillingAttribute()
+    {
+        if (isset($this->user_id)) {
+            return $this->user->full_name;
+        }
     }
     public function invoiceItems(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+
+    public function getTotalAmountAttribute()
+    {
+        return $this->invoiceItems->sum('amount');
     }
 }

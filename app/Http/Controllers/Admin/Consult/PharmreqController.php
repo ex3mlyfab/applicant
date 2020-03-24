@@ -49,6 +49,7 @@ class PharmreqController extends Controller
         foreach ($request->medicine as $key => $medicine_id) {
             $data = array(
                 'pharmreq_id' => $pc->id,
+                'drug_model_id' => $request->drug_model_id[$key],
                 'medicine' => $request->medicine[$key],
                 'duration' => $request->duration[$key],
                 'quantity' => $request->quantity[$key],
@@ -58,8 +59,8 @@ class PharmreqController extends Controller
         }
 
         $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $consult->consultTests()->create([
-            'test_id' => $pc->id,
+        $pc->labinfos()->create([
+            'consult_id' => $consult->id,
             'type' => 'Drug Prescription',
             'status' => 'waiting',
         ]);

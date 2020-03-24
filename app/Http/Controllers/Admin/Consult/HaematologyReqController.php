@@ -38,16 +38,19 @@ class HaematologyReqController extends Controller
     public function store(Request $request)
     {
         //
+
         $data = $request->except('_token');
         $data['status'] = 'waiting';
+        $data['requested_by'] = 1;
         $id = Haematologyreq::create($data);
 
         $status = $id->clinical_appointment_id;
         $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $consult->consultTests()->create([
-            'test_id' => $id->id,
+        $id->labinfos()->create([
+            'consult_id' => $consult->id,
             'type' => $request->investigation_required . ' in haematology',
             'status' => 'waiting',
+
         ]);
         $notification = array(
             'message' => 'Haematology test requested successfully!',
@@ -55,6 +58,7 @@ class HaematologyReqController extends Controller
         );
         return back()->with($notification);
     }
+
     public function invoiceAjax($id)
     {
         $invoice = Haematologyreq::where('id', $id)->first();

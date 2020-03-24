@@ -1,64 +1,63 @@
 @extends('admin.admin')
 
 @section('title')
-all Payments
+Payments information
+@endsection
+@section('head_css')
+<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css">
+
+
 @endsection
 
 @section('content')
     <div class="content">
         <div class="col-12">
-            <div class="block">
-                <div class="block-header with-border">
-                    <h4 class="block-title">Invoices List</h4>
+             <!-- Block Tabs With Options Default Style -->
+             <div class="block">
+                <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#btabswo-static-home">Invoice List {{ now()->today()->format('d/M/Y')}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#btabswo-static-profile">Payments List {{ now()->today()->format('d/M/Y')}}</a>
+                    </li>
+                    <li class="nav-item ml-auto">
+                        <div class="block-options pl-3 pr-2">
+                            <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
-
-                </div>
-            <!-- /.block-header -->
-            <div class="block-content">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Billing to</th>
-                                <th>Amount</th>
-                                <th>Invoice No</th>
-                                <th>Status</th>
-
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($invoices as $item)
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$item->billing }}</td>
-                                <td>{{$item->amount}}</td>
-                                <td>{{$item->invoice_no}}</td>
-                                <td>{{$item->status}}</td>
-                                <td>
-                                    @if(($item->status == Null))
-                                        <a href="{{route('invoice.edit', $item->id)}}" class="text-info">Make Payment  </a>
-                                    @else
-                                    <a href="#">PRINT REPORT </a>
-                                    <a href="#" data-toggle="modal" data-target="#comment-dialog" class="text-info">Comment  </a>
-                                    @endif
-
-                                </td>
-
-                            </tr>
-                            @empty
-
-                            @endforelse
-                        </tbody>
-                        </table>
+                        </div>
+                    </li>
+                </ul>
+                <div class="block-content tab-content">
+                    <div class="tab-pane active" id="btabswo-static-home" role="tabpanel">
+                        @include('admin.payment.includes.invoices')
+                    </div>
+                    <div class="tab-pane" id="btabswo-static-profile" role="tabpanel">
+                        @include('admin.payment.includes.payments')
+                    </div>
                 </div>
             </div>
-            <!-- /.block-body -->
-            </div>
-            <!-- /.block -->
         </div>
     </div>
 
+
+@endsection
+
+@section('foot_js')
+<!-- Page JS Plugins -->
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/dataTables.buttons.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.print.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.html5.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.flash.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.colVis.min.js"></script>
+
+<!-- Page JS Code -->
+<script src="{{asset('public/backend')}}/assets/js/pages/be_tables_datatables.min.js"></script>
+<script>
+
+</script>
 
 @endsection

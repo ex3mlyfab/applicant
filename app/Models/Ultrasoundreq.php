@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Ultrasoundreq extends Model
 {
@@ -17,5 +18,14 @@ class Ultrasoundreq extends Model
     public function consultTest(): BelongsTo
     {
         return $this->belongsTo(ConsultTest::class);
+    }
+
+    public function labinfos(): MorphMany
+    {
+        return $this->morphMany(ConsultTest::class, 'labtest');
+    }
+    public function invoices(): MorphMany
+    {
+        return $this->morphMany(InvoiceItem::class, 'bill');
     }
 }

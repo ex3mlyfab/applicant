@@ -122,7 +122,9 @@
 <script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <!-- Page JS Code -->
 <script src="{{asset('public/backend')}}/assets/js/pages/be_forms_wizard.min.js"></script>
-<script>jQuery(function(){ One.helpers(['datepicker']); });</script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
+<script>jQuery(function(){ One.helpers(['datepicker', 'select2']); });</script>
+
 <script>
     $(function(){
             $('#specify').hide();
@@ -167,7 +169,7 @@
             });
             $('#others').change(function(){
                 if(this.checked){
-                    $('#specify').show();    
+                    $('#specify').show();
                 }
             });
             $('#specify').on('blur', function(){
@@ -175,10 +177,59 @@
                 $('input[name="specimen_type"]').val(valid);
                 console.log($('input[name="specimen_type"]').val());
             });
+            $('.drug-category').bind('focus', function(){
+                    var link = "{{ url('admin/drugcategory/categoryajax') }}";
+                        $.ajax({
+                            url: link,
+                            type: "GET",
+                            dataType: "json",
+                            success:function(data) {
+                                $('.drug-category').empty();
+                                    $.each(data, function(key, value) {
+
+                                        $('.drug-category').prepend(
+                                            '<option value="'+ key +'">'+ value +'</option>');
+                                    });
+                                }
+                                });
+
+
+
+                    });
+                    $('.drug-category').bind('change', function(){
+                                    var classID = $(this).val();
+                            var link = "{{ url('admin/drug/drugcategoryajax/') }}";
+
+
+                            if(classID) {
+                                $.ajax({
+                                    url: link+"/"+classID,
+                                    type: "GET",
+                                    dataType: "json",
+                                    success:function(data) {
+                                        $('.drug-subcategory').empty();
+                                            $.each(data, function(key, value) {
+
+                                                $('.drug-subcategory').append(
+                                                    '<option value="'+ key +'">'+ value +'</option>');
+                                            });
+                                        }
+                                        });
+
+                                        }else{
+                                            $('select[name="drug_subcategory"]').empty();
+                                            }
+
+
+                            });
+
+
     });
     function addRow()
 {
     var tr='<tr>'+
+            '<td><select name="category[]" class="js-select form-control drug-category"></select></td>' +
+            '<td><select name="subcategory[]" class="js-select form-control drug-subcategory"></select></td>'+
             '<td><input type="text" name="medicine[]" class="form-control form-control-lg"></td>'+
             '<td><input type="text" name="quantity[]" class="form-control form-control-lg"></td>'+
             '<td><input type="text" name="dosage[]" class="form-control form-control-lg"></td>'+

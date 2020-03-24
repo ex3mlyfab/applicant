@@ -3,6 +3,12 @@
 @section('title')
     add charge
 @endsection
+@section('head_css')
+<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css">
+
+<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/select2/css/select2.min.css">
+@endsection
 
 @section('content')
 <div class="content">
@@ -62,7 +68,7 @@
                 <div class="block-header bg-info-light">All Categories</div>
                 <div class="block-content block-content-full">
                     <div class="table-responsive ">
-                        <table class="table table-bordered table-striped table-vcenter">
+                        <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                             <thead>
                                 <th>SN</th>
                                 <th>Name</th>
@@ -98,5 +104,18 @@
         </div>
     </div>
 </div>
+
+@endsection
+@section('foot_js')
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/dataTables.buttons.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.print.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.html5.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.flash.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.colVis.min.js"></script>
+
+<!-- Page JS Code -->
+<script src="{{asset('public/backend')}}/assets/js/pages/be_tables_datatables.min.js"></script>
 
 @endsection

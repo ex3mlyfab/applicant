@@ -5,7 +5,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
     Route::post('patient/classajax/{patient}', 'Admin\Front\PatientController@patientAjax');
     Route::resource('patient', 'Admin\Front\PatientController');
-    Route::resource('payment', 'Admin\Front\PaymentController');
+    Route::get('payment/settle/{invoice}', 'Admin\Account\PaymentController@settleInvoice')->name('payment.settle');
+    Route::get('payment/printinvoice/{invoice}', 'Admin\Account\PaymentController@printInvoice')->name('payment.invoice');
+    Route::get('payment/printreceipt/{payment}', 'Admin\Account\PaymentController@printReceipt')->name('payment.print');
+    Route::post('payment/pay', 'Admin\Account\PaymentController@pay')->name('payment.pay');
+    Route::resource('payment', 'Admin\Account\PaymentController');
+    Route::resource('invoice', 'Admin\Account\InvoiceController');
     Route::resource('chargecategory', 'Admin\Account\ChargeCategoryController');
     Route::resource('charge', 'Admin\Account\ChargeController');
     Route::resource('clinicalappointment', 'Admin\Front\ClinicalAppointmentController');
@@ -24,6 +29,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::resource('haematologyreq', 'Admin\Consult\HaematologyReqController');
     Route::resource('pathologyreq', 'Admin\Consult\PathologyReqController');
+    Route::resource('histopathologyreq', 'Admin\Consult\HistopathologyReController');
 
     Route::get('family/familyenroll/{family}', 'Admin\Front\CompanyController@familyEnroll')->name('family.enroll');
     Route::resource('family', 'Admin\Front\FamilyController');
@@ -32,11 +38,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('company', 'Admin\Front\CompanyController');
     Route::resource('role', 'Admin\Setting\RoleController');
     Route::resource('permission', 'Admin\Setting\PermissionController');
+    Route::get('drugcategory/categoryajax', 'Admin\Pharmacy\DrugCategoryController@categoryAjax');
     Route::get('drug/drugcategoryajax/{drug}', 'Admin\Pharmacy\DrugCategoryController@drugAjax');
     Route::resource('drugcategory', 'Admin\Pharmacy\DrugCategoryController');
     Route::resource('drug', 'Admin\Pharmacy\DrugController');
     Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController');
     Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController');
+
+    Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
     Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');
     Route::get('haematology/completed', 'Admin\Laboratory\HaematologyController@completed')->name('haematology.completed');
     Route::resource('haematology', 'Admin\Laboratory\HaematologyController');

@@ -72,7 +72,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Organization::class);
     }
-
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
     /**
      * The attributes that should be cast to native types.
      *

@@ -4,6 +4,7 @@
     Invoice
 @endsection
 
+
 @section('content')
     <div class="content content-boxed">
         <div class="block">
@@ -47,35 +48,45 @@
                                     <th class="text-center" style="width: 60px;"></th>
                                     <th>Service</th>
                                     <th class="text-center" style="width: 90px;">pay</th>
-                                    <th class="text-right" style="width: 120px;">Amount</th>
+                                    <th class="text-right" style="width: 180px;">Amount</th>
                                 </tr>
                             </thead>
-                            <form action="" method="post">
+                        <form action="{{route('payment.pay')}}" method="post" id="payment">
+                            @csrf
                             <tbody>
                                 @foreach ($invoice->invoiceItems as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>
                                             <input type="text" name="service[]" class="form-control" value="{{ $item->item_description}}" readonly>
+                                        <input type="hidden" name="invoice_item_id[]" value="{{$item->id}}">
                                         </td>
 
                                         <td>
-                                            <input type="checkbox" name="pay[]" class="form-control form-check">
+                                        <input type="checkbox" name="pay[]" class="form-control form-check paycheck" data-amount="{{$item->amount}}" >
                                         </td>
                                         <td>
-                                            <input type="text" name="amount[]" class="form-control" value="{{ $item->amount}}" readonly>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        ₦
+                                                    </span>
+                                                </div>
+                                                <input type="number" name="amount[]" id="description" class="form-control"  value="{{$item->amount}}" readonly>
+
+                                            </div>
                                         </td>
 
                                     </tr>
                                 @endforeach
 
                                 <tr>
-                                    <td colspan="4" class="font-w600 text-right">Total Due</td>
-                                    <td class="text-right totaldue"></td>
+                                    <td colspan="3" class="font-w600 text-right">Total Due</td>
+                                    <td class="text-right totaldue">₦{{$invoice->total_amount }}</td>
                                 </tr>
 
                                 <tr>
-                                    <td colspan="4" class="font-w700 text-uppercase text-right bg-body-light">Total Paid</td>
+                                    <td colspan="3" class="font-w700 text-uppercase text-right bg-body-light">Total Paid</td>
                                     <td class="font-w700 text-right bg-body-light totalpaid"></td>
                                 </tr>
                             </tbody>
@@ -83,20 +94,58 @@
                     </div>
                     @if (isset($invoice->user_id))
                     <input type="hidden" name="user_id" value="{{$invoice->user_id}}">
+                    <input type="hidden" name="invoice_no" value={{ $invoice->invoice_no}}>
                     @else
                     <input type="hidden" name="name" value="{{$invoice->name}}">
                     @endif
 
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check confirm" id="example-cb-custom-circle-lg1" name="example-cb-custom-circle-lg1">
+                            <label for="example-cb-custom-circle-lg1">Confirm Payment</label>
+                        </div>
+
+
+                    </div>
+                    <button type="submit" class="btn btn-primary underscore" disabled>Make Payment</button>
+
                 </form>
                     <!-- END Table -->
 
-                    <!-- Footer -->
-                    <p class="font-size-sm text-muted text-center py-3 my-3 border-top">
-                        Thank you very much for doing business with us. We look forward to working with you again!
-                    </p>
+
                     <!-- END Footer -->
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('foot_js')
+
+<script>
+    $(function(){
+            var totalpaid = 0;
+
+        $(".paycheck").bind('change', function(){
+            if(this.checked){
+                totalpaid +=  parseInt($(this).data("amount"));
+            }else{
+                totalpaid -= parseInt( $(this).data("amount"));
+            }
+        });
+        $(".confirm").change(function(){
+            if(this.checked){
+                if(totalpaid != 0)
+                $(".underscore").attr('disabled', false);
+                $(".totalpaid").html( "₦" + totalpaid);
+            }else{
+                $(".underscore").attr('disabled', true);
+            }
+        })
+
+
+
+    });
+</script>
+
 @endsection

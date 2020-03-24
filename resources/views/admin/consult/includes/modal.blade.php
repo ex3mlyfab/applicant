@@ -54,10 +54,13 @@
 
                         </div>
                     </div>
-                    <form action="" method="post" class="px-3">
+                <form action="{{route('histopathologyreq.store')}}" method="post" class="px-3">
                         @csrf
                         <div class="form-group">
-                            <label for="clinical_details">Clinical Details</label><input type="text" name="clinical_details" id="clinical_details" class="form-control"></div>
+                            <label for="clinical_details">Clinical Details</label>
+                            <input type="text" name="clinical_details" id="clinical_details" class="form-control">
+                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                        </div>
                         <div class="form-group form-row">
                             <div class="col-sm-3">
                                 <label for="test-date">Test Date</label>
@@ -128,14 +131,14 @@
                             <div class="col-md-6">
                             <fieldset class="border border-success p-2 bg-amethyst-light">
                                 <legend class="px-1">Pregnancies</legend>
-                            
+
                                 <label for="total_birth">Total births(lives & still)</label>
                                 <input type="text" name="total_birth" id="total_birth" class="form-control">
-                            
+
                                 <label for="abortion_miscarriage">Total Abortion &amp; Miscarriage</label>
                                 <input type="text" name="abortion_miscarriage" id="abortion_miscarriage" class="form-control">
 
-                           
+
                         </fieldset>
                     </div>
                         </div>
@@ -412,7 +415,7 @@
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-light">
-                    <h3 class="block-title">drug Request</h3>
+                    <h3 class="block-title">Drug Request</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
@@ -444,6 +447,8 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
+                                <th>Category</th>
+                                <th>Subcategory</th>
                                 <th>Drug Name</th>
                                 <th>Quantity</th>
                                 <th>dosage</th>
@@ -456,6 +461,12 @@
                                 </thead>
                                 <tbody>
                                 <tr>
+                                    <td>
+                                        <select name="category[]" class="js-select form-control drug-category">
+                                        </select>
+                                    </td>
+                                    <td><select name="subcategory[]" class="js-select form-control drug-subcategory">
+                                        </select></td>
                                     <td><input type="text" name="medicine[]" class="form-control form-control-lg"></td>
                                     <td><input type="text" name="quantity[]" class="form-control form-control-lg"></td>
                                     <td><input type="text" name="dosage[]" class="form-control form-control-lg"></td>

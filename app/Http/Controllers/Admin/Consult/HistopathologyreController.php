@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
+use App\Models\Consult;
+use App\Models\Histopathologyreq;
 use Illuminate\Http\Request;
 
 class HistopathologyreController extends Controller
@@ -36,6 +38,24 @@ class HistopathologyreController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->except('_token');
+        $data['status'] = 'waiting';
+        $data['requested_by'] = 1;
+        $id = Histopathologyreq::create($data);
+
+        $status = $id->clinical_appointment_id;
+        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
+        $id->labinfos()->create([
+            'consult_id' => $consult->id,
+            'type' => $request->investigation_required . ' in histology',
+            'status' => 'waiting',
+
+        ]);
+        $notification = array(
+            'message' => 'Haematology test requested successfully!',
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
     }
 
     /**

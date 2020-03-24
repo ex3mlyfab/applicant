@@ -38,7 +38,7 @@ if (!function_exists('generate_invoice_no')) {
         $number += 1;
         $formatted_value = sprintf("%04d", $number);
 
-        return $formatted_value . "/" . date('Y');
+        return  "P" . $formatted_value . "/" . date('Y');
     }
 }
 if (!function_exists('assign_Fno')) {

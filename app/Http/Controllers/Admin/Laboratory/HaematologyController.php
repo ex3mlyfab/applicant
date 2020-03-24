@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Charge;
 use App\Models\Consult;
 use App\Models\Haematologyreq;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 class HaematologyController extends Controller
@@ -74,6 +75,33 @@ class HaematologyController extends Controller
     public function show($id)
     {
         //
+    }
+    public function prepareInvoice(Request $request)
+    {
+        // dd($request->all());
+        $invoice = Invoice::where('user_id', $request->user_id)->where('created_at', now()->today())->first();
+        if (!(isset($invoice))) {
+            $invoice =  Invoice::create([
+                'user_id' => $request->user_id,
+                'invoice_no' => generate_invoice_no(),
+
+            ]);
+        }
+        $haempay = Haematologyreq::findOrFail($request->haem_id);
+        $haempay->invoices()->create([
+            'invoice_id' => $invoice->id,
+            'item_description' => $request->item_description,
+            'amount' => $request->amount,
+            'charge_id' => $request->charge_id,
+        ]);
+        $haempay->update([
+            'status' => 'invoice generated',
+        ]);
+        $notification = [
+            'message' => 'Invoice Generated Successfully',
+            'alert-type' => 'success'
+        ];
+        return redirect()->route('haematology.index')->with($notification);
     }
 
     public function invoice($id)
