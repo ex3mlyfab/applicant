@@ -184,7 +184,7 @@
        $(window).on('load', function() {
         $('#drug_id').on('change', function(){
  var classID = $(this).val();
- var link = "{{ url('admin/drug/drugcategoryajax/') }}";
+ var link = "{{ url('admin/drugcategory/drugcategoryajax/') }}";
 
  console.log(classID, link);
  if(classID) {

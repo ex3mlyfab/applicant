@@ -15,7 +15,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::all();
+        $permissions = Permission::all()->sortBy('name');
         return view('admin.acl.permission', compact('permissions'));
     }
 
@@ -40,13 +40,13 @@ class PermissionController extends Controller
         //
 
 
-        foreach ($request->name as $key => $name) {
 
-            Permission::create([
-                'guard_name' => 'admin',
-                'name' => $request->name[$key],
-            ]);
-        }
+
+        Permission::create([
+            'guard_name' => 'admin',
+            'name' => $request->name,
+        ]);
+
         $notification = [
             'message' => ' permission added succesfully',
             'alert- type' => 'success'
@@ -75,8 +75,8 @@ class PermissionController extends Controller
     {
         //
         $task = $permission;
-        $permissions = Permission::all();
-        return view('admin.acl.permission', compact('permissions', 'permission'));
+        $permissions = Permission::all()->sortBy('name');
+        return view('admin.acl.permission', compact('permissions', 'task'));
     }
 
     /**

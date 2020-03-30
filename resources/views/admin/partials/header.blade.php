@@ -19,10 +19,7 @@
             <!-- END Toggle Mini Sidebar -->
 
             <!-- Apps Modal -->
-            <!-- Opens the Apps modal found at the bottom of the page, after footer’s markup -->
-            <button type="button" class="btn btn-sm btn-dual mr-2" data-toggle="modal" data-target="#one-modal-apps">
-                <i class="si si-grid"></i>
-            </button>
+
             <!-- END Apps Modal -->
 
             <!-- Open Search Section (visible on smaller screens) -->
@@ -52,41 +49,47 @@
             <!-- User Dropdown -->
             <div class="dropdown d-inline-block ml-2">
                 <button type="button" class="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded" src="assets/media/avatars/avatar10.jpg" alt="Header Avatar" style="width: 18px;">
-                    <span class="d-none d-sm-inline-block ml-1">Adam</span>
+
+                    <img class="rounded" @if (isset(Auth::user()->avatar))
+            src="{{asset('public/backend')}}/images/documents/{{Auth::user()->avatar}}"
+                @else
+                src="{{asset('public/backend')}}/assets/media/avatars/avatar13.jpg"
+            @endif  alt="{{Auth::user()->full_name}} picture" style="width: 18px;">
+                    <span class="d-none d-sm-inline-block ml-1">{{ Auth::user()->full_name }}</span>
                     <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-user-dropdown">
                     <div class="p-3 text-center bg-primary">
-                        <img class="img-avatar img-avatar48 img-avatar-thumb" src="assets/media/avatars/avatar10.jpg" alt="">
+                        <img class="img-avatar img-avatar48 img-avatar-thumb" @if (isset(Auth::user()->avatar))
+            src="{{asset('public/backend')}}/images/documents/{{Auth::user()->avatar}}"
+                @else
+                src="{{asset('public/backend')}}/assets/media/avatars/avatar13.jpg"
+            @endif  alt="{{Auth::user()->full_name}} picture">
                     </div>
                     <div class="p-2">
                         <h5 class="dropdown-header text-uppercase">User Options</h5>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="be_pages_generic_inbox.html">
+                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">
                             <span>Inbox</span>
                             <span>
                                 <span class="badge badge-pill badge-primary">3</span>
                                 <i class="si si-envelope-open ml-1"></i>
                             </span>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="be_pages_generic_profile.html">
+                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">
                             <span>Profile</span>
                             <span>
                                 <span class="badge badge-pill badge-success">1</span>
                                 <i class="si si-user ml-1"></i>
                             </span>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                            <span>Settings</span>
-                            <i class="si si-settings"></i>
-                        </a>
+
                         <div role="separator" class="dropdown-divider"></div>
                         <h5 class="dropdown-header text-uppercase">Actions</h5>
                         <a class="dropdown-item d-flex align-items-center justify-content-between" href="op_auth_lock.html">
                             <span>Lock Account</span>
                             <i class="si si-lock ml-1"></i>
                         </a>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="op_auth_signin.html">
+                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{route('admin.logout')}}">
                             <span>Log Out</span>
                             <i class="si si-logout ml-1"></i>
                         </a>

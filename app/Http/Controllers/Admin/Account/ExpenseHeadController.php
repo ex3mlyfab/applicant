@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Consult;
+namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
-use App\Models\Consult;
-use App\Models\ConsultTest;
-use App\Models\Pharmreq;
-use App\Models\PharmreqDetail;
+use App\Models\ExpenseHead;
 use Illuminate\Http\Request;
 
-class PharmreqController extends Controller
+class ExpenseHeadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +15,8 @@ class PharmreqController extends Controller
      */
     public function index()
     {
-        //
+        $expenseheads = ExpenseHead::all()->sortByDesc('name');
+        return view('admin.account.expensehead', compact('expenseheads'));
     }
 
     /**
@@ -39,37 +37,15 @@ class PharmreqController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        dd($request->all);
-        $validated = $request->except('_token');
-        $pc = Pharmreq::create([
-            'clinical_appointment_id' => $request->clinical_appointment_id,
-            'seen_by' => 1,
-        ]);
-        $status = $pc->clinical_appointment_id;
-        foreach ($request->medicine as $key => $medicine_id) {
-            $data = array(
-                'pharmreq_id' => $pc->id,
-                'drug_model_id' => $request->drug_model_id[$key],
-                'medicine' => $request->medicine[$key],
-                'duration' => $request->duration[$key],
-                'quantity' => $request->quantity[$key],
-
-            );
-            PharmreqDetail::insert($data);
-        }
-
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $pc->labinfos()->create([
-            'consult_id' => $consult->id,
-            'type' => 'Drug Prescription',
-            'status' => 'waiting',
+        $data = $request->validate([
+            'name' => 'required|unique:expense_heads',
         ]);
 
-        $notification = array(
-            'message' => 'Pharmacy request sent successfully!',
+        ExpenseHead::create($data);
+        $notification = [
+            'message' => 'ExpenseHead created successfully',
             'alert-type' => 'success'
-        );
+        ];
         return back()->with($notification);
     }
 
@@ -90,11 +66,14 @@ class PharmreqController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ExpenseHead $expensehead)
     {
         //
-    }
+        $expenseheads = ExpenseHead::all()->sortByDesc('name');
+        $task = $expensehead;
 
+        return view('admin.account.expensehead', compact('expenseheads', 'task'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -102,9 +81,19 @@ class PharmreqController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ExpenseHead $expensehead)
     {
         //
+        $data = $request->validate([
+            'name' => 'required',
+        ]);
+        $expensehead->update($data);
+
+        $notification = [
+            'message' => 'ExpenseHead updated successfully',
+            'alert-type' => 'success'
+        ];
+        return redirect('admin/expensehead')->with($notification);
     }
 
     /**
@@ -113,8 +102,14 @@ class PharmreqController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ExpenseHead $expensehead)
     {
         //
+        $expensehead->delete();
+        $notification = [
+            'message' => 'ExpenseHead updated successfully',
+            'alert-type' => 'info'
+        ];
+        return redirect('admin/expensehead')->with($notification);
     }
 }

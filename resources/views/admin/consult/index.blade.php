@@ -28,7 +28,7 @@
                              <div class="block block-bordered block-fx-pop">
 
                                 <div class="block-content block-content-full">
-                                    <h4 class="font-w400">Today's Appointment {{ now()->today()}}</h4>
+                                    <h4 class="font-w400">Today's Appointment {{ now()->today()->format('d-M-Y')}}</h4>
                                         <div class="table-responsive">
                                                 <table class="table table-stripped table-bordered table-vcenter">
                                                     <thead>

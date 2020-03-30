@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pharmacy;
 
 use App\Http\Controllers\Controller;
 use App\Models\DrugModel;
+use App\Models\DrugSubCategory;
 use Illuminate\Http\Request;
 
 class DrugController extends Controller
@@ -76,10 +77,12 @@ class DrugController extends Controller
      */
     public function edit($id)
     {
+        //
     }
-    public function drugAjax(DrugModel $drug)
+    public function drugAjax(DrugSubCategory $drug)
     {
-        $sections = $drug->subjects->pluck("name", "id");
+        // $drug->drugModels->pluck("name", "id", "forms");
+        $sections = DrugModel::select("id", "name", "forms")->where('drug_sub_category_id', $drug->id)->get();
         return json_encode($sections);
     }
     /**

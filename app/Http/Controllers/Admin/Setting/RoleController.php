@@ -19,7 +19,21 @@ class RoleController extends Controller
         $roles = Role::all();
         return view('admin.acl.role', compact('roles'));
     }
+    public function assign(Request $request, Role $role)
+    {
+        $data = [];
+        foreach ($request->name as $key => $value) {
+            array_push($data, $request->name[$key]);
+        }
 
+        $role->syncPermissions($data);
+        $notification = [
+            'message' => 'Permission assigned successfully',
+            'alert-type' => 'success'
+        ];
+
+        return back()->with($notification);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -58,7 +72,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        $permissions = Permission::all();
+        $permissions = Permission::all()->sortBy('name');
         return view('admin.acl.assignrolepermission', compact('role', 'permissions'));
     }
 

@@ -22,7 +22,7 @@ class DrugCategoryController extends Controller
 
     public function categoryAjax()
     {
-        $sections = DrugCategory::all();
+        $sections = DrugCategory::all()->pluck("name", "id");
         return json_encode($sections);
     }
     /**

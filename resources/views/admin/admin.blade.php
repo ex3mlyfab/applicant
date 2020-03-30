@@ -79,6 +79,21 @@
 <script src="{{asset('public/backend')}}/assets/js/oneui.app.min.js"></script>
 <!-- Page JS Plugins -->
 <script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script>
+    $.extend({
+    hook: function(hookName) {
+        var selector;
+        if(!hookName || hookName === '*') {
+            // select all data-hooks
+            selector = '[data-hook]';
+        } else {
+            // select specific data-hook
+            selector = '[data-hook~="' + hookName + '"]';
+        }
+        return $(selector);
+    }
+});
+</script>
 @yield('foot_js')
 @include('admin.partials.flash')
 

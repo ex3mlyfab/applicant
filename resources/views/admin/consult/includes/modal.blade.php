@@ -57,8 +57,8 @@
                 <form action="{{route('histopathologyreq.store')}}" method="post" class="px-3">
                         @csrf
                         <div class="form-group">
-                            <label for="clinical_details">Clinical Details</label>
-                            <input type="text" name="clinical_details" id="clinical_details" class="form-control">
+                            <label >Clinical Details</label>
+                            <input type="text" name="clinical_details"  class="form-control">
                             <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                         </div>
                         <div class="form-group form-row">
@@ -385,17 +385,17 @@
                 <form action="{{route('microreq.store')}}" method="post" class="bg-flat text-white px-2">
                     @csrf
                         <div class="form-group">
-                            <label for="specimen"> Nature of Specimen</label>
-                            <input type="text" name="specimen" id="specimen" class="form-control form-control-lg">
+                            <label > Nature of Specimen</label>
+                            <input type="text" name="specimen"  class="form-control form-control-lg">
                             <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                         </div>
                         <div class="form-group">
-                            <label for="clinical_information"> Diagnosis and Clinical Details</label>
-                            <textarea type="text" name="clinical_information" id="clinical_information" class="form-control"></textarea>
+                            <label > Diagnosis and Clinical Details</label>
+                            <textarea type="text" name="clinical_information"  class="form-control"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="examination_required"> investigation required</label>
-                            <input type="text" name="examination_required" id="examination_required" class="form-control form-control-lg">
+                            <label > investigation required</label>
+                            <input type="text" name="examination_required"  class="form-control form-control-lg">
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
                     </form>
@@ -441,47 +441,64 @@
 
                         </div>
                     </div>
-                    <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element">
-                        @csrf
-                    <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
-                        <div class="table-responsive">
+                    <div class="table-responsive">
+                        <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element">
+                            @csrf
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
                                 <th>Category</th>
                                 <th>Subcategory</th>
-                                <th>Drug Name</th>
-                                <th>Quantity</th>
-                                <th>dosage</th>
+                                <th>Drug Name/ Form</th>
+                                <th>Dosage</th>
+                                <th>Instruction</th>
 
                                 <th style="text-align: center;background: #eee">
-                                    <a href="#" onclick="addRow()">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
+
                                 </th>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select name="category[]" class="js-select form-control drug-category">
+                                        <select  class="js-select2 form-control" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
+                                            <option></option>
+                                            {{ create_option('drug_categories','id', 'name')}}
                                         </select>
                                     </td>
-                                    <td><select name="subcategory[]" class="js-select form-control drug-subcategory">
-                                        </select></td>
-                                    <td><input type="text" name="medicine[]" class="form-control form-control-lg"></td>
-                                    <td><input type="text" name="quantity[]" class="form-control form-control-lg"></td>
-                                    <td><input type="text" name="dosage[]" class="form-control form-control-lg"></td>
+                                    <td>
+                                        <select  class="js-select2 form-control" style="width: 100%;" id="drug-subcategory" data-placeholder="Choose one.." required>
+                                        <option></option>
+                                    </select></td>
+                                    <td>
+                                        <select  class="js-select2 form-control" style="width: 100%;" id="drug" data-placeholder="Choose one.." required>
+                                        <option></option>
+                                    </select></td>
+
+                                    <td>
+                                        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+
+
+                                        <input type="hidden" name="drug_model_id[]">
+                                        <input type="hidden" name="instruction[]">
+                                        <input type="hidden" name="dosage[]">
+                                        <input type="text" id="dosage" class="form-control form-control-lg"></td>
+                                    <td>
+                                        <input type="text" id="instruction" class="form-control form-control-lg">
+                                    </td>
 
 
                                     <td  style="text-align: center">
-                                            <a href="#" class="btn btn-success" onclick="addRow()">
-                                                <i class="fa fa-plus"></i>
+                                            <a  class="btn btn-success" onclick="rowAdd()">
+                                                <i class="fa fa-plus"> Add Drug</i>
                                             </a>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-                                <br>
+
+
+
+
 
                                 <button type="submit" class="btn btn-primary pull-right">Submit</button>
                         </form>
@@ -534,8 +551,8 @@
                         <div class="form-group form-row">
 
                             <div class="col-md-3">
-                                <label for="clinical_details">Clinical Details</label>
-                                <input type="text" name="clinical_details" id="clinical_details" class="form-control">
+                                <label >Clinical Details</label>
+                                <input type="text" name="clinical_details"  class="form-control">
                             <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                             </div>
                             <div class="col-md-3"></div>
@@ -994,12 +1011,12 @@
                     <form action="{{route('ultrasoundreq.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
                         <div class="form-group">
-                            <label for="clinical_information">Clinical Information</label>
-                            <input type="text" name="clinical_information" id="clinical_information" class="form-control form-control-lg">
+                            <label >Clinical Information</label>
+                            <input type="text" name="clinical_information"  class="form-control form-control-lg">
                         </div>
                         <div class="form-group">
-                            <label for="examination_required"> investigation required</label>
-                            <textarea name="examination_required" id="examination_required" class="form-control form-control-lg">
+                            <label > investigation required</label>
+                            <textarea name="examination_required"  class="form-control form-control-lg">
                             </textarea>
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
@@ -1054,12 +1071,12 @@
                     <form action="{{route('radiologyreq.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
                         <div class="form-group">
-                            <label for="clinical_information">Clinical Information</label>
-                            <input type="text" name="clinical_information" id="clinical_information" class="form-control form-control-lg">
+                            <label >Clinical Information</label>
+                            <input type="text" name="clinical_information"  class="form-control form-control-lg">
                         </div>
                         <div class="form-group">
-                            <label for="examination_required"> investigation required</label>
-                            <textarea name="examination_required" id="examination_required" class="form-control form-control-lg">
+                            <label > investigation required</label>
+                            <textarea name="examination_required"  class="form-control form-control-lg">
                             </textarea>
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
@@ -1113,12 +1130,12 @@
                         @csrf
                         <div class="form-group form-row">
                             <div class="col-md-4">
-                                <label for="clinical_details">Clinical Details</label>
-                                <input type="text" name="clinical_details" id="clinical_details" class="form-control form-control-lg">
+                                <label >Clinical Details</label>
+                                <input type="text" name="clinical_details"  class="form-control form-control-lg">
                             </div>
                             <div class="col-md-4">
-                                <label for="specimen">Nature of Specimen</label>
-                                <input type="text" name="specimen" id="specimen" class="form-control form-control-lg">
+                                <label >Nature of Specimen</label>
+                                <input type="text" name="specimen"  class="form-control form-control-lg">
                             </div>
                             <div class="col-md-4">
                                 <label for="date_of_collection">Date of Collection</label>

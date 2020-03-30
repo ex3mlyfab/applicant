@@ -11,18 +11,18 @@
                             <div class="block-content block-content-full">
                                 <div class="py-3 text-center text-uppercase">
 
-                                    <button type="button" class="btn btn-md btn-danger w-100 mb-2" data-toggle="modal" data-target="#haematology"> Haematology request</button>
-                                    <button type="button" class="btn btn-md w-100 mb-2 text-white-50" data-toggle="modal" data-target="#microbiology-block-normal" style="background-color: #2cd3be;"> microbiology Test</button>
-                                    <button type="button" class="btn btn-md btn-warning  w-100 mb-2" data-toggle="modal" data-target="#pathology"  > Chemical Pathology </button>
+                                    <button type="button" class="btn btn-md btn-danger w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#haematology"> Haematology request</button>
+                                    <button type="button" class="btn btn-md w-100 mb-2 text-white text-uppercase" data-toggle="modal" data-target="#microbiology-block-normal" style="background-color: #2cd3be;"> microbiology Test</button>
+                                    <button type="button" class="btn btn-md btn-warning  w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#pathology"  > Chemical Pathology </button>
 
 
-                                    <button type="button" class="btn btn-md w-100 mb-2" data-toggle="modal" data-target="#histology-block-normal" style="background-color: #cb9696;">Histopathology</button>
-                                    <button type="button" class="btn btn-md w-100 mb-2" data-toggle="modal" data-target="#ultrasound" style="background-color: #ff9224;">Radiology(Ultrasound) Test</button>
-                                    <button type="button" class="btn btn-md btn-white text-black w-100 mb-2" data-toggle="modal" data-target="#xray"  style="background-color: #ff9224;">Radiology( <i class="fa fa-x-ray"></i> X-Ray) Test</button>
+                                    <button type="button" class="btn btn-md w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#histology-block-normal" style="background-color: #cb9696;">Histopathology</button>
+                                    <button type="button" class="btn btn-md w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#ultrasound" style="background-color: #ff9224;">Radiology(Ultrasound)</button>
+                                    <button type="button" class="btn btn-md btn-white text-black w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#xray"  style="background-color: #ff9224;">Radiology( <i class="fa fa-x-ray"></i> X-Ray) </button>
 
 
-                                    <button type="button" class="btn btn-md btn-danger w-100 mb-2" data-toggle="modal" data-target="#blood-block-normal">Serotology request</button>
-                                    <button type="button" class="btn btn-md btn-primary w-100 mb-2" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
+                                    <button type="button" class="btn btn-md btn-danger w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#blood-block-normal">blood bank request</button>
+                                    <button type="button" class="btn btn-md btn-primary w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
                                 </div>
                             </div>
                         </div>
@@ -76,12 +76,15 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-vcenter">
                         <thead>
+                            <tr>
                             <th>s/No</th>
                             <th>Date</th>
                             <th>Status</th>
                             <th>action</th>
+                            </tr>
                         </thead>
                         <tbody>
+                            
 
                         </tbody>
                     </table>

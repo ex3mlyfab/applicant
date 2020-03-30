@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Consult;
+namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Models\Consult;
-use App\Models\ConsultTest;
-use App\Models\Pharmreq;
-use App\Models\PharmreqDetail;
+use App\Models\Expense;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
-class PharmreqController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +16,9 @@ class PharmreqController extends Controller
      */
     public function index()
     {
-        //
+        $expenses = Expense::all()->groupBy('expense_head_id');
+        $payments = Payment::all()->groupBy('service');
+        return view('admin.dashboard.index', compact('expenses', 'payments'));
     }
 
     /**
@@ -40,37 +40,6 @@ class PharmreqController extends Controller
     public function store(Request $request)
     {
         //
-        dd($request->all);
-        $validated = $request->except('_token');
-        $pc = Pharmreq::create([
-            'clinical_appointment_id' => $request->clinical_appointment_id,
-            'seen_by' => 1,
-        ]);
-        $status = $pc->clinical_appointment_id;
-        foreach ($request->medicine as $key => $medicine_id) {
-            $data = array(
-                'pharmreq_id' => $pc->id,
-                'drug_model_id' => $request->drug_model_id[$key],
-                'medicine' => $request->medicine[$key],
-                'duration' => $request->duration[$key],
-                'quantity' => $request->quantity[$key],
-
-            );
-            PharmreqDetail::insert($data);
-        }
-
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $pc->labinfos()->create([
-            'consult_id' => $consult->id,
-            'type' => 'Drug Prescription',
-            'status' => 'waiting',
-        ]);
-
-        $notification = array(
-            'message' => 'Pharmacy request sent successfully!',
-            'alert-type' => 'success'
-        );
-        return back()->with($notification);
     }
 
     /**

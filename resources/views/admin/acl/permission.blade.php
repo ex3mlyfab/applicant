@@ -4,6 +4,12 @@
     add permission
 @endsection
 
+@section('head_css')
+ <!-- Page JS Plugins CSS -->
+ <link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.css">
+ <link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css">
+
+@endsection
 @section('content')
 <div class="content">
     <div class="row">
@@ -18,22 +24,20 @@
                 @else
                     action="{{route('permission.store')}}"
                 @endif
-                 method="post">
+                 method="post" autocomplete="off">
                         @csrf
-                        @isset($task)
+                        @if(isset($task))
                             @method('PATCH')
-                        @endisset
+                        @endif
                         <div class="form-group" id="area">
                             <label for="name"> permission: </label>
-                            <div class="input-group">
-                                <input type="text" name="name[]" id="name" class="form-control"
-                        @isset($task)  value="
-                                {{$task->name}}
-                        " @endisset >
-                        <div class="input-append">
-                            <a class="btn btn-dark" onclick="addrow()"><i class="fa fa-plus-circle"></i> </a>
-                        </div>
-                            </div>
+
+                                <input type="text" name="name" id="name" class="form-control"
+                        @if(isset($task))
+                        value="{{$task->name}}"
+                        @endif >
+
+
                         </div>
 
                         <button type="submit"><i class="fa fa-paper-plane-o mr-1" aria-hidden="true"></i> Submit</button>
@@ -46,7 +50,7 @@
                 <div class="block-header bg-info-light">All Categories</div>
                 <div class="block-content block-content-full">
                     <div class="table-responsive ">
-                        <table class="table table-bordered table-striped table-vcenter">
+                        <table class="table table-bordered table-striped table-vcenter table-vcenter js-dataTable-buttons">
                             <thead>
                                 <th>SN</th>
                                 <th>Name</th>
@@ -82,19 +86,16 @@
 @endsection
 
 @section('foot_js')
-<script>
+ <!-- Page JS Plugins -->
+ <script src="{{asset('public/backend')}}/assets/js/plugins/datatables/jquery.dataTables.min.js"></script>
+ <script src="{{asset('public/backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+ <script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/dataTables.buttons.min.js"></script>
+ <script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.print.min.js"></script>
+ <script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.html5.min.js"></script>
+ <script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.flash.min.js"></script>
+ <script src="{{asset('public/backend')}}/assets/js/plugins/datatables/buttons/buttons.colVis.min.js"></script>
 
-        function addrow(){
-            var extra = '<div class="input-group remove"><input type="text" name="name[]" class="form-control"><div class="input-append"><a class="btn btn-dark" onclick="deleterow()"><i class="fa fa-minus-circle"></i></a></div></div>';
-            $('#area').append(extra);
-        }
-        function deleterow(){
-    $(document).on('click', '.remove', function()
-    {
-        $(this).parent('#area').remove();
-    });
-    }
-
-</script>
+ <!-- Page JS Code -->
+ <script src="{{asset('public/backend')}}/assets/js/pages/be_tables_datatables.min.js"></script>
 
 @endsection
