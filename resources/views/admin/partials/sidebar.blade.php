@@ -130,7 +130,7 @@
                 </ul>
             </li>
             @endcan
-
+            @can('consult-create')
             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-stethoscope"></i>
@@ -145,7 +145,9 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-main-item">
+            @endcan
+            @can('nursing-view')
+                <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-file-medical-alt"></i>
                     <span class="nav-main-link-name">Nursing Station</span>
@@ -159,6 +161,8 @@
                     </li>
                 </ul>
             </li>
+            @endcan
+           @can('expense-view')
             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-book-open"></i>
@@ -178,7 +182,8 @@
                     </li>
                 </ul>
             </li>
-
+            @endcan
+            @can('pharmacy-view')
             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-pills"></i>
@@ -202,6 +207,8 @@
                     </li>
                 </ul>
             </li>
+            @endcan
+            @can('payment-view')
             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-book"></i>
@@ -216,6 +223,8 @@
                     </li>
                 </ul>
             </li>
+            @endcan
+            @can('user-view')
             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-users"></i>
@@ -244,6 +253,8 @@
                     </li>
                 </ul>
             </li>
+            @endcan
+            @can('laboratory-view')
             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-microscope"></i>
@@ -268,7 +279,9 @@
 
                 </ul>
             </li>
-            <li class="nav-main-item">
+            @endcan
+            @can('radiology-view')
+             <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-x-ray"></i>
                     <span class="nav-main-link-name">Radiology</span>
@@ -286,7 +299,9 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-main-item">
+            @endcan
+            @can('system-view')
+               <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-cog"></i>
                     <span class="nav-main-link-name">System Settings</span>
@@ -302,9 +317,16 @@
                             <span class="nav-main-link-name">charges</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('regtype.index')}}">
+                            <span class="nav-main-link-name">Registration type</span>
+                        </a>
+                    </li>
 
                 </ul>
             </li>
+            @endcan
+
 
 
 

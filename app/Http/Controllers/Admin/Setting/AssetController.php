@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Models\ClinicalAppointment;
-use App\Models\Expense;
-use App\Models\Payment;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class AssetController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,20 +14,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-
-        $admit = $yest_admit = 0;
-        $operation = $yest_operation = 0;
-
-        $totalPatients = User::whereYear('created_at', date('Y'))->get()->groupBy(function (User $item) {
-            return $item->created_at->format('M');
-        })->map->count();
-
-
-        $yest_earning = Payment::where('created_at', now()->yesterday())->sum('amount');
-        $yest_consult = ClinicalAppointment::where('created_at', now()->yesterday())->count();
-        $consult = ClinicalAppointment::where('created_at', now()->today())->count();
-        $earning = Payment::where('created_at', now()->today())->sum('amount');
-        return view('admin.dashboard.index', compact('consult', 'yest_earning', 'yest_consult', 'earning', 'admit', 'yest_admit', 'yest_operation', 'operation', 'totalPatients'));
+        //
     }
 
     /**

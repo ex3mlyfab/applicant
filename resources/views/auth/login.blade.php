@@ -98,7 +98,7 @@
 
 
                                     <a class="btn btn-sm btn-light" href="{{route('admin.login')}}">
-                                            <i class="fa fa-arrow-left mr-1"></i> Admin Login
+                                            <i class="fa fa-arrow-right mr-1"></i> Admin Login
                                         </a>
                                     </div>
                                 </div>

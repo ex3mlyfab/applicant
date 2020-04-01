@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Family;
+use App\Models\RegistrationType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -30,8 +31,9 @@ class PatientController extends Controller
      */
     public function create()
     {
-        $families = Family::all();
-        return view('admin.patient.create', compact('families'));
+        $individual = RegistrationType::where('name', 'Individual')->orWhere('name', 'Student')->get();
+
+        return view('admin.patient.create', compact('individual'));
     }
 
     /**

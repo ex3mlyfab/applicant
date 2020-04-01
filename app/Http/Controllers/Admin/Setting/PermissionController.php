@@ -38,14 +38,26 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         //
-
-
-
-
-        Permission::create([
-            'guard_name' => 'admin',
-            'name' => $request->name,
+        $data = $request->validate([
+            'name' => 'required|string',
         ]);
+
+        if ($request->crud) {
+            $crudder = ["create", "delete", "edit", "view"];
+            foreach ($crudder as $value) {
+                Permission::create([
+                    'guard_name' => 'admin',
+                    'name' => $request->name . "-" . $value,
+                ]);
+            }
+        } else {
+            Permission::create([
+                'guard_name' => 'admin',
+                'name' => $request->name,
+            ]);
+        }
+
+
 
         $notification = [
             'message' => ' permission added succesfully',
@@ -110,7 +122,7 @@ class PermissionController extends Controller
     {
         $permission->delete();
         $notification = [
-            'message' => $permission->name . ' permission updated succesfully',
+            'message' => $permission->name . ' permission deleted succesfully',
             'alert- type' => 'success'
         ];
         return redirect('admin/permission')->with($notification);

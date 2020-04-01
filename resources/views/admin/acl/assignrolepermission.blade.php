@@ -24,15 +24,21 @@
             @endforeach
             </div>
             <hr>
-            <h3 class="block-title border"> Assign Abilities</h3>
+            @php
+                $known = $role->permissions->pluck('name')
+
+            @endphp
+            <h3 class="block-title border"> Assign Abilities </h3>
         <form action="{{route('role.assignpermission', $role->id)}}" method="post" autocomplete="off">
             @csrf
             <div class="form-group form-row">
                 @foreach ($permissions as $permission)
-                   <div class="col-md-3">
+                   <div class="col-md-3 border">
                        <div class="form-check-inline mb-2">
-                       <input type="checkbox" name="name[]" class="form-check-input" value="{{ $permission->name}}" >
-                           <label class="form-check-label">{{ ucfirst($permission->name)}}</label>
+                       <input type="checkbox" name="name[]" class="form-check-input" value="{{ $permission->name}}" @if ($known->contains($permission->name))
+                           checked
+                       @endif >
+                           <label class="form-check-label">{{ ucfirst($permission->name) }}</label>
                        </div>
                    </div>
                 @endforeach

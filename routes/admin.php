@@ -10,18 +10,18 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('payment/printinvoice/{invoice}', 'Admin\Account\PaymentController@printInvoice')->name('payment.invoice');
         Route::get('payment/printreceipt/{payment}', 'Admin\Account\PaymentController@printReceipt')->name('payment.print');
         Route::post('payment/pay', 'Admin\Account\PaymentController@pay')->name('payment.pay');
-        Route::resource('payment', 'Admin\Account\PaymentController')->middleware('permission:expense-payment');
+        Route::resource('payment', 'Admin\Account\PaymentController')->middleware('permission:payment-view');
         Route::resource('invoice', 'Admin\Account\InvoiceController');
         Route::resource('expense', 'Admin\Account\ExpenseController');
         Route::resource('expensehead', 'Admin\Account\ExpenseHeadController');
         Route::resource('chargecategory', 'Admin\Account\ChargeCategoryController');
-        Route::resource('charge', 'Admin\Account\ChargeController');
-        Route::resource('clinicalappointment', 'Admin\Front\ClinicalAppointmentController');
-        Route::resource('nursing', 'Admin\Front\VitalSignController');
+        Route::resource('charge', 'Admin\Account\ChargeController')->middleware('permission:charge-view');
+        Route::resource('clinicalappointment', 'Admin\Front\ClinicalAppointmentController')->middleware('permission:consulting-view');
+        Route::resource('nursing', 'Admin\Front\VitalSignController')->middleware('permission:nursing-view');
         Route::get('vitals/{vital}', 'Admin\Front\VitalSignController@takeVitals')->name('vitals.create');
         Route::resource('physical', 'Admin\Consult\PhysicalExamController');
         Route::resource('pc', 'Admin\Consult\PresentingComplaintController');
-        Route::get('consult/{consult}', 'Admin\Consult\ConsultController@consult')->name('consult.create');
+        Route::get('consult/{consult}', 'Admin\Consult\ConsultController@consult')->middleware('permission:consult-view')->name('consult.create');
         Route::resource('followup', 'Admin\Consult\FollowUpController');
         Route::resource('consults', 'Admin\Consult\ConsultController');
         Route::resource('pharmreq', 'Admin\Consult\PharmreqController');
@@ -35,25 +35,25 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('histopathologyreq', 'Admin\Consult\HistopathologyReController');
 
         Route::get('family/familyenroll/{family}', 'Admin\Front\CompanyController@familyEnroll')->name('family.enroll');
-        Route::resource('family', 'Admin\Front\FamilyController');
+        Route::resource('family', 'Admin\Front\FamilyController')->middleware('permission:family-view');
         Route::get('company/enroll/{company}', 'Admin\Front\CompanyController@enroll')->name('company.enroll');
         Route::post('company/enrollstore', 'Admin\Front\CompanyController@enrollStore')->name('company.enrollstore');
-        Route::resource('company', 'Admin\Front\CompanyController');
+        Route::resource('company', 'Admin\Front\CompanyController')->middleware('permission:company-view');
         Route::post('role/assignpermission/{role}', 'Admin\Setting\RoleController@assign')->name('role.assignpermission');
-        Route::resource('role', 'Admin\Setting\RoleController');
-        Route::resource('permission', 'Admin\Setting\PermissionController');
+        Route::resource('role', 'Admin\Setting\RoleController')->middleware('permission:role-view');
+        Route::resource('permission', 'Admin\Setting\PermissionController')->middleware('permission:permission-view');
         Route::get('drug/drugajax/{drug}', 'Admin\Pharmacy\DrugController@drugAjax');
         Route::get('drugcategory/drugcategoryajax/{drug}', 'Admin\Pharmacy\DrugCategoryController@drugAjax');
-        Route::resource('drugcategory', 'Admin\Pharmacy\DrugCategoryController');
-        Route::resource('drug', 'Admin\Pharmacy\DrugController');
-        Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController');
-        Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController');
+        Route::resource('drugcategory', 'Admin\Pharmacy\DrugCategoryController')->middleware('permission:drugcategory-view');
+        Route::resource('drug', 'Admin\Pharmacy\DrugController')->middleware('permission:drug-view');
+        Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController')->middleware('permission:drugbatch-view');
+        Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController')->middleware('permission:pharmacy-view');
 
         Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
         Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');
         Route::get('haematology/completed', 'Admin\Laboratory\HaematologyController@completed')->name('haematology.completed');
-        Route::resource('haematology', 'Admin\Laboratory\HaematologyController');
-        Route::resource('microbiology', 'Admin\Laboratory\MicrobiologyController');
+        Route::resource('haematology', 'Admin\Laboratory\HaematologyController')->middleware('permission:haematology-view');
+        Route::resource('microbiology', 'Admin\Laboratory\MicrobiologyController')->middleware('permission:microbiology-view');
         Route::group(['prefix' => 'subcategory'], function () {
             Route::post('store/{drugcategory}', 'Admin\Pharmacy\DrugCategoryController@subCategorystore')->name('drugsubcategory.store');
             Route::get('edit/{drugsubcategory}', 'Admin\Pharmacy\DrugCategoryController@subCategoryedit')->name('drugsubcategory.edit');
@@ -62,12 +62,12 @@ Route::group(['prefix' => 'admin'], function () {
         });
         Route::post('user/changepassword/{user}', 'Admin\Setting\AdminController@changePassword')->name('user.changepassword');
         Route::post('user/uploadpassport/{user}', 'Admin\Setting\AdminController@avatar')->name('user.avatar');
-        Route::resource('user', 'Admin\Setting\AdminController');
+        Route::resource('user', 'Admin\Setting\AdminController')->middleware('permission:user-view');
 
 
         Route::group(['prefix' => 'regtype'], function () {
-            Route::get('/', 'Admin\Setting\RegistrationController@index');
-            Route::get('/{regtype}', 'Admin\Setting\RegistrationController@edit');
+            Route::get('/', 'Admin\Setting\RegistrationController@index')->middleware('permission:regtype-view')->name('regtype.index');
+            Route::get('/{regtype}', 'Admin\Setting\RegistrationController@edit')->middleware('permission:regtype-update');
             Route::post('/create', 'Admin\Setting\RegistrationController@store');
             Route::put('/update/{regtype}', 'Admin\Setting\RegistrationController@update');
             Route::delete('/destroy/{regtype}', 'Admin\Setting\RegistrationController@destroy');

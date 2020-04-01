@@ -49,7 +49,13 @@
                         <div class="tab-pane active" id="wizard-validation2-step1" role="tabpanel">
                             <div class="form-group">
                                 <label class="d-block">Registration Type</label>
-                            <input type="text" class="form-control form-control-lg" name="registration_type_id" readonly value="{{get_charge_amount(1)}}">
+                            @foreach ($individual as $item)
+                                <div class="form-check">
+                                <input type="radio" name="registration_type_id" class="form-check-input" value="{{$item->id}}">
+                                    <label class="form-check-label">{{$item->name}}- ₦{{$item->charge->amount}}</label>
+                                </div>
+
+                            @endforeach
 
 
                             </div>

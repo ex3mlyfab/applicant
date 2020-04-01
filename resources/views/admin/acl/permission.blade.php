@@ -36,6 +36,14 @@
                         @if(isset($task))
                         value="{{$task->name}}"
                         @endif >
+                        @if (!(isset($task)))
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" name="crud" class="form-check-input" >
+                                    <label class="form-check-label">CRUD</label>
+                                </div>
+                        </div>
+                        @endif
 
 
                         </div>
@@ -66,9 +74,11 @@
                                             <a href="{{route('permission.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                                 <i class="fa fa-fw fa-pencil-alt"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
-                                                <i class="fa fa-fw fa-times"></i>
-                                            </button>
+                                            <form action="{{route('permission.destroy', $item->id)}}" method="POST" >
+                                                @csrf
+                                                    @method('DELETE')
+                                            <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="delete role" type="submit"><i class="fa fa-fw fa-times"></i></button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
