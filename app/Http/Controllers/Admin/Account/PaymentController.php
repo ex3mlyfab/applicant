@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -64,7 +65,7 @@ class PaymentController extends Controller
                 'service' => $request->service[$key],
                 'invoice_item_id' => $request->invoice_item_id[$key],
                 'amount' => $request->amount[$key],
-                'admin_id' => 1,
+                'admin_id' => Auth::user()->id,
                 'invoice_no' => $request->invoice_no,
                 'payment_mode_id' => 1,
             );
@@ -74,9 +75,11 @@ class PaymentController extends Controller
             $lab->update([
                 'status' => 'paid'
             ]);
-            $lab->bill()->update([
-                'status' => "item paid",
-            ]);
+            if ($lab->bill()) {
+                $lab->bill()->update([
+                    'status' => "item paid",
+                ]);
+            }
             $invoice = Invoice::where('invoice_no', $request->invoice_no)->first();
 
             if ($invoice->invoiceItems->contains('status', '')) {

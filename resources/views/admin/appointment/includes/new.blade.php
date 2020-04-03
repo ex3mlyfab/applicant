@@ -51,10 +51,10 @@
                 <label class="custom-control-label font-w400" for="login-remember"> Paid</label>
             </div>
             <div class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input" id="login-remember" name="paid" @if (old('payment')=='deffered')
+                <input type="radio" class="custom-control-input" id="login-remember1" name="paid" @if (old('payment')=='deffered')
                     selected
                 @endif value="deffered">
-                <label class="custom-control-label font-w400" for="login-remember">confirm Payment</label>
+                <label class="custom-control-label font-w400" for="login-remember1">Defer Payment</label>
             </div>
         </div>
 

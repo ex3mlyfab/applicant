@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\AssetModel;
 use Illuminate\Http\Request;
 
 class AssetController extends Controller
@@ -15,6 +16,8 @@ class AssetController extends Controller
     public function index()
     {
         //
+        $assets = AssetModel::all()->sortBy('name');
+        return view('admin.asset.asset', compact('assets'));
     }
 
     /**
@@ -24,7 +27,6 @@ class AssetController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -36,6 +38,32 @@ class AssetController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'name' => 'required|unique:asset_models',
+            'asset_category_id' => 'required',
+            'unit' => 'nullable',
+            'picture' => 'nullable'
+        ]);
+        if ($request->hasFile('picture')) {
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
+            $file = $request->picture;
+
+            $extension = $file->getClientOriginalExtension();
+            $check = in_array($extension, $allowedfileExtension);
+            if ($check) {
+                $storage_path = public_path() . '/backend/images/documents';
+                $fileName = $request->name . Date('Y-m-d') . 'picture' . '.' . $extension;
+                $file->move($storage_path, $fileName);
+                $data['picture'] = $fileName;
+            }
+        }
+
+        AssetModel::create($data);
+        $notification = [
+            'message' => 'Asset recorded succesfully',
+            'alert-type' => 'success'
+        ];
+        return back()->with($notification);
     }
 
     /**
@@ -44,9 +72,10 @@ class AssetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(AssetModel $asset)
     {
         //
+        return view('admin.asset.assetshow', compact('asset'));
     }
 
     /**
@@ -67,9 +96,38 @@ class AssetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, AssetModel $asset)
     {
         //
+        $data = $request->validate([
+            'name' => 'required',
+            'asset_category_id' => 'required',
+            'unit' => 'nullable',
+            'picture' => 'nullable'
+        ]);
+        if ($request->hasFile('picture')) {
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx'];
+            $file = $request->picture;
+
+            $extension = $file->getClientOriginalExtension();
+            $check = in_array($extension, $allowedfileExtension);
+            if ($check) {
+                $storage_path = public_path() . '/backend/images/assets';
+                $fileName = $request->name . Date('Y-m-d') . 'picture' . '.' . $extension;
+                if (isset($asset->picture)) {
+                    \File::delete($storage_path . '/' . $asset->picture);
+                }
+                $file->move($storage_path, $fileName);
+                $data['picture'] = $fileName;
+            }
+        }
+
+        $asset->update($data);
+        $notification = [
+            'message' => 'Asset updated succesfully',
+            'alert-type' => 'success'
+        ];
+        return back()->with($notification);
     }
 
     /**
@@ -78,8 +136,14 @@ class AssetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(AssetModel $asset)
     {
         //
+        $asset->delete();
+        $notification = [
+            'message' => 'Asset deleted succesfully',
+            'alert-type' => 'info'
+        ];
+        return back()->with($notification);
     }
 }

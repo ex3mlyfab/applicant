@@ -63,6 +63,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('user/changepassword/{user}', 'Admin\Setting\AdminController@changePassword')->name('user.changepassword');
         Route::post('user/uploadpassport/{user}', 'Admin\Setting\AdminController@avatar')->name('user.avatar');
         Route::resource('user', 'Admin\Setting\AdminController')->middleware('permission:user-view');
+        Route::resource('asset', 'Admin\Setting\AssetController')->middleware('permission:asset-view');
+        Route::resource('assetcategory', 'Admin\Setting\AssetCategoryController')->middleware('permission:assetcategory-view');
+        Route::resource('assetpurchase', 'Admin\Setting\AssetPurchaseController')->middleware('permission:assetpurchase-view');
+        Route::resource('assetassign', 'Admin\Setting\AssetAssignController')->middleware('permission:assetassign-view');
 
 
         Route::group(['prefix' => 'regtype'], function () {

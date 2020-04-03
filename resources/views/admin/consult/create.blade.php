@@ -184,10 +184,8 @@
                     $('#specify').hide();
                 }
             });
-            // $(".category").on('focus', function(){
 
-            // });
-
+            var count = 1;
             $('#category').on("change", function(){
                             var classID = $(this).val();
                             var link = "{{ url('admin/drugcategory/drugcategoryajax/') }}";
@@ -270,55 +268,22 @@
                 $('#drug').on('blur', function(){
                     drug_place = $('#drug').text();
                 });
+                $("#drugSubmit").click(function(){
+                    var drugname = [];
+                    var dosage = [];
+                    var instruction = [];
+                    var appointment = $(this).data('appointment');
 
-
-                $('#addDrug').on('click',function(){
-
-                    var drug = $('#drug').val();
-
-                    var dosage = $('#dosage').val();
-                    var instruction = $('#instruction').val();
-                    var drugcategory, drug_subcategory, drug_place;
-                    drug_place = $('#drug').text();
-                    drugcategory = $('#category').text();
-                    drug_subcategory = $('#drug_subcategory').text();
-
-                    var tablet={
-
-                        drug, dosage, instruction
-                    }
-// console.log(typeof drug_place, typeof drugcategory, typeof drug_subcategory);
-                    setTimeout(function(){
-                        let tablerow = `
-                    <tr>
-
-                        <td>
-                            <input type="text" value="${drug_place}" class="form-control"  readonly >
-                            <input type="hidden" name="drug_model_id[]" value="${tablet.drug}" >
-                        </td>
-                        <td>
-                            <input type="text" name="dosage[]" value="${tablet.dosage}" class="form-control" >
-                        </td>
-                        <td>
-                            <input type="text" name="instruction[]" value="${tablet.instruction}" class="form-control" >
-                        </td>
-                        <td class="remove" style="text-align: center">
-                        <a class="btn btn-danger" onclick="deleteRow()" > <i class="fa fa-times mr-1"></i>Delete</a>
-                        </td>
-
-                    </tr>`;
-                     $('#drug_prescribe tbody').append(tablerow);
-                    }, 200);
-
-
-                    // var tablerow = '<tr id="drug"><td>'+'<input type="text" name="category[]" placeholder=" drugcategory " class="form-control"  readonly></td>'+
-                    // '<td><input type="text" placeholder="'+ drug_subcategory +'"  name="drug_subcategory[]" class="form-control" readonly>'+
-                    // '</td>'+
-                    // '<td><input type="text"  name="drug_model_id[]" value="'+ drug +'" class="form-control" readonly></td>'+
-                    // '<td><input type="text"  name="dosage[]" value="'+ dosage +'" class="form-control"></td>'+
-                    // '<td><input type="text"  name="instruction[]" value="'+ instruction +'" class="form-control"></td><td><a id="deleteline" class="btn btn-danger"><i class="fa fa-times mr-1"> Delete</a></td></tr>';
-
-
+                    $(".drug_model").each(function(){
+                        drugname.push($(this).val());
+                    });
+                    $(".dosage").each(function(){
+                        dosage.push($(this).val());
+                    });
+                    $(".instruction").each(function(){
+                        instruction.push($(this).val());
+                    });
+                    console.log(drugname, dosage, instruction);
 
                 });
 
@@ -348,15 +313,15 @@
                         let tablerow = `
                     <tr>
 
-                        <td>
+                        <td colspan="3" class="">
                             <input type="text" value="${drug_place}" class="form-control"  readonly >
-                            <input type="hidden" name="drug_model_id[]" value="${tablet.drug}" >
+                            <input type="hidden" name="drug_model_id[]" value="${tablet.drug}" class="drug_model">
                         </td>
                         <td>
-                            <input type="text" name="dosage[]" value="${tablet.dosage}" class="form-control" >
+                            <input type="text" name="dosage[]" value="${tablet.dosage}" class="form-control dosage" >
                         </td>
                         <td>
-                            <input type="text" name="instruction[]" value="${tablet.instruction}" class="form-control" >
+                            <input type="text" name="instruction[]" value="${tablet.instruction}" class="form-control instruction" >
                         </td>
                         <td class="remove" style="text-align: center">
                         <a class="btn btn-danger" onclick="deleteRow()" > <i class="fa fa-times mr-1"></i>Delete</a>

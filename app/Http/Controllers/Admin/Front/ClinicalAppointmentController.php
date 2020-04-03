@@ -23,7 +23,7 @@ class ClinicalAppointmentController extends Controller
         $appointments = ClinicalAppointment::all();
         $today = $appointments->where('appointment_due', Carbon::today());
         $patients = User::all();
-        $charge = Charge::where('name', 'appointment')->first();
+        $charge = Charge::where('name', 'Consultation')->first();
 
         return view('admin.appointment.index', compact('appointments', 'patients', 'charge', 'today'));
     }

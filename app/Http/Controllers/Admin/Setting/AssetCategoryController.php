@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\AssetCategory;
 use Illuminate\Http\Request;
 
 class AssetCategoryController extends Controller
@@ -14,7 +15,8 @@ class AssetCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $assetcategories = AssetCategory::all()->sortByDesc('name');
+        return view('admin.asset.assetcategory', compact('assetcategories'));
     }
 
     /**
@@ -35,7 +37,16 @@ class AssetCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|unique:asset_categories',
+        ]);
+
+        AssetCategory::create($data);
+        $notification = [
+            'message' => 'AssetCategory created successfully',
+            'alert-type' => 'success'
+        ];
+        return back()->with($notification);
     }
 
     /**
@@ -55,11 +66,14 @@ class AssetCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(AssetCategory $assetcategory)
     {
         //
-    }
+        $assetcategories = AssetCategory::all()->sortByDesc('name');
+        $task = $assetcategory;
 
+        return view('admin.account.AssetCategory', compact('assetcategories', 'task'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -67,9 +81,19 @@ class AssetCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, AssetCategory $assetcategory)
     {
         //
+        $data = $request->validate([
+            'name' => 'required',
+        ]);
+        $assetcategory->update($data);
+
+        $notification = [
+            'message' => 'AssetCategory updated successfully',
+            'alert-type' => 'success'
+        ];
+        return redirect('admin/assetcategory')->with($notification);
     }
 
     /**
@@ -78,8 +102,14 @@ class AssetCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(AssetCategory $assetcategory)
     {
         //
+        $assetcategory->delete();
+        $notification = [
+            'message' => 'AssetCategory deleted successfully',
+            'alert-type' => 'info'
+        ];
+        return redirect('admin/assetcategory')->with($notification);
     }
 }

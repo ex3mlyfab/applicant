@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAssetCategoriesTable extends Migration
+class AddColumnToAssetPurchaseModel extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateAssetCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('asset_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name', 50);
-            $table->timestamps();
+        Schema::table('asset_purchases', function (Blueprint $table) {
+            //
+            $table->string('balance', 10)->nullable();
         });
     }
 
@@ -27,6 +26,9 @@ class CreateAssetCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asset_categories');
+        Schema::table('asset_purchases', function (Blueprint $table) {
+            //
+            $table->dropColumn('balance');
+        });
     }
 }

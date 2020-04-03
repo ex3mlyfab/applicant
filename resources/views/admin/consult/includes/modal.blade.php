@@ -442,7 +442,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element">
+                        <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element" onsubmit="return false;">
                             @csrf
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
@@ -467,19 +467,15 @@
                                     <td>
                                         <select  class="js-select2 form-control" style="width: 100%;" id="drug-subcategory" data-placeholder="Choose one.." required>
                                         <option></option>
-                                    </select></td>
+                                    </select>
+                                    </td>
                                     <td>
                                         <select  class="js-select2 form-control" style="width: 100%;" id="drug" data-placeholder="Choose one.." required>
                                         <option></option>
                                     </select></td>
 
                                     <td>
-                                        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
 
-
-                                        <input type="hidden" name="drug_model_id[]">
-                                        <input type="hidden" name="instruction[]">
-                                        <input type="hidden" name="dosage[]">
                                         <input type="text" id="dosage" class="form-control form-control-lg"></td>
                                     <td>
                                         <input type="text" id="instruction" class="form-control form-control-lg">
@@ -500,7 +496,7 @@
 
 
 
-                                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                    <button  id="drugSubmit" data-appointment="{{$appointment->id}}" class="btn btn-primary pull-right">Submit</button>
                         </form>
 
                     </div>

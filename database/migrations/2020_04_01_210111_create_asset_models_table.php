@@ -15,6 +15,10 @@ class CreateAssetModelsTable extends Migration
     {
         Schema::create('asset_models', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('asset_category_id');
+            $table->string('name', 90);
+            $table->string('picture')->nullable();
+            $table->string('unit', 50)->nullable();
             $table->timestamps();
         });
     }
