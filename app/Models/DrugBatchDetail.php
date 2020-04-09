@@ -17,11 +17,11 @@ class DrugBatchDetail extends Model
 
     public function getBalanceAttribute()
     {
-        return DrugBatchDetail::where('drug_model_id', $this->drug_id)->sum('available_quantity');
+        return $this->where('drug_model_id', $this->drugModel->id)->sum('available_quantity');
     }
 
     public function getBroughtForwardAttribute()
     {
-        return DrugBatchDetail::where('drug_model_id', $this->drug_id)->where('id', '!=', $this->id)->sum('available_quantity');
+        return $this->where('drug_model_id', $this->drugModel->id)->where('id', '!=', $this->id)->where('created_at', '<', $this->created_at)->sum('available_quantity');
     }
 }

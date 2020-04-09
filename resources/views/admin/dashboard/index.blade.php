@@ -137,3 +137,4 @@ new Chart($(".js-chartjs-bars"), {
 </script>
 
 @endsection
+ 

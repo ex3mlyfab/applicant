@@ -88,9 +88,11 @@
                                             <a href="{{route('charge.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                                 <i class="fa fa-fw fa-pencil-alt"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
-                                                <i class="fa fa-fw fa-times"></i>
-                                            </button>
+                                            <form action="{{route('charge.destroy', $item->id)}}" method="POST" >
+                                                @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
+                                                </form>
                                         </div>
                                     </td>
                                 </tr>

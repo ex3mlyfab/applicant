@@ -16,40 +16,50 @@ take vital signs
                 @csrf
                 <div class="form-group form-row">
                     <div class="col-md-4">
-                    <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" >
+                        <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" >
                     </div>
                     <div class="col-md-4">
                         <label for="patient_id"> Patient Name</label>
                         <input type="text" value="{{$patient->full_name}}" class="form-control form-control-lg" readonly>
                         <input type="hidden" name="patient_id"  value="{{$patient->id}}" >
                     </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="folder_number">folder number</label>
+                                <input type="text" name="folder_number" id="folder_number" value="{{$patient->folder_number}}" class="form-control form-control-lg" readonly>
 
-                    <div class="col-md-2">
-                        <label for="folder_number">folder number</label>
-                    <input type="text" name="folder_number" id="folder_number" value="{{$patient->folder_number}}" class="form-control form-control-lg" readonly>
+
+                            </div>
+                            <div class="col-md-12">
+                                <label for="sex">Sex</label>
+                                <input type="text" name="sex" id="sex" value="{{$patient->sex}}" class="form-control form-control-lg" readonly>
 
 
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <label for="sex">Sex</label>
-                    <input type="text" name="sex" id="sex" value="{{$patient->sex}}" class="form-control form-control-lg" readonly>
 
-
-                    </div>
 
                 </div>
                 <div class="form-group form-row">
-                    <div class="col-md-2">
+                    <div class="col-md-12">
+
                         <label for="diastolic">Blood pressure</label>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="text" name="systolic" id="sytolic" placeholder="Systolic" class="form-control form-control-lg" >
+                            </div>
+                                <div class="col-md-12">
+                                    <input type="text" name="diastolic" id="diastolic" placeholder="diastolic" class="form-control form-control-lg">
+                                </div>
+
+                        </div>
 
                     </div>
-                    <div class="col-md-2">
-                        <input type="text" name="systolic" id="sytolic" placeholder="Systolic" class="form-control form-control-lg" >
-                    </div>
 
-                    <div class="col-md-2">
-                        <input type="text" name="diastolic" id="diastolic" placeholder="diastolic" class="form-control form-control-lg">
-                    </div>
+
+
                 </div>
                 <div class="form-group form-row">
                     <div class="col-md-2">

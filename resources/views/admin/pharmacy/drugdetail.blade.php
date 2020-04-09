@@ -116,7 +116,7 @@
                                             {{$item->brought_forward}}
                                         </td>
                                         <td>
-                                            {{$item->available_quantity}}
+                                            {{$item->balance}}
                                         </td>
                                         <td>
                                             {{$item->purchase_price}}
@@ -127,7 +127,7 @@
 
                                         <td>
                                             <div class="btn-group">
-                                                <a href="{{route('charge.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
+                                                <a href="{{route('drugbatch.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                                     <i class="fa fa-fw fa-pencil-alt"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
@@ -149,7 +149,7 @@
             <div class="modal-content">
                 <div class="block block-themed block-transparent mb-0">
                     <div class="block-header bg-secondary-dark">
-                        <h3 class="block-title">Microbiology Request</h3>
+                        <h3 class="block-title">Add Drug Batch </h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-fw fa-times"></i>
@@ -201,7 +201,7 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">₦ </span>
-                                        <input type="number" name="cost" id="cost"   class="form-control" required>
+                                        <input type="number" name="cost" id="cost"   class="form-control" readonly required>
                                     </div>
                                 </div></div>
 
@@ -227,6 +227,14 @@
 @section('foot_js')
 <script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script>jQuery(function(){ One.helpers(['datepicker']); });</script>
+<script>
+    $(function(){
+        
+        $('#purchase_price').blur(function(){
+            $('#cost').val(parseFloat($(this).val()) * 1.5); 
+        });
+    });
+</script>
 
 
 @endsection

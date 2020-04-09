@@ -20,8 +20,13 @@ class RegistrationType extends Model
         return $this->hasMany(Family::class);
     }
 
-    public function organization(): HasMany
+    public function organizations(): HasMany
     {
         return $this->hasMany(Organization::class);
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
     }
 }

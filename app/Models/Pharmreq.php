@@ -15,10 +15,7 @@ class Pharmreq extends Model
     {
         return $this->belongsTo(ClinicalAppointment::class);
     }
-    public function consultTest(): BelongsTo
-    {
-        return $this->belongsTo(ConsultTest::class);
-    }
+
 
     public function labinfos(): MorphMany
     {

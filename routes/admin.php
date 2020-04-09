@@ -18,12 +18,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('charge', 'Admin\Account\ChargeController')->middleware('permission:charge-view');
         Route::resource('clinicalappointment', 'Admin\Front\ClinicalAppointmentController')->middleware('permission:consulting-view');
         Route::resource('nursing', 'Admin\Front\VitalSignController')->middleware('permission:nursing-view');
+        Route::get('chart/{id}', 'Admin\Front\VitalSignController@vitals');
         Route::get('vitals/{vital}', 'Admin\Front\VitalSignController@takeVitals')->name('vitals.create');
         Route::resource('physical', 'Admin\Consult\PhysicalExamController');
         Route::resource('pc', 'Admin\Consult\PresentingComplaintController');
         Route::get('consult/{consult}', 'Admin\Consult\ConsultController@consult')->middleware('permission:consult-view')->name('consult.create');
         Route::resource('followup', 'Admin\Consult\FollowUpController');
         Route::resource('consults', 'Admin\Consult\ConsultController');
+        Route::post('consult/pharmreq/create', 'Admin\Consult\PharmreqController@ajaxdrug');
         Route::resource('pharmreq', 'Admin\Consult\PharmreqController');
         Route::resource('microreq', 'Admin\Consult\MicrobiologyreqController');
         Route::resource('bloodreq', 'Admin\Consult\BloodreqController');
@@ -34,7 +36,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('pathologyreq', 'Admin\Consult\PathologyReqController');
         Route::resource('histopathologyreq', 'Admin\Consult\HistopathologyReController');
 
-        Route::get('family/familyenroll/{family}', 'Admin\Front\CompanyController@familyEnroll')->name('family.enroll');
+        Route::get('family/familyenroll/{family}', 'Admin\Front\FamilyController@familyEnroll')->name('family.enroll');
         Route::resource('family', 'Admin\Front\FamilyController')->middleware('permission:family-view');
         Route::get('company/enroll/{company}', 'Admin\Front\CompanyController@enroll')->name('company.enroll');
         Route::post('company/enrollstore', 'Admin\Front\CompanyController@enrollStore')->name('company.enrollstore');

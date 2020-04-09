@@ -51,7 +51,7 @@
                     <div class="block-content block-content-full">
                          <!-- Block Tabs Alternative Style -->
                          <div class="block">
-                            <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
+                            <ul class="nav nav-tabs nav-tabs-alt text-uppercase bg-city-lighter" data-toggle="tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link @if (!($consults->count() > 1))
                                         active
@@ -69,13 +69,16 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-action">Action Plan</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#btabs-alt-static-vitals">Vital Signs chart</a>
+                                </li>
 
                             </ul>
                             <div class="block-content tab-content">
                                 <div class="tab-pane @if (!($consults->count() > 1))
                                     active
                                 @endif " id="btabs-alt-static-home" role="tabpanel">
-                                    <h4 class="font-w400">Presenting Complaints</h4>
+
 
                                     <span class="presenting">
                                     @include('admin.consult.includes.presenting')
@@ -84,7 +87,7 @@
 
                                 </div>
                                 <div class="tab-pane" id="btabs-alt-static-profile" role="tabpanel">
-                                    <h4 class="font-w400">Physical Exams</h4>
+
 
                                     <span class="physical">
                                     @include('admin.consult.includes.physical')
@@ -93,7 +96,7 @@
                                 </div>
                                 @if (($consults->count() > 1))
                                     <div class="tab-pane active" id="btabs-alt-static-followup" role="tabpanel">
-                                    <h4 class="font-w400">Follow Up </h4>
+
 
                                         @include('admin.consult.includes.followupHistory')
 
@@ -105,9 +108,20 @@
                                 @endif
 
                                 <div class="tab-pane" id="btabs-alt-static-action" role="tabpanel">
-                                    <h4 class="font-w400">Action Plans</h4>
+
                                     @include('admin.consult.includes.actions')
-                                    @include('admin.consult.includes.modal')
+
+
+                                </div>
+                                <div class="tab-pane" id="btabs-alt-static-vitals" role="tabpanel">
+
+                                    <div class="block-content block-content-full">
+                                        <canvas class="js-chartjs-lines" width="800" height="450"></canvas>
+                                        <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" data-fullname="{{ $patient->full_name}}" data-patient-id="{{$patient->id}}" data-folder-no="{{ $patient->folder_number}}" data-sex="{{ $patient->sex}}">
+                                            <span data-toggle="tooltip" title="take vitals sign"><i class="fa fa-fw fa-2x fa-stopwatch"></i></span>
+                                        </button>
+                                    </div>
+
 
                                 </div>
                             </div>
@@ -117,6 +131,7 @@
             </div>
         </div>
     </div>
+    @include('admin.consult.includes.modal')
 @endsection
 
 @section('foot_js')
@@ -128,11 +143,12 @@
 <!-- Page JS Code -->
 <script src="{{asset('public/backend')}}/assets/js/pages/be_forms_wizard.min.js"></script>
 <script src="{{asset('public/backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
 <script>jQuery(function(){ One.helpers(['datepicker', 'select2']); });</script>
 
 <script>
     $(function(){
-
+            $('label').css("text-transform", "uppercase");
             $('#specify').hide();
             $('#specify_symptoms').hide();
 
@@ -268,7 +284,31 @@
                 $('#drug').on('blur', function(){
                     drug_place = $('#drug').text();
                 });
-                $("#drugSubmit").click(function(){
+                var weight, height, bmi;
+                $('.takevitals').bind('click',function(){
+                    $('#picture').attr('src', $(this).data('pictures'));
+                    $('#fullname1').val( $(this).data('fullname'));
+                    $('#folder_no').val( $(this).data('folder-no'));
+                    $('#gender0').val( $(this).data('sex'));
+                    $('#patient_identity').val( $(this).data('patient-id'));
+                });
+
+                $('#height').prop("readonly", true);
+                $('#bmi').val('Enter weight and Height for Bmi');
+
+                $('#weight').on('blur', function(){
+                    weight = $(this).val();
+                    $('#height').prop("readonly",false );
+
+                });
+                $('#height').on('blur', function(){
+                    height = $(this).val();
+                    bmi = weight/(height*height);
+
+                    $('#bmi').val(bmi.toFixed(2));
+                });
+
+                $("#drugSubmit").click(function(e){
                     var drugname = [];
                     var dosage = [];
                     var instruction = [];
@@ -276,17 +316,125 @@
 
                     $(".drug_model").each(function(){
                         drugname.push($(this).val());
+
                     });
+                    
                     $(".dosage").each(function(){
                         dosage.push($(this).val());
                     });
                     $(".instruction").each(function(){
                         instruction.push($(this).val());
                     });
-                    console.log(drugname, dosage, instruction);
 
-                });
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                            }
+                            });
 
+                            e.preventDefault();
+                            var type = "POST";
+                            var ajaxurl = 'pharmreq/create';
+                                $.ajax({
+                                    type: type,
+                                    url: ajaxurl,
+                                    data: {
+                                        clinical_appointment: appointment,
+                                        drug_model_id:drugname,
+                                        dosage:dosage,
+                                        instruction:instruction
+                                            },
+                                    dataType: 'json',
+                                    success: function (data){
+                                        let link =`
+                                        <li>
+                                            <a class="text-dark media py-2" href="javascript:void(0)">
+                                                <div class="mr-3 ml-2">
+
+                                                </div>
+                                                <div class="media-body">
+                                                    <div class="font-w600">${data.type}</div>
+                                                    <div class="text-success">${data.status}</div>
+                                                    <small class="text-muted">${ data.created_at}</small>
+                                                </div>
+                                            </a>
+                                        </li>`;
+                                        $("#recenttest").append(link);
+                                        $("#pharmacy-block-normal").modal('hide');
+
+
+                                    },
+                                    error: function (data) {
+                                        console.log('Error:', data);
+                                    }
+                                });
+
+                                });
+                                var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
+                                
+                                new Chart($(".js-chartjs-lines"), {
+                                    "type": "line",
+                                    "data": {
+                                        "labels":cData.label,
+                                        "datasets":[
+                                                {
+                                                    "label":"Systolic",
+                                                    "data":cData.systolic, 
+                                                    "fill":false,                                                    
+                                                    "borderColor":"rgb(235,26,8)"                                                    
+                                                },
+                                                {
+                                                    "label":"Diastolic",
+                                                    "data":cData.diastolic, 
+                                                    "fill":false,                                                    
+                                                    "borderColor":"rgb(235,26,8)"                                                    
+                                                },
+                                                {
+                                                    "label":"Height",
+                                                    "data":cData.height, 
+                                                    "fill":false,                                                    
+                                                    "borderColor":"#19c341"                                                    
+                                                },
+                                                {
+                                                    "label":"weight",
+                                                    "data":cData.weight, 
+                                                    "fill":false,                                                    
+                                                    "borderColor":"#39f3e1"                                                    
+                                                },
+                                                {
+                                                    "label":"Respiratory Rate",
+                                                    "data":cData.rr, 
+                                                    "fill":false,                                                    
+                                                    "borderColor":"#3308cd"                                                    
+                                                },
+                                                {
+                                                    "label":"Pulse Rate",
+                                                    "data":cData.pr, 
+                                                    "fill":false,                                                    
+                                                    "borderColor":"#8e5ea2"                                                    
+                                                },
+                                                {
+                                                    "label":"BMI",
+                                                    "data":cData.bmi, 
+                                                    "fill":false,                                                    
+                                                    "borderColor":"#f4fe98"                                                    
+                                                },
+                                                {
+                                                    "label":"Temperature",
+                                                    "data":cData.temp, 
+                                                    "fill":false,                                                    
+                                                    "borderColor":"#ff0101"                                                    
+                                                }
+                                            ]
+                                    },
+                                    options: {
+                                        title: {
+                                        display: true,
+                                        text: 'Patients Vital Signs Chart'
+                                        }
+                                    }
+                                });
+                                                                
 
 
 
@@ -294,6 +442,8 @@
 
 
     });
+    
+    
     function rowAdd(){
         var drug = $('#drug').val();
 

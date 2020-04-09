@@ -124,7 +124,7 @@
  <script>
        $(window).on('load', function() {
 
-
+            $('tbody tr:nth-child(odd)').css("background-color", "red");
             $('#patient_id').on('change', function(){
             var classID = $(this).val();
             var link = "{{ url('admin/patient/classajax/') }}";
@@ -145,7 +145,8 @@
             data: JSON.stringify({
                 avatar : "value",
                 sex: "value",
-                folder_number: "value"
+                folder_number: "value",
+                phone:"value"
                 }),
              error : function(data){
                  console.log("error:" + data)
@@ -158,6 +159,7 @@
                     $('#space').append('<img src="'+ imgPath + '/' + data.avatar+ '" class="img-fluid img-avatar96">')
                     $('#sex').val(data.sex);
                     $('#folder_number').val(data.folder_number);
+                    $('#phone').val(data.phone);
                 });
 
              }

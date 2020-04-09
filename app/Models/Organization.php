@@ -10,7 +10,7 @@ class Organization extends Model
 {
     protected $guarded = [];
 
-    public function user(): HasMany
+    public function users(): HasMany
     {
         return $this->hasMany(User::class, 'belongs_to');
     }

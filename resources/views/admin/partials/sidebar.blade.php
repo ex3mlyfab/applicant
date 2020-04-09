@@ -3,9 +3,9 @@
     <div class="content-header bg-white-5">
         <!-- Logo -->
         <a class="font-w600 text-dual" href="index.html">
-        <img src="{{asset('public/backend')}}/images/pentacare.png" style="width:20px;"alt="">
-            <span class="smini-hide">
-                <span class="font-w700 font-size-h5">pentacare</span> <span class="font-w400">Hospital</span>
+
+            <span class="smini-hide text-center">
+                <img src="{{asset('public/backend')}}/images/pentacare.png" style="width:70px;"alt="">
             </span>
         </a>
         <!-- END Logo -->
@@ -114,11 +114,7 @@
                             <span class="nav-main-link-name">Organization Accounts</span>
                         </a>
                     </li>
-                    <li class="nav-main-item">
-                        <a class="nav-main-link" href="{{route('payment.index')}}">
-                            <span class="nav-main-link-name">Payments list</span>
-                        </a>
-                    </li>
+
 
 
                     <li class="nav-main-item">

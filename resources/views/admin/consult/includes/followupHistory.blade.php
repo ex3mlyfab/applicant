@@ -5,7 +5,7 @@
     </div>
     <div class="block-content block-content-full">
         <div class="table-responsive">
-            <table class="table-bordered table-striped">
+            <table class="table table-bordered table-striped">
                 <thead>
                     <th>Subjective complaints</th>
                     <th>objective Findings</th>

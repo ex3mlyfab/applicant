@@ -41,7 +41,7 @@
                 <!-- END Step Tabs -->
 
                 <!-- Form -->
-            <form class="js-wizard-validation2-form" action="{{route('patient.store')}}" method="POST">
+            <form class="js-wizard-validation2-form" action="{{route('family.store')}}" method="POST">
                 @csrf
                     <!-- Steps Content -->
                     <div class="block-content block-content-full tab-content px-md-5" style="min-height: 303px;">
@@ -52,7 +52,7 @@
 
                                 @foreach ($families as $item)
                                     <div class="form-check">
-                                    <input class="form-check-input regtype" type="radio" id="example-radios-inline{{$item->id}}" name="registration_type" value="{{$item->id}}" required>
+                                    <input class="form-check-input regtype" type="radio" id="example-radios-inline{{$item->id}}" name="registration_type_id" value="{{$item->id}}" required>
                                         <label class="form-check-label" for="example-radios-inline{{$item->id}}">{{$item->name}} | &nbsp; <span class="text-info"> Charge: {{ $item->charge->amount }}</span></label>
                                     </div>
 

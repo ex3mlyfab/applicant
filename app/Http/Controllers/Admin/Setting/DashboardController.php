@@ -27,10 +27,10 @@ class DashboardController extends Controller
         })->map->count();
 
 
-        $yest_earning = Payment::where('created_at', now()->yesterday())->sum('amount');
-        $yest_consult = ClinicalAppointment::where('created_at', now()->yesterday())->count();
-        $consult = ClinicalAppointment::where('created_at', now()->today())->count();
-        $earning = Payment::where('created_at', now()->today())->sum('amount');
+        $yest_earning = Payment::whereDate('created_at', now()->yesterday())->sum('amount');
+        $yest_consult = ClinicalAppointment::whereDate('created_at', now()->yesterday())->count();
+        $consult = ClinicalAppointment::whereDate('created_at', now()->today())->count();
+        $earning = Payment::whereDate('created_at', now()->today())->sum('amount');
         return view('admin.dashboard.index', compact('consult', 'yest_earning', 'yest_consult', 'earning', 'admit', 'yest_admit', 'yest_operation', 'operation', 'totalPatients'));
     }
 

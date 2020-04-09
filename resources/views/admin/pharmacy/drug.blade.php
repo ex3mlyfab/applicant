@@ -63,7 +63,7 @@
                     <span class="badge-danger">{{$drug->minimum_level}}</span>
                 </td>
                 <td>
-
+                    {{$drug->available}}
                 </td>
                 <td>
                     <div class="btn-group">

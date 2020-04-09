@@ -50,11 +50,24 @@
                             <div class="form-group">
                                 <label class="d-block">Family Name</label>
                             <input type="hidden"  name="registration_type_id" readonly value="{{ $family->registration_type_id }}">
-                            <input type="text"  class="form-control form-control-lg" readonly value="{{ $family->user->last_name}}" >
+                            <input type="text"  class="form-control form-control-lg" readonly value="{{ $family->users->first()->last_name}}" >
                             <input type="hidden" name="belongs_to" value="{{$family->id}}" >
 
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="{{asset('public/backend')}}/images/avatar/{{$family->users->first()->avatar}}" alt="{{$family->users->first->full_name}}" class="rounded">
+                                </div>
+                                <div class="col-md-4">
+                                    <h3 class="block-title">Address</h3>
+                                    <p>{{$family->users->first()->address}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <h3 class="block-title"> Phone Number</h3>
+                                    <p>{{$family->users->first()->phone}}</p>
+                                </div>
 
+                            </div>
 
                         </div>
                         <!-- END Step 1 -->

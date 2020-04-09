@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\RegistrationType;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class FamilyController extends Controller
@@ -78,13 +79,12 @@ class FamilyController extends Controller
             $validated['dob'] = $newDate;
         }
 
-        if ($request->source == 'front-desk') {
-            $validated['source'] = 'front desk';
-        } else {
-            $validated['source'] = 'online';
-        }
+
+        $validated['source'] = 'family';
+
         if ($request->has('belongs_to')) {
-            $number = Family::where('id', $request->belongs_to);
+            $number = Family::where('id', $request->belongs_to)->first();
+
             $getletter = num_to_letters(($number->enrolment_count + 1));
             $validated['folder_number'] = $number->folder_number . $getletter;
             $number->update([
@@ -108,19 +108,20 @@ class FamilyController extends Controller
 
 
         $validated['password'] = Hash::make('pentacare');
-
+        $validated['registered_by'] = Auth::user()->id;
         $anchor = User::create($validated);
+
         if (!($request->has('belongs_to'))) {
             $id = Family::create([
                 'enrolment_count' => 1,
-                'folder_number' => assign_Fno(),
+                'folder_number' => assign_Fno_family(),
                 'registration_type_id' => $request->registration_type_id,
                 'user_id' => $anchor->id,
             ]);
 
             $anchor->update([
                 'folder_number' => $id->folder_number . num_to_letters(1),
-                'belongs_to' => $id->id
+                'belongs_to' => $id->id,
             ]);
             Payment::create([
                 'payment_mode_id' => 1,
@@ -133,7 +134,7 @@ class FamilyController extends Controller
         }
 
         $notification = array(
-            'message' => 'Patient created successfully!',
+            'message' => 'Family account created successfully!',
             'alert-type' => 'success'
         );
 
@@ -146,9 +147,10 @@ class FamilyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Family $family)
     {
         //
+        return view('admin.patient.familyshow', compact('family'));
     }
 
     /**
@@ -180,8 +182,16 @@ class FamilyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Family $family)
     {
-        //
+        foreach ($family->users as $value) {
+            $value->delete();
+        }
+        $family->delete();
+        $notification = [
+            'message' => 'family account deleted succesfully',
+            'alert-type' => 'info'
+        ];
+        return back()->with($notification);
     }
 }

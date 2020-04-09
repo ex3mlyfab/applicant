@@ -54,21 +54,29 @@
                     <tr>
                         <td class="text-center font-size-sm">{{$family->folder_number}}</td>
                         <td class="font-w600 font-size-sm">
-                           {{ $family->user->full_name}}
-                        </td>
-                        <td class="d-none d-sm-table-cell font-size-sm">
-                        <img src="{{asset('public/backend')}}/images/avatar/{{$family->user->avatar}}" alt="{{$patient->full_name}}" class="img-avatar img-avatar128">
+                        <a href="{{route('family.show', $family->id)}}">
+                            {{ $family->users->first()->full_name}}
+                        </a>
 
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm">
-                            {{$family->enrolment_count}}
+                        <img src="{{asset('public/backend')}}/images/avatar/{{$family->users->first()->avatar}}" alt="{{$family->users->first->full_name}}" class="img-avatar img-avatar128">
+
+                        </td>
+                        <td class="d-none d-sm-table-cell font-size-sm">
+                            {{$family->enrolment_count}}/{{$family->registrationType->max_enrollment}}
                         </td>
                         <td class="d-none d-sm-table-cell">
                             {{$family->registrationType->name}}
                         </td>
                         <td>
-                            <button class="btn btn-warning"> Edit </button>
-                            <button class="btn btn-warning"> delete </button>
+                        @role('super-admin')    
+                        <form action="{{route('family.destroy', $family->id)}}" method="POST" >
+                            @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="delete family" type="submit" onsubmit="confirm()"><i class="fa fa-times text-danger ml-auto"></i> Delete</button>
+                            </form>
+                        @endrole
                             @if ($family->enrolment_count <= $family->registrationType->max_enrollment)
                                 <a href="{{route('family.enroll', $family->id)}}" class="btn btn-info">Enroll members</a>
                             @endif
@@ -96,5 +104,10 @@
 
        <!-- Page JS Code -->
        <script src="{{asset('public/backend')}}/assets/js/pages/be_tables_datatables.min.js"></script>
+       <script>
+           $(function(){
+            $('tbody tr:nth-child(odd)').css("background-color", "rgba(202, 247, 228, 0.2)");
+        });
+       </script>
 
 @endsection

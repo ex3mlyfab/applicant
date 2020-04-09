@@ -68,7 +68,7 @@
                             {{$patient->age}}
                         </td>
                         <td>
-                            <em class="text-muted font-size-sm">{{$patient->last_vist}}</em>
+                            <em class="text-muted font-size-sm">{{$patient->last_visit}}</em>
                         </td>
                     </tr>
                      @endforeach
@@ -92,5 +92,10 @@
 
        <!-- Page JS Code -->
        <script src="{{asset('public/backend')}}/assets/js/pages/be_tables_datatables.min.js"></script>
+       <script>
+           $(function(){
+            $('tbody tr:nth-child(odd)').addClass("bg-default-light");
+           });
+       </script>
 
 @endsection

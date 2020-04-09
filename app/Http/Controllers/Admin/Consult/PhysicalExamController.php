@@ -42,6 +42,9 @@ class PhysicalExamController extends Controller
         $validated = $request->except('_token');
         $pc = PhysicalExam::create($validated);
         $consult = Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
+        $consult->clinicalAppointment()->update([
+            'status' => 'physical exams recorded'
+        ]);
         $consult->update([
             'physical_exam_id' => $pc->id
         ]);

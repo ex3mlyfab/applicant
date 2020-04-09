@@ -41,7 +41,7 @@
 @include('admin.partials.sidebar')
 @include('admin.partials.header')
 <!-- Main Container -->
-<main id="main-container">
+<main id="main-container" style="background: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.5)), url('{{asset('public/backend')}}/images/penta.jpeg') no-repeat center center; background-size: cover;">
 
     @yield('content')
 

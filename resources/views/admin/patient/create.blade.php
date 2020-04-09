@@ -52,7 +52,7 @@
                             @foreach ($individual as $item)
                                 <div class="form-check">
                                 <input type="radio" name="registration_type_id" class="form-check-input" value="{{$item->id}}">
-                                    <label class="form-check-label">{{$item->name}}- ₦{{$item->charge->amount}}</label>
+                                    <label class="form-check-label display-4">{{$item->name}} - ₦{{$item->charge->amount}}</label>
                                 </div>
 
                             @endforeach
@@ -61,7 +61,7 @@
                             </div>
 
                         <div class="form-group">
-                            <input type="checkbox" name="paid" id="paid" class="form-check-inline" required>
+                            <input type="checkbox" name="payment" id="paid" class="form-check-inline" required>
                             <label for="paid" class="form-check-label">Paid</label>
                         </div>
                         </div>

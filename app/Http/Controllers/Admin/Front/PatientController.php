@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Family;
+use App\Models\Payment;
 use App\Models\RegistrationType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -31,7 +32,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        $individual = RegistrationType::where('name', 'Individual')->orWhere('name', 'Student')->get();
+        $individual = RegistrationType::where('name', 'Individual')->orWhere('name', 'Student')->orWhere('name', 'Ante-Natal')->get();
 
         return view('admin.patient.create', compact('individual'));
     }
@@ -51,33 +52,42 @@ class PatientController extends Controller
             'phone' => 'required|string|max:255|unique:users',
             'sex' => 'nullable|string',
             'email' => 'nullable|email|max:255',
-            'nok' => 'nullable|string|max:255',
-            'nok_phone' => 'nullable|string|max:255',
+            'nok' => 'nullable|max:255',
+            'nok_phone' => 'nullable|max:255',
             'nok_relationship' => 'nullable|string|max:255',
             'nok_address' => 'nullable|string',
             'address' => 'nullable|string',
-            'email' => 'nullable|string',
             'national_id' => 'nullable|string',
             'state' => 'nullable|string',
             'city' => 'nullable|string',
             'age_at_reg' => 'nullable|string',
             'marital_status' => 'nullable|string',
+            'registration_type_id' => 'nullable',
+            'occupation' => 'nullable',
 
         ]);
+
 
         if ($request->has('dob')) {
             $dob = strtotime($request->dob);
             $newDate = date('Y-m-d', $dob);
             $validated['dob'] = $newDate;
         }
-
-        if ($request->source == 'front-desk') {
-            $validated['source'] = 'front desk';
-        } else {
-            $validated['source'] = 'online';
+        switch ($request->registration_type_id) {
+            case 15:
+                $validated['source'] = 'antenatal';
+                break;
+            case 12:
+                $validated['source'] = 'student';
+                break;
+            default:
+                $validated['source'] = 'individual';
+                break;
         }
 
-        $validated['folder_number'] = assign_Fno();
+
+
+        $validated['folder_number'] = assign_Fno($validated['source']);
 
 
 
@@ -95,11 +105,20 @@ class PatientController extends Controller
             $validated['avatar'] = $imageName;
             \File::put($storage_path . '/' . $imageName, base64_decode($file_data));
         }
-
+        $validated['registered_by'] = Auth::user()->id;
 
         $validated['password'] = Hash::make('pentacare');
+        // dd($validated);
 
-        User::create($validated);
+        $new = User::create($validated);
+        Payment::create([
+            'payment_mode_id' => 1,
+            'user_id' => $new->id,
+            'admin_id' => Auth::user()->id,
+            'service' => 'Payments for new ' . $new->source . ' registration',
+            'amount' => $new->registrationType->charge->amount,
+            'invoice_no' => generate_invoice_no(),
+        ]);
 
         $notification = array(
             'message' => 'Patient created successfully!',
@@ -145,7 +164,7 @@ class PatientController extends Controller
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
             'other_names' => 'required|string|max:255',
-            'phone' => 'required|string|max:255|unique:users',
+            'phone' => 'required|string|max:255',
             'sex' => 'nullable|string',
             'email' => 'nullable|email|max:255',
             'nok' => 'nullable|string|max:255',
@@ -197,7 +216,7 @@ class PatientController extends Controller
     }
     public function patientAjax($id)
     {
-        $user = User::select('avatar', 'sex', 'folder_number')->where('id', $id)->get();
+        $user = User::select('avatar', 'sex', 'folder_number', 'phone')->where('id', $id)->get();
 
         return json_encode($user);
     }

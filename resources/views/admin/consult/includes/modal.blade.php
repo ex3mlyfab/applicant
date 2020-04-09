@@ -1,6 +1,6 @@
  <!-- Normal Block Modal -->
  <div class="modal" id="modal-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
-    <div class="modal-dialog modal-lg" role="document"style=" width: 80%;">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-secondary-dark">
@@ -18,6 +18,166 @@
                     <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--take vital signs-->
+<div class="modal" id="vital-signs" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-dialog-top modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Vitals signs Record</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm mt-0">
+                    <div class="block block-fx-pop">
+
+                        <div class="block-content content-full">
+                            <form action="{{route('nursing.store')}}" method="post" class="mb-4">
+                                @csrf
+                                <div class="form-group form-row">
+                                    <div class="col-md-4">
+                                        <img  alt="" id="picture">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="patient_identity"> PATIENT NAME</label>
+                                        <input type="text" class="form-control form-control-lg" id="fullname1" readonly>
+                                        <input type="hidden" name="patient_id"  id="patient_identity" >
+                                        <input type="hidden" name="consultation_room"  id="consultation_room" value="1" >
+                                        
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                            <label for="folder_no">FOLDER NUMBER</label>
+                                            <input type="text" name="folder_number" id="folder_no"  class="form-control form-control-lg" readonly>
+                                            
+
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label for="gender0">SEX</label>
+                                            <input type="text" name="sex" id="gender0"  class="form-control form-control-lg" readonly>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="form-group form-row">
+                                    <div class="col-md-2">
+                                        <label for="diastolic">BLOOD PRESSURE</label>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <input type="text" name="systolic" id="sytolic" placeholder="SYST" class="form-control form-control-lg" >
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <input type="text" name="diastolic" id="diastolic" placeholder="DIAST" class="form-control form-control-lg">
+                                    </div>
+                                </div>
+                                <div class="form-group form-row">
+                                    <div class="col-md-3">
+                                        <label for="temp">TEMPERATURE</label>
+                                        <div class="input-group">
+                                            <input type="text" name="temp" id="temp" class="form-control placeholder="TEMP" form-control-lg">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                   <sup>o</sup> C
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="rr">RESPIRATORY RATE</label>
+                                        <div class="input-group">
+                                        <input type="text" name="rr" id="rr" placeholder="RR" class="form-control form-control-lg">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                               bpm
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="pr">PULSE RATE</label>
+                                        <div class="input-group">
+                                        <input type="text" name="pr" id="pr" placeholder="PR" class="form-control form-control-lg">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                          bpm
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="spo2">SPO<sub>2</sub></label>
+                                        <div class="input-group">
+                                        <input type="text" name="spo2" id="spo2" placeholder="SPO2" class="form-control form-control-lg">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                          bpm
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-row">
+
+                                    <div class="col-md-4">
+                                        <label for="weight">WEIGHT</label>
+                                        <div class="input-group">
+                                        <input type="text" name="weight" id="weight" placeholder="Weight" class="form-control form-control-lg">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                          kg
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="height">HEIGHT</label>
+                                        <div class="input-group">
+                                        <input type="text" name="height" id="height" placeholder="Height in meters" class="form-control form-control-lg">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                               m
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="bmi">BMI</label>
+                                        <div class="input-group">
+                                        <input type="text" name="bmi" id="bmi" placeholder="bmi" class="form-control form-control-lg" readonly>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                          kg/m<sup>2</sup>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
+
+
+                                <button type="submit" class="btn btn-lg btn-outline-primary">Submit</button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -444,6 +604,7 @@
                     <div class="table-responsive">
                         <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element" onsubmit="return false;">
                             @csrf
+                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
                                 <th>Category</th>
@@ -1006,6 +1167,19 @@
                     </div>
                     <form action="{{route('ultrasoundreq.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
+                        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                        <div class="form-group">
+                            <label for="request_type"> Request Type:</label>
+                            <div class="form-check">
+                                <input type="radio" name="request_type" id="xray" class="form-check-input" value="yes">
+                                <label for="xray" class="form-check-label">Xray</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" name="request_type" id="ultrasound" class="form-check-input" value="no">
+                                <label for="ultrasound" class="form-check-label">Ultrasound</label>
+                            </div>
+
+                        </div>
                         <div class="form-group">
                             <label >Clinical Information</label>
                             <input type="text" name="clinical_information"  class="form-control form-control-lg">
@@ -1032,12 +1206,12 @@
 <!--End Ultrasound request-->
 
 <!-- xray Block Modal -->
-<div class="modal" id="xray" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+<div class="modal" id="admit" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg" role="document"style=" width: 80%;">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
-                <div class="block-header bg-flat text-white-75">
-                    <h3 class="block-title">Radiology(<i class="fa fa-x-ray"></i> X-Ray) Request
+                <div class="block-header bg-gray text-white-75">
+                    <h3 class="block-title">Admit request
                     </h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -1066,6 +1240,7 @@
                     </div>
                     <form action="{{route('radiologyreq.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
+                        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                         <div class="form-group">
                             <label >Clinical Information</label>
                             <input type="text" name="clinical_information"  class="form-control form-control-lg">
@@ -1074,6 +1249,62 @@
                             <label > investigation required</label>
                             <textarea name="examination_required"  class="form-control form-control-lg">
                             </textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                    </form>
+
+                </div>
+
+
+
+                <div class="block-content block-content-full text-right border-top">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="tca" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document"style=" width: 80%;">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-success text-white-75">
+                    <h3 class="block-title">Tca 
+                    </h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="block block-fx-pop">
+                        <div class="block-header bg-info-dark"></div>
+                        <div class="block-content ">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                </div>
+                                <div class="col-md-8 font-size-sm">
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
+                                    <p>Age:&nbsp; {{$patient->age}}</p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <form action="{{route('radiologyreq.store')}}" method="post" class="bg-flat text-white px-2">
+                        @csrf
+                        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                        <div class="form-group">
+                            <label >Clinical Information</label>
+                            <input type="text" name="clinical_information"  class="form-control form-control-lg">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="js-datepicker form-control" id="int123" name="call_again" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
                     </form>

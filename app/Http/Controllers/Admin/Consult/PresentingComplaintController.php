@@ -46,7 +46,7 @@ class PresentingComplaintController extends Controller
             'presenting_complaint_id' => $pc->id
         ]);
         $consult->clinicalAppointment()->update([
-            'status' => 'completed'
+            'status' => 'history_recorded'
         ]);
         $notification = array(
             'message' => 'Presenting Complaints recorded successfully!',

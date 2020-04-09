@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\RegistrationType;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
@@ -47,10 +48,11 @@ class CompanyController extends Controller
     {
         $data = $request->validate([
             'registration_type_id' => 'required',
-            'organisation_name' => 'required',
+            'organisation_name' => 'required|unique:organizations',
             'address' => 'nullable',
             'contact_phone' => 'nullable',
         ]);
+        $data['folder_number'] = assign_Fno_company();
         $org = Organization::create($data);
         Payment::create([
             'payment_mode_id' => 1,
@@ -98,13 +100,11 @@ class CompanyController extends Controller
             $validated['dob'] = $newDate;
         }
 
-        if ($request->source == 'front-desk') {
-            $validated['source'] = 'front desk';
-        } else {
-            $validated['source'] = 'online';
-        }
+
+        $validated['source'] = 'company';
+
         if ($request->has('belongs_to')) {
-            $number = Organization::where('id', $request->belongs_to);
+            $number = Organization::where('id', $request->belongs_to)->first();
             $count = ($number->enrolment_count) ? $number->enrolment_count : 0;
             $getletter = num_to_letters(($count + 1));
             $validated['folder_number'] = $number->folder_number . $getletter;
@@ -129,6 +129,7 @@ class CompanyController extends Controller
 
 
         $validated['password'] = Hash::make('pentacare');
+        $validated['registered_by'] = Auth::user()->id;
 
         User::create($validated);
         $notification = [
@@ -144,9 +145,10 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Organization $company)
     {
         //
+        return view('admin.patient.companyshow', compact('company'));
     }
 
     /**
@@ -155,9 +157,9 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Organization $company)
     {
-        //
+        return view('admin.patient.companyedit', compact('company'));
     }
 
     /**
@@ -167,9 +169,20 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Organization $company)
     {
-        //
+        $data = $request->validate([
+
+            'organisation_name' => 'required',
+            'address' => 'nullable',
+            'contact_phone' => 'nullable',
+        ]);
+        $company->update($data);
+        $notification = [
+            'message' => 'User added successfully',
+            'alert' => 'success'
+        ];
+        return redirect()->route('company.index')->with($notification);
     }
 
     /**
@@ -178,8 +191,16 @@ class CompanyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Organization $company)
     {
-        //
+        foreach ($company->users as $value) {
+            $value->delete();
+        }
+        $company->delete();
+        $notification = [
+            'message' => 'company account deleted succesfully',
+            'alert-type' => 'info'
+        ];
+        return back()->with($notification);
     }
 }

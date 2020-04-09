@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\VitalSign;
+use Illuminate\Support\Facades\Auth;
 
 class VitalSignController extends Controller
 {
@@ -58,12 +59,15 @@ class VitalSignController extends Controller
             'bmi' => 'nullable'
         ]);
 
-        $validated['done_by'] = 1;
+        $validated['done_by'] = Auth::user()->id;
 
-        $update = ClinicalAppointment::where('patient_id', $request->patient_id)->where('appointment_due', Carbon::today())->where('status', 'waiting')->first();
-        $update->status = 'vitals sign taken';
-        $update->timestamps = false;
-        $update->save();
+        if (!($request->has('consultation_room'))) {
+
+            $update = ClinicalAppointment::where('patient_id', $request->patient_id)->where('appointment_due', Carbon::today())->where('status', 'waiting')->first();
+            $update->status = 'vitals sign taken';
+            $update->timestamps = false;
+            $update->save();
+        }
 
         VitalSign::create($validated);
         $notification = array(
@@ -71,9 +75,30 @@ class VitalSignController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('nursing.index')->with($notification);
+        return back()->with($notification);
     }
-
+    public function vitals($id)
+    {
+        $vitals = VitalSign::where('patient_id', $id)->take(10)->get();
+        $vitals = $vitals->groupBy(function (VitalSign $item) {
+            return $item->created_at->format('d/m/Y h:i:s A');
+        });
+        $data = [];
+        foreach ($vitals as $item => $values) {
+            $data['label'][] = $item;
+            foreach ($values as $value) {
+                $data['systolic'][] = (float) $value->systolic;
+                $data['diastolic'][] = (int) $value->diastolic;
+                $data['height'][] = (float) $value->height;
+                $data['weight'][] = (float) $value->weight;
+                $data['rr'][] = (int) $value->rr;
+                $data['pr'][] = (int) $value->pr;
+                $data['temp'][] = (float) $value->temp;
+                $data['bmi'][] = (float) $value->bmi;
+            }
+        }
+        return json_encode($data);
+    }
     /**
      * Display the specified resource.
      *

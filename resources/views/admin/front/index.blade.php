@@ -67,7 +67,7 @@
                             {{$patient->age}}
                         </td>
                         <td>
-                            <em class="text-muted font-size-sm">{{$patient->last_vist}}</em>
+                            <em class="text-muted font-size-sm">{{$patient->last_visit}}</em>
                         </td>
                     </tr>
                      @endforeach

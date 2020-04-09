@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Family;
 use App\Models\Invoice;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -42,17 +44,51 @@ if (!function_exists('generate_invoice_no')) {
     }
 }
 if (!function_exists('assign_Fno')) {
-    function assign_Fno()
+    function assign_Fno($account_type)
     {
         $users = new User();
+        $count = $users->whereYear('created_at', '=', date('Y'))->whereIn('source', ['student', 'antenatal', 'individual'])->count();
+        $count += 1;
+        $formatted_value = sprintf("%04d", $count);
+        switch ($account_type) {
+            case 'student':
+                $code = "/S/";
+                break;
+            case 'antenatal':
+                $code = "/ANC/";
+                break;
+            default:
+                $code = "/I/";
+                break;
+        }
+        return $formatted_value . $code . date('Y');
+    }
+}
+if (!function_exists('assign_Fno_family')) {
+    function assign_Fno_family()
+    {
+        $users = new Family();
         $count = $users->whereYear('created_at', '=', date('Y'))
             ->count();
         $count += 1;
         $formatted_value = sprintf("%04d", $count);
 
-        return $formatted_value . "/" . date('Y');
+        return $formatted_value . "/F/" . date('Y');
     }
 }
+if (!function_exists('assign_Fno_company')) {
+    function assign_Fno_company()
+    {
+        $users = new Organization();
+        $count = $users->whereYear('created_at', '=', date('Y'))
+            ->count();
+        $count += 1;
+        $formatted_value = sprintf("%04d", $count);
+
+        return $formatted_value . "/C/" . date('Y');
+    }
+}
+
 
 if (!function_exists('num_to_letters')) {
     function num_to_letters($num, $uppercase = true)

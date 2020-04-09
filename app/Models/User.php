@@ -21,9 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'last_name', 'email', 'password', 'other_names', 'phone', 'age_at_reg',
-        'dob', 'avatar', 'folder_number', 'occupation', 'marital_status', 'address', 'city', 'state', 'national_id', 'source', 'nok', 'nok_relationship', 'nok_phone', 'nok_address', 'registered_by', 'sex',
-
-
+        'dob', 'avatar', 'folder_number', 'occupation', 'marital_status', 'address', 'city', 'state', 'national_id', 'source', 'nok', 'nok_relationship', 'nok_phone', 'nok_address', 'registered_by', 'sex', 'registration_type_id', 'belongs_to',
     ];
 
     /**
@@ -66,7 +64,7 @@ class User extends Authenticatable
 
     public function family(): BelongsTo
     {
-        return $this->belongsTo(Family::class, 'user_id');
+        return $this->belongsTo(Family::class, 'belongs_to');
     }
     public function organization(): BelongsTo
     {
@@ -75,6 +73,20 @@ class User extends Authenticatable
     public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class);
+    }
+    public function registrationType(): BelongsTo
+    {
+        return $this->belongsTo(RegistrationType::class);
+    }
+    public function getLastVisitAttribute()
+    {
+        if ($this->clinicalAppointments->count()) {
+            $lastvisit = $this->clinicalAppointments;
+            $cute = new Carbon($lastvisit->last()['created_at']);
+            return $cute->diffForHumans();
+        } else {
+            return "(No visit recorded)";
+        }
     }
     /**
      * The attributes that should be cast to native types.

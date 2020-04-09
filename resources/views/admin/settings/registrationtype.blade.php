@@ -158,6 +158,7 @@ add regtype
         var state = jQuery('#btn-save').val();
         var type = "POST";
         var link_id = jQuery('#regtype_id').val();
+
         var ajaxurl = 'regtype/create';
         if (state == "update") {
             type = "PUT";

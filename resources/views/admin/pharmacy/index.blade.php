@@ -35,7 +35,8 @@
 
                             <td>{{$item->clinicalAppointment->admin->name ?? ''}}</td>
                             <td><span class="badge badge-success">Requested</span></td>
-                            <td><a href="#" data-toggle="modal" data-target="#result" class="text-info">Result  </a>
+                            <td>
+                            <a href="{{route('pharmreq.show', $item->id)}}"  class="text-info">Cost Prescription  </a>
                                 <a href="#">LMIS  </a>
                                 <a href="#" data-toggle="modal" data-target="#comment-dialog" class="text-info">Comment  </a>
                             </td>
