@@ -27,12 +27,25 @@ class DrugModel extends Model
     }
     public function getPriceAttribute()
     {
-        return $this->drugBatchDetails->last()->pluck('cost');
+        $item = $this->drugBatchDetails->last(function ($value, $key) {
+            return $value->available_quantity > 0;
+        });
+        return $item->cost;
     }
-
+    public function getBatchNoAttribute()
+    {
+        $item = $this->drugBatchDetails->first(function ($value, $key) {
+            return $value->available_quantity > 0;
+        });
+        return $item->batch_no;
+    }
 
     public function pharmreqDetails(): HasMany
     {
         return $this->hasMany(Pharmreq::class);
+    }
+    public function pharmacyBillDetails(): HasMany
+    {
+        return $this->hasMany(PharmacyBillDetail::class);
     }
 }

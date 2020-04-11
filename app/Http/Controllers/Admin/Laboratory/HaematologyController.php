@@ -94,6 +94,7 @@ class HaematologyController extends Controller
             'amount' => $request->amount,
             'charge_id' => $request->charge_id,
         ]);
+
         $haempay->update([
             'status' => 'invoice generated',
         ]);

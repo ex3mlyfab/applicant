@@ -113,7 +113,7 @@ class PharmreqController extends Controller
      */
     public function show(Pharmreq $pharmreq)
     {
-        return view('admin.pharmacy.dispense', compact('pharmreq'));
+        return view('admin.pharmacy.costdrug', compact('pharmreq'));
     }
 
     /**

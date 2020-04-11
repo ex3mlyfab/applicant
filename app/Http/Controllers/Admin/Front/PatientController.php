@@ -226,9 +226,16 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $patient)
     {
         //
+        $patient->delete();
+        $notification = array(
+            'message' => 'Patient deleted successfully!',
+            'alert-type' => 'info'
+        );
+
+        return redirect('admin/patient')->with($notification);
     }
     public function assignFNo()
     {

@@ -213,8 +213,13 @@
                 <ul class="nav-main-submenu">
 
                     <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{route('invoice.index')}}">
+                            <span class="nav-main-link-name">Pending Payment</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
                     <a class="nav-main-link" href="{{route('payment.index')}}">
-                            <span class="nav-main-link-name">Make Payments</span>
+                            <span class="nav-main-link-name">payments lists</span>
                         </a>
                     </li>
                 </ul>

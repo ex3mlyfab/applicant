@@ -33,7 +33,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('ultrasoundreq', 'Admin\Consult\UltrasoundreqController');
 
         Route::resource('haematologyreq', 'Admin\Consult\HaematologyReqController');
-        Route::resource('pathologyreq', 'Admin\Consult\PathologyReqController');
+        Route::resource('pathologyreq', 'Admin\Consult\PathologyController');
         Route::resource('histopathologyreq', 'Admin\Consult\HistopathologyReController');
 
         Route::get('family/familyenroll/{family}', 'Admin\Front\FamilyController@familyEnroll')->name('family.enroll');
@@ -49,8 +49,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('drugcategory', 'Admin\Pharmacy\DrugCategoryController')->middleware('permission:drugcategory-view');
         Route::resource('drug', 'Admin\Pharmacy\DrugController')->middleware('permission:drug-view');
         Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController')->middleware('permission:drugbatch-view');
+        Route::resource('wards', 'Admin\Setting\WardController');
+        Route::resource('pharmbill', 'Admin\Pharmacy\PharmacyBillController');
+        Route::resource('invoice', 'Admin\Account\InvoiceController')->middleware('permission:payment-view');
         Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController')->middleware('permission:pharmacy-view');
-
+        Route::post('calculate-drugs', 'Admin\Pharmacy\PharmacyBillController@prepare')->name('calculate-drug');
         Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
         Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');
         Route::get('haematology/completed', 'Admin\Laboratory\HaematologyController@completed')->name('haematology.completed');
@@ -69,7 +72,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('assetcategory', 'Admin\Setting\AssetCategoryController')->middleware('permission:assetcategory-view');
         Route::resource('assetpurchase', 'Admin\Setting\AssetPurchaseController')->middleware('permission:assetpurchase-view');
         Route::resource('assetassign', 'Admin\Setting\AssetAssignController')->middleware('permission:assetassign-view');
-
+        Route::any('/costdrug', 'Admin\Pharmacy\PharmacyController@prepare')->name('pharmacy.prepare');
 
         Route::group(['prefix' => 'regtype'], function () {
             Route::get('/', 'Admin\Setting\RegistrationController@index')->middleware('permission:regtype-view')->name('regtype.index');

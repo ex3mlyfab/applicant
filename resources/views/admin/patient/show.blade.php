@@ -82,8 +82,16 @@
 
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
+                        @role('super-admin')
+                        <form action="{{route('patient.destroy', $patient->id)}}" method="POST" >
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-md btn-outline-danger w-100" data-toggle="tooltip" data-placement="top" title="delete patient" type="submit"><i class="fa fa-times text-white ml-auto"></i> Delete</button>
+                        </form>
+                        @endrole
 
                     </div>
                 </div>
@@ -131,7 +139,18 @@
                 <div class="block-header block-header-default bg-info">
                     <h3 class="block-title"> hospital Visits</h3>
                 </div>
-                <div class="block-content-full"></div>
+                <div class="block-content-full">
+                    <ul>
+                    @foreach ($patient->consults as $item)
+                        <li>
+                            <p class="text-lg-center">{{$item->created_at->format('d-M-Y')}}</p>
+
+
+                        </li>
+
+                    @endforeach
+                </ul>
+                </div>
             </div>
         </div>
         <div class="col-md-12">

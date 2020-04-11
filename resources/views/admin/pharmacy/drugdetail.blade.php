@@ -28,13 +28,9 @@
                             </div>
 
                             <div class="col-md-3 border-right">
-                                <p>Drug Sub Category</p>
-                                <h3>{{$drug->drugSubCategory->name}}</h3>
+
                             </div>
-                            <div class="col-md-3 text-center">
-                                <p>Drug Category</p>
-                                <h3>{{$drug->drugSubCategory->drugCategory->name}}</h3>
-                            </div>
+
                         </div>
                         <div class="bg-white border-top">
                             <div class="content content-boxed">
@@ -229,9 +225,9 @@
 <script>jQuery(function(){ One.helpers(['datepicker']); });</script>
 <script>
     $(function(){
-        
+
         $('#purchase_price').blur(function(){
-            $('#cost').val(parseFloat($(this).val()) * 1.5); 
+            $('#cost').val(parseFloat($(this).val()) * 1.5);
         });
     });
 </script>

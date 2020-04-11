@@ -124,7 +124,7 @@
  <script>
        $(window).on('load', function() {
 
-            $('tbody tr:nth-child(odd)').css("background-color", "red");
+            $('tbody tr:nth-child(odd)').addClass("bg-info-light");
             $('#patient_id').on('change', function(){
             var classID = $(this).val();
             var link = "{{ url('admin/patient/classajax/') }}";

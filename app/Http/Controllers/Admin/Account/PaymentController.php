@@ -19,9 +19,9 @@ class PaymentController extends Controller
     public function index()
     {
         $payments = Payment::all()->sortByDesc('created_at');
-        $unpaid = Invoice::where('p_status', NULL)->get();
 
-        return view('admin.payment.index', compact('unpaid', 'payments'));
+
+        return view('admin.payment.index', compact('payments'));
     }
     public function settleInvoice(Invoice $invoice)
     {

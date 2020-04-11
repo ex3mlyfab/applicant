@@ -318,7 +318,7 @@
                         drugname.push($(this).val());
 
                     });
-                    
+
                     $(".dosage").each(function(){
                         dosage.push($(this).val());
                     });
@@ -371,7 +371,7 @@
 
                                 });
                                 var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
-                                
+
                                 new Chart($(".js-chartjs-lines"), {
                                     "type": "line",
                                     "data": {
@@ -379,51 +379,51 @@
                                         "datasets":[
                                                 {
                                                     "label":"Systolic",
-                                                    "data":cData.systolic, 
-                                                    "fill":false,                                                    
-                                                    "borderColor":"rgb(235,26,8)"                                                    
+                                                    "data":cData.systolic,
+                                                    "fill":false,
+                                                    "borderColor":"rgb(235,26,8)"
                                                 },
                                                 {
                                                     "label":"Diastolic",
-                                                    "data":cData.diastolic, 
-                                                    "fill":false,                                                    
-                                                    "borderColor":"rgb(235,26,8)"                                                    
+                                                    "data":cData.diastolic,
+                                                    "fill":false,
+                                                    "borderColor":"rgb(235,26,8)"
                                                 },
                                                 {
                                                     "label":"Height",
-                                                    "data":cData.height, 
-                                                    "fill":false,                                                    
-                                                    "borderColor":"#19c341"                                                    
+                                                    "data":cData.height,
+                                                    "fill":false,
+                                                    "borderColor":"#19c341"
                                                 },
                                                 {
                                                     "label":"weight",
-                                                    "data":cData.weight, 
-                                                    "fill":false,                                                    
-                                                    "borderColor":"#39f3e1"                                                    
+                                                    "data":cData.weight,
+                                                    "fill":false,
+                                                    "borderColor":"#39f3e1"
                                                 },
                                                 {
                                                     "label":"Respiratory Rate",
-                                                    "data":cData.rr, 
-                                                    "fill":false,                                                    
-                                                    "borderColor":"#3308cd"                                                    
+                                                    "data":cData.rr,
+                                                    "fill":false,
+                                                    "borderColor":"#3308cd"
                                                 },
                                                 {
                                                     "label":"Pulse Rate",
-                                                    "data":cData.pr, 
-                                                    "fill":false,                                                    
-                                                    "borderColor":"#8e5ea2"                                                    
+                                                    "data":cData.pr,
+                                                    "fill":false,
+                                                    "borderColor":"#8e5ea2"
                                                 },
                                                 {
                                                     "label":"BMI",
-                                                    "data":cData.bmi, 
-                                                    "fill":false,                                                    
-                                                    "borderColor":"#f4fe98"                                                    
+                                                    "data":cData.bmi,
+                                                    "fill":false,
+                                                    "borderColor":"#ee00ff"
                                                 },
                                                 {
                                                     "label":"Temperature",
-                                                    "data":cData.temp, 
-                                                    "fill":false,                                                    
-                                                    "borderColor":"#ff0101"                                                    
+                                                    "data":cData.temp,
+                                                    "fill":false,
+                                                    "borderColor":"#ff0101"
                                                 }
                                             ]
                                     },
@@ -434,7 +434,7 @@
                                         }
                                     }
                                 });
-                                                                
+
 
 
 
@@ -442,8 +442,8 @@
 
 
     });
-    
-    
+
+
     function rowAdd(){
         var drug = $('#drug').val();
 

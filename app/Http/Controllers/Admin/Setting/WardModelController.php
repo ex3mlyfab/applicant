@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Account;
+namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Models\Invoice;
-use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 
-class InvoiceController extends Controller
+class WardModelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +14,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $unpaid = Invoice::where('status', NULL)->get();
-        return view('admin.payment.invoicelist', compact('unpaid'));
+        //
     }
 
     /**
@@ -38,15 +35,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // $invoice = Invoice::where('user_id', $request->user_id)->where('created_at', now()->today())->first();
-        // if(isset($invoice)){
-        //     InvoiceItem::create([
-        //         'invoice_id' => $invoice->id,
-        //         'item'
-
-        //     ])
-        // }
+        //
     }
 
     /**

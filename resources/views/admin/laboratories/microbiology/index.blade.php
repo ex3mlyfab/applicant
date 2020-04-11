@@ -40,14 +40,18 @@
                                 {{(($item->status) !== 'completed')}}
                                </span></td>
                             <td>
+                                @if(($item->status =='waiting'))
+                                <a class="btn btn-info pressed" href="{{route('haematology.invoice', $item->id)}}"><i class="fa fa-money-bill-alt mr-2"></i>Prepare Invoice</a>
 
-                                @if(($item->status !=='completed'))
-                                    <a href="{{route('microbiology.edit', $item->id)}}" class="text-info">Record result  </a>
-                                @else
 
-                                <a href="#">PRINT REPORT </a>
-                                <a href="#" data-toggle="modal" data-target="#comment-dialog" class="text-info">Comment  </a>
-                                @endif
+                                    @elseif (($item->status =='invoice generated'))
+                                        Not yet paid
+                                    @elseif (($item->status =='item paid'))
+                                    <a href="{{route('haematology.edit', $item->id)}}" class="text-info">Record result  </a>
+                                    @elseif ($item->status =='completed')
+                                    <a href="#">PRINT REPORT </a>
+
+                                    @endif
 
                             </td>
 

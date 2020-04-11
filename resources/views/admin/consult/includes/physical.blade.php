@@ -73,6 +73,12 @@
                     <label for="addressle12" class="text-center form-control-label-lg">Initial Diagnosis:</label>
                     <input type="text" name="initial_diagnosis" class="form-control form-control-lg " id="addressle12" required value="{{old('initial_diagnosis') ?? ''}}">
                 </div>
+                <div class="form-group bg-smooth-lighter p-2">
+                    <label for="plan">Plan</label>
+                    <textarea name="plan" id="plan"  rows="4" class="form-control">
+
+                    </textarea>
+                </div>
                 <button type="submit" class="btn btn-primary w-100">Submit</button>
 
         <!-- END Steps Navigation -->

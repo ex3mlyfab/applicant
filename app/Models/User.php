@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class User extends Authenticatable
 {
@@ -87,6 +88,14 @@ class User extends Authenticatable
         } else {
             return "(No visit recorded)";
         }
+    }
+    public function pharmacyBills(): HasMany
+    {
+        return $this->hasMany(PharmacyBill::class);
+    }
+    public function consults(): HasManyThrough
+    {
+        return $this->hasManyThrough(Consult::class, ClinicalAppointment::class, 'patient_id');
     }
     /**
      * The attributes that should be cast to native types.

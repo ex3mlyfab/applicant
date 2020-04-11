@@ -39,7 +39,6 @@ class DrugController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'drug_sub_category_id' => 'required',
             'name' => 'required',
             'forms' => 'required',
             'strength' => 'nullable',
@@ -97,7 +96,6 @@ class DrugController extends Controller
         //dd($request->all());
 
         $data = $request->validate([
-            'drug_sub_category_id' => 'required',
             'name' => 'required',
             'forms' => 'required',
             'strength' => 'nullable',

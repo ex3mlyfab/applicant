@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin\Pharmacy;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
+use App\Models\PharmacyBill;
+use App\Models\PharmacyBillDetail;
 use App\Models\Pharmreq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PharmacyController extends Controller
 {
@@ -62,6 +66,7 @@ class PharmacyController extends Controller
     {
         //
     }
+
 
     /**
      * Update the specified resource in storage.

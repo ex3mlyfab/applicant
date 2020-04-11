@@ -24,7 +24,6 @@
         <tr>
             <th class="text-center" style="width:3%;">S/No</th>
             <th>Drug Name</th>
-            <th class="text-center" style="width: 15%;">Drug Category/Subcategory</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Form</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Strength</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Dosage</th>
@@ -43,10 +42,6 @@
                 <td class="text-center font-size-sm">{{$loop->iteration}}</td>
                 <td class="font-w600 font-size-sm">
                 <a href="{{route('drug.show', $drug->id)}}">{{$drug->name}}</a>
-                </td>
-
-                <td class="d-none d-sm-table-cell font-size-sm">
-                    {{ $drug->drugSubCategory->drugCategory->name }} / {{ $drug->drugSubCategory->name }}
                 </td>
                 <td class="d-none d-sm-table-cell text-center">
                 {{$drug->forms}}
@@ -105,19 +100,7 @@
                 <div class="block-content font-size-sm">
                 <form action="{{route('drug.store')}}" method="post" id="register">
                         @csrf
-                        <div class="form-group">
-                            <label for="drug_id">Drug Category</label>
-                            <select id="drug_id" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." required>
-                                <option></option>
-                                {{create_option('drug_categories','id', 'name')}}
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="sub_category">Drug Sub Category</label>
-                            <select name="drug_sub_category_id" id="sub_category" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." required>
-                                <option></option>
-                            </select>
-                        </div>
+
                         <div class="form-group">
                             <label for="name"> Drug Name</label>
                             <input type="text" name="name" id="name" class="form-control form-control-lg">
@@ -182,38 +165,13 @@
 <script>jQuery(function(){ One.helpers(['datepicker', 'select2']); });</script>
  <script>
        $(window).on('load', function() {
-        $('#drug_id').on('change', function(){
- var classID = $(this).val();
- var link = "{{ url('admin/drugcategory/drugcategoryajax/') }}";
 
- console.log(classID, link);
- if(classID) {
-    $.ajax({
-        url: link+"/"+classID,
-        type: "GET",
-        dataType: "json",
-        success:function(data) {
-            $('#sub_category').empty();
-                $.each(data, function(key, value) {
 
-                    $('#sub_category').append(
-                        '<option value="'+ key +'">'+ value +'</option>');
-                });
-            }
-            });
-
-            }else{
-                $('select[name="sub_category1"]').empty();
-                 }
-
- });
-
-$('.drugedit').on('click', function(){
+$('.drugedit').bind('click', function(){
     let  thin = '<input type="hidden" name="_method" value="PATCH">';
     $('#register').attr('action', $(this).data('gate'));
     $('#register').prepend(thin);
     $('#name').val($(this).data('name'));
-    $('#drug_id').val($(this).data('drug_id')).change();
     $('#dosage').val($(this).data('dosage'));
     $('#form').val($(this).data('form'));
     $('#strength').val($(this).data('strength'));
