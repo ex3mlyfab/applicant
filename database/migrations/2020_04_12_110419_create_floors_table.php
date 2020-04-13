@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdmitModelsTable extends Migration
+class CreateFloorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateAdmitModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admit_models', function (Blueprint $table) {
+        Schema::create('floors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
-            $table->string('clinical_information');
-            $table->string('reason')->nullable();
-            $table->unsignedBigInteger('admin_id')->nullable();
-            $table->string('status')->nullable();
+            $table->string('name', 50);
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateAdmitModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admit_models');
+        Schema::dropIfExists('floors');
     }
 }

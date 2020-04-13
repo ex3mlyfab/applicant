@@ -50,14 +50,14 @@
                                         <input type="text" class="form-control form-control-lg" id="fullname1" readonly>
                                         <input type="hidden" name="patient_id"  id="patient_identity" >
                                         <input type="hidden" name="consultation_room"  id="consultation_room" value="1" >
-                                        
+
                                     </div>
                                     <div class="col-md-4">
                                         <div class="row">
                                             <div class="col-md-12">
                                             <label for="folder_no">FOLDER NUMBER</label>
                                             <input type="text" name="folder_number" id="folder_no"  class="form-control form-control-lg" readonly>
-                                            
+
 
                                             </div>
                                             <div class="col-md-12">
@@ -1243,11 +1243,11 @@
                         <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                         <div class="form-group">
                             <label >Clinical Information</label>
-                            <input type="text" name="clinical_information"  class="form-control form-control-lg">
+                            <input type="text" name="clinical_information"  class="form-control form-control-lg" required>
                         </div>
                         <div class="form-group">
-                            <label > investigation required</label>
-                            <textarea name="examination_required"  class="form-control form-control-lg">
+                            <label > Reason for Admission</label>
+                            <textarea name="reason"  class="form-control form-control-lg">
                             </textarea>
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
@@ -1269,7 +1269,7 @@
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-success text-white-75">
-                    <h3 class="block-title">Tca 
+                    <h3 class="block-title">Tca
                     </h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">

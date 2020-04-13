@@ -15,6 +15,15 @@ class AddLockoutTimeToAdmin extends Migration
     {
         Schema::table('admins', function (Blueprint $table) {
             //
+            $table->integer('lockout_time')->default(0)->after('email');
+        });
+        Schema::table('physical_exams', function (Blueprint $table) {
+            //
+            $table->text('plan')->nullable();
+        });
+        Schema::table('follow_ups', function (Blueprint $table) {
+            //
+            $table->text('plan')->nullable();
         });
     }
 
@@ -27,6 +36,7 @@ class AddLockoutTimeToAdmin extends Migration
     {
         Schema::table('admins', function (Blueprint $table) {
             //
+            $table->dropColumn('lockout_time');
         });
     }
 }

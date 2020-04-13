@@ -15,6 +15,12 @@ class CreateWardModelsTable extends Migration
     {
         Schema::create('ward_models', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name', 50);
+            $table->string('description')->nullable();
+            $table->unsignedBigInteger('floor_id')->nullable();
+            $table->integer('max_no_of_bed')->nullable();
+            $table->string('status')->nullable();
+            $table->unsignedBigInteger('admin_id')->nullable();
             $table->timestamps();
         });
     }

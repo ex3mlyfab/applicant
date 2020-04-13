@@ -222,6 +222,11 @@
                             <span class="nav-main-link-name">payments lists</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{route('balance')}}">
+                            <span class="nav-main-link-name">Balance</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan

@@ -5,6 +5,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
     Route::group(['middleware' => ['auth:admin']], function () {
         Route::post('patient/classajax/{patient}', 'Admin\Front\PatientController@patientAjax');
+        Route::get('balance', 'Admin\Account\PaymentController@balance')->name('balance');
+        Route::get('filterpayments', 'Admin\Account\PaymentController@filter')->name('filter.payment');
+        Route::post('filterpayments', 'Admin\Account\PaymentController@filtersearch')->name('filterpayment.search');
         Route::resource('patient', 'Admin\Front\PatientController');
         Route::get('payment/settle/{invoice}', 'Admin\Account\PaymentController@settleInvoice')->name('payment.settle');
         Route::get('payment/printinvoice/{invoice}', 'Admin\Account\PaymentController@printInvoice')->name('payment.invoice');

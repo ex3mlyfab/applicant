@@ -18,9 +18,9 @@
                 </div>
             </div>
             <div class="block-content">
-                <div class="p-sm-4 p-xl-7">
+                <div class="p-sm-1 p-xl-7">
                     <div class="text-center">
-                        <img src="{{asset('public/backend')}}/images/pentacare.png" alt="" class="img-fluid img-avatar-rounded">
+                        <img src="{{asset('public/backend')}}/images/pentacare.png" alt="" class="img-fluid img-avatar-rounded" style="width:150px;">
                     </div>
                     <!-- Invoice Info -->
                     <div class="row mb-4">
@@ -30,7 +30,8 @@
                             <address>
                                 Ilorin,<br>
                                 Kwara State<br>
-                                cc@pentacare.com
+                                cc@pentacare.com<br>
+                                {{$payment->created_at->format('d/M/Y')}}
                             </address>
                         </div>
                         <!-- END Company Info -->
@@ -100,7 +101,8 @@
                             <address>
                                 Ilorin,<br>
                                 Kwara State<br>
-                                cc@pentacare.com
+                                cc@pentacare.com<br>
+                                {{$payment->created_at->format('d/M/Y')}}
                             </address>
                         </div>
                         <!-- END Company Info -->

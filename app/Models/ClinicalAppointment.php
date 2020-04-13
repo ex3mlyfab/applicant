@@ -69,6 +69,14 @@ class ClinicalAppointment extends Model
     {
         return $this->hasMany(Ultrasoundreq::class);
     }
+    public function admits(): HasMany
+    {
+        return $this->hasMany(AdmitModel::class);
+    }
+    public function tcas(): HasMany
+    {
+        return $this->hasMany(Tca::class);
+    }
 
     public function histopathologyreq(): HasMany
     {

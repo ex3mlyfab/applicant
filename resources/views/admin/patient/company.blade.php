@@ -56,7 +56,7 @@
                     <tr>
                         <td class="text-center font-size-sm">{{$loop->iteration}}</td>
                         <td class="font-w600 font-size-sm">
-                        <a href="{{route('company.show',$item->id)}}">{{$item->organisation_name}}</a>  
+                        <a href="{{route('company.show',$item->id)}}">{{$item->organisation_name}}</a>
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm">
                             {{$item->address}}
@@ -71,14 +71,15 @@
                             <em class="text-muted font-size-sm">{{$item->enrolment_count}}</em>
                         </td>
                         <td>
+
                             @role('super-admin')
-                            <a href="{{route('company.edit', $item->id)}}" class="btn btn-lg btn-primary" data-toggle="tooltip" title="Edit">
-                                <i class="fa fa-fw fa-pencil-alt">Edit Company</i>
+                            <a href="{{route('company.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
+                                <i class="fa fa-fw fa-pencil-alt"></i>Edit Company
                             </a>
                             <form action="{{route('company.destroy', $item->id)}}" method="POST" >
                                 @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-lg btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i> Delete</button>
+                                    <button class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="top" title="delete" type="submit"><i class="fa fa-times text-danger ml-auto"></i> Delete</button>
                                 </form>
                                 @endrole
                             @if ($item->enrolment_count <= $item->registrationType->max_enrollment)

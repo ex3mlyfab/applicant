@@ -17,7 +17,7 @@ Payments information
              <div class="block">
                 <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#btabswo-static-home">Invoice List {{ now()->today()->format('d/M/Y')}}</a>
+                        <a class="nav-link active" href="#btabswo-static-home">Payments Analysis</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#btabswo-static-profile">Payments List {{ now()->today()->format('d/M/Y')}}</a>
@@ -31,7 +31,7 @@ Payments information
                 </ul>
                 <div class="block-content tab-content">
                     <div class="tab-pane active" id="btabswo-static-home" role="tabpanel">
-                        @include('admin.payment.includes.invoices')
+                        @include('admin.payment.includes.paymentanalysis')
                     </div>
                     <div class="tab-pane" id="btabswo-static-profile" role="tabpanel">
                         @include('admin.payment.includes.payments')
@@ -56,8 +56,55 @@ Payments information
 
 <!-- Page JS Code -->
 <script src="{{asset('public/backend')}}/assets/js/pages/be_tables_datatables.min.js"></script>
+<script src="{{asset('public/backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
 <script>
+    $(function(){
+        var cData = JSON.parse(`<?php echo $weeklychart['weekly_chart']; ?>`);
+        var cData2 = JSON.parse(`<?php echo $monthlychart['monthly_chart']; ?>`);
 
+        new Chart($(".js-chartjs-bars"),{
+            type: 'bar',
+            data: {
+                labels: cData.label,
+                datasets :[
+                    {
+                        label: 'Revenue',
+                        backgroundColor: '#3e95cd',
+                        data: cData.earnings
+                    }
+                ]
+            },
+            options:{
+                legend:{display:false},
+                title:{
+                    display: true,
+                    text: 'Revenue for last 7 days'
+                }
+            }
+
+        });
+        new Chart($(".js-chartjs-bars2"),{
+            type: 'bar',
+            data: {
+                labels: cData2.label,
+                datasets :[
+                    {
+                        label: 'Revenue',
+                        backgroundColor: '#1209fd',
+                        data: cData2.earnings
+                    }
+                ]
+            },
+            options:{
+                legend:{display:false},
+                title:{
+                    display: true,
+                    text: 'Monthly Revenue'
+                }
+            }
+
+        });
+    });
 </script>
 
 @endsection

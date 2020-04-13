@@ -15,6 +15,7 @@ class AddSpoColumnToVitalSignsTable extends Migration
     {
         Schema::table('vital_signs', function (Blueprint $table) {
             //
+            $table->string('spo', 10)->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ class AddSpoColumnToVitalSignsTable extends Migration
     {
         Schema::table('vital_signs', function (Blueprint $table) {
             //
+            $table->dropColumn('spo');
         });
     }
 }

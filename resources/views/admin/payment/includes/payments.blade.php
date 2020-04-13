@@ -6,6 +6,24 @@
     </div>
     <!-- /.block-header -->
 <div class="block-content">
+    <div class="bg-info-light content">
+        <div class="row">
+            <div class="col-md-7">
+                <h4 class="text-center">Today's earning</h4>
+                <p class="text-center">₦{{$payments->sum('amount')}}</p>
+            </div>
+            <div class="col-md-5 border border-primary border-2x">
+                    <h4>Collectors List</h4>
+
+                @foreach ($collectors as $item=>$values)
+                   <h5 class="block-title">{{$item}} - ₦{{$values}}</h5>
+
+
+                @endforeach
+            </div>
+        </div>
+
+    </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-vcenter js-dataTable-buttons">
             <thead>
@@ -13,8 +31,9 @@
                     <th>#</th>
                     <th>Billing to</th>
                     <th>Amount</th>
-                    <th>Invoice No</th>
+                    <th>Service</th>
                     <th>Audited</th>
+                    <th></th>
 
                     <th>Action</th>
                 </tr>
@@ -25,7 +44,7 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{$item->billing }}</td>
                     <td>{{$item->amount}}</td>
-                    <td></td>
+                    <td>{{$item->service}}</td>
                     <td>{{$item->status}}</td>
                     <td>
 

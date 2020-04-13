@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class WardModel extends Model
+class BedType extends Model
 {
-    protected $guarded = [];
+    protected  $guarded = [];
 
     public function beds(): HasMany
     {

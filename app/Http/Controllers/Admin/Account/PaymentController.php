@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Payment;
@@ -18,10 +19,71 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::all()->sortByDesc('created_at');
+        $payments = Payment::whereDate('created_at', now()->today())->get();
+        $weekly = Payment::where('created_at', '>=', now()->today()->subDays(7))->get();
+        $weekly = $weekly->groupBy(function (Payment $item) {
+            return $item->created_at->format('d/M/Y');
+        })->map(function ($row) {
+            return $row->sum('amount');
+        });
+        $weeklychart = [];
+        foreach ($weekly as $key => $value) {
+            $weeklychart['label'][] = $key;
+            $weeklychart['earnings'][] = $value;
+        }
+        $monthly = Payment::whereYear('created_at', date('Y'))->get();
+        $monthly = $monthly->groupBy(function (Payment $item) {
+            return $item->created_at->format('M');
+        })->map(function ($row) {
+            return $row->sum('amount');
+        });
+        $monthlychart = [];
+        foreach ($monthly as $key => $value) {
+            $monthlychart['label'][] = $key;
+            $monthlychart['earnings'][] = $value;
+        }
+        $weeklychart['weekly_chart'] = json_encode($weeklychart);
+        $monthlychart['monthly_chart'] = json_encode($monthlychart);
+        $collectors = $payments->groupBy(function (Payment $item) {
+            return $item->admin->full_name;
+        })->map(function ($row) {
+            return $row->sum('amount');
+        });
 
 
-        return view('admin.payment.index', compact('payments'));
+
+
+        return view('admin.payment.index', compact('payments', 'weeklychart', 'monthlychart', 'collectors'));
+    }
+    public function filter()
+    {
+        return view('admin.payment.filterpayment');
+    }
+    public function filtersearch(Request $request)
+    {
+        if ($request->has('date')) {
+            $dob = strtotime($request->date);
+            $newDate = date('Y-m-d', $dob);
+            $results = Payment::whereDate('created_at', $newDate)->get();
+        } else if ($request->has('year')) {
+            $results = Payment::whereYear('created_at', $request->year)->get();
+        } else {
+            $start = strtotime($request->daterange1);
+            $newDate = date('Y-m-d', $start);
+            $end = strtotime($request->daterange2);
+            $newDate2 = date('Y-m-d', $end);
+            $results = Payment::whereBetween('created_at', [$newDate, $newDate2])->get();
+        }
+        return view('admin.payment.filterpayment', compact('results'));
+    }
+
+    //retreieve monthly revenue and expenditure
+    public function balance()
+    {
+        $payments = Payment::whereMonth('created_at', date('m'))->get();
+        $expenditure = Expense::whereMonth('created_at', date('m'))->get();
+
+        return view('admin.payment.pl', compact('payments', 'expenditure'));
     }
     public function settleInvoice(Invoice $invoice)
     {
