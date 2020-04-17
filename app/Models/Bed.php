@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Bed extends Model
 {
     protected $guarded = [];
+
     public function bedType(): BelongsTo
     {
         return $this->belongsTo(BedType::class);
@@ -15,5 +16,9 @@ class Bed extends Model
     public function wardModel(): BelongsTo
     {
         return $this->belongsTo(WardModel::class);
+    }
+    public function getBedNoAttribute()
+    {
+        return sprintf("%04d", $this->id);
     }
 }

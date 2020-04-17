@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Inpatient;
+namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdmitModel;
+use App\Models\BedType;
 use Illuminate\Http\Request;
 
-class AdmitController extends Controller
+class BedTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class AdmitController extends Controller
      */
     public function index()
     {
-        //
+        $types = BedType::all()->sortBy('name');
+        return view('admin.ward.bedtype', compact('types'));
     }
 
     /**
@@ -36,13 +37,15 @@ class AdmitController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        AdmitModel::create($data);
-        $notification =
-            [
-                'message' => 'admissiion request for patient sent',
-                'alert-type' => 'success'
-            ];
+        $data = $request->validate([
+            'name' => 'required|unique:bed_types',
+        ]);
+
+        BedType::create($data);
+        $notification = [
+            'message' => 'Bedtype created successfully ',
+            'alert-type' => 'success'
+        ];
         return back()->with($notification);
     }
 
@@ -75,9 +78,18 @@ class AdmitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, BedType $bedtype)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|unique:bed_types',
+        ]);
+
+        $bedtype->update($data);
+        $notification = [
+            'message' => 'Bedtype updated successfully ',
+            'alert-type' => 'success'
+        ];
+        return redirect()->route('bedtype.index')->with($notification);
     }
 
     /**
@@ -86,8 +98,13 @@ class AdmitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BedType $bedtype)
     {
-        //
+        $bedtype->delete();
+        $notification = [
+            'message' => 'Bedtype updated successfully ',
+            'alert-type' => 'info'
+        ];
+        return redirect()->route('bedtype.index')->with($notification);
     }
 }

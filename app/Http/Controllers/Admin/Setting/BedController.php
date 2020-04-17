@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bed;
 use App\Models\WardModel;
 use Illuminate\Http\Request;
 
-class WardModelController extends Controller
+class BedController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class WardModelController extends Controller
      */
     public function index()
     {
-        $wards = WardModel::all()->sortBy('floor_id');
-        return view('admin.ward.ward', compact('wards'));
+        $beds = Bed::all()->sortBy('ward_model_id');
+        return view('admin.ward.bed', compact('beds'));
     }
 
     /**
@@ -38,17 +39,27 @@ class WardModelController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|unique:ward_models',
-            'description' => 'nullable',
-            'floor_id' => 'required',
-            'max_no_of_bed' => 'required'
+            'bed_type_id' => 'required',
+            'ward_model_id' => 'required',
+            'status' => 'nullable',
         ]);
-        WardModel::create($data);
-        $notification = [
-            'message' => 'ward model created succesfully',
-            'alert-type' => 'success'
-        ];
-        return back()->with($notification);
+        $pool = WardModel::find($data['ward_model_id']);
+        $allocated = Bed::where('ward_model_id', $data['ward_model_id'])->count();
+        if ($allocated >= $pool->max_no_of_bed) {
+
+            $notification = [
+                'message' => $pool->name . ' filled, try another ward',
+                'alert-type' => 'success'
+            ];
+            return back()->with($notification);
+        } else {
+            Bed::create($data);
+            $notification = [
+                'message' => 'Bed Record created successfully',
+                'alert-type' => 'success'
+            ];
+            return back()->with($notification);
+        }
     }
 
     /**
@@ -80,22 +91,20 @@ class WardModelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WardModel $ward)
+    public function update(Request $request, Bed $bed)
     {
         //
         $data = $request->validate([
-            'name' => 'required',
-            'description' => 'nullable',
-            'floor_id' => 'required',
-            'max_no_of_bed' => 'required'
+            'bed_type_id' => 'required',
+            'ward_model_id' => 'required',
+            'status' => 'nullable',
         ]);
-
-        $ward->update($data);
+        $bed->update($data);
         $notification = [
-            'message' => 'ward model updated succesfully',
+            'message' => 'Bed Record updated successfully',
             'alert-type' => 'success'
         ];
-        return redirect()->route('ward.index')->with($notification);
+        return redirect()->route('bed.index')->with($notification);
     }
 
     /**
@@ -104,13 +113,8 @@ class WardModelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WardModel $ward)
+    public function destroy($id)
     {
-        $ward->delete();
-        $notification = [
-            'message' => 'ward model deleted succesfully',
-            'alert-type' => 'info'
-        ];
-        return redirect()->route('ward.index')->with($notification);
+        //
     }
 }

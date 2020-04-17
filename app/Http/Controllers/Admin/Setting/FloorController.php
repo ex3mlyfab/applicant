@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Inpatient;
+namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdmitModel;
+use App\Models\Floor;
 use Illuminate\Http\Request;
 
-class AdmitController extends Controller
+class FloorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class AdmitController extends Controller
      */
     public function index()
     {
-        //
+        $floors = Floor::all()->sortBy('name');
+        return view('admin.ward.floor', compact('floors'));
     }
 
     /**
@@ -36,13 +37,17 @@ class AdmitController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        AdmitModel::create($data);
-        $notification =
-            [
-                'message' => 'admissiion request for patient sent',
-                'alert-type' => 'success'
-            ];
+        $data = $request->validate([
+            'name' => 'required|string|unique:floors',
+            'description' => 'nullable',
+
+        ]);
+        Floor::create($data);
+
+        $notification = [
+            'message' => 'floor succesfuly created',
+            'alert-type' => 'success'
+        ];
         return back()->with($notification);
     }
 
@@ -65,7 +70,6 @@ class AdmitController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -75,9 +79,20 @@ class AdmitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Floor $floor)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable',
+
+        ]);
+        $floor->update($data);
+
+        $notification = [
+            'message' => 'floor succesfuly created',
+            'alert-type' => 'success'
+        ];
+        return redirect()->route('floor.index')->with($notification);
     }
 
     /**
@@ -86,8 +101,14 @@ class AdmitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Floor $floor)
     {
-        //
+        $floor->delete();
+
+        $notification = [
+            'message' => 'floor succesfuly deleted',
+            'alert-type' => 'info'
+        ];
+        return redirect()->route('floor.index')->with($notification);
     }
 }

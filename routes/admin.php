@@ -13,6 +13,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('payment/printinvoice/{invoice}', 'Admin\Account\PaymentController@printInvoice')->name('payment.invoice');
         Route::get('payment/printreceipt/{payment}', 'Admin\Account\PaymentController@printReceipt')->name('payment.print');
         Route::post('payment/pay', 'Admin\Account\PaymentController@pay')->name('payment.pay');
+        Route::resource('floor', 'Admin\Setting\FloorController')->middleware('permission:floor-view');
+        Route::resource('bedtype', 'Admin\Setting\BedTypeController')->middleware('permission:bedtype-view');
+        Route::resource('bed', 'Admin\Setting\BedController')->middleware('permission:bed-view');
+        Route::resource('ward', 'Admin\Setting\WardModelController')->middleware('permission:ward-view');
         Route::resource('payment', 'Admin\Account\PaymentController')->middleware('permission:payment-view');
         Route::resource('invoice', 'Admin\Account\InvoiceController');
         Route::resource('expense', 'Admin\Account\ExpenseController');
