@@ -1,4 +1,8 @@
 @extends('admin.admin')
+@section('title')
+    Drug Request
+
+@endsection
 @section('content')
 <div class="content">
     <div class="col-12">
@@ -33,12 +37,28 @@
                             <td><img src="{{ $item->clinicalAppointment->user->avatar ? asset('public/backend/images/avatar/'. $item->clinicalAppointment->user->avatar) : asset('public/frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar48" ></td>
                             <td><span class="badge badge-warning">{{$item->clinicalAppointment->user->sex}}</span></td>
 
-                            <td>{{$item->clinicalAppointment->admin->name ?? ''}}</td>
-                            <td><span class="badge badge-success">Requested</span></td>
+                            <td>{{$item->seen_by->full_name ?? ''}}</td>
+                            <td><span class="badge badge-success">{{$item->status}}</span></td>
                             <td>
-                            <a href="{{route('pharmreq.show', $item->id)}}"  class="text-info">Cost Prescription  </a>
-                                <a href="#">LMIS  </a>
-                                <a href="#" data-toggle="modal" data-target="#comment-dialog" class="text-info">Comment  </a>
+                            <span class="btn-group">
+                                @if (!(isset($item->status)))
+                                    <form action="{{route('pharmacy.billdrug')}}" method="post">
+                                        @csrf
+                                    <input type="hidden" name="item_id" value="{{$item->id}}">
+                                    <button type="submit" class="btn btn-primary">Cost Drug</button>
+                                    </form>
+                                @elseif(($item->status=='invoice generated'))
+                                    Not yet paid
+                                @elseif (($item->status == 'item paid'))
+
+                                    <a href="{{route('pharmacy.dispensedrug',$item->id )}}" class="btn btn-sm btn-primary">Dispense Drugs</a>
+
+                                @endif
+                            </span>
+
+
+
+
                             </td>
 
                         </tr>

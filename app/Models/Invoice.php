@@ -35,4 +35,8 @@ class Invoice extends Model
     {
         return $this->invoiceItems->sum('amount');
     }
+    public function pharmbills(): HasMany
+    {
+        return $this->hasMany(PharmacyBill::class);
+    }
 }

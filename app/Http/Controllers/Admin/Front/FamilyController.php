@@ -126,8 +126,8 @@ class FamilyController extends Controller
             Payment::create([
                 'payment_mode_id' => 1,
                 'user_id' => $anchor->id,
-                'admin_id' => 1,
-                'service' => 'Payments for new family account registration',
+                'admin_id' => Auth::user()->id,
+                'service' => 'Payments for new ' . $id->registrationType->name . ' registration',
                 'amount' => $id->registrationType->charge->amount,
                 'invoice_no' => generate_invoice_no(),
             ]);

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -36,7 +37,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:admin')->except(['logout', 'locked', 'unlock']);
     }
 
     /**
@@ -76,5 +77,27 @@ class LoginController extends Controller
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         return redirect()->route('admin.login');
+    }
+    public function locked()
+    {
+        if (!session('lock-expires-at')) {
+            return redirect('/');
+        }
+        if (session('lock-expires-at') > now()) {
+            return redirect('/');
+        }
+        return view('admin.auth.locked');
+    }
+
+    public function unlock(Request $request)
+    {
+        $check = Hash::check($request->input('password'), $request->user()->password);
+        if (!$check) {
+            return redirect()->route('login.locked')->withErrors([
+                'Your password does not match your profile.'
+            ]);
+        }
+        session(['lock-expires-at' => now()->addMinutes($request->user()->getLockoutTime())]);
+        return redirect('/');
     }
 }

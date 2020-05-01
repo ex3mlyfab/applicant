@@ -50,7 +50,7 @@
                                                                     {{ $item->user->full_name}}
                                                                 </td>
                                                                 <td>
-                                                                    <img src="{{asset('public/backend')}}/images/avatar/{{$item->user->avatar}}" alt="" class="img-avatar img-avatar96"><br>
+                                                                    <img src="{{ $item->user->avatar ? asset('public/backend/images/avatar/'. $item->user->avatar) : asset('public/frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
                                                                     <span class="badge badge-pill p-2 badge-light">
                                                                         {{$item->user->folder_number}}
                                                                     </span>

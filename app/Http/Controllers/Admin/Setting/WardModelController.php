@@ -97,6 +97,14 @@ class WardModelController extends Controller
         ];
         return redirect()->route('ward.index')->with($notification);
     }
+    public function wardmodelajax(WardModel $ward)
+    {
+        $real = $ward->beds->filter(function ($value, $key) {
+            return $value->status == "";
+        });
+        $real = $real->pluck("id");
+        return json_encode($real);
+    }
 
     /**
      * Remove the specified resource from storage.

@@ -6,12 +6,11 @@
 
 @section('content')
     <div class="content">
-        <div class="block block-bordered">
+        <div class="block block-bordered block-fx-shadow">
             <div class="block-header bg-flat-darker text-center">
                 <h3 class="block-title text-white-75">Assign Permissions to role</h3>
             </div>
-        </div>
-        <div class="block-content block-content-full">
+            <div class="block-content block-content-full">
             <p class="display-2">{{ ucfirst($role->name) }}</p>
             <hr style="width:80%;">
             <h3 class="block-title border-info">Abilities</h3>
@@ -46,5 +45,7 @@
             <button type="submit" class="btn btn-info w-100">save</button>
         </form>
         </div>
+        </div>
+        
     </div>
 @endsection

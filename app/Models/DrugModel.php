@@ -32,6 +32,7 @@ class DrugModel extends Model
         });
         return $item->cost;
     }
+
     public function getBatchNoAttribute()
     {
         $item = $this->drugBatchDetails->first(function ($value, $key) {

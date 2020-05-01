@@ -100,6 +100,29 @@
                 </a>
                 <ul class="nav-main-submenu">
                     <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <span class="nav-main-link-name">Registrations</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('patient.create')}}">
+                                    <span class="nav-main-link-name">Individual Account</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('family.create')}}">
+                                    <span class="nav-main-link-name">Family Account</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('company.create')}}">
+                                    <span class="nav-main-link-name">Organisation/Society</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('patient.index')}}">
                             <span class="nav-main-link-name">Patients list</span>
                         </a>
@@ -124,6 +147,7 @@
                     </li>
 
                 </ul>
+
             </li>
             @endcan
             @can('consult-create')
@@ -137,6 +161,27 @@
                     <li class="nav-main-item">
                     <a class="nav-main-link" href="{{route('consults.index')}}">
                             <span class="nav-main-link-name">Patient List</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endcan
+            @can('nursing-view')
+                <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon fa fa-procedures"></i>
+                    <span class="nav-main-link-name">Inpatient </span>
+                </a>
+                <ul class="nav-main-submenu">
+
+                    <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{route('admitpatient.index')}}">
+                            <span class="nav-main-link-name">New Admission</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{route('inpatient.index')}}">
+                            <span class="nav-main-link-name">Admission</span>
                         </a>
                     </li>
                 </ul>

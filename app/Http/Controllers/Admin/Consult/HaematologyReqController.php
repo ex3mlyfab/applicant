@@ -41,7 +41,7 @@ class HaematologyReqController extends Controller
 
         $data = $request->except('_token');
         $data['status'] = 'waiting';
-        $data['requested_by'] = 1;
+        $data['requested_by'] = Auth::user()->id;
         $id = Haematologyreq::create($data);
 
         $status = $id->clinical_appointment_id;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\LockableTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Admin  extends Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable, LockableTrait, HasRoles;
 
     protected $guard = 'admin';
 
@@ -24,6 +25,11 @@ class Admin  extends Authenticatable
     public function getFullNameAttribute()
     {
         return strtoupper($this->name . " " . $this->other_names);
+    }
+
+    public function pharmreqs(): HasMany
+    {
+        return $this->hasMany(Pharmreq::class, 'seen_by');
     }
 
     public function getUserNoAttribute()

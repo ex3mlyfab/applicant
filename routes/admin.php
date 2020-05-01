@@ -13,6 +13,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('payment/printinvoice/{invoice}', 'Admin\Account\PaymentController@printInvoice')->name('payment.invoice');
         Route::get('payment/printreceipt/{payment}', 'Admin\Account\PaymentController@printReceipt')->name('payment.print');
         Route::post('payment/pay', 'Admin\Account\PaymentController@pay')->name('payment.pay');
+        Route::resource('admitpatient', 'Admin\Inpatient\AdmitController');
+        Route::resource('inpatient', 'Admin\Inpatient\InpatientController');
+        Route::get('wardmodelajax/{ward}', 'Admin\Setting\WardModelController@wardmodelajax');
+        Route::resource('tca', 'Admin\Consult\TCAController');
         Route::resource('floor', 'Admin\Setting\FloorController')->middleware('permission:floor-view');
         Route::resource('bedtype', 'Admin\Setting\BedTypeController')->middleware('permission:bedtype-view');
         Route::resource('bed', 'Admin\Setting\BedController')->middleware('permission:bed-view');
@@ -23,13 +27,19 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('expensehead', 'Admin\Account\ExpenseHeadController');
         Route::resource('chargecategory', 'Admin\Account\ChargeCategoryController');
         Route::resource('charge', 'Admin\Account\ChargeController')->middleware('permission:charge-view');
-        Route::resource('clinicalappointment', 'Admin\Front\ClinicalAppointmentController')->middleware('permission:consulting-view');
+        Route::resource('clinicalappointment', 'Admin\Front\ClinicalAppointmentController')->middleware('permission:appointment-view');
         Route::resource('nursing', 'Admin\Front\VitalSignController')->middleware('permission:nursing-view');
         Route::get('chart/{id}', 'Admin\Front\VitalSignController@vitals');
         Route::get('vitals/{vital}', 'Admin\Front\VitalSignController@takeVitals')->name('vitals.create');
         Route::resource('physical', 'Admin\Consult\PhysicalExamController');
         Route::resource('pc', 'Admin\Consult\PresentingComplaintController');
         Route::get('consult/{consult}', 'Admin\Consult\ConsultController@consult')->middleware('permission:consult-view')->name('consult.create');
+
+        Route::post('pharmacy/calculate-drugs', 'Admin\Pharmacy\PharmacyController@prepare')->name('pharmacy.cost');
+        Route::post('pharmacy/billdrug', 'Admin\Pharmacy\PharmacyController@billdrug')->name('pharmacy.billdrug');
+        Route::get('pharmacy/dispensedrug/{pharmreq}', 'Admin\Pharmacy\PharmacyController@dispensedrug')->name('pharmacy.dispensedrug');
+        Route::post('pharmacy/confirmdispense', 'Admin\Pharmacy\PharmacyController@confirmdispense')->name('pharmacy.confirmdispense');
+        Route::resource('pharmbill', 'Admin\Pharmacy\PharmacyBillController');
         Route::resource('followup', 'Admin\Consult\FollowUpController');
         Route::resource('consults', 'Admin\Consult\ConsultController');
         Route::post('consult/pharmreq/create', 'Admin\Consult\PharmreqController@ajaxdrug');
@@ -57,10 +67,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('drug', 'Admin\Pharmacy\DrugController')->middleware('permission:drug-view');
         Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController')->middleware('permission:drugbatch-view');
         Route::resource('wards', 'Admin\Setting\WardController');
+        Route::post('costdrug', 'Admin\Pharmacy\PharmacyController@prepare')->name('pharmacy.prepare');
         Route::resource('pharmbill', 'Admin\Pharmacy\PharmacyBillController');
         Route::resource('invoice', 'Admin\Account\InvoiceController')->middleware('permission:payment-view');
         Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController')->middleware('permission:pharmacy-view');
-        Route::post('calculate-drugs', 'Admin\Pharmacy\PharmacyBillController@prepare')->name('calculate-drug');
+
+
         Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
         Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');
         Route::get('haematology/completed', 'Admin\Laboratory\HaematologyController@completed')->name('haematology.completed');
@@ -79,7 +91,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('assetcategory', 'Admin\Setting\AssetCategoryController')->middleware('permission:assetcategory-view');
         Route::resource('assetpurchase', 'Admin\Setting\AssetPurchaseController')->middleware('permission:assetpurchase-view');
         Route::resource('assetassign', 'Admin\Setting\AssetAssignController')->middleware('permission:assetassign-view');
-        Route::any('/costdrug', 'Admin\Pharmacy\PharmacyController@prepare')->name('pharmacy.prepare');
+
 
         Route::group(['prefix' => 'regtype'], function () {
             Route::get('/', 'Admin\Setting\RegistrationController@index')->middleware('permission:regtype-view')->name('regtype.index');

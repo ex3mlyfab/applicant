@@ -23,43 +23,38 @@ class PharmacyBillController extends Controller
     }
     public function prepare(Request $request)
     {
-
+        $haempay = Pharmreq::findOrFail($request->pharmreq_id);
         $data = $request->except('_token');
-        $invoice = Invoice::where('user_id', $request->user_id)->where('created_at', now()->today())->first();
+        $invoice = Invoice::where('user_id', $haempay->clinicalAppointment->user->id)->where('created_at', now()->today())->first();
         if (!(isset($invoice))) {
             $invoice =  Invoice::create([
-                'user_id' => $request->user_id,
+                'user_id' => $haempay->clinicalAppointment->user->id,
                 'invoice_no' => generate_invoice_no(),
 
             ]);
         }
-        $haempay = Pharmreq::findOrFail($request->haem_id);
-        $haempay->invoices()->create([
-            'invoice_id' => $invoice->id,
-            'item_description' => $request->item_description,
-            'amount' => $request->amount,
-            'charge_id' => $request->charge_id,
-        ]);
+
+
         $pharmbill = PharmacyBill::create([
-            'user_id' => $request->user_id,
+            'user_id' => $haempay->clinicalAppointment->user->id,
             'consultant_id' => $haempay->seen_by,
             'pharmacist_id' => Auth::user()->id,
             'amount' => $request->amount,
-            'discount' => $request->discount,
-            'vat' => $request->vat,
+            'discount' => 0,
+            'vat' => 0,
             'gross_amount' => $request->amount,
             'status' => 'NYP',
             'payment_method' => 'cash',
 
         ]);
-        foreach ($request->drug_model_id as $key => $value) {
+        foreach ($request->drugmodel as $key => $value) {
             PharmacyBillDetail::create([
                 'pharmacybill_id' => $pharmbill->id,
-                'drug_model_id' => $request->drug_model_id[$key],
+                'drug_model_id' => $request->drugmodel[$key],
                 'batch_no' => $request->batch_no[$key],
                 'quantity' => $request->quantity[$key],
                 'unit_cost' => $request->unit_cost[$key],
-                'amount' => $request->amount[$key],
+                'amount' => $request->drug_cost[$key],
             ]);
         }
         $haempay->update([
@@ -69,7 +64,7 @@ class PharmacyBillController extends Controller
             'message' => 'Invoice Generated Successfully',
             'alert-type' => 'success'
         ];
-        return redirect()->route('pharmacy.index')->with($notification);
+        return json_encode($notification);
     }
     /**
      * Show the form for creating a new resource.

@@ -42,8 +42,8 @@
                                     <div class="block-content block-content-full">
                                         <div class="py-1 text-center">
                                             <button type="button" class="btn btn-md btn-primary w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
-                                            <button type="button" class="btn btn-md btn-gray w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#pharmacy-block-normal">Admit</button>
-                                            <button type="button" class="btn btn-md btn-success text-white w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#pharmacy-block-normal">TCA</button>
+                                            <button type="button" class="btn btn-md btn-gray w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#admit">Admit</button>
+                                            <button type="button" class="btn btn-md btn-success text-white w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#tca">TCA</button>
                                         </div>
 
                                     </div>

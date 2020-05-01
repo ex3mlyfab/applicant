@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin\Consult;
 use App\Http\Controllers\Controller;
 use App\Models\Consult;
 use App\Models\ConsultTest;
+use App\Models\Invoice;
+use App\Models\PharmacyBill;
+use App\Models\PharmacyBillDetail;
 use App\Models\Pharmreq;
 use App\Models\PharmreqDetail;
 use Illuminate\Http\Request;
@@ -21,7 +24,51 @@ class PharmreqController extends Controller
     {
         //
     }
+    public function prepare(Request $request, Pharmreq $pharmreq)
+    {
+        $haempay = Pharmreq::findOrFail($request->pharmreq_id);
+        $data = $request->except('_token');
+        $invoice = Invoice::where('user_id', $haempay->clinicalAppointment->user->id)->where('created_at', now()->today())->first();
+        if (!(isset($invoice))) {
+            $invoice =  Invoice::create([
+                'user_id' => $haempay->clinicalAppointment->user->id,
+                'invoice_no' => generate_invoice_no(),
 
+            ]);
+        }
+
+
+        $pharmbill = PharmacyBill::create([
+            'user_id' => $haempay->clinicalAppointment->user->id,
+            'consultant_id' => $haempay->seen_by,
+            'pharmacist_id' => Auth::user()->id,
+            'amount' => $request->amount,
+            'discount' => 0,
+            'vat' => 0,
+            'gross_amount' => $request->amount,
+            'status' => 'NYP',
+            'payment_method' => 'cash',
+
+        ]);
+        foreach ($request->drugmodel as $key => $value) {
+            PharmacyBillDetail::create([
+                'pharmacybill_id' => $pharmbill->id,
+                'drug_model_id' => $request->drugmodel[$key],
+                'batch_no' => $request->batch_no[$key],
+                'quantity' => $request->quantity[$key],
+                'unit_cost' => $request->unit_cost[$key],
+                'amount' => $request->drug_cost[$key],
+            ]);
+        }
+        $haempay->update([
+            'status' => 'invoice generated',
+        ]);
+        $notification = [
+            'message' => 'Invoice Generated Successfully',
+            'alert-type' => 'success'
+        ];
+        return json_encode($notification);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -41,7 +88,7 @@ class PharmreqController extends Controller
     public function store(Request $request)
     {
         //
-        dd($request->all);
+        // dd($request->all)
         $validated = $request->except('_token');
         $pc = Pharmreq::create([
             'clinical_appointment_id' => $request->clinical_appointment_id,

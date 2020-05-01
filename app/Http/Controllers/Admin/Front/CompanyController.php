@@ -56,8 +56,8 @@ class CompanyController extends Controller
         $org = Organization::create($data);
         Payment::create([
             'payment_mode_id' => 1,
-            'user_id' => $org->id,
-            'admin_id' => 1,
+            'name' => $org->organisation_name,
+            'admin_id' => Auth::user()->id,
             'service' => 'Payments for new company account registration',
             'amount' => $org->registrationType->charge->amount,
             'invoice_no' => generate_invoice_no(),

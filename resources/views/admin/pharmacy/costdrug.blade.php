@@ -12,8 +12,8 @@
         <div class="block-content block-content-full">
             <div class="block block-fx-shadow">
                 <div class="block-content">
-                <form method="POST" action="{{route('pharmbill.store')}}" >
-                    @csrf
+                <form method="POST" class="form form-element" onsubmit="return false;">
+
                         <div class="form-group form-row">
                             <div class="col-md-4">
                             <img src="{{asset('public/backend')}}/images/avatar/{{$pharmreq->clinicalAppointment->user->avatar}}" alt="" >
@@ -34,7 +34,7 @@
                                     <div class="col-md-12">
                                         <label for="sex">Sex</label>
                                     <input type="text"  id="sex" value="{{$pharmreq->clinicalAppointment->user->sex}}" class="form-control form-control-lg" disabled>
-                                    <input type="hidden" name="user_id" value="{{$pharmreq->clinicalAppointment->user->id}}">
+
 
                                     </div>
                                 </div>
@@ -65,19 +65,23 @@
                                         <th>
                                             Amount
                                         </th>
+                                        <th>
+                                            Select
+                                        </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     @foreach ($pharmreq->pharmreqDetails as $item)
                                 <tr id="row{{$loop->iteration}}">
-                                        <td>
-                                            <input type="checkbox" name="dispense[]" class="form-control-check paycheck" data-row="{{$loop->iteration}}">
+                                        <td class="drug_name">
+
                                             {{$item->drugModel->name}}
                                         </td>
                                         <td>
-                                        <input type="hidden" name="drug_model_id[]" value="{{$item->drugModel->id}}" >
-                                        <input type="hidden" name="batch_no[]" value="{{$item->drugModel->batch_no}}" >
+                                        <input type="hidden" name="drug_model_id[]" value="{{$item->drugModel->id}}" class="drug-model">
+                                        <input type="hidden"  value="{{$item->drugModel->batch_no}}" class="batch_no">
+
                                             {{$item->dosage}}
 
                                         </td>
@@ -85,7 +89,7 @@
                                             {{$item->duration}}
                                         </td>
                                         <td>
-                                            <input type="text" name="unit_cost[]" class="form-control" value="{{ $item->drugModel->price}}" readonly>
+                                            <input type="text" class="form-control unit_cost" value="{{ $item->drugModel->price}}" readonly>
 
 
                                         </td>
@@ -93,7 +97,11 @@
                                         <input type="number" name="quantity[]" class="form-control quantity" data-price="{{$item->drugModel->price}}" data-row="{{$loop->iteration}}" min="1">
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control drug-cost" name="drug_amount[]" readonly>
+                                            <input type="text" class="form-control drug-cost"  readonly>
+
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="dispense[]" class="form-control-check paycheck" data-row="{{$loop->iteration}}">
                                         </td>
                                     </tr>
 
@@ -116,7 +124,7 @@
 
 
                         </div>
-                        <button type="submit" class="btn btn-primary underscore" disabled>Make Payment</button>
+                        <button type="submit" class="btn btn-primary underscore" data-user_id="{{$pharmreq->id}}" disabled>Make Payment</button>
                     </form>
                 </div>
             </div>
@@ -152,13 +160,95 @@
 
         $(".confirm").change(function(){
             if(this.checked){
-                if(totalpaid != 0)
-                $(".underscore").attr('disabled', false);
+                if(totalpaid != 0){
+                     $(".underscore").attr('disabled', false);
+                }
+
                 $(".totalpaid").val(totalpaid);
             }else{
                 $(".underscore").attr('disabled', true);
             }
         });
+
+        $(".underscore").click(function(e){
+                    var drugmodel = [];
+                    var choosen =[];
+                    var quantity = [];
+                    var batch_no =[];
+                    var unit_cost = [];
+                    var drug_cost =[];
+                    var drug_name =[];
+
+                    var nurl = "{{route('pharmacy.index')}}";
+
+                    var pharmreq_id = $(this).data('user_id');
+
+                    $(".drug-model").each(function(){
+                        drugmodel.push($(this).val());
+
+                    });
+                    $(".drug_name").each(function(){
+                        drug_name.push($(this).text());
+                    });
+                    $(".batch_no").each(function(){
+                        batch_no.push($(this).val());
+
+                    });
+                    $(".unit_cost").each(function(){
+                        unit_cost.push($(this).val());
+
+                    });
+                    $(".drug-cost").each(function(){
+                        drug_cost.push($(this).val());
+
+                    });
+                    $(".quantity").each(function(){
+                        quantity.push($(this).val());
+
+                    });
+                    $(".paycheck").each(function(){
+                        choosen.push($(this).val());
+
+                    });
+                    console.log(drug_cost, choosen, quantity, drugmodel);
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                            }
+                            });
+
+                            e.preventDefault();
+                            var type = "POST";
+                            var ajaxurl = 'calculate-drugs';
+                                $.ajax({
+                                    type: type,
+                                    url: ajaxurl,
+                                    data: {
+                                        pharmid: pharmreq_id,
+                                        drug_id:drugmodel,
+                                        choosen:choosen,
+                                        quantity:quantity,
+                                        amount:totalpaid,
+                                        batch_no: batch_no,
+                                        unit_cost:unit_cost,
+                                        drug_amount: drug_cost,
+                                        drug_name: drug_name
+                                            },
+                                    dataType: 'json',
+                                    success: function (data){
+
+
+                                        $(location).attr('href',nurl);
+
+
+                                    },
+                                    error: function (data) {
+                                        console.log('Error:', data);
+                                    }
+                                });
+
+                                });
+
         });
     </script>
 @endsection

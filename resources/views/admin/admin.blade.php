@@ -37,6 +37,7 @@
         <!-- END Stylesheets -->
     </head>
     <body>
+
         <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed">
 @include('admin.partials.sidebar')
 @include('admin.partials.header')
@@ -80,19 +81,9 @@
 <!-- Page JS Plugins -->
 <script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 <script>
-    $.extend({
-    hook: function(hookName) {
-        var selector;
-        if(!hookName || hookName === '*') {
-            // select all data-hooks
-            selector = '[data-hook]';
-        } else {
-            // select specific data-hook
-            selector = '[data-hook~="' + hookName + '"]';
-        }
-        return $(selector);
-    }
-});
+    $(function(){
+        $('label').css("text-transform", "uppercase");
+    });
 </script>
 @yield('foot_js')
 @include('admin.partials.flash')

@@ -633,7 +633,8 @@
                                     <td>
                                         <select  class="js-select2 form-control" style="width: 100%;" id="drug" data-placeholder="Choose one.." required>
                                         <option></option>
-                                    </select></td>
+                                    </select>
+                                </td>
 
                                     <td>
 
@@ -1205,12 +1206,12 @@
 </div>
 <!--End Ultrasound request-->
 
-<!-- xray Block Modal -->
+<!-- admit Block Modal -->
 <div class="modal" id="admit" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg" role="document"style=" width: 80%;">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
-                <div class="block-header bg-gray text-white-75">
+                <div class="block-header bg-gray">
                     <h3 class="block-title">Admit request
                     </h3>
                     <div class="block-options">
@@ -1238,16 +1239,16 @@
 
                         </div>
                     </div>
-                    <form action="{{route('radiologyreq.store')}}" method="post" class="bg-flat text-white px-2">
+                    <form action="{{route('admitpatient.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
                         <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                         <div class="form-group">
-                            <label >Clinical Information</label>
+                            <label>Clinical Information</label>
                             <input type="text" name="clinical_information"  class="form-control form-control-lg" required>
                         </div>
                         <div class="form-group">
-                            <label > Reason for Admission</label>
-                            <textarea name="reason"  class="form-control form-control-lg">
+                            <label> Reason for Admission</label>
+                            <textarea class="form-control form-control-lg" name="reason" row="4" placeholder="reasons for admission">
                             </textarea>
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
@@ -1269,7 +1270,7 @@
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-success text-white-75">
-                    <h3 class="block-title">Tca
+                    <h3 class="block-title">Time To Call Again
                     </h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -1304,7 +1305,8 @@
                             <input type="text" name="clinical_information"  class="form-control form-control-lg">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="js-datepicker form-control" id="int123" name="call_again" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
+                            <label>Call Again</label>
+                            <input type="text" class="js-datepicker form-control" id="int123" name="call_again" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" required>
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
                     </form>
