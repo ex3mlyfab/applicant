@@ -15,6 +15,16 @@ class CreateVisitorsTable extends Migration
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('visitor_name_id');
+            $table->unsignedBigInteger('purpose_id');
+            $table->string('to_see')->nullable();
+            $table->time('time_in')->nullable();
+            $table->time('time_out')->nullable();
+            $table->date('date_of_visit')->nullable();
+
+            $table->text('note')->nullable();
+            $table->string('documents')->nullable();
+
             $table->timestamps();
         });
     }

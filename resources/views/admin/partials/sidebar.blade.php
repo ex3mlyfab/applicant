@@ -404,6 +404,11 @@
                             <span class="nav-main-link-name">Registration type</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('purpose.index')}}">
+                            <span class="nav-main-link-name">Visitor Purpose type</span>
+                        </a>
+                    </li>
 
                 </ul>
             </li>

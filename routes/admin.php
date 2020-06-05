@@ -75,7 +75,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('pharmbill', 'Admin\Pharmacy\PharmacyBillController');
         Route::resource('invoice', 'Admin\Account\InvoiceController')->middleware('permission:payment-view');
         Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController')->middleware('permission:pharmacy-view');
-
+        Route::resource('purpose', 'Admin\Setting\VisitorPurposeSettingController');
 
         Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
         Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');
