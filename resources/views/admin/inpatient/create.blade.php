@@ -1,7 +1,7 @@
 @extends('admin.admin')
 
 @section('title')
-    consultation
+    {{$inpatient->user->full_name}} Ward round
 @endsection
 @section('head_css')
 <link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/select2/css/select2.min.css">
@@ -14,27 +14,27 @@
             <div class="col-md-2">
                 <div class="block block-bordered block-rounded block-fx-shadow">
                     <div class="block-content">
-                        <img class="img-fluid img-fluid-100 options-item" src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="">
+                        <img class="img-fluid img-fluid-100 options-item" src="{{asset('public/backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="">
                         <div class="table-responsive">
                             <table class="table table-borderless table-vcenter">
                                 <tbody>
                                     <tr class="mb-0">
 
-                                        <td>{{$patient->full_name}}</td>
+                                        <td>{{$inpatient->user->full_name}}</td>
 
                                     </tr>
                                     <tr>
 
-                                        <td>{{$patient->folder_number}}</td>
+                                        <td>{{$inpatient->user->folder_number}}</td>
 
                                     </tr>
                                     <tr>
 
-                                        <td>{{$patient->sex}}</td>
+                                        <td>{{$inpatient->user->sex}}</td>
                                     </tr>
                                     <tr>
 
-                                        <td>{{$patient->age}}</td>
+                                        <td>{{$inpatient->user->age}}</td>
                                     </tr>
 
 
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                @include('admin.consult.includes.vitalsigns')
+                @include('admin.inpatient.includes.vitalsigns')
             </div>
             <div class="col-md-10">
                 <div class="block block-fx-pop">
@@ -81,16 +81,16 @@
 
 
                                     <span class="presenting">
-                                    @include('admin.consult.includes.presenting')
+                                    @include('admin.inpatient.includes.presenting')
                                     </span>
-                                    @include('admin.consult.includes.presentingHistory')
+                                    @include('admin.inpatient.includes.presentingHistory')
 
                                 </div>
                                 <div class="tab-pane" id="btabs-alt-static-profile" role="tabpanel">
 
 
                                     <span class="physical">
-                                    @include('admin.consult.includes.physical')
+                                    @include('admin.inpatient.includes.physical')
                                     </span>
                                     @include('admin.consult.includes.physicalHistory')
                                 </div>
@@ -98,10 +98,10 @@
                                     <div class="tab-pane active" id="btabs-alt-static-followup" role="tabpanel">
 
 
-                                        @include('admin.consult.includes.followupHistory')
+                                        @include('admin.inpatient.includes.followupHistory')
 
 
-                                    @include('admin.consult.includes.followup')
+                                    @include('admin.inpatient.includes.followup')
 
 
                                 </div>
@@ -109,7 +109,7 @@
 
                                 <div class="tab-pane" id="btabs-alt-static-action" role="tabpanel">
 
-                                    @include('admin.consult.includes.actions')
+                                    @include('admin.inpatient.includes.actions')
 
 
                                 </div>
@@ -117,7 +117,7 @@
 
                                     <div class="block-content block-content-full">
                                         <canvas class="js-chartjs-lines" width="800" height="450"></canvas>
-                                        <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" data-fullname="{{ $patient->full_name}}" data-patient-id="{{$patient->id}}" data-folder-no="{{ $patient->folder_number}}" data-sex="{{ $patient->sex}}">
+                                        <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('public/backend')}}/images/avatar/{{$inpatient->user->avatar}}" data-fullname="{{ $inpatient->user->full_name}}" data-patient-id="{{$inpatient->user->id}}" data-folder-no="{{ $inpatient->user->folder_number}}" data-sex="{{ $inpatient->user->sex}}">
                                             <span data-toggle="tooltip" title="take vitals sign"><i class="fa fa-fw fa-2x fa-stopwatch"></i></span>
                                         </button>
                                     </div>
@@ -131,7 +131,7 @@
             </div>
         </div>
     </div>
-    @include('admin.consult.includes.modal')
+    @include('admin.inpatient.includes.modal')
 @endsection
 
 @section('foot_js')

@@ -64,6 +64,7 @@ class PatientController extends Controller
             'marital_status' => 'nullable|string',
             'registration_type_id' => 'nullable',
             'occupation' => 'nullable',
+            // 'tribe'=> 'nullable',
 
         ]);
 

@@ -25,7 +25,7 @@ class Haematologyreq extends Model
     {
         return $this->morphMany(InvoiceItem::class, 'bill');
     }
-    public function inlabinfos(): MorphMany
+    public function inHaematologyreq(): MorphMany
     {
         return $this->morphMany(InpatientDetail::class, 'inlabtest');
     }

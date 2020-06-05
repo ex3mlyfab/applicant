@@ -13,7 +13,7 @@
 
         <!-- Open Graph Meta -->
         <meta property="og:title" content="Pentacare Hospital">
-        <meta property="og:site_name" content="OneUI">
+        <meta property="og:site_name" content="Pentacare Hospital">
         <meta property="og:description" content="Pentacare Hospital created by pixelcave and published on Themeforest">
         <meta property="og:type" content="website">
         <meta property="og:url" content="">

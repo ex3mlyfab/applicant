@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin\Inpatient;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdmitModel;
+use App\Models\Consult;
 use App\Models\Inpatient;
 use App\Models\Retainership;
+use App\Models\VitalSign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,15 +21,46 @@ class InpatientController extends Controller
     public function index()
     {
         //
+        // collect all list presently on admission
         $onadmission = Inpatient::where('status', 'admission active')->get();
         return view('Admin.inpatient.admission', compact('onadmission'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for making ward round by doctors.
      *
      * @return \Illuminate\Http\Response
      */
+    public function wardRound(Inpatient $inpatient)
+    {
+        // collect all previous consultation records
+        $consults = Consult::whereIn('clinical_appointment_id', $inpatient->user->clinicalAppointments->pluck('id'));
+        // patient details
+        $patient = $inpatient->user();
+        // collect all vital signs
+
+        $vitals = VitalSign::where('patient_id', $inpatient->user->id)->get();
+        $vitals = $vitals->groupBy(function (VitalSign $item) {
+            return $item->created_at->format('d/m/Y h:i:s A');
+        });
+
+        $dataChart = [];
+        foreach ($vitals as $item => $values) {
+            $dataChart['label'][] = $item;
+            foreach ($values as $value) {
+                $dataChart['systolic'][] = (float) $value->systolic;
+                $dataChart['diastolic'][] = (int) $value->diastolic;
+                $dataChart['height'][] = (float) $value->height;
+                $dataChart['weight'][] = (float) $value->weight;
+                $dataChart['rr'][] = (int) $value->rr;
+                $dataChart['pr'][] = (int) $value->pr;
+                $dataChart['temp'][] = (float) $value->temp;
+                $dataChart['bmi'][] = (float) $value->bmi;
+            }
+        }
+        $dataChart['chart_data'] = json_encode($dataChart);
+        return view('admin.inpatient.create', compact('dataChart', 'vitals', 'consults', 'inpatient', 'patient'));
+    }
     public function create()
     {
         //
@@ -59,6 +92,7 @@ class InpatientController extends Controller
             'bed_id' => $request->bed_id,
             'credit_limit' => $request->credit_limit,
             'status' => 'admission active',
+            'condition' => $adminreq->clinical_information,
         ]);
         $balance = Retainership::where('user_id', $request->patient_id)->get();
 

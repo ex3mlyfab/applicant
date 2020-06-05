@@ -18,8 +18,9 @@ class ConsultController extends Controller
      */
     public function index()
     {
-        $appointments = ClinicalAppointment::all();
-        $today = $appointments->where('appointment_due', now()->today());
+        // collect all appointment for today for display in the consultation module
+        $today = ClinicalAppointment::whereDate('appointment_due', now()->today());
+
         $patients = User::all();
         return view('admin.consult.index', compact('appointments', 'today', 'patients'));
     }
@@ -29,17 +30,21 @@ class ConsultController extends Controller
         //
         $patient = User::findOrFail($id);
 
-
+        // collect all previous appointment of patients
         $appointment = ClinicalAppointment::where('patient_id', $patient->id)->where('appointment_due', now()->today())->first();
 
-
+        // all previous consultattion details collection
         $consults = Consult::all()->whereIn('clinical_appointment_id', $patient->clinicalAppointments->pluck('id'));
+        //start new consultation or maintain new consultation id on event of investigations requests or treatment.
         $consult = Consult::firstOrCreate(['clinical_appointment_id' => $appointment->id]);
-
-        $vitals = VitalSign::where('patient_id', $id)->take(10)->get();
+        // collect all vital signs recorded for patient
+        $vitals = VitalSign::where('patient_id', $id)->get();
         $vitals = $vitals->groupBy(function (VitalSign $item) {
             return $item->created_at->format('d/m/Y h:i:s A');
         });
+        /**
+         * this is useful to collect figures for charting in the Application
+         */
         $dataChart = [];
         foreach ($vitals as $item => $values) {
             $dataChart['label'][] = $item;

@@ -17,7 +17,7 @@
         <div class="block-content block-content-full">
             <h4 class="font-w400">Pending Admissions List</h4>
                 <div class="table-responsive">
-                        <table class="table table-stripped table-bordered table-vcenter">
+                        <table class="table table-stripped table-bordered table-vcenter js-dataTable-buttons">
                             <thead>
                                 <th>S/no</th>
                                 <th>Name</th>
@@ -55,9 +55,16 @@
                                         </td>
                                         <td>
                                             <div class="btn-group">
+                                                @if ($item->status == 'admitted')
+                                                    <a type="button" class="btn btn-md btn-outline-secondary text-uppercase takevitals"><span data-toggle="tooltip" title="Patients payments"> <i class="fa fa-fw fa-clipboard"></i> Bills /charges </span></a>
 
+
+                                                @else
                                                 <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('public/backend')}}/images/avatar/{{$item->clinicalAppointment->user->avatar}}" data-fullname="{{ $item->clinicalAppointment->user->full_name}}" data-patient-id="{{$item->clinicalAppointment->user->id}}" data-folder-number="{{ $item->clinicalAppointment->user->folder_number}}" data-sex="{{ $item->clinicalAppointment->user->sex}}"
                                                 data-adminreq="{{$item->id}}"><span data-toggle="tooltip" title="Process Admission"> <i class="fa fa-fw fa-clipboard"></i> Process Admission </span></button>
+
+                                                @endif
+
 
 
                                             </div>

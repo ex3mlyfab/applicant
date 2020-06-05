@@ -56,7 +56,7 @@
                                         </td>
                                         <td>
                                             <div class="btn-group">
-
+                                            <a type="button" class="btn btn-md btn-outline-secondary text-uppercase takevitals" href="{{route('wardround', $item->id)}}" ><span data-toggle="tooltip" title="Record ward round activities"> <i class="fa fa-fw fa-clipboard"></i>Doctors' Round </span></a>
 
                                             </div>
                                         </td>

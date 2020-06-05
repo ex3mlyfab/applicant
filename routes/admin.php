@@ -13,6 +13,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('payment/printinvoice/{invoice}', 'Admin\Account\PaymentController@printInvoice')->name('payment.invoice');
         Route::get('payment/printreceipt/{payment}', 'Admin\Account\PaymentController@printReceipt')->name('payment.print');
         Route::post('payment/pay', 'Admin\Account\PaymentController@pay')->name('payment.pay');
+        /**
+         * Inpatient Routes
+         */
+        Route::get('wardround/{inpatient}', 'Admin\Inpatient\InpatientController@wardRound')->name('wardround');
         Route::resource('admitpatient', 'Admin\Inpatient\AdmitController');
         Route::resource('inpatient', 'Admin\Inpatient\InpatientController');
         Route::get('wardmodelajax/{ward}', 'Admin\Setting\WardModelController@wardmodelajax');
