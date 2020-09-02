@@ -169,40 +169,70 @@
                     </div>
                 </div>
                 <div class="block-content font-size-sm">
-                <form action="{{route('asset.store')}}" method="post" id="register" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group col-sm-6">
-                            <label for="asset_id">Visit Purpose</label>
-                            <select id="asset_id" name="purpose_id" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." required>
-                                <option></option>
-                                {{create_option('purposes','id', 'name', )}}
-                            </select>
+                    <form action="{{route('asset.store')}}" method="post" id="register" enctype="multipart/form-data">
+                            @csrf
+                        <div class="row">
+                                <div class="form-group col-sm-6">
+                                <label for="asset_id">Visit Purpose</label>
+                                <select id="asset_id" name="purpose_id" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." required>
+                                    <option></option>
+                                    {{create_option('purposes','id', 'name', )}}
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="dosage"> Phone </label>
+                                <input type="text" name="phone" id="dosage" class="form-control form-control-lg" required>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="name"> Visitors Name</label>
+                                <input type="text" name="name" id="name" class="form-control form-control-lg" required>
+                            </div>
+
+                            <div class="form-group col-sm-6">
+                                <label for="address"> Address</label>
+                                <textarea name="address" id="address"rows="5" class="form-control form-control-lg"></textarea>
+
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label for="name">who to visit</label>
+                                <input type="text" name="name" id="name" class="form-control form-control-lg" required>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="time_in">Time in</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-clock"></i>
+                                        </span>
+                                        <input type="text" name="time_in" id="time_in" class="form-control form-control-lg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="time_in">Time out</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="far fa-clock"></i>
+                                        </span>
+                                        <input type="text" name="time_out" id="time_out" class="form-control form-control-lg">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label for="dosage"> Phone </label>
-                            <input type="text" name="unit" id="dosage" class="form-control form-control-lg" required>
+
+
+
+
+                        <div class="block-content block-content-full text-right border-top">
+
+                            <button type="submit" class="btn btn-sm btn-primary" ><i class="fa fa-plus mr-1"></i>Add</button>
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label for="name"> Visitors Name</label>
-                            <input type="text" name="name" id="name" class="form-control form-control-lg" required>
-                        </div>
-
-                        <div class="form-group col-sm-6">
-                            <label for="address"> Address</label>
-                            <textarea name="address" id="address"rows="5" class="form-control form-control-lg"></textarea>
-
-                        </div>
-
-                        </div>
-
-
-
-                </div>
-                <div class="block-content block-content-full text-right border-top">
-
-                    <button type="submit" class="btn btn-sm btn-primary" ><i class="fa fa-plus mr-1"></i>Add</button>
-                </div>
-            </form>
+                </form>
             </div>
         </div>
     </div>

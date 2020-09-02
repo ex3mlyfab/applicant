@@ -22,7 +22,7 @@ class ConsultController extends Controller
         $today = ClinicalAppointment::whereDate('appointment_due', now()->today());
 
         $patients = User::all();
-        return view('admin.consult.index', compact('appointments', 'today', 'patients'));
+        return view('admin.consult.index', compact('today', 'patients'));
     }
 
     public function consult($id)
