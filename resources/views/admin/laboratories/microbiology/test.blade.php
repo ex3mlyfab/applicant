@@ -1,6 +1,6 @@
 @extends('admin.admin')
 @section('head_css')
-<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
 
 @endsection
 @section('title')
@@ -20,7 +20,7 @@
             <div class="block-content ">
                 <div class="row">
                     <div class="col-md-4 text-center">
-                         <img src="{{asset('public/backend')}}/images/avatar/{{$number->clinicalAppointment->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                         <img src="{{asset('backend')}}/images/avatar/{{$number->clinicalAppointment->user->avatar}}" alt="" class="img-avatar img-avatar96">
                     </div>
                     <div class="col-md-8 font-size-sm">
                          <p class="my-0"> Name:&nbsp;<strong>{{$number->clinicalAppointment->user->full_name}}</strong></p>
@@ -433,7 +433,7 @@
 @endsection
 
 @section('foot_js')
-<script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
 <script>jQuery(function(){ One.helpers(['datepicker']); });</script>
 

@@ -6,8 +6,8 @@
 
 @section('head_css')
 <!-- Page JS Plugins CSS -->
-<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
-<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
 @endsection
 
 @section('content')
@@ -60,7 +60,7 @@
                                                     {{ $item->user->full_name}}
                                                 </td>
                                                 <td>
-                                                <img src="{{asset('public/backend')}}/images/avatar/{{$item->user->avatar}}" alt=""><br>
+                                                <img src="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" alt=""><br>
                                                 {{$item->user->folder_number}}
                                                 </td>
                                                 <td>
@@ -118,8 +118,8 @@
 
 @section('foot_js')
  <!-- Page JS Plugins -->
- <script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
- <script src="{{asset('public/backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
+ <script src="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+ <script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
  <script>jQuery(function(){ One.helpers(['datepicker', 'select2']); });</script>
  <script>
        $(window).on('load', function() {
@@ -128,7 +128,7 @@
             $('#patient_id').on('change', function(){
             var classID = $(this).val();
             var link = "{{ url('admin/patient/classajax/') }}";
-            var imgPath = "{{ asset('public/backend')}}/images/avatar";
+            var imgPath = "{{ asset('backend')}}/images/avatar";
 
             $.ajaxSetup({
             headers: {

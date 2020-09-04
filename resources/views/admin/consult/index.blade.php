@@ -50,7 +50,7 @@
                                                                     {{ $item->user->full_name}}
                                                                 </td>
                                                                 <td>
-                                                                    <img src="{{ $item->user->avatar ? asset('public/backend/images/avatar/'. $item->user->avatar) : asset('public/frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
+                                                                    <img src="{{ $item->user->avatar ? asset('backend/images/avatar/'. $item->user->avatar) : asset('frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
                                                                     <span class="badge badge-pill p-2 badge-light">
                                                                         {{$item->user->folder_number}}
                                                                     </span>
@@ -69,7 +69,7 @@
                                                                 <td>
                                                                     <div class="btn-group">
 
-                                                                        <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('public/backend')}}/images/avatar/{{$item->user->avatar}}" data-fullname="{{ $item->user->full_name}}" data-patient-id="{{$item->user->id}}" data-folder-number="{{ $item->user->folder_number}}" data-sex="{{ $item->user->sex}}"><span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-clipboard"></i> </span></button>
+                                                                        <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" data-fullname="{{ $item->user->full_name}}" data-patient-id="{{$item->user->id}}" data-folder-number="{{ $item->user->folder_number}}" data-sex="{{ $item->user->sex}}"><span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-clipboard"></i> </span></button>
                                                                         @if ( ($item->status == "vitals sign taken"))
                                                                     <a href="{{route('consult.create', $item->user->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Start Consultation">
                                                                                 <i class="fa fa-fw fa-stethoscope"></i>

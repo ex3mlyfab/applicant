@@ -15,7 +15,7 @@ Record Test
                     <div class="block-content ">
                         <div class="row">
                             <div class="col-md-4 text-center">
-                                 <img src="{{asset('public/backend')}}/images/avatar/{{$number->clinicalAppointment->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                                 <img src="{{asset('backend')}}/images/avatar/{{$number->clinicalAppointment->user->avatar}}" alt="" class="img-avatar img-avatar96">
                             </div>
                             <div class="col-md-8 font-size-sm">
                                  <p class="my-0"> Name:&nbsp;<strong>{{$number->clinicalAppointment->user->full_name}}</strong></p>

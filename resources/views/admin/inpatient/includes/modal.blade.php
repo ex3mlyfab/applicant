@@ -201,7 +201,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
@@ -409,7 +409,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
@@ -529,7 +529,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
@@ -588,7 +588,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
@@ -690,7 +690,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
@@ -1152,7 +1152,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
@@ -1225,7 +1225,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
@@ -1283,7 +1283,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
@@ -1340,7 +1340,7 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
                                      <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>

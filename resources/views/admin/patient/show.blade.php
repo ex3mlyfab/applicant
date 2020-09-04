@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="options-container fx-item-zoom-in fx-overlay-slide-top">
-                <img class="img-fluid img-fluid-100 options-item" src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="">
+                <img class="img-fluid img-fluid-100 options-item" src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="">
                     <div class="options-overlay bg-black-75">
                         <div class="options-overlay-content">
 

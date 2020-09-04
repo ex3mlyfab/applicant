@@ -5,20 +5,20 @@
 
 @endsection
 @section('head_css')
-<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/dropzone/dist/min/dropzone.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/dropzone/dist/min/dropzone.min.css">
 
 @endsection
 
 @section('content')
 <!-- Hero -->
-<div class="bg-image" style="background-image: url('{{asset('public/backend')}}/assets/media/photos/photo8@2x.jpg');">
+<div class="bg-image" style="background-image: url('{{asset('backend')}}/assets/media/photos/photo8@2x.jpg');">
     <div class="bg-black-50">
         <div class="content content-full text-center">
             <div class="my-3">
                 <img class="img-avatar img-avatar128" @if (isset($admin->avatar))
-            src="{{asset('public/backend')}}/images/documents/{{$admin->avatar}}"
+            src="{{asset('backend')}}/images/documents/{{$admin->avatar}}"
                 @else
-                src="{{asset('public/backend')}}/assets/media/avatars/avatar13.jpg"
+                src="{{asset('backend')}}/assets/media/avatars/avatar13.jpg"
             @endif  alt="{{$admin->full_name}} picture">
             </div>
             <h1 class="h2 text-white mb-0"> {{ $admin->full_name}} </h1>
@@ -71,6 +71,6 @@
 @endsection
 
 @section('foot_js')
-<script src="{{asset('public/backend')}}/assets/js/plugins/dropzone/dropzone.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/dropzone/dropzone.min.js"></script>
 
 @endsection

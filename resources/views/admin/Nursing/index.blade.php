@@ -27,7 +27,7 @@
                                                     {{ $item->user->full_name}}
                                                 </td>
                                                 <td class="text-center">
-                                                <img src="{{asset('public/backend')}}/images/avatar/{{$item->user->avatar}}" alt="" class="img-avatar img-avatar96"><br><span class="badge badge-pill p-2 badge-light">
+                                                <img src="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" alt="" class="img-avatar img-avatar96"><br><span class="badge badge-pill p-2 badge-light">
                                                     {{$item->user->folder_number}}
                                                 </span>
 
@@ -46,7 +46,7 @@
                                                 <td>
                                                     <div class="btn-group">
                                                     
-                                                    <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal" data-target="#modal-block-normal" data-pictures="{{asset('public/backend')}}/images/avatar/{{$item->user->avatar}}" data-fullname="{{ $item->user->full_name}}" data-patient-id="{{$item->user->id}}" data-folder-number="{{ $item->user->folder_number}}" data-sex="{{ $item->user->sex}}"><span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-clipboard"></i> </span></button>
+                                                    <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal" data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" data-fullname="{{ $item->user->full_name}}" data-patient-id="{{$item->user->id}}" data-folder-number="{{ $item->user->folder_number}}" data-sex="{{ $item->user->sex}}"><span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-clipboard"></i> </span></button>
                                                        
 
                                                     </div>

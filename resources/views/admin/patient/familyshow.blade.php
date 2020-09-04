@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="options-container fx-item-zoom-in fx-overlay-slide-top">
-                <img class="img-fluid img-fluid-100 options-item" src="{{asset('public/backend')}}/images/avatar/{{$family->users->first()->avatar}}" alt="">
+                <img class="img-fluid img-fluid-100 options-item" src="{{asset('backend')}}/images/avatar/{{$family->users->first()->avatar}}" alt="">
                     <div class="options-overlay bg-black-75">
                         <div class="options-overlay-content">
 
@@ -117,7 +117,7 @@
                             <a href="{{route('patient.show', $item->id)}}">{{$item->full_name}}</a>
                             </td>
                             <td>
-                                <img class="img-avatar img-avatar128 options-item" src="{{asset('public/backend')}}/images/avatar/{{$item->avatar}}" alt="">
+                                <img class="img-avatar img-avatar128 options-item" src="{{asset('backend')}}/images/avatar/{{$item->avatar}}" alt="">
                             </td>
                             <td>
                                 {{$item->folder_number}}

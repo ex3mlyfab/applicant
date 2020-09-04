@@ -28,7 +28,7 @@
         <!-- Stylesheets -->
         <!-- Fonts and Pentacare Hospital framework -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
-    <link rel="stylesheet" id="css-main" href="{{asset('public/backend')}}/assets/css/oneui.min.css">
+    <link rel="stylesheet" id="css-main" href="{{asset('backend')}}/assets/css/oneui.min.css">
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
         <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
         <!-- END Stylesheets -->
@@ -79,13 +79,13 @@
             <main id="main-container">
 
                 <!-- Page Content -->
-                <div class="bg-image" style="background-image: url('{{asset('public/backend')}}/assets/media/photos/photo6@2x.jpg');">
+                <div class="bg-image" style="background-image: url('{{asset('backend')}}/assets/media/photos/photo6@2x.jpg');">
                     <div class="hero bg-primary-dark-op">
                         <div class="hero-inner">
                             <div class="content content-full bg-black-50">
                                 <div class="row justify-content-center">
                                     <div class="col-md-6 py-3 text-center">
-                                        <img src="{{asset('public/backend')}}/images/pentacare.png" alt="">
+                                        <img src="{{asset('backend')}}/images/pentacare.png" alt="">
                                         <div class="push">
                                             <a class="link-fx font-w700 font-size-h1" href="/">
                                                 <span class="text-white">Pentacare Hospital</span>
@@ -129,7 +129,7 @@
             assets/js/core/jquery.appear.min.js
             assets/js/core/js.cookie.min.js
         --><link rel="stylesheet" id="css-main" href="assets/css/oneui.min.css">
-        <script src="{{asset('public/backend')}}/assets/js/oneui.core.min.js"></script>
+        <script src="{{asset('backend')}}/assets/js/oneui.core.min.js"></script>
 
         <!--
             Pentacare Hospital JS
@@ -137,12 +137,12 @@
             Custom functionality including Blocks/Layout API as well as other vital and optional helpers
             webpack is putting everything together at assets/_es6/main/app.js
         -->
-        <script src="{{asset('public/backend')}}/assets/js/oneui.app.min.js"></script>
+        <script src="{{asset('backend')}}/assets/js/oneui.app.min.js"></script>
 
         <!-- Page JS Plugins -->
-        <script src="{{asset('public/backend')}}/assets/js/plugins/jquery-countdown/jquery.countdown.min.js"></script>
+        <script src="{{asset('backend')}}/assets/js/plugins/jquery-countdown/jquery.countdown.min.js"></script>
 
         <!-- Page JS Code -->
-        <script src="{{asset('public/backend')}}/assets/js/pages/op_coming_soon.min.js"></script>
+        <script src="{{asset('backend')}}/assets/js/pages/op_coming_soon.min.js"></script>
     </body>
 </html>

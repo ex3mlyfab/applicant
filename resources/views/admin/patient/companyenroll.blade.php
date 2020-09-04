@@ -5,8 +5,8 @@
 @endsection
 
 @section('head_css')
-<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
 <style>
     #my_camera{
     width: 200px;
@@ -222,17 +222,17 @@
 
 @section('foot_js')
 <!-- Page JS Plugins -->
-<script src="{{asset('public/backend')}}/assets/js/plugins/jquery-bootstrap-wizard/bs4/jquery.bootstrap.wizard.min.js"></script>
-<script src="{{asset('public/backend')}}/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
-<script src="{{asset('public/backend')}}/assets/js/plugins/jquery-validation/additional-methods.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/jquery-bootstrap-wizard/bs4/jquery.bootstrap.wizard.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/jquery-validation/additional-methods.js"></script>
 
 <!-- Page JS Code -->
-<script src="{{asset('public/backend')}}/assets/js/pages/be_forms_wizard.min.js"></script>
-<script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="{{asset('public/backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/pages/be_forms_wizard.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
 <script>jQuery(function(){ One.helpers(['datepicker', 'select2']); });</script>
 
-<script src="{{asset('public/backend')}}/assets/js/webcam.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/webcam.min.js"></script>
 <script>
     $(function(){
        $('#int124').hide();

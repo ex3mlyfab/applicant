@@ -18,14 +18,14 @@
         </div>
         <div class="block-content">
             <div class="text-center">
-                <img src="{{asset('public/backend')}}/images/pentacare.png" style="width:100px;" class="img-fluid img-avatar-rounded">
+                <img src="{{asset('backend')}}/images/pentacare.png" style="width:100px;" class="img-fluid img-avatar-rounded">
             </div>
             <div class="block block-fx-pop">
                 <div class="block-header bg-info-dark"></div>
                 <div class="block-content ">
                     <div class="row">
                         <div class="col-md-4 text-center">
-                             <img src="{{asset('public/backend')}}/images/avatar/{{$number->clinicalAppointment->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                             <img src="{{asset('backend')}}/images/avatar/{{$number->clinicalAppointment->user->avatar}}" alt="" class="img-avatar img-avatar96">
                         </div>
                         <div class="col-md-8 font-size-sm">
                              <p class="my-0"> Name:&nbsp;<strong>{{$number->clinicalAppointment->user->full_name}}</strong></p>

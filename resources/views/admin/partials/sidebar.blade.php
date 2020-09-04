@@ -5,7 +5,7 @@
         <a class="font-w600 text-dual" href="index.html">
 
             <span class="smini-hide text-center">
-                <img src="{{asset('public/backend')}}/images/pentacare.png" style="width:70px;"alt="">
+                <img src="{{asset('backend')}}/images/pentacare.png" style="width:70px;"alt="">
             </span>
         </a>
         <!-- END Logo -->
@@ -23,23 +23,23 @@
                         <span>Default</span>
                         <i class="fa fa-circle text-default"></i>
                     </a>
-                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('public/backend')}}/assets/css/themes/amethyst.min.css" href="#">
+                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('backend')}}/assets/css/themes/amethyst.min.css" href="#">
                         <span>Amethyst</span>
                         <i class="fa fa-circle text-amethyst"></i>
                     </a>
-                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('public/backend')}}/assets/css/themes/city.min.css" href="#">
+                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('backend')}}/assets/css/themes/city.min.css" href="#">
                         <span>City</span>
                         <i class="fa fa-circle text-city"></i>
                     </a>
-                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('public/backend')}}/assets/css/themes/flat.min.css" href="#">
+                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('backend')}}/assets/css/themes/flat.min.css" href="#">
                         <span>Flat</span>
                         <i class="fa fa-circle text-flat"></i>
                     </a>
-                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('public/backend')}}/assets/css/themes/modern.min.css" href="#">
+                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('backend')}}/assets/css/themes/modern.min.css" href="#">
                         <span>Modern</span>
                         <i class="fa fa-circle text-modern"></i>
                     </a>
-                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('public/backend')}}/assets/css/themes/smooth.min.css" href="#">
+                    <a class="dropdown-item d-flex align-items-center justify-content-between" data-toggle="theme" data-theme="{{asset('backend')}}/assets/css/themes/smooth.min.css" href="#">
                         <span>Smooth</span>
                         <i class="fa fa-circle text-smooth"></i>
                     </a>

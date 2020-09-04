@@ -16,7 +16,7 @@ take vital signs
                 @csrf
                 <div class="form-group form-row">
                     <div class="col-md-4">
-                        <img src="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" alt="" >
+                        <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" >
                     </div>
                     <div class="col-md-4">
                         <label for="patient_id"> Patient Name</label>

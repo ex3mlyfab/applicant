@@ -30,7 +30,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{$item->clinicalAppointment->user->full_name}}</td>
                             <td>{{$item->clinicalAppointment->user->folder_number}}</td>
-                            <td><img src="{{ $item->clinicalAppointment->user->avatar ? asset('public/backend/images/avatar/'. $item->clinicalAppointment->user->avatar) : asset('public/frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
+                            <td><img src="{{ $item->clinicalAppointment->user->avatar ? asset('backend/images/avatar/'. $item->clinicalAppointment->user->avatar) : asset('frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
                                 <span class="badge badge-warning">{{$item->clinicalAppointment->user->sex}}</span>
                             </td>
                             <td>{{$item->investigation_required}}

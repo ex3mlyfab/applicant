@@ -4,7 +4,7 @@
     Pending Admission
 @endsection
 @section('head_css')
-<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
 
 @endsection
 
@@ -37,7 +37,7 @@
                                             {{ $item->clinicalAppointment->user->full_name}}
                                         </td>
                                         <td>
-                                            <img src="{{ $item->clinicalAppointment->user->avatar ? asset('public/backend/images/avatar/'. $item->clinicalAppointment->user->avatar) : asset('public/frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
+                                            <img src="{{ $item->clinicalAppointment->user->avatar ? asset('backend/images/avatar/'. $item->clinicalAppointment->user->avatar) : asset('frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
                                             <span class="badge badge-pill p-2 badge-light">
                                                 {{$item->clinicalAppointment->user->folder_number}}
                                             </span>
@@ -60,7 +60,7 @@
 
 
                                                 @else
-                                                <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('public/backend')}}/images/avatar/{{$item->clinicalAppointment->user->avatar}}" data-fullname="{{ $item->clinicalAppointment->user->full_name}}" data-patient-id="{{$item->clinicalAppointment->user->id}}" data-folder-number="{{ $item->clinicalAppointment->user->folder_number}}" data-sex="{{ $item->clinicalAppointment->user->sex}}"
+                                                <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->clinicalAppointment->user->avatar}}" data-fullname="{{ $item->clinicalAppointment->user->full_name}}" data-patient-id="{{$item->clinicalAppointment->user->id}}" data-folder-number="{{ $item->clinicalAppointment->user->folder_number}}" data-sex="{{ $item->clinicalAppointment->user->sex}}"
                                                 data-adminreq="{{$item->id}}"><span data-toggle="tooltip" title="Process Admission"> <i class="fa fa-fw fa-clipboard"></i> Process Admission </span></button>
 
                                                 @endif
@@ -222,9 +222,9 @@
 
 @endsection
 @section('foot_js')
-<script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="{{asset('public/backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
-<script src="{{asset('public/backend')}}/assets/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js"></script>
 <script>jQuery(function(){ One.helpers([ 'select2', 'masked-inputs', 'datepicker']); });</script>
 <script>
     $(function(){

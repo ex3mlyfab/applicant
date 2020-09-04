@@ -59,7 +59,7 @@
     </div>
 
 
-    <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('public/backend')}}/images/avatar/{{$patient->avatar}}" data-fullname="{{ $patient->full_name}}" data-patient-id="{{$patient->id}}" data-folder-no="{{ $patient->folder_number}}" data-sex="{{ $patient->sex}}">
+    <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" data-fullname="{{ $patient->full_name}}" data-patient-id="{{$patient->id}}" data-folder-no="{{ $patient->folder_number}}" data-sex="{{ $patient->sex}}">
         <span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-2x fa-stopwatch"></i></span>
     </button>
 </dsiv>

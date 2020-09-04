@@ -123,7 +123,7 @@
 @endsection
 
 @section('foot_js')
-<script src="{{asset('public/backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
 <script>
 
 new Chart($(".js-chartjs-bars"), {

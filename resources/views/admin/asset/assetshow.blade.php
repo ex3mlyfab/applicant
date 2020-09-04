@@ -5,7 +5,7 @@
 @endsection
 @section('head_css')
 <!-- Page JS Plugins CSS -->
-<link rel="stylesheet" href="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
 
 @endsection
 
@@ -326,7 +326,7 @@
 @endsection
 
 @section('foot_js')
-<script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script>jQuery(function(){ One.helpers(['datepicker']); });</script>
 <script>
 $(function(){

@@ -82,7 +82,7 @@
                             <a href="{{route('patient.show', $item->id)}}">{{$item->full_name}}</a>
                             </td>
                             <td>
-                                <img class="img-avatar img-avatar128 options-item" src="{{asset('public/backend')}}/images/avatar/{{$item->avatar}}" alt="">
+                                <img class="img-avatar img-avatar128 options-item" src="{{asset('backend')}}/images/avatar/{{$item->avatar}}" alt="">
                             </td>
                             <td>
                                 {{$item->folder_number}}
