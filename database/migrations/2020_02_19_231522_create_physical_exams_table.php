@@ -13,6 +13,7 @@ class CreatePhysicalExamsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('physical_exams');
         Schema::create('physical_exams', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->nullableMorphs('patientable');
@@ -30,7 +31,6 @@ class CreatePhysicalExamsTable extends Migration
             $table->string('initial_diagnosis')->nullable();
             $table->unsignedBigInteger('seen_by')->nullable();
             $table->timestamps();
-            $table->foreign('clinical_appointment_id')->references('id')->on('clinical_appointments');
         });
     }
 

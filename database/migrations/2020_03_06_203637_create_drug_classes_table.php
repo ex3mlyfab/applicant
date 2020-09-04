@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnToPharmReqDetailTable extends Migration
+class CreateDrugClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddColumnToPharmReqDetailTable extends Migration
      */
     public function up()
     {
-        Schema::table('pharmreq_details', function (Blueprint $table) {
-            //
-            $table->unsignedBigInteger('drug_model_id')->nullable();
+        Schema::create('drug_classes', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -26,9 +27,6 @@ class AddColumnToPharmReqDetailTable extends Migration
      */
     public function down()
     {
-        Schema::table('pharmreq_details', function (Blueprint $table) {
-            //
-            $table->dropColumn('drug_model_id');
-        });
+        Schema::dropIfExists('drug_categories');
     }
 }

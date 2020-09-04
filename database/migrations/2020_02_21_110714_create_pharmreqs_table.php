@@ -20,7 +20,6 @@ class CreatePharmreqsTable extends Migration
             $table->string('status')->nullable();
             $table->decimal('total', 20, 2)->nullable();
             $table->timestamps();
-            $table->foreign('clinical_appointment_id')->references('id')->on('clinical_appointments');
         });
     }
 

@@ -13,13 +13,13 @@ class CreateFollowUpsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('follow_ups');
         Schema::create('follow_ups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->nullableMorphs('patientable');
             $table->text('subjective_complaints');
             $table->text('objective_findings');
             $table->string('assessment', 30);
-            $table->foreign('clinical_appointment_id')->references('id')->on('clinical_appointments');
             $table->timestamps();
         });
     }
