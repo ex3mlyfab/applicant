@@ -29,7 +29,7 @@
         <!-- Stylesheets -->
         <!-- Fonts and OneUI framework -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
-        <link rel="stylesheet" id="css-main" href="backend/assets/css/oneui.min.css">
+        <link rel="stylesheet" id="css-main" href="{{asset('backend')}}/assets/css/oneui.min.css">
         @yield('head_css')
 
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
