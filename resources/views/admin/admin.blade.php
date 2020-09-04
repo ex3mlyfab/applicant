@@ -14,7 +14,7 @@
         <!-- Open Graph Meta -->
         <meta property="og:title" content="Pentacare Hospital">
         <meta property="og:site_name" content="Pentacare Hospital">
-        <meta property="og:description" content="Pentacare Hospital created by pixelcave and published on Themeforest">
+        <meta property="og:description" content="Pentacare Hospital created">
         <meta property="og:type" content="website">
         <meta property="og:url" content="">
         <meta property="og:image" content="">
@@ -29,7 +29,7 @@
         <!-- Stylesheets -->
         <!-- Fonts and OneUI framework -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
-        <link rel="stylesheet" id="css-main" href="{{asset('backend')}}/assets/css/oneui.min.css">
+        <link rel="stylesheet" id="css-main" href="backend/assets/css/oneui.min.css">
         @yield('head_css')
 
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
@@ -77,9 +77,9 @@
     Custom functionality including Blocks/Layout API as well as other vital and optional helpers
     webpack is putting everything together at assets/_es6/main/app.js
 -->
-<script src="{{asset('backend')}}/assets/js/oneui.app.min.js"></script>
+<script src="{{ asset('backend')}}/assets/js/oneui.app.min.js"></script>
 <!-- Page JS Plugins -->
-<script src="{{asset('backend')}}/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="{{ asset('backend')}}/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 <script>
     $(function(){
         $('label').css("text-transform", "uppercase");

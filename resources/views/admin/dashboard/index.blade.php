@@ -105,7 +105,8 @@
                 <div class="col-md-8">
                     <div class="block block-fx-shadow">
                         <div class="block-header">
-                            <h3 class="block-title text-center">Hospital survey</h3>
+                        <h3 class="block-title text-center">Hospital survey<br> {{asset('backend')}}/assets/js/oneui.app.min.js
+                        </h3>
                         </div>
                         <div class="block-content block-content-full">
                             <canvas class="js-chartjs-bars"></canvas>
