@@ -18,7 +18,7 @@ class CreateInpatientDetailsTable extends Migration
             $table->unsignedBigInteger('inpatient_id');
             $table->string('actions', 100)->nullable();
             $table->string('status', 100)->nullable();
-            $table->morphs('test');
+            $table->nullableMorphs('testable');
             $table->timestamps();
         });
     }

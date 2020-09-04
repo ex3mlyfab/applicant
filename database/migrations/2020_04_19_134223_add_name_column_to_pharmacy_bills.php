@@ -16,8 +16,6 @@ class AddNameColumnToPharmacyBills extends Migration
         Schema::table('pharmacy_bills', function (Blueprint $table) {
             //
             $table->unsignedBigInteger('pharmreq_id')->nullable();
-            $table->string('patient_name')->nullable();
-            $table->dropColumn('user_id');
         });
     }
 

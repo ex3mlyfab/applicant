@@ -18,6 +18,8 @@ class CreateFamiliesTable extends Migration
             $table->string('enrolment count');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('registration_type_id');
+            $table->String('folder_number', 50)->nullable();
+            $table->unsignedBigInteger('payment_method')->nullable();
             $table->timestamps();
         });
     }

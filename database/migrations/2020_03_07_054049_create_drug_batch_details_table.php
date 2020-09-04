@@ -21,10 +21,10 @@ class CreateDrugBatchDetailsTable extends Migration
             $table->string('packing_quantity', 10)->nullable();
             $table->date('expiry_date');
             $table->decimal('cost', 20, 2)->nullable();
+            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->string('supplier', 100)->nullable();
             $table->string('available_quantity')->nullable();
             $table->string('status')->nullable();
-
             $table->timestamps();
         });
     }

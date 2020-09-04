@@ -19,6 +19,7 @@ class CreateAssetModelsTable extends Migration
             $table->string('name', 90);
             $table->string('picture')->nullable();
             $table->string('unit', 50)->nullable();
+            $table->string('total_balance', 30)->nullable();
             $table->timestamps();
         });
     }

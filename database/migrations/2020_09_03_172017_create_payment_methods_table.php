@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSpoColumnToVitalSignsTable extends Migration
+class CreatePaymentMethodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddSpoColumnToVitalSignsTable extends Migration
      */
     public function up()
     {
-        Schema::table('vital_signs', function (Blueprint $table) {
-            //
-            $table->string('spo', 10)->nullable();
+        Schema::create('payment_methods', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name', 50);
+            $table->timestamps();
         });
     }
 
@@ -26,9 +27,6 @@ class AddSpoColumnToVitalSignsTable extends Migration
      */
     public function down()
     {
-        Schema::table('vital_signs', function (Blueprint $table) {
-            //
-            $table->dropColumn('spo');
-        });
+        Schema::dropIfExists('payment_methods');
     }
 }

@@ -15,17 +15,17 @@ class CreatePresentingComplaintsTable extends Migration
     {
         Schema::create('presenting_complaints', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->text('pchx')->nullable();
             $table->text('pmhx')->nullable();
             $table->text('fshx')->nullable();
-            $table->string('previously_admitted')->nullable();
+            $table->string('previously_admitted', 20)->nullable();
             $table->string('reasons4admission')->nullable();
-            $table->string('hypertensive')->nullable();
-            $table->string('diabetic')->nullable();
-            $table->string('blood_transfusion')->nullable();
+            $table->string('hypertensive', 10)->nullable();
+            $table->string('diabetic', 10)->nullable();
+            $table->string('blood_transfusion', 10)->nullable();
             $table->string('drug_or_allergy')->nullable();
-            $table->string('sc_disease')->nullable();
+            $table->string('sc_disease', 10)->nullable();
             $table->string('others')->nullable();
             $table->string('cns')->nullable();
             $table->string('cvs')->nullable();

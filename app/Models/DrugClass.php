@@ -9,8 +9,8 @@ class DrugCategory extends Model
 {
     protected $guarded = [];
 
-    public function drugSubCategories(): HasMany
+    public function drugModels(): HasMany
     {
-        return $this->hasMany(DrugSubCategory::class);
+        return $this->hasMany(DrugModel::class);
     }
 }

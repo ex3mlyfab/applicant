@@ -15,7 +15,7 @@ class CreateHaematologyreqsTable extends Migration
     {
         Schema::create('haematologyreqs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->unsignedBigInteger('requested_by')->nullable();
             $table->string('clinical_details')->nullable();
             $table->string('investigation_required')->nullable();

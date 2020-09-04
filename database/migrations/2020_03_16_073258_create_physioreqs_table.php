@@ -15,6 +15,10 @@ class CreatePhysioreqsTable extends Migration
     {
         Schema::create('physioreqs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->nullableMorphs('patientable');
+            $table->string('clinical_information')->nullable();
+            $table->string('requests')->nullable();
+            $table->unsignedBigInteger('admin_id');
             $table->timestamps();
         });
     }

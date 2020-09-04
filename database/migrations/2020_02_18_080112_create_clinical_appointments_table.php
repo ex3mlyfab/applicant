@@ -23,8 +23,8 @@ class CreateClinicalAppointmentsTable extends Migration
             $table->date('appointment_due');
             $table->string('complaints')->nullable();
             $table->unsignedBigInteger('payment_id');
-            $table->string('payment_status')->nullable();
-            $table->string('status')->nullable();
+            $table->string('payment_status', 20)->nullable();
+            $table->string('status', 60)->nullable();
             $table->timestamps();
         });
     }

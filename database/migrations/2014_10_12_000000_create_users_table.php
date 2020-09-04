@@ -28,8 +28,10 @@ class CreateUsersTable extends Migration
             $table->text('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
-            $table->string('national_id')->nullable();
+            $table->string('nationality')->nullable();
+            $table->string('tribe')->nullable();
             $table->string('source')->nullable();
+            $table->string('religion')->nullable();
             $table->string('nok')->nullable();
             $table->string('nok_relationship')->nullable();
             $table->string('nok_phone')->nullable();
@@ -38,6 +40,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->string('status')->nullable();
+            $table->unsignedBigInteger('paymentMethod')->nullable();
+            $table->string('insurance_number')->nullable();
             $table->timestamps();
         });
     }

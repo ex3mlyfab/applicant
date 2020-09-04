@@ -15,7 +15,7 @@ class CreateRadiologyreqsTable extends Migration
     {
         Schema::create('radiologyreqs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->unsignedBigInteger('requested_by')->nullable();
             $table->string('clinical_information')->nullable();
             $table->string('examination_required')->nullable();

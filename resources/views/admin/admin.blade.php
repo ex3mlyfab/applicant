@@ -21,15 +21,15 @@
 
         <!-- Icons -->
         <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-        <link rel="shortcut icon" href="{{asset('public/backend')}}/assets/media/favicons/favicon.png">
-        <link rel="icon" type="image/png" sizes="192x192" href="{{asset('public/backend')}}/assets/media/favicons/favicon-192x192.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{asset('public/backend')}}/assets/media/favicons/apple-touch-icon-180x180.png">
+        <link rel="shortcut icon" href="{{asset('backend')}}/assets/media/favicons/favicon.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{asset('backend')}}/assets/media/favicons/favicon-192x192.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{asset('backend')}}/assets/media/favicons/apple-touch-icon-180x180.png">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
         <!-- Fonts and OneUI framework -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
-        <link rel="stylesheet" id="css-main" href="{{asset('public/backend')}}/assets/css/oneui.min.css">
+        <link rel="stylesheet" id="css-main" href="{{asset('backend')}}/assets/css/oneui.min.css">
         @yield('head_css')
 
         <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
@@ -42,7 +42,7 @@
 @include('admin.partials.sidebar')
 @include('admin.partials.header')
 <!-- Main Container -->
-<main id="main-container" style="background: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.5)), url('{{asset('public/backend')}}/images/penta.jpeg') no-repeat center center; background-size: cover;">
+<main id="main-container" style="background: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.5)), url('{{asset('backend')}}/images/penta.jpeg') no-repeat center center; background-size: cover;">
 
     @yield('content')
 
@@ -69,7 +69,7 @@
     assets/js/core/jquery.appear.min.js
     assets/js/core/js.cookie.min.js
 -->
-<script src="{{asset('public/backend')}}/assets/js/oneui.core.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/oneui.core.min.js"></script>
 
 <!--
     OneUI JS
@@ -77,9 +77,9 @@
     Custom functionality including Blocks/Layout API as well as other vital and optional helpers
     webpack is putting everything together at assets/_es6/main/app.js
 -->
-<script src="{{asset('public/backend')}}/assets/js/oneui.app.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/oneui.app.min.js"></script>
 <!-- Page JS Plugins -->
-<script src="{{asset('public/backend')}}/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 <script>
     $(function(){
         $('label').css("text-transform", "uppercase");

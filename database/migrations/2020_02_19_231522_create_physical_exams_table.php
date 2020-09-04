@@ -15,7 +15,7 @@ class CreatePhysicalExamsTable extends Migration
     {
         Schema::create('physical_exams', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->text('general_exam')->nullable();
             $table->text('local_exam')->nullable();
             $table->text('regional_exam')->nullable();

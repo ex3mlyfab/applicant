@@ -15,7 +15,7 @@ class CreateFollowUpsTable extends Migration
     {
         Schema::create('follow_ups', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->text('subjective_complaints');
             $table->text('objective_findings');
             $table->string('assessment', 30);

@@ -16,7 +16,7 @@ class CreateAdmitModelsTable extends Migration
         Schema::create('admit_models', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('clinical_appointment_id');
-            $table->string('clinical_information');
+            $table->string('clinical_information')->nullable();
             $table->string('reason')->nullable();
             $table->unsignedBigInteger('admin_id')->nullable();
             $table->string('status')->nullable();

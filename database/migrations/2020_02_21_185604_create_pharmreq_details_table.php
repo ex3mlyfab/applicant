@@ -18,7 +18,9 @@ class CreatePharmreqDetailsTable extends Migration
             $table->unsignedBigInteger('pharmreq_id');
             $table->unsignedBigInteger('drug_model_id');
             $table->string('dosage');
+            $table->string('duration');
             $table->string('quantity');
+            $table->decimal('cost', 10, 2)->nullable();
             $table->foreign('pharmreq_id')->references('id')->on('pharmreqs')->onDelete('cascade');
         });
     }

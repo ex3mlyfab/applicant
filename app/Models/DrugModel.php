@@ -10,7 +10,7 @@ class DrugModel extends Model
 {
     protected $guarded = [];
 
-    public function drugSubCategory(): BelongsTo
+    public function drugClass(): BelongsTo
     {
         return $this->belongsTo(DrugSubCategory::class);
     }

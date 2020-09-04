@@ -16,8 +16,7 @@ class CreateConsultTestsTable extends Migration
         Schema::create('consult_tests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('consult_id');
-            $table->unsignedBigInteger('test_id');
-            $table->string('type')->nullable();
+            $table->nullableMorphs('testable');
             $table->string('status')->nullable();
             $table->timestamps();
         });

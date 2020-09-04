@@ -15,7 +15,7 @@ class CreateMicrobiologyReportsTable extends Migration
     {
         Schema::create('microbiology_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('pathogyreq_id');
+            $table->unsignedBigInteger('microbiologyreq_id');
             $table->string('augmentin', 25)->nullable();
             $table->string('cefixime', 25)->nullable();
             $table->string('erythromycin', 25)->nullable();

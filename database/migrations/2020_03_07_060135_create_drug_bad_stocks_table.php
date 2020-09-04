@@ -20,7 +20,7 @@ class CreateDrugBadStocksTable extends Migration
             $table->date('outward_date')->nullable();
             $table->date('expiry_date')->nullable();
             $table->string('quantity');
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

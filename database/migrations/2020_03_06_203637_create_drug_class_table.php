@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDurationColumn extends Migration
+class CreateDrugCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddDurationColumn extends Migration
      */
     public function up()
     {
-        Schema::table('pharmreq_details', function (Blueprint $table) {
-            //
-            $table->string('duration')->nullable();
+        Schema::create('drug_class', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +27,6 @@ class AddDurationColumn extends Migration
      */
     public function down()
     {
-        Schema::table('pharmreq_details', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('drug_categories');
     }
 }

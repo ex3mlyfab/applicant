@@ -15,7 +15,8 @@ class CreateTcasTable extends Migration
     {
         Schema::create('tcas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->unsignedBigInteger('clinical_appointment_id')->nullable();
+            $table->unsignedBigInteger('inpatient_id')->nullable();
             $table->date('due_date');
             $table->unsignedBigInteger('admin_id');
             $table->string('status', 50)->nullable();

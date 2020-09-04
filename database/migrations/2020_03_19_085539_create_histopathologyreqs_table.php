@@ -26,7 +26,7 @@ class CreateHistopathologyreqsTable extends Migration
             $table->string('condition', 50)->nullable();
             $table->string('cervix_appearance', 50)->nullable();
             $table->string('symptoms', 50)->nullable();
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->timestamps();
         });
     }

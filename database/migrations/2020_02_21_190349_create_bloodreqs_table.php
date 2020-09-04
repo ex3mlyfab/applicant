@@ -15,7 +15,7 @@ class CreateBloodreqsTable extends Migration
     {
         Schema::create('bloodreqs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->unsignedBigInteger('requested_by')->nullable();
             $table->string('diagnosis')->nullable();
             $table->string('blood_group', 10)->nullable();

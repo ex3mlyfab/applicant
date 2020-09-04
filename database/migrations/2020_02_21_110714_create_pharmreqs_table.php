@@ -15,9 +15,10 @@ class CreatePharmreqsTable extends Migration
     {
         Schema::create('pharmreqs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->unsignedBigInteger('seen_by');
             $table->string('status')->nullable();
+            $table->decimal('total', 20, 2)->nullable();
             $table->timestamps();
             $table->foreign('clinical_appointment_id')->references('id')->on('clinical_appointments');
         });

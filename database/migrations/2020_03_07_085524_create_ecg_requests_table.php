@@ -15,7 +15,7 @@ class CreateEcgRequestsTable extends Migration
     {
         Schema::create('ecg_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->unsignedBigInteger('doctor_id')->nullable();
             $table->string('reason', 100)->nullable();
             $table->string('clinical_summary', 200)->nullable();

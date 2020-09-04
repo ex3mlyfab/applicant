@@ -15,7 +15,7 @@ class CreateMicrobiologyreqsTable extends Migration
     {
         Schema::create('microbiologyreqs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('clinical_appointment_id');
+            $table->nullableMorphs('patientable');
             $table->unsignedBigInteger('requested_by')->nullable();
             $table->string('specimen')->nullable();
             $table->string('clinical_information')->nullable();

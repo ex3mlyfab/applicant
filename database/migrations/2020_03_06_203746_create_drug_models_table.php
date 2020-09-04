@@ -15,7 +15,7 @@ class CreateDrugModelsTable extends Migration
     {
         Schema::create('drug_models', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('drug_sub_category_id');
+            $table->unsignedBigInteger('drug_class_id');
             $table->string('name', 100);
             $table->string('dosage', 100);
             $table->string('forms', 100);

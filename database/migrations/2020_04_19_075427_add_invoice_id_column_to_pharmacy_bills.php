@@ -14,7 +14,7 @@ class AddInvoiceIdColumnToPharmacyBills extends Migration
     public function up()
     {
         Schema::table('pharmacy_bills', function (Blueprint $table) {
-            $table->dropColumn('payment_method');
+
             $table->unsignedBigInteger('invoice_id')->nullable();
         });
     }
