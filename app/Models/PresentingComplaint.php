@@ -3,16 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class PresentingComplaint extends Model
 {
     protected $guarded = [];
 
-    public function clinicalAppointment(): BelongsTo
+    public function patientable(): MorphTo
     {
-        return $this->belongsTo(ClinicalAppointment::class);
+        return $this->morphTo();
     }
     public function consult(): HasOne
     {

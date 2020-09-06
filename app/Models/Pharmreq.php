@@ -13,18 +13,15 @@ class Pharmreq extends Model
 {
     protected $guarded = [];
 
-    public function clinicalAppointment(): BelongsTo
-    {
-        return $this->belongsTo(ClinicalAppointment::class);
-    }
+
 
     public function seen_by(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'seen_by');
     }
-    public function labinfos(): MorphMany
+    public function pharmReq(): MorphMany
     {
-        return $this->morphMany(ConsultTest::class, 'labtest');
+        return $this->morphMany(ConsultTest::class, 'testable');
     }
     public function invoices(): MorphMany
     {

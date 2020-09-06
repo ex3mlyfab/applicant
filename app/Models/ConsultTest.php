@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ConsultTest extends Model
@@ -15,7 +16,11 @@ class ConsultTest extends Model
         return $this->belongsTo(Consult::class);
     }
 
-    public function labtest(): MorphTo
+    Public function followUp(): MorphOne
+    {
+        return $this->morphOne(FollowUp::class, 'patientable');
+    }
+    public function testable(): MorphTo
     {
         return $this->morphTo();
     }

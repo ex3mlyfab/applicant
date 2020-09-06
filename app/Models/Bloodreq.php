@@ -16,10 +16,9 @@ class Bloodreq extends Model
         return $this->belongsTo(ClinicalAppointment::class);
     }
 
-
-    public function labinfos(): MorphMany
+    public function bloodRequests(): MorphMany
     {
-        return $this->morphMany(ConsultTest::class, 'labtest');
+        return $this->morphMany(ConsultTest::class, 'testable');
     }
     public function invoices(): MorphMany
     {
