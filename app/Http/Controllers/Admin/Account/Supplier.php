@@ -43,7 +43,6 @@ class Supplier extends Controller
             'name' => 'required|string',
             'contact_phone' => 'required',
             'contact_person_name' => 'sometimes',
-            'insurance_category_id' => 'required',
             'address' => 'sometimes',
         ]);
 
@@ -91,7 +90,6 @@ class Supplier extends Controller
             'name' => 'required|string',
             'contact_phone' => 'required',
             'contact_person_name' => 'sometimes',
-            'insurance_category_id' => 'required',
             'address' => 'sometimes',
         ]);
 

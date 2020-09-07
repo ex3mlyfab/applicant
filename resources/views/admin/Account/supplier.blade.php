@@ -16,7 +16,7 @@
         <div class="col-md-4">
             <div class="block block-fx-pop">
                 <div class="block-header bg-info-light">
-                    <h3 class="block-header">Add Supplier/h3>
+                    <h3 class="block-header">Add Supplier</h3>
                 </div>
                 <div class="block-content block-content-full">
                 <form @if (isset($task))
@@ -48,7 +48,7 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Company Address</label>
-                            <textarea name="address" id="address" cols="4"
+                            <textarea name="address" id="address" cols="4" class="form-control form-control-lg"
                             @isset($task)  value="{{$task->address}}"@endisset>
 
                             </textarea>
