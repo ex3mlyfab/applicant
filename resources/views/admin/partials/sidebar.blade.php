@@ -409,6 +409,11 @@
                             <span class="nav-main-link-name">Visitor Purpose type</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('supplier.index')}}">
+                            <span class="nav-main-link-name">Supplier</span>
+                        </a>
+                    </li>
 
                 </ul>
             </li>

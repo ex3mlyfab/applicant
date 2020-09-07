@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Models\RegistrationType;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 
-class RegistrationController extends Controller
+class Icd extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +14,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        $regtypes = RegistrationType::all();
-        return view('admin.settings.registrationtype', compact('regtypes'));
+        //
     }
 
     /**
@@ -39,13 +36,6 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
         //
-        $link = RegistrationType::create($request->all());
-        $charge = $link->charge->amount;
-        $newCharge = array('amount' => $charge);
-        $newlink = array_merge($link->toArray(), $newCharge);
-
-        return Response::json($newlink);
-        // return back()->with($notification);
     }
 
     /**
@@ -67,8 +57,7 @@ class RegistrationController extends Controller
      */
     public function edit($id)
     {
-        $regtype = RegistrationType::findOrFail($id);
-        return Response::json($regtype);
+        //
     }
 
     /**
@@ -78,14 +67,9 @@ class RegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RegistrationType $regtype)
+    public function update(Request $request, $id)
     {
-        $data = $request->except('_token');
-        $regtype->update($data);
-
-        $link = $regtype->with('charge:id, amount');
-        $link = json_encode($link);
-        return Response::json($link);
+        //
     }
 
     /**
@@ -94,10 +78,8 @@ class RegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RegistrationType $regtype)
+    public function destroy($id)
     {
-        $regid = $regtype->id;
-        $regtype->delete();
-        return Response::json($regid);
+        //
     }
 }

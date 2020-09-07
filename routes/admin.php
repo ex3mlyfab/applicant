@@ -70,12 +70,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('drugcategory', 'Admin\Pharmacy\DrugCategoryController')->middleware('permission:drugcategory-view');
         Route::resource('drug', 'Admin\Pharmacy\DrugController')->middleware('permission:drug-view');
         Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController')->middleware('permission:drugbatch-view');
-        Route::resource('wards', 'Admin\Setting\WardController');
+        Route::resource('wards', 'Admin\Setting\WardModelController');
         Route::post('costdrug', 'Admin\Pharmacy\PharmacyController@prepare')->name('pharmacy.prepare');
         Route::resource('pharmbill', 'Admin\Pharmacy\PharmacyBillController');
         Route::resource('invoice', 'Admin\Account\InvoiceController')->middleware('permission:payment-view');
         Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController')->middleware('permission:pharmacy-view');
         Route::resource('purpose', 'Admin\Setting\VisitorPurposeSettingController');
+        Route::resource('supplier', 'Admin\Account\Supplier')->middleware('permission:supplier-view');
 
         Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
         Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');
@@ -96,7 +97,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('assetpurchase', 'Admin\Setting\AssetPurchaseController')->middleware('permission:assetpurchase-view');
         Route::resource('assetassign', 'Admin\Setting\AssetAssignController')->middleware('permission:assetassign-view');
 
-
         Route::group(['prefix' => 'regtype'], function () {
             Route::get('/', 'Admin\Setting\RegistrationController@index')->middleware('permission:regtype-view')->name('regtype.index');
             Route::get('/{regtype}', 'Admin\Setting\RegistrationController@edit')->middleware('permission:regtype-update');
@@ -105,7 +105,6 @@ Route::group(['prefix' => 'admin'], function () {
             Route::delete('/destroy/{regtype}', 'Admin\Setting\RegistrationController@destroy');
         });
 
-
-        Route::get('/',  'Admin\Setting\DashboardController@index')->name('admin.dashboard');
+        Route::get('/', 'Admin\Setting\DashboardController@index')->name('admin.dashboard');
     });
 });

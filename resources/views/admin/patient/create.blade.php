@@ -51,7 +51,7 @@
                                 <label class="d-block">Registration Type</label>
                             @foreach ($individual as $item)
                                 <div class="form-check">
-                                <input type="radio" name="registration_type_id" class="form-check-input" value="{{$item->id}}">
+                                <input type="radio" name="registration_type_id" class="form-check-input" value="{{$item->name}}">
                                     <label class="form-check-label display-4">{{$item->name}} - ₦{{$item->charge->amount}}</label>
                                 </div>
 

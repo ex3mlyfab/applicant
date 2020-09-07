@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\Family;
 use App\Models\Payment;
 use App\Models\RegistrationType;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
 {
@@ -57,28 +56,31 @@ class PatientController extends Controller
             'nok_relationship' => 'nullable|string|max:255',
             'nok_address' => 'nullable|string',
             'address' => 'nullable|string',
-            'national_id' => 'nullable|string',
+            'nationality' => 'nullable|string',
             'state' => 'nullable|string',
             'city' => 'nullable|string',
             'age_at_reg' => 'nullable|string',
             'marital_status' => 'nullable|string',
             'registration_type_id' => 'nullable',
             'occupation' => 'nullable',
-            // 'tribe'=> 'nullable',
+            'tribe' => 'nullable',
+            'religion' => 'sometimes',
+            'referral_source' => 'sometimes',
+            'insurance_number' => 'nullable',
+            'payment_method' => 'nullable',
 
         ]);
 
-
         if ($request->has('dob')) {
             $dob = strtotime($request->dob);
-            $newDate = date('Y-m-d', $dob);
+            $newDate = date('d-m-Y', $dob);
             $validated['dob'] = $newDate;
         }
         switch ($request->registration_type_id) {
-            case 15:
+            case 'Ante-Natal':
                 $validated['source'] = 'antenatal';
                 break;
-            case 12:
+            case 'student':
                 $validated['source'] = 'student';
                 break;
             default:
@@ -86,15 +88,11 @@ class PatientController extends Controller
                 break;
         }
 
-
-
         $validated['folder_number'] = assign_Fno($validated['source']);
-
-
 
         if ($request->has('avatar')) {
             //
-            $image = $request->avatar;  // your base64 encoded
+            $image = $request->avatar; // your base64 encoded
 
             // $image = str_replace('data:image/png;base64,', '', $image);
 
@@ -123,7 +121,7 @@ class PatientController extends Controller
 
         $notification = array(
             'message' => 'Patient created successfully!',
-            'alert-type' => 'success'
+            'alert-type' => 'success',
         );
 
         return redirect('admin/patient')->with($notification);
@@ -192,7 +190,7 @@ class PatientController extends Controller
         }
         if ($request->has('avatar')) {
             //
-            $image = $request->avatar;  // your base64 encoded
+            $image = $request->avatar; // your base64 encoded
 
             // $image = str_replace('data:image/png;base64,', '', $image);
 
@@ -207,10 +205,9 @@ class PatientController extends Controller
 
         $patient->update($validated);
 
-
         $notification = array(
             'message' => 'Patient created successfully!',
-            'alert-type' => 'success'
+            'alert-type' => 'success',
         );
 
         return redirect('admin/patient')->with($notification);
@@ -233,7 +230,7 @@ class PatientController extends Controller
         $patient->delete();
         $notification = array(
             'message' => 'Patient deleted successfully!',
-            'alert-type' => 'info'
+            'alert-type' => 'info',
         );
 
         return redirect('admin/patient')->with($notification);

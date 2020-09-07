@@ -18,7 +18,8 @@ class CreateRecieveOrdersTable extends Migration
             $table->unsignedBigInteger('purchase_order_id');
             $table->string('status')->nullable();
             $table->unsignedBigInteger('supplier_id');
-            $table->decimal('costs',20,2)->nullable();
+            $table->decimal('costs', 20, 2)->nullable();
+            $table->string('receipt_no')->nullable();
             $table->string('payment_status')->nullable();
             $table->unsignedBigInteger('checked_by')->nullable();
             $table->timestamps();

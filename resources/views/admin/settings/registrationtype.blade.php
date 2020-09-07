@@ -42,7 +42,7 @@ add regtype
                         @foreach ($regtypes as $item)
                     <tr id="regtype{{ $item->id }}">
                             <td>
-                                {{$item->id}}
+                                {{$loop->iteration}}
                             </td>
                             <td>
                                 {{$item->name}}
@@ -57,15 +57,9 @@ add regtype
                                 {{$item->note}}
                             </td>
                             <td>
-                                <div class="btn-group">
+                                <button class="btn btn-info open-modal" value="{{$item->id}}">Edit</button>
+                                <button class="btn btn-danger delete-type" value="{{$item->id}}">Delete</button>
 
-                                    <button type="button" class="btn btn-sm btn-primary open-modal" value="{{$item->id}}" data-toggle="tooltip" title="Edit Link">
-                                        <i class="fa fa-fw fa-pencil-alt mr-2"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-danger delete-type" value="{{$item->id}}" data-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times mr-2">Del</i>
-                                    </button>
-                                </div>
                             </td>
                         </tr>
 
@@ -98,6 +92,7 @@ add regtype
                                 <input type="number" name="max_enrollment" id="max_enrollment" class="form-control" required>
                             </div>
                             <div class="form-group">
+                                <label for="charges">Select Charges</label>
                                 <select name="charge_id" id="charges" class="form-control" required>
                                     <option value=""></option>
                                     {{ create_option('charges', 'id', 'name')}}
@@ -171,7 +166,7 @@ add regtype
             dataType: 'json',
             success: function (data) {
 
-                var link = '<tr id="regtype' + data.id + '"><td>' + data.id + '</td><td>' + data.name + '</td><td>' + data.max_enrollment + '</td><td>' + data.charge_id + '</td><td>' + data.note + '</td>';
+                var link = '<tr id="regtype' + data.id + '"><td>' + data.id + '</td><td>' + data.name + '</td><td>' + data.max_enrollment + '</td><td>' + data.amount + '</td><td>' + data.status + '</td>';
                 link += '<td><button class="btn btn-info open-modal" value="' + data.id + '">Edit</button>&nbsp;';
                 link += '<button class="btn btn-danger delete-link" value="' + data.id + '">Delete</button></td></tr>';
                 if (state == "add") {
