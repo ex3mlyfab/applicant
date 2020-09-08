@@ -51,7 +51,7 @@
                                                    <span style="font-size: 50px"> Administrator</span>
                                             </a>
                                         </div>
-                                        <a class="btn btn-sm font-weight-normal py-2 px-3 btn-outline-success text-white" id="loginBtn">
+                                    <a class="btn btn-sm font-weight-normal py-2 px-3 btn-outline-success text-white" id="loginBtn" href="{{route('admin.login')}}">
                                             Login <i class="fa fa-fw fa-sign-in-alt mr-1"></i>
                                         </a>
                                     </div>
