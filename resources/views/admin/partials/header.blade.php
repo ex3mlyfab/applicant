@@ -6,26 +6,18 @@
         <div class="d-flex align-items-center">
             <!-- Toggle Sidebar -->
             <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
-            <button type="button" class="btn btn-sm btn-dual mr-2 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
-                <i class="fa fa-fw fa-bars"></i>
+            <button type="button" style="color: rgb(51, 70, 128)" class="btn btn-sm btn-dual mr-2 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
+                <i style="color: rgb(51, 70, 128)" class="fa fa-fw fa-bars"></i>
             </button>
             <!-- END Toggle Sidebar -->
 
             <!-- Toggle Mini Sidebar -->
             <!-- Layout API, functionality initialized in Template._uiApiLayout()-->
             <button type="button" class="btn btn-sm btn-dual mr-2 d-none d-lg-inline-block" data-toggle="layout" data-action="sidebar_mini_toggle">
-                <i class="fa fa-fw fa-ellipsis-v"></i>
+                <i style="color: rgb(51, 70, 128)" class="fa fa-fw fa-ellipsis-v"></i>
             </button>
-            <!-- END Toggle Mini Sidebar -->
-
-            <!-- Apps Modal -->
-
-            <!-- END Apps Modal -->
-
-            <!-- Open Search Section (visible on smaller screens) -->
-            <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
             <button type="button" class="btn btn-sm btn-dual d-sm-none" data-toggle="layout" data-action="header_search_on">
-                <i class="si si-magnifier"></i>
+                <i style="color: rgb(51, 70, 128)" class="si si-magnifier"></i>
             </button>
             <!-- END Open Search Section -->
 
@@ -35,20 +27,21 @@
                     <input type="text" class="form-control form-control-alt" placeholder="Search.." id="page-header-search-input2" name="page-header-search-input2">
                     <div class="input-group-append">
                         <span class="input-group-text bg-body border-0">
-                            <i class="si si-magnifier"></i>
+                            <i style="color: rgb(51, 70, 128)" class="si si-magnifier"></i>
                         </span>
                     </div>
                 </div>
             </form>
-            <!-- END Search Form -->
         </div>
-        <!-- END Left Section -->
-
-        <!-- Right Section -->
         <div class="d-flex align-items-center">
-            <!-- User Dropdown -->
+            <span style="font-size: 23px; color: rgb(51, 70, 128); cursor: pointer" class="bx bx-tada bx-envelope"></span>
+    <span style="font-size: 23px; cursor: pointer" class="text-success bx-spin ml-3 bx bx-cog"></span>
+    <span style="font-size: 23px; cursor: pointer; color: rgb(51, 70, 128)" class="ml-3 bx-burst bx bx-lock"></span>
+    <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{route('admin.logout')}}">
+                <span style="font-size: 23px; cursor: pointer" class="text-danger ml-3 bx bx-log-in"></span>
+            </a>
             <div class="dropdown d-inline-block ml-2">
-                <button type="button" class="btn btn-sm btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" style="border: 1px solid rgb(51, 70, 128); color: rgb(51, 70, 128); border-radius: 5px" class="btn btn-sm ml-2 btn-dual ml-3" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     <img class="rounded" @if (isset(Auth::user()->avatar))
             src="{{asset('backend')}}/images/documents/{{Auth::user()->avatar}}"
@@ -56,7 +49,6 @@
                 src="{{asset('backend')}}/assets/media/avatars/avatar13.jpg"
             @endif  alt="{{Auth::user()->full_name}} picture" style="width: 18px;">
                     <span class="d-none d-sm-inline-block ml-1">{{ Auth::user()->full_name }}</span>
-                    <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="page-header-user-dropdown">
                     <div class="p-3 text-center bg-primary">
@@ -66,44 +58,10 @@
                 src="{{asset('backend')}}/assets/media/avatars/avatar13.jpg"
             @endif  alt="{{Auth::user()->full_name}} picture">
                     </div>
-                    <div class="p-2">
-                        <h5 class="dropdown-header text-uppercase">User Options</h5>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">
-                            <span>Inbox</span>
-                            <span>
-                                <span class="badge badge-pill badge-primary">3</span>
-                                <i class="si si-envelope-open ml-1"></i>
-                            </span>
-                        </a>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="#">
-                            <span>Profile</span>
-                            <span>
-                                <span class="badge badge-pill badge-success">1</span>
-                                <i class="si si-user ml-1"></i>
-                            </span>
-                        </a>
-
-                        <div role="separator" class="dropdown-divider"></div>
-                        <h5 class="dropdown-header text-uppercase">Actions</h5>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between" href="op_auth_lock.html">
-                            <span>Lock Account</span>
-                            <i class="si si-lock ml-1"></i>
-                        </a>
-                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{route('admin.logout')}}">
-                            <span>Log Out</span>
-                            <i class="si si-logout ml-1"></i>
-                        </a>
-                    </div>
-                </div>
             </div>
-            <!-- END User Dropdown -->
-
         </div>
-        <!-- END Right Section -->
     </div>
-    <!-- END Header Content -->
-
-    <!-- Header Search -->
+</div>
     <div id="page-header-search" class="overlay-header bg-white">
         <div class="content-header">
             <form class="w-100" action="be_pages_generic_search.html" method="POST">

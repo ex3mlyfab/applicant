@@ -6,7 +6,7 @@
         <title>Pentacare Hospital </title>
         <meta name="robots" content="noindex, nofollow">
         <link rel="shortcut icon" href="{{asset('backend')}}/assets/images/favicons/favicon.png">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
         <link rel="stylesheet" id="css-main" href="{{asset('backend')}}/assets/css/oneui.min.css">
         <style>
            body{

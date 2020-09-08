@@ -109,4 +109,4 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::get('/', 'Admin\Setting\DashboardController@index')->name('admin.dashboard');
     });
-});
+}); 

@@ -21,8 +21,7 @@
 <div class="content">
     <div class="row">
         <div class="col-md-12">
-            <!-- Validation Wizard 2 -->
-            <div class="js-wizard-validation2 block block" style="background: rgba(255, 255, 255, 0.9); border-radius: 10px;">
+            <div class="js-wizard-validation2 block block pentacare-bg">
                 <!-- Step Tabs -->
                 <ul class="nav nav-tabs nav-tabs-alt nav-justified" role="tablist">
                     <li class="nav-item">
@@ -48,11 +47,11 @@
                         <!-- Step 1 -->
                         <div class="tab-pane active" id="wizard-validation2-step1" role="tabpanel">
                             <div class="form-group">
-                                <label class="d-block">Registration Type</label>
+                                <label class="d-block mb-3" style="font-size: 20px">Registration Type</label>
                             @foreach ($individual as $item)
-                                <div class="form-check">
-                                <input type="radio" name="registration_type_id" class="form-check-input" value="{{$item->id}}">
-                                    <label class="form-check-label display-4">{{$item->name}} - ₦{{$item->charge->amount}}</label>
+                                <div class="form-check mb-2">
+                                <input style="height:25px; width:25px;" value="1" type="radio" name="registration_type_id" class="form-check-input" value="{{$item->id}}">
+                                    <label style="font-size: 18px" class="ml-3 mt-1 font-weight-normal form-check-label display-4">{{$item->name}} - ₦{{$item->charge->amount}}</label>
                                 </div>
 
                             @endforeach
@@ -60,19 +59,35 @@
 
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <!-- <div class="form-group col-md-6">
                                     <input type="checkbox" name="payment" id="paid" class="form-check-inline" required>
                                     <label for="paid" class="form-check-label">Paid</label>
+                                </div> -->
+                                <div class="form-group col-md-6 mt-2">
+                                    <label class="d-block" style="font-size: 20px">Payment Mode</label><br>
+<div class="form-check" style="margin-top: -20px">
+    <input type="radio" style="height:25px; width:25px;" name="payment_mode" id="cash" class="form-check-input" value="1" required>
+    <label style="font-size: 18px" for="cash" class="form-check-label font-weight-normal ml-3 mt-1">Cash</label>
+</div>
+<div class="form-check mt-1">
+        <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="pos" class="form-check-input" value="2" required>
+        <label style="font-size: 18px" for="pos" class="form-check-label font-weight-normal ml-3 mt-1">POS</label>
+</div>
+<div class="form-check mt-1">
+    <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="transfer" class="form-check-input" value="3" required>
+    <label style="font-size: 18px" for="transfer" class="form-check-label font-weight-normal ml-3 mt-1">transfer</label>
+</div>
+
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label>Payment Mode</label><br>
-                                    <input type="radio" name="payment_mode" id="cash" class="form-check" value="1" required>
-                                    <label for="cash" class="form-check-label-inline">Cash</label>
-                                    <input type="radio" name="payment_mode" id="pos" class="form-check" value="2" required>
-                                    <label for="pos" class="form-check-label">POS</label>
-                                    <input type="radio" name="payment_mode" id="transfer" class="form-check" value="3" required>
-                                    <label for="transfer" class="form-check-label">transfer</label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mt-2">
+                                    <label class="d-block" style="font-size: 20px">Payment Status</label>
+                                    <div class="form-check mt-3">
+                                        <input type="checkbox" name="payment" id="paid" class="form-check-inline" style="height:15px; width:15px;" required>
+                                        <label for="paid" class="form-check-label font-weight-normal" style="font-size: 18px">Paid</label>
                                 </div>
+                                    </div>
                             </div>
                         </div>
                         <!-- END Step 1 -->
@@ -228,12 +243,12 @@
                         <div class="row">
                             <div class="col-6">
                                 <button type="button" class="btn btn-secondary" data-wizard="prev">
-                                    <i class="fa fa-angle-left mr-1"></i> Previous
+                                    <i class="bx bx-chevrons-left bx-fade-left mr-1"></i> Previous
                                 </button>
                             </div>
                             <div class="col-6 text-right">
-                                <button type="button" class="btn btn-secondary" data-wizard="next">
-                                    Next <i class="fa fa-angle-right ml-1"></i>
+                                <button style="background: rgb(51, 70, 128)" type="button" class="btn btn-secondary" data-wizard="next">
+                                    Next <i class="bx bx-chevrons-right bx-fade-right ml-1"></i>
                                 </button>
                                 <button type="submit" class="btn btn-primary d-none" data-wizard="finish">
                                     <i class="fa fa-check mr-1"></i> Submit

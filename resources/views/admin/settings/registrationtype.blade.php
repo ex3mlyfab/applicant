@@ -154,10 +154,10 @@ add regtype
         var type = "POST";
         var link_id = jQuery('#regtype_id').val();
 
-        var ajaxurl = 'regtype/create';
+        var ajaxurl = {{url('admin/regtype/create')}};
         if (state == "update") {
             type = "PUT";
-            ajaxurl = 'regtype/update/' + link_id;
+            ajaxurl = {{url('admin/regtype/create')}} + link_id;
         }
         $.ajax({
             type: type,
