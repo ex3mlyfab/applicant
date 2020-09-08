@@ -50,7 +50,7 @@
                                 <label class="d-block mb-3" style="font-size: 20px">Registration Type</label>
                             @foreach ($individual as $item)
                                 <div class="form-check mb-2">
-                                <input style="height:25px; width:25px;" value="1" type="radio" name="registration_type_id" class="form-check-input" value="{{$item->id}}">
+                                <input style="height:25px; width:25px;" value="1" type="radio" name="registration_type_id" class="form-check-input" value="{{$item->id}}" required>
                                     <label style="font-size: 18px" class="ml-3 mt-1 font-weight-normal form-check-label display-4">{{$item->name}} - ₦{{$item->charge->amount}}</label>
                                 </div>
 
@@ -59,10 +59,6 @@
 
                             </div>
                             <div class="form-row">
-                                <!-- <div class="form-group col-md-6">
-                                    <input type="checkbox" name="payment" id="paid" class="form-check-inline" required>
-                                    <label for="paid" class="form-check-label">Paid</label>
-                                </div> -->
                                 <div class="form-group col-md-6 mt-2">
                                     <label class="d-block" style="font-size: 20px">Payment Mode</label><br>
 <div class="form-check" style="margin-top: -20px">
@@ -90,39 +86,44 @@
                                     </div>
                             </div>
                         </div>
-                        <!-- END Step 1 -->
-                        <!-- Step 2 -->
+
                         <div class="tab-pane" id="wizard-validation2-step2" role="tabpanel">
                             <div class="form-group form-row">
                                 <div class="col-sm-4">
                                     <label for="wizard-validation2-lastname">Last Name</label>
-                                <input class="form-control form-control-lg" type="text" id="wizard-validation2-lastname" name="last_name" value="{{old('last_name')}}" required>
+                                <input placeholder="Enter last name" style="border: 1px solid rgb(51, 70, 128)" class="form-control form-control-lg" type="text" id="wizard-validation2-lastname" name="last_name" value="{{old('last_name')}}" required>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="wizard-validation2-firstname">Other Names</label>
-                                <input class="form-control form-control-lg" type="text" id="wizard-validation2-othername" name="other_names" value="{{old('other_names')}}" required>
+                                <input placeholder="Other Names" style="border: 1px solid rgb(51, 70, 128)" class="form-control form-control-lg" type="text" id="wizard-validation2-othername" name="other_names" value="{{old('other_names')}}" required>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="wizard-validation2-phone">Phone Number</label>
-                                    <input class="form-control form-control-lg" type="text" id="wizard-validation2-phone" name="phone" value="{{old('phone')}}" required>
+                                    <input class="form-control form-control-lg" placeholder="Enter Phone Number" style="border: 1px solid rgb(51, 70, 128)" type="number" id="wizard-validation2-phone" name="phone" value="{{old('phone')}}" required>
                                 </div>
                             </div>
                             <div class="form-group form-row">
-                                <div class="col-sm-3">
-                                    <label for="wizard-validation2-religion">Religion</label>
-                                    <input class="form-control form-control-lg" type="text" id="wizard-validation2-religion" name="religion" value="{{old('religion')}}" required>
+                                <div class="col-sm-4">
+                                    <label for="select-sex">Religion</label>
+                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1px solid rgb(51, 70, 128)" required>
+                                        <option value="">Choose One...</option>
+                                        <option value="Muslim" {{ (old('religion')=='Muslim') ? 'select' :''}}>Muslim</option>
+                                        <option value="Christian" {{ old('religion')=='Christian' ? 'select':''}}>Christian</option>
+                                        <option value="Traditional" {{ old('religion')=='Traditional' ? 'select':''}}>Traditional</option>
+                                        <option value="Others" {{ old('religion')=='Others' ? 'select':''}}>Others</option>
+                                    </select>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label for="select-sex">Sex</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" required>
+                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1px solid rgb(51, 70, 128)" required>
                                         <option value="">Choose One...</option>
                                         <option value="Male" {{ (old('sex')=='Male') ? 'select' :''}}>Male</option>
                                         <option value="Female" {{ old('sex')=='Female' ? 'select':''}}>Female</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label for="select-mar">Marital Status</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-mar" name="marital_status" required>
+                                    <select class="form-control form-control-lg" type="text" id="select-mar" name="marital_status" style="border: 1px solid rgb(51, 70, 128)" required>
                                         <option value="">Choose One...</option>
                                         <option value="Never Married" {{ old('marital_status')=='Never Married' ? 'select':''}}>Never Married(single)</option>
 									    <option value="Married" {{ old('marital_status')=='married' ? 'select':''}}>Married</option>
@@ -131,13 +132,13 @@
 
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="int123" class="text-bold-600 font-medium-2">
                                             Date of Birth :
                                         </label><a href="#" id="switch">estimated age? click</a>
 
-                                        <input type="text" class="js-datepicker form-control" id="int123" name="dob" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy"
+                                        <input type="text"  class="js-datepicker form-control" id="int123" name="dob" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy"
                                     value="{{old('dob')}}">
                                     <input type="text"  name="age_at_reg" class="form-control form-control-lg" id="int124" placeholder="Enter estimated Age" value="{{old('age_at_reg')}}">
                                     </div>
@@ -256,23 +257,18 @@
                             </div>
                         </div>
                     </div>
-                    <!-- END Steps Navigation -->
                 </form>
-                <!-- END Form -->
             </div>
-            <!-- END Validation Wizard 2 -->
         </div>
     </div>
 </div>
 @endsection
 
 @section('foot_js')
-<!-- Page JS Plugins -->
 <script src="{{asset('backend')}}/assets/js/plugins/jquery-bootstrap-wizard/bs4/jquery.bootstrap.wizard.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/jquery-validation/additional-methods.js"></script>
 
-<!-- Page JS Code -->
 <script src="{{asset('backend')}}/assets/js/pages/be_forms_wizard.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
