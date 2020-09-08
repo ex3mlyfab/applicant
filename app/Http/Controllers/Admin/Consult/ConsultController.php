@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\ClinicalAppointment;
 use App\Models\Consult;
 use App\Models\User;
 use App\Models\VitalSign;
+use Illuminate\Http\Request;
 
 class ConsultController extends Controller
 {
@@ -19,7 +19,7 @@ class ConsultController extends Controller
     public function index()
     {
         // collect all appointment for today for display in the consultation module
-        $today = ClinicalAppointment::whereDate('appointment_due', now()->today());
+        $today = ClinicalAppointment::whereDate('appointment_due', now()->today())->get();
 
         $patients = User::all();
         return view('admin.consult.index', compact('today', 'patients'));

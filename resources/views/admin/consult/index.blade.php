@@ -10,7 +10,7 @@
         <div class="block-header bg-info-light">
             <h3 class="block-title"> Patient List</h3>
         </div>
-        <div cla<div class="col-lg-12">
+        <div class="col-lg-12">
 
                 <div class="block">
                     <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
@@ -96,7 +96,7 @@
                 </div>
         <!-- END Blockss="block-content block-content-full">
               Tabs Alternative Style -->
-            </div>
+            </>
         </div>
     </div>
     <div class="modal" id="modal-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >

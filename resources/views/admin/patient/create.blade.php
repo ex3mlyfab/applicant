@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-md-12">
             <!-- Validation Wizard 2 -->
-            <div class="js-wizard-validation2 block block">
+            <div class="js-wizard-validation2 block block" style="background: rgba(255, 255, 255, 0.9); border-radius: 10px;">
                 <!-- Step Tabs -->
                 <ul class="nav nav-tabs nav-tabs-alt nav-justified" role="tablist">
                     <li class="nav-item">

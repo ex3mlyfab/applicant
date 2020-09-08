@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('age_at_reg')->nullable();
             $table->date('dob')->nullable();
             $table->string('avatar')->nullable();
-            $table->string('folder_number', 10)->nullable();
+            $table->string('folder_number', 20)->nullable();
             $table->string('occupation')->nullable();
             $table->string('sex')->nullable();
             $table->string('marital_status')->nullable();

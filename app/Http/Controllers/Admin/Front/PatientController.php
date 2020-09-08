@@ -104,7 +104,7 @@ class PatientController extends Controller
         // }
 
         $validated['folder_number'] = assign_Fno($validated['source']);
-        
+
 
         if ($request->has('avatar')) {
             //
@@ -178,33 +178,44 @@ class PatientController extends Controller
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
             'other_names' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|string|max:255|unique:users',
             'sex' => 'nullable|string',
             'email' => 'nullable|email|max:255',
-            'nok' => 'nullable|string|max:255',
-            'nok_phone' => 'nullable|string|max:255',
+            'nok' => 'nullable|max:255',
+            'nok_phone' => 'nullable|max:255',
             'nok_relationship' => 'nullable|string|max:255',
             'nok_address' => 'nullable|string',
             'address' => 'nullable|string',
-            'email' => 'nullable|string',
-            'national_id' => 'nullable|string',
+            'nationality' => 'nullable|string',
             'state' => 'nullable|string',
             'city' => 'nullable|string',
             'age_at_reg' => 'nullable|string',
             'marital_status' => 'nullable|string',
+            'registration_type_id' => 'nullable',
+            'occupation' => 'nullable',
+            'tribe' => 'nullable',
+            'religion' => 'sometimes',
+            'referral_source' => 'sometimes',
+            'insurance_number' => 'nullable',
+            'payment_method' => 'nullable',
+            'dob' => 'sometimes',
+            'payment_mode' => 'sometimes',
 
         ]);
-        if ($request->has('password')) {
-            $validated['password'] = Hash::make($request->password);
-        }
+
+
 
         if ($request->has('dob')) {
             $dob = strtotime($request->dob);
-            $newDate = date('Y-m-d', $dob);
+
+            $newDate = date('d-m-Y', $dob);
+            $newDate = Carbon::parse($newDate);
             $validated['dob'] = $newDate;
         }
+
         if ($request->has('avatar')) {
             //
+
             $image = $request->avatar; // your base64 encoded
 
             // $image = str_replace('data:image/png;base64,', '', $image);
@@ -215,6 +226,9 @@ class PatientController extends Controller
             $storage_path = public_path() . '/backend/images/avatar';
             $imageName = $request->last_name . $request->other_names . Date('Y-m-d') . '.' . 'png';
             $validated['avatar'] = $imageName;
+            if($patient->avatar){
+                \File::delete($storage_path . '/' . $patient->avatar);
+            }
             \File::put($storage_path . '/' . $imageName, base64_decode($file_data));
         }
 
@@ -242,6 +256,10 @@ class PatientController extends Controller
     public function destroy(User $patient)
     {
         //
+        $storage_path = public_path() . '/backend/images/avatar';
+        if($patient->avatar){
+            \File::delete($storage_path . '/' . $patient->avatar);
+        }
         $patient->delete();
         $notification = array(
             'message' => 'Patient deleted successfully!',
