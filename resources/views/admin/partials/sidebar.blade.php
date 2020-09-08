@@ -414,6 +414,16 @@
                             <span class="nav-main-link-name">Supplier</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('insuranceCategory.index')}}">
+                            <span class="nav-main-link-name">Insurance Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('insurance.index')}}">
+                            <span class="nav-main-link-name">Insurance</span>
+                        </a>
+                    </li>
 
                 </ul>
             </li>

@@ -24,7 +24,7 @@
                 @else
                     action="{{route('supplier.store')}}"
                 @endif
-                 method="post">
+                 method="post" autocomplete="off">
                         @csrf
                         @isset($task)
                             @method('PATCH')

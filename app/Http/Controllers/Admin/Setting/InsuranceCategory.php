@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\InsuranceCategory as ModelsInsuranceCategory;
 use Illuminate\Http\Request;
 
 class InsuranceCategory extends Controller
@@ -14,7 +15,8 @@ class InsuranceCategory extends Controller
      */
     public function index()
     {
-        //
+        $categories = ModelsInsuranceCategory::all();
+        return view('admin.settings.insuranceCategory', compact('categories'));
     }
 
     /**
@@ -36,6 +38,16 @@ class InsuranceCategory extends Controller
     public function store(Request $request)
     {
         //
+        ModelsInsuranceCategory::create($request->validate([
+            'name' => 'required|unique:insurance_categories',
+            'description' => 'sometimes',
+        ]));
+        $notification = [
+            'message' => 'Insurance Category created successfully',
+            'alert-type' => 'success',
+        ];
+        return back()->with($notification);
+
     }
 
     /**
@@ -67,9 +79,19 @@ class InsuranceCategory extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ModelsInsuranceCategory $insuranceCategory)
     {
         //
+        $insuranceCategory->update($request->validate([
+            'name' => 'required',
+            'description' => 'sometimes'
+        ]));
+        $notification = [
+            'message' => 'Insurance Category updated successfully',
+            'alert-type' => 'success',
+        ];
+        return back()->with($notification);
+
     }
 
     /**
@@ -78,8 +100,16 @@ class InsuranceCategory extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ModelsInsuranceCategory $insuranceCategory)
     {
         //
+        $insuranceCategory->delete();
+
+        $notification = [
+            'message' => 'Insurance Category deleted successfully',
+            'alert-type' => 'success',
+        ];
+        return back()->with($notification);
+
     }
 }

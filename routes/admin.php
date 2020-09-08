@@ -77,6 +77,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController')->middleware('permission:pharmacy-view');
         Route::resource('purpose', 'Admin\Setting\VisitorPurposeSettingController');
         Route::resource('supplier', 'Admin\Account\Supplier')->middleware('permission:supplier-view');
+        Route::resource('insuranceCategory', 'Admin\Setting\InsuranceCategory')->middleware('permission:setting-view');
+        Route::resource('insurance', 'Admin\Setting\Insurance')->middleware('permission:setting-view');
 
         Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
         Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');

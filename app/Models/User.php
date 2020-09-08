@@ -23,7 +23,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'last_name', 'email', 'password', 'other_names', 'phone', 'age_at_reg',
-        'dob', 'avatar', 'folder_number', 'occupation', 'marital_status', 'address', 'city', 'state', 'national_id', 'source', 'nok', 'nok_relationship', 'nok_phone', 'nok_address', 'registered_by', 'sex', 'registration_type_id', 'belongs_to',
+        'dob', 'avatar', 'folder_number', 'occupation', 'marital_status', 'address', 'city', 'state', 'nationality','religion','tribe', 'source', 'nok', 'nok_relationship', 'nok_phone', 'nok_address', 'registered_by', 'sex', 'registration_type_id', 'belongs_to',
+        'referral_source','status','paymentMethod','insurance_number'
     ];
 
     /**
@@ -114,6 +115,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'dob' => 'date',
+
     ];
 }

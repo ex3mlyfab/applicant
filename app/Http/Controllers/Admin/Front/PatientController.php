@@ -68,27 +68,43 @@ class PatientController extends Controller
             'referral_source' => 'sometimes',
             'insurance_number' => 'nullable',
             'payment_method' => 'nullable',
+            'dob' => 'sometimes',
+            'payment_mode' => 'sometimes',
 
         ]);
 
         if ($request->has('dob')) {
             $dob = strtotime($request->dob);
+
             $newDate = date('d-m-Y', $dob);
+            $newDate = Carbon::parse($newDate);
             $validated['dob'] = $newDate;
         }
-        switch ($request->registration_type_id) {
-            case 'Ante-Natal':
-                $validated['source'] = 'antenatal';
-                break;
-            case 'student':
-                $validated['source'] = 'student';
-                break;
-            default:
-                $validated['source'] = 'individual';
-                break;
+
+        $individualAccounts = RegistrationType::where('max_enrollment', 1)->get();
+        foreach ($individualAccounts as $key => $value) {
+
+            if ($request->registration_type_id == $value->id) {
+
+                $validated['source'] = $value->name;
+            }
+
         }
 
+        // switch ($request->registration_type_id) {
+        //     case 'Ante-Natal':
+        //         $validated['source'] = 'antenatal';
+        //         break;
+        //     case 'student':
+        //         $validated['source'] = 'student';
+        //         break;
+        //     default:
+        //         $validated['source'] = 'individual';
+        //         break;
+        // }
+
         $validated['folder_number'] = assign_Fno($validated['source']);
+        
 
         if ($request->has('avatar')) {
             //
@@ -107,7 +123,6 @@ class PatientController extends Controller
         $validated['registered_by'] = Auth::user()->id;
 
         $validated['password'] = Hash::make('pentacare');
-        // dd($validated);
 
         $new = User::create($validated);
         Payment::create([

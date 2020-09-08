@@ -10,7 +10,7 @@ class InsuranceCategory extends Model
     //
     protected $guarded = [];
 
-    public function insurance(): HasMany
+    public function insurances(): HasMany
     {
         return $this->hasMany(Insurance::class);
     }

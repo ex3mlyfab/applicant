@@ -51,7 +51,7 @@
                                 <label class="d-block">Registration Type</label>
                             @foreach ($individual as $item)
                                 <div class="form-check">
-                                <input type="radio" name="registration_type_id" class="form-check-input" value="{{$item->name}}">
+                                <input type="radio" name="registration_type_id" class="form-check-input" value="{{$item->id}}">
                                     <label class="form-check-label display-4">{{$item->name}} - ₦{{$item->charge->amount}}</label>
                                 </div>
 
@@ -59,11 +59,21 @@
 
 
                             </div>
-
-                        <div class="form-group">
-                            <input type="checkbox" name="payment" id="paid" class="form-check-inline" required>
-                            <label for="paid" class="form-check-label">Paid</label>
-                        </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="checkbox" name="payment" id="paid" class="form-check-inline" required>
+                                    <label for="paid" class="form-check-label">Paid</label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Payment Mode</label><br>
+                                    <input type="radio" name="payment_mode" id="cash" class="form-check" value="1" required>
+                                    <label for="cash" class="form-check-label-inline">Cash</label>
+                                    <input type="radio" name="payment_mode" id="pos" class="form-check" value="2" required>
+                                    <label for="pos" class="form-check-label">POS</label>
+                                    <input type="radio" name="payment_mode" id="transfer" class="form-check" value="3" required>
+                                    <label for="transfer" class="form-check-label">transfer</label>
+                                </div>
+                            </div>
                         </div>
                         <!-- END Step 1 -->
                         <!-- Step 2 -->
@@ -83,7 +93,11 @@
                                 </div>
                             </div>
                             <div class="form-group form-row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
+                                    <label for="wizard-validation2-religion">Religion</label>
+                                    <input class="form-control form-control-lg" type="text" id="wizard-validation2-religion" name="religion" value="{{old('religion')}}" required>
+                                </div>
+                                <div class="col-sm-3">
                                     <label for="select-sex">Sex</label>
                                     <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" required>
                                         <option value="">Choose One...</option>
@@ -91,7 +105,7 @@
                                         <option value="Female" {{ old('sex')=='Female' ? 'select':''}}>Female</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <label for="select-mar">Marital Status</label>
                                     <select class="form-control form-control-lg" type="text" id="select-mar" name="marital_status" required>
                                         <option value="">Choose One...</option>
@@ -102,14 +116,15 @@
 
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="int123" class="text-bold-600 font-medium-2">
                                             Date of Birth :
-                                        </label><a href="#" id="switch">? click for estimated age</a>
+                                        </label><a href="#" id="switch">estimated age? click</a>
 
-                                        <input type="text" class="js-datepicker form-control" id="int123" name="dob" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
-                                    <input type="text"  name="age_at_reg" class="form-control form-control-lg" id="int124" placeholder="Enter estimateg Age" value="{{old('age_at_reg')}}">
+                                        <input type="text" class="js-datepicker form-control" id="int123" name="dob" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy"
+                                    value="{{old('dob')}}">
+                                    <input type="text"  name="age_at_reg" class="form-control form-control-lg" id="int124" placeholder="Enter estimated Age" value="{{old('age_at_reg')}}">
                                     </div>
                                 </div>
 
@@ -131,13 +146,21 @@
                                     <label for="city">State</label>
                                     <input class="form-control form-control-lg" type="text" id="state" name="state" value="{{old('state')}}">
                                 </div>
-                                <div class="col-sm-6">
-                                    <label for="nin">National Identification Number</label>
+                                <div class="col-sm-3">
+                                    <label for="nin">Nationality</label>
                                     <input class="form-control form-control-lg" type="text" id="nin" name="national_id" value="{{old('national_id')}}">
                                 </div>
-                                <div class="col-sm-6">
+								<div class="col-sm-3">
+                                    <label for="tribe">TRIBE</label>
+                                    <input class="form-control form-control-lg" type="text" id="tribe" name="tribe" value="{{old('tribe')}}">
+                                </div>
+                                <div class="col-sm-3">
                                     <label for="occupation">Occupation</label>
                                     <input class="form-control form-control-lg" type="text" id="occupation" name="occupation" value="{{old('occupation')}}">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="referral_source">Referral Source</label>
+                                    <input class="form-control form-control-lg" type="text" id="referral_source" name="referral_source" value="{{old('referral_source')}}">
                                 </div>
 
                             </div>

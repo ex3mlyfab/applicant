@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\Insurance as ModelsInsurance;
+use App\Models\InsuranceCategory;
 use Illuminate\Http\Request;
 
 class Insurance extends Controller
@@ -15,6 +17,9 @@ class Insurance extends Controller
     public function index()
     {
         //
+        $insurances = ModelsInsurance::all();
+        $categories = InsuranceCategory::all();
+        return view('admin.settings.insurance', compact('insurances', 'categories'));
     }
 
     /**
