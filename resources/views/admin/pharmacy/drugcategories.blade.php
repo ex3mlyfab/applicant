@@ -54,7 +54,7 @@
 
                         </thead>
                         <tbody>
-                            @foreach ($drugClass as $drugclass)
+                            @foreach ($drugcategories as $drugclass)
                             <tr>
                             <td><a href="{{route('drugclass.show', $drugclass->id) }}"> {{$drugclass->name}}</a></td>
                                 <td class="text-right">

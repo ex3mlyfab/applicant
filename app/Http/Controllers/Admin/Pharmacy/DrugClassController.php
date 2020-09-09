@@ -74,7 +74,7 @@ class DrugClassController extends Controller
     {
         //
         $task = $drugClass;
-        $drugcategories = DrugClass::all();
+       
         return View('admin.pharmacy.drugcategories', compact('drugcategories', 'task'));
     }
 

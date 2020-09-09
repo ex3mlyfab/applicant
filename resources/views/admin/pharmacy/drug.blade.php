@@ -26,7 +26,7 @@
             <th>Drug Name</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Form</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Strength</th>
-            <th class="d-none d-sm-table-cell" style="width: 15%;">Drug Dosage</th>
+
             <th class="d-none d-sm-table-cell" style="width: 15%;"><span class="text-success">Maximum Order Level</span>
             <br><span class="text-warning"> Reorder Level</span><br><span class="text-danger">Minimum Order Level</span></th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Quantity Available</th>
@@ -49,9 +49,7 @@
                 <td class="d-none d-sm-table-cell text-center">
                 {{$drug->strength}}
                 </td>
-                <td class="d-none d-sm-table-cell text-center">
-                {{$drug->dosage}}
-                </td>
+
                 <td class="d-none d-sm-table-cell text-center">
                     <span class="badge-success">{{$drug->maximum_level}}</span><br>
                     <span class="badge-warning">{{$drug->reorder_level}}</span><br>
@@ -63,9 +61,8 @@
                 <td>
                     <div class="btn-group">
                         <button  class="btn btn-sm btn-primary drugedit" data-gate="{{route('drug.update', $drug->id)}}"
-                        data-drug_id="{{$drug->drugSubCategory->drugCategory->id}}"
-                        data-subcategory="{{$drug->drugSubCategory->id}}"
-                        data-name="{{$drug->name}}" data-dosage="{{$drug->dosage}}" data-form="{{$drug->forms}}"  data-strength="{{$drug->strength}}" data-maximum_level="{{$drug->maximum_level}}" data-minimum_level="{{$drug->minimum_level}}" data-reorder_level="{{$drug->reorder_level}}" data-toggle="modal" data-target="#drug-block-normal" title="Edit">
+                        data-subcategory="{{$drug->drugClass->id}}"
+                        data-name="{{$drug->name}}" data-form="{{$drug->forms}}"  data-strength="{{$drug->strength}}" data-maximum_level="{{$drug->maximum_level}}" data-minimum_level="{{$drug->minimum_level}}" data-reorder_level="{{$drug->reorder_level}}" data-toggle="modal" data-target="#drug-block-normal" title="Edit">
                             <i class="fa fa-fw fa-pencil-alt"></i>
                         </button>
                         <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
@@ -106,12 +103,24 @@
                             <input type="text" name="name" id="name" class="form-control form-control-lg">
                         </div>
                         <div class="form-group">
-                            <label for="dosage"> Dosage </label>
-                            <input type="text" name="dosage" id="dosage" class="form-control form-control-lg">
+                            <label for="dosage"> Drug Class</label>
+                            <select name="drug_class_id" id="dosage" class="form-control form-control-lg">
+                                {{ create_option('drug_classes', 'id', 'name') }}
+                            </select>
+
                         </div>
                         <div class="form-group">
-                            <label for="form"> Drug Form</label>
-                            <input type="text" name="forms" id="form" class="form-control form-control-lg">
+                            <label for="drug_form"> Drug Form</label>
+                            <select name="forms" id="drug_form" class="form-control form-control-lg">
+                                <option value="sachet"> Sachet</option>
+                                <option value="sachet"> Tablet</option>
+                                <option value="sachet"> Syrup</option>
+                                <option value="sachet"> Suspension</option>
+                                <option value="sachet"> Capsule</option>
+                                <option value="sachet"> Infusion</option>
+                                <option value="sachet"> Injection</option>
+                            </select>
+
                         </div>
                         <div class="form-group">
                             <label for="strength">Strength</label>

@@ -42,7 +42,7 @@ class DrugController extends Controller
             'name' => 'required',
             'forms' => 'required',
             'strength' => 'nullable',
-            'dosage' => 'nullable',
+            'drug_class_id' => 'nullable',
             'maximum_level' => 'nullable',
             'minimum_level' => 'nullable',
             'reorder_level' => 'nullable',

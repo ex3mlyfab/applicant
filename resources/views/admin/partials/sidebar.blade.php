@@ -169,7 +169,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-main-link" href="{{route('drugcategory.index')}}">
+                        <a class="nav-main-link" href="{{route('drugclass.index')}}">
                             <span class="nav-main-link-name">Drug categories</span>
                         </a>
                     </li>

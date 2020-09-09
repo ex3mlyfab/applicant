@@ -66,8 +66,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('role', 'Admin\Setting\RoleController')->middleware('permission:role-view');
         Route::resource('permission', 'Admin\Setting\PermissionController')->middleware('permission:permission-view');
         Route::get('drug/drugajax/{drug}', 'Admin\Pharmacy\DrugController@drugAjax');
-        Route::get('drugcategory/drugcategoryajax/{drug}', 'Admin\Pharmacy\DrugCategoryController@drugAjax');
-        Route::resource('drugcategory', 'Admin\Pharmacy\DrugCategoryController')->middleware('permission:drugcategory-view');
+        Route::get('drugcategory/drugcategoryajax/{drug}', 'Admin\Pharmacy\DrugClassController@drugAjax');
+        Route::resource('drugclass', 'Admin\Pharmacy\DrugClassController')->middleware('permission:drugcategory-view');
         Route::resource('drug', 'Admin\Pharmacy\DrugController')->middleware('permission:drug-view');
         Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController')->middleware('permission:drugbatch-view');
         Route::resource('wards', 'Admin\Setting\WardModelController');
@@ -94,6 +94,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('assetpurchase', 'Admin\Setting\AssetPurchaseController')->middleware('permission:assetpurchase-view');
         Route::resource('assetassign', 'Admin\Setting\AssetAssignController')->middleware('permission:assetassign-view');
         Route::resource('purchaseOrder', 'Admin\Pharmacy\PurchaseOrder')->middleware('permission: order-create');
+
+
 
         Route::group(['prefix' => 'regtype'], function () {
             Route::get('/', 'Admin\Setting\RegistrationController@index')->middleware('permission:regtype-view')->name('regtype.index');

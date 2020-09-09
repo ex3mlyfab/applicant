@@ -17,7 +17,6 @@ class CreateDrugModelsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('drug_class_id');
             $table->string('name', 100);
-            $table->string('dosage', 100);
             $table->string('forms', 100);
             $table->string('strength', 100);
             $table->timestamps();
