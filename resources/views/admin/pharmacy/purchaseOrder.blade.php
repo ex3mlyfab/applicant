@@ -18,7 +18,7 @@
             <div class="block block-fx-shadow">
                 <div class="block-header bg-info-light">All Purchase Orders for {{ date('Y') }}
                     <div class="block-options">
-                        <button id="btn-add" name="btn-add" class="btn btn-primary btn-xs">Add New Purchase Order</button>
+                        <button id="btn-add" name="btn-add" class="btn btn-primary btn-xs" data-toggle="modal" data-target="purchase-block-normal">Add New Purchase Order</button>
                     </div>
                 </div>
                 <div class="block-content block-content-full">
@@ -63,13 +63,13 @@
         </div>
     </div>
 </div>
- <!-- Normal Block Modal -->
- <div class="modal" id="modal-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
-    <div class="modal-dialog modal-lg" role="document">
+ <!-- Pharmacy Modal -->
+ <div class="modal" id="purchase-block-normal" tabindex="-1" role="dialog" aria-labelledby="purchase-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg modal-dialog-top" role="document" >
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
-                <div class="block-header bg-secondary-dark">
-                    <h3 class="block-title">Microbiology Request</h3>
+                <div class="block-header bg-primary-light">
+                    <h3 class="block-title">Drug Request</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
@@ -78,15 +78,78 @@
                 </div>
                 <div class="block-content font-size-sm">
 
+                    <div class="table-responsive">
+                        <form action="{{route('purchaseOrder.store') }}" method="POST" class="form form-element" onsubmit="return false;">
+                            @csrf
+                            <div class="form-group">
+                                <label for="supplier"></label>
+                                <select name="supplier_id" id="supplier" class="form-control form-control-lg" required>
+                                    <option>select one</option>
+                                    {{ create_option('suppliers', 'id', 'name') }}
+                                </select>
+
+                            </div>
+                            <table class="table table-bordered table-striped" id="drugs">
+                                <thead>
+                                <th>Category</th>
+                                <th>Subcategory</th>
+                                <th>Drug Name/ Form</th>
+                                <th>Dosage</th>
+                                <th>Instruction</th>
+
+                                <th style="text-align: center;background: #eee">
+
+                                </th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <select  class="js-select2 form-control" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
+                                            <option></option>
+                                            {{ create_option('drug_classes','id', 'name')}}
+                                        </select>
+                                    </td>
+                                     <td>
+                                        <select  class="js-select2 form-control" style="width: 100%;" id="drug" data-placeholder="Choose one.." required>
+                                        <option></option>
+                                    </select>
+                                </td>
+
+                                    <td>
+
+                                        <input type="number" id="quantity" class="form-control form-control-lg"></td>
+                                    <td>
+                                        <input type="text" id="instruction" class="form-control form-control-lg">
+                                    </td>
+
+
+                                    <td  style="text-align: center">
+                                            <a  class="btn btn-success" onclick="rowAdd()">
+                                                <i class="fa fa-plus"> Add Drug</i>
+                                            </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+
+                    <button  id="drugSubmit" data-appointment="{{$appointment->id}}" class="btn btn-primary pull-right">Submit</button>
+                        </form>
+
+                    </div>
                 </div>
                 <div class="block-content block-content-full text-right border-top">
                     <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+
                 </div>
             </div>
         </div>
-    </div>
 </div>
+
 
 @endsection
 @section('foot_js')

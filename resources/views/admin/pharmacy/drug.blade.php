@@ -16,7 +16,7 @@
                     <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#drug-block-normal"> Add New Drug</button>
                 </div>
             </div>
-                <div class="block-content block-content-full">
+                <div class="block-content block-content-full pentacare-bg">
 <div class="table-responsive">
 <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
 <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
@@ -113,12 +113,12 @@
                             <label for="drug_form"> Drug Form</label>
                             <select name="forms" id="drug_form" class="form-control form-control-lg">
                                 <option value="sachet"> Sachet</option>
-                                <option value="sachet"> Tablet</option>
-                                <option value="sachet"> Syrup</option>
-                                <option value="sachet"> Suspension</option>
-                                <option value="sachet"> Capsule</option>
-                                <option value="sachet"> Infusion</option>
-                                <option value="sachet"> Injection</option>
+                                <option value="tablet"> Tablet</option>
+                                <option value="syrup"> Syrup</option>
+                                <option value="suspension"> Suspension</option>
+                                <option value="capsule"> Capsule</option>
+                                <option value="Infusion"> Infusion</option>
+                                <option value="Injection"> Injection</option>
                             </select>
 
                         </div>
@@ -181,7 +181,7 @@ $('.drugedit').bind('click', function(){
     $('#register').attr('action', $(this).data('gate'));
     $('#register').prepend(thin);
     $('#name').val($(this).data('name'));
-    $('#dosage').val($(this).data('dosage'));
+    $('#drug_class_id').val($(this).data('dosage'));
     $('#form').val($(this).data('form'));
     $('#strength').val($(this).data('strength'));
     $('#maximum_level').val($(this).data('maximum_level'));
