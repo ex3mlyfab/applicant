@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-md-12">
             <!-- Validation Wizard 2 -->
-            <div class="js-wizard-validation2 block block">
+            <div class="js-wizard-validation2 block block pentacare-bg">
                 <!-- Step Tabs -->
                 <ul class="nav nav-tabs nav-tabs-alt nav-justified" role="tablist">
                     <li class="nav-item">
@@ -59,6 +59,24 @@
                                 @endforeach
 
                             </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mt-2">
+                                    <label class="d-block" style="font-size: 20px">Payment Mode</label><br>
+                                        <div class="form-check" style="margin-top: -20px">
+                                            <input type="radio" style="height:25px; width:25px;" name="payment_mode" id="cash" class="form-check-input" value="1" required>
+                                            <label style="font-size: 18px" for="cash" class="form-check-label font-weight-normal ml-3 mt-1">Cash</label>
+                                        </div>
+                                        <div class="form-check mt-1">
+                                                <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="pos" class="form-check-input" value="2" required>
+                                                <label style="font-size: 18px" for="pos" class="form-check-label font-weight-normal ml-3 mt-1">POS</label>
+                                        </div>
+                                        <div class="form-check mt-1">
+                                            <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="transfer" class="form-check-input" value="3" required>
+                                            <label style="font-size: 18px" for="transfer" class="form-check-label font-weight-normal ml-3 mt-1">transfer</label>
+                                        </div>
+
+                                </div>
+                            </div>
 
                         <div class="form-group">
                             <input type="checkbox" name="paid" id="paid" class="form-check-inline" required>
@@ -69,31 +87,43 @@
                         <!-- Step 2 -->
                         <div class="tab-pane" id="wizard-validation2-step2" role="tabpanel">
                             <div class="form-group form-row">
-                                <div class="col-sm-4">
+                                <div class="col-md-4">
                                     <label for="wizard-validation2-lastname">Last Name</label>
-                                <input class="form-control form-control-lg" type="text" id="wizard-validation2-lastname" name="last_name" value="{{old('last_name')}}" required>
+                                <input placeholder="Enter last name" style="border: 1px solid rgb(51, 70, 128)" class="form-control form-control-lg" type="text" id="wizard-validation2-lastname" name="last_name" value="{{old('last_name')}}" required>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-md-4">
                                     <label for="wizard-validation2-firstname">Other Names</label>
-                                <input class="form-control form-control-lg" type="text" id="wizard-validation2-othername" name="other_names" value="{{old('other_names')}}" required>
+                                <input placeholder="Other Names" style="border: 1px solid rgb(51, 70, 128)" class="form-control form-control-lg" type="text" id="wizard-validation2-othername" name="other_names" value="{{old('other_names')}}" required>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-md-4">
                                     <label for="wizard-validation2-phone">Phone Number</label>
-                                    <input class="form-control form-control-lg" type="text" id="wizard-validation2-phone" name="phone" value="{{old('phone')}}" required>
+                                    <input class="form-control form-control-lg" placeholder="Enter Phone Number" style="border: 1px solid rgb(51, 70, 128)" type="number" id="wizard-validation2-phone" name="phone" value="{{old('phone')}}" required>
                                 </div>
                             </div>
                             <div class="form-group form-row">
-                                <div class="col-sm-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="int123" class="text-bold-600 font-medium-2">
+                                            Date of Birth :
+                                        </label><a href="#" id="switch">estimated age? click</a>
+
+                                        <input type="text" class="js-datepicker form-control" id="int123" name="dob" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy"
+                                    value="{{old('dob')}}">
+                                    <input type="text"  name="age_at_reg" class="form-control form-control-lg" id="int124" placeholder="Enter estimated Age" value="{{old('age_at_reg')}}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
                                     <label for="select-sex">Sex</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" required>
+                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1px solid rgb(51, 70, 128)" required>
                                         <option value="">Choose One...</option>
                                         <option value="Male" {{ (old('sex')=='Male') ? 'select' :''}}>Male</option>
                                         <option value="Female" {{ old('sex')=='Female' ? 'select':''}}>Female</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-md-3">
                                     <label for="select-mar">Marital Status</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-mar" name="marital_status" required>
+                                    <select class="form-control form-control-lg" type="text" id="select-mar" name="marital_status" style="border: 1px solid rgb(51, 70, 128)" required>
                                         <option value="">Choose One...</option>
                                         <option value="Never Married" {{ old('marital_status')=='Never Married' ? 'select':''}}>Never Married(single)</option>
 									    <option value="Married" {{ old('marital_status')=='married' ? 'select':''}}>Married</option>
@@ -102,42 +132,53 @@
 
                                     </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="int123" class="text-bold-600 font-medium-2">
-                                            Date of Birth :
-                                        </label><a href="#" id="switch">? click for estimated age</a>
-
-                                        <input type="text" class="js-datepicker form-control" id="int123" name="dob" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
-                                    <input type="text"  name="age_at_reg" class="form-control form-control-lg" id="int124" placeholder="Enter estimateg Age" value="{{old('age_at_reg')}}">
-                                    </div>
+                                <div class="col-md-3">
+                                    <label for="email">Email</label>
+                                <input class="form-control form-control-lg" type="email" id="email" name="email" value="{{old('email')}}">
                                 </div>
 
                             </div>
                             <div class="form-group form-row">
-                                <div class="col-sm-4">
-                                    <label for="email">Email</label>
-                                    <input class="form-control form-control-lg" type="email" id="email" name="email">
-                                </div>
-                                <div class="col-sm-4">
+                                <div class="col-md-4">
                                     <label for="address">Address</label>
-                                    <textarea class="form-control form-control-alt" id="address" name="address" rows="4">{{old('address')}}</textarea>
+                                    <textarea class="form-control form-control-lg" id="address" name="address" rows="4">{{old('address')}}</textarea>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-md-2">
                                     <label for="city">City</label>
                                     <input class="form-control form-control-lg" type="text" id="city" name="city" value="{{old('city')}}">
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-md-2">
                                     <label for="city">State</label>
                                     <input class="form-control form-control-lg" type="text" id="state" name="state" value="{{old('state')}}">
                                 </div>
-                                <div class="col-sm-6">
-                                    <label for="nin">National Identification Number</label>
-                                    <input class="form-control form-control-lg" type="text" id="nin" name="national_id" value="{{old('national_id')}}">
+                                <div class="col-sm-4">
+                                    <label for="select-sex">Religion</label>
+                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1px solid rgb(51, 70, 128)" required>
+                                        <option value="">Choose One...</option>
+                                        <option value="Islam" {{ (old('religion')=='Islam') ? 'select' :''}}>Islam</option>
+                                        <option value="Christian" {{ old('religion')=='Christianity' ? 'select':''}}>Christian</option>
+                                        <option value="Traditional" {{ old('religion')=='Traditional' ? 'select':''}}>Traditional</option>
+                                        <option value="Others" {{ old('religion')=='Others' ? 'select':''}}>Others</option>
+                                    </select>
                                 </div>
-                                <div class="col-sm-6">
+
+                            </div>
+                            <div class="form-group form-row">
+                                <div class="col-sm-3">
+                                    <label for="nin">Nationality</label>
+                                    <input class="form-control form-control-lg" type="text" id="nin" name="nationality" value="{{old('nationality')}}">
+                                </div>
+								<div class="col-sm-3">
+                                    <label for="tribe">TRIBE</label>
+                                    <input class="form-control form-control-lg" type="text" id="tribe" name="tribe" value="{{old('tribe')}}">
+                                </div>
+                                <div class="col-sm-3">
                                     <label for="occupation">Occupation</label>
                                     <input class="form-control form-control-lg" type="text" id="occupation" name="occupation" value="{{old('occupation')}}">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="referral_source">Referral Source</label>
+                                    <input class="form-control form-control-lg" type="text" id="referral_source" name="referral_source" value="{{old('referral_source')}}">
                                 </div>
 
                             </div>

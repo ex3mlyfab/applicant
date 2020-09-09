@@ -7,7 +7,7 @@ add regtype
 
 @section('content')
 <div class="content">
-    <div class="block block-fx-shadow">
+    <div class="block block-fx-shadow pentacare-bg">
         <div class="block-header bg-amethyst-lighter">
             <h3 class="block-title">Registration Types</h3>
             <div class="block-options">
@@ -156,8 +156,8 @@ add regtype
 
         var ajaxurl = "{{url('admin/regtype/create')}}";
         if (state == "update") {
-            type = "PUT";
-            ajaxurl = "{{url('admin/regtype/create')}}" + link_id;
+            type = "PATCH";
+            ajaxurl = `{{url('admin/regtype/create')}}/${link_id}`;
         }
         $.ajax({
             type: type,
@@ -175,7 +175,9 @@ add regtype
                     $("#regtype" + link_id).replaceWith(link);
                 }
                 jQuery('#formregtypes').trigger("reset");
-                jQuery('#regtype-block-normal').modal('hide')
+                jQuery('#regtype-block-normal').modal('hide');
+
+
             },
             error: function (data) {
                 console.log('Error:', data);

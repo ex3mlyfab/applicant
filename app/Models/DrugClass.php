@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class DrugCategory extends Model
+class DrugClass extends Model
 {
     protected $guarded = [];
 
@@ -13,4 +13,6 @@ class DrugCategory extends Model
     {
         return $this->hasMany(DrugModel::class);
     }
+
+
 }

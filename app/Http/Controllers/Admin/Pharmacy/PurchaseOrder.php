@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Pharmacy;
 
 use App\Http\Controllers\Controller;
+use App\Models\PurchaseOrder as ModelsPurchaseOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PurchaseOrder extends Controller
@@ -14,7 +16,8 @@ class PurchaseOrder extends Controller
      */
     public function index()
     {
-        //
+        $purchaseOrder = ModelsPurchaseOrder::whereYear('created_at', date('Y') )->orderByDesc('status');
+        return view('admin.pharmacy.purchaseOrder', compact('purchaseOrder'));
     }
 
     /**

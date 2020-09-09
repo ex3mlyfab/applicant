@@ -85,12 +85,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('haematology/completed', 'Admin\Laboratory\HaematologyController@completed')->name('haematology.completed');
         Route::resource('haematology', 'Admin\Laboratory\HaematologyController')->middleware('permission:haematology-view');
         Route::resource('microbiology', 'Admin\Laboratory\MicrobiologyController')->middleware('permission:microbiology-view');
-        Route::group(['prefix' => 'subcategory'], function () {
-            Route::post('store/{drugcategory}', 'Admin\Pharmacy\DrugCategoryController@subCategorystore')->name('drugsubcategory.store');
-            Route::get('edit/{drugsubcategory}', 'Admin\Pharmacy\DrugCategoryController@subCategoryedit')->name('drugsubcategory.edit');
-            Route::patch('update/{drugsubcategory}', 'Admin\Pharmacy\DrugCategoryController@subCategoryupdate')->name('drugsubcategory.update');
-            Route::delete('delete/{drugsubcategory}', 'Admin\Pharmacy\DrugCategoryController@subCategorydelete')->name('drugsubcategory.destroy');
-        });
+        Route::resource('drugClass', 'Admin\Pharmacy\DrugCategory')->middleware('permission:create');
         Route::post('user/changepassword/{user}', 'Admin\Setting\AdminController@changePassword')->name('user.changepassword');
         Route::post('user/uploadpassport/{user}', 'Admin\Setting\AdminController@avatar')->name('user.avatar');
         Route::resource('user', 'Admin\Setting\AdminController')->middleware('permission:user-view');
@@ -98,15 +93,16 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('assetcategory', 'Admin\Setting\AssetCategoryController')->middleware('permission:assetcategory-view');
         Route::resource('assetpurchase', 'Admin\Setting\AssetPurchaseController')->middleware('permission:assetpurchase-view');
         Route::resource('assetassign', 'Admin\Setting\AssetAssignController')->middleware('permission:assetassign-view');
+        Route::resource('purchaseOrder', 'Admin\Pharmacy\PurchaseOrder')->middleware('permission: order-create');
 
         Route::group(['prefix' => 'regtype'], function () {
             Route::get('/', 'Admin\Setting\RegistrationController@index')->middleware('permission:regtype-view')->name('regtype.index');
             Route::get('/{regtype}', 'Admin\Setting\RegistrationController@edit')->middleware('permission:regtype-update');
             Route::post('/create', 'Admin\Setting\RegistrationController@store');
-            Route::put('/update/{regtype}', 'Admin\Setting\RegistrationController@update');
+            Route::patch('/update/{regtype}', 'Admin\Setting\RegistrationController@update');
             Route::delete('/destroy/{regtype}', 'Admin\Setting\RegistrationController@destroy');
         });
 
         Route::get('/', 'Admin\Setting\DashboardController@index')->name('admin.dashboard');
     });
-}); 
+});

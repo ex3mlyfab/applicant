@@ -12,7 +12,7 @@ class DrugModel extends Model
 
     public function drugClass(): BelongsTo
     {
-        return $this->belongsTo(DrugSubCategory::class);
+        return $this->belongsTo(DrugClass::class);
     }
     public function drugBatchDetails(): HasMany
     {

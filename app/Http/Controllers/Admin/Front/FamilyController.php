@@ -7,6 +7,7 @@ use App\Models\Family;
 use App\Models\Payment;
 use App\Models\RegistrationType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -57,25 +58,31 @@ class FamilyController extends Controller
             'phone' => 'required|string|max:255|unique:users',
             'sex' => 'nullable|string',
             'email' => 'nullable|email|max:255',
-            'nok' => 'nullable|string|max:255',
-            'nok_phone' => 'nullable|string|max:255',
+            'nok' => 'nullable|max:255',
+            'nok_phone' => 'nullable|max:255',
             'nok_relationship' => 'nullable|string|max:255',
             'nok_address' => 'nullable|string',
             'address' => 'nullable|string',
-            'email' => 'nullable|string',
-            'national_id' => 'nullable|string',
+            'nationality' => 'nullable|string',
             'state' => 'nullable|string',
             'city' => 'nullable|string',
             'age_at_reg' => 'nullable|string',
             'marital_status' => 'nullable|string',
-            'registration_type_id' => 'required',
-            'belongs_to' => 'nullable',
-
+            'registration_type_id' => 'nullable',
+            'occupation' => 'nullable',
+            'tribe' => 'nullable',
+            'religion' => 'sometimes',
+            'referral_source' => 'sometimes',
+            'insurance_number' => 'nullable',
+            'payment_method' => 'nullable',
+            'dob' => 'sometimes',
+            'payment_mode' => 'sometimes',
         ]);
 
         if ($request->has('dob')) {
             $dob = strtotime($request->dob);
             $newDate = date('Y-m-d', $dob);
+            $newDate = Carbon::parse($newDate);
             $validated['dob'] = $newDate;
         }
 

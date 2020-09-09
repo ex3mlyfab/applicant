@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin\Pharmacy;
 
 use App\Http\Controllers\Controller;
-use App\Models\DrugCategory;
-use App\Models\DrugSubCategory;
+use App\Models\DrugClass;
 use Illuminate\Http\Request;
 
-class DrugCategoryController extends Controller
+class DrugClassController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +15,13 @@ class DrugCategoryController extends Controller
      */
     public function index()
     {
-        $drugcategories = DrugCategory::all();
+        $drugcategories = DrugClass::all();
         return View('admin.pharmacy.drugcategories', compact('drugcategories'));
     }
 
-    public function categoryAjax()
+    public function ClassAjax()
     {
-        $sections = DrugCategory::all()->pluck("name", "id");
+        $sections = DrugClass::all()->pluck("name", "id");
         return json_encode($sections);
     }
     /**
@@ -46,9 +45,9 @@ class DrugCategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|unique:drug_categories'
         ]);
-        DrugCategory::create($data);
+        DrugClass::create($data);
         $notification = [
-            'message' => 'drug category created successfully',
+            'message' => 'drug Class created successfully',
             'alert-type' => 'success'
         ];
         return back()->with($notification);
@@ -60,75 +59,22 @@ class DrugCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(DrugCategory $drugcategory)
+    public function show(DrugClass $drugClass)
     {
-        return view('admin.pharmacy.drugsubcategories', compact('drugcategory'));
+        return view('admin.pharmacy.drugsubcategories', compact('drugClass'));
     }
 
-    public function subCategorystore(Request $request, DrugCategory $drugcategory)
-    {
-        $data = $request->validate([
-            'name' => 'required'
-        ]);
-
-        $drugcategory->drugSubCategories()->create($data);
-        $notification = [
-            'message' => 'drug sub category created successfully',
-            'alert-type' => 'success'
-        ];
-        return back()->with($notification);
-    }
-    public function drugAjax(DrugCategory $drug)
-    {
-        $subcategories = $drug->drugSubCategories->pluck("name", "id");
-        return json_encode($subcategories);
-    }
-
-    public function subCategoryupdate(Request $request, DrugSubCategory $drugsubcategory)
-    {
-        $data = $request->validate([
-            'name' => 'required'
-        ]);
-
-        $drugsubcategory->update($data);
-        $notification = [
-            'message' => 'drug sub category updated successfully',
-            'alert-type' => 'success'
-        ];
-        $task = $drugsubcategory;
-
-        $drugcategory = DrugCategory::where('id', $task->drugCategory->id)->first();
-
-        return view('admin.pharmacy.drugsubcategories', compact('drugcategory', 'notification'));
-    }
-    public function subCategorydelete(Request $request, DrugSubCategory $drugsubcategory)
-    {
-        $drugsubcategory->delete();
-        $notification = [
-            'message' => 'drug sub category deleted successfully',
-            'alert-type' => 'success'
-        ];
-        return back()->with($notification);
-    }
-    public function subCategoryedit(DrugSubCategory $drugsubcategory)
-    {
-        $task = $drugsubcategory;
-
-        $drugcategory = DrugCategory::where('id', $task->drugCategory->id)->first();
-
-        return view('admin.pharmacy.drugsubcategories', compact('task', 'drugcategory'));
-    }
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(DrugCategory $drugcategory)
+    public function edit(DrugClass $drugClass)
     {
         //
-        $task = $drugcategory;
-        $drugcategories = DrugCategory::all();
+        $task = $drugClass;
+        $drugcategories = DrugClass::all();
         return View('admin.pharmacy.drugcategories', compact('drugcategories', 'task'));
     }
 
@@ -139,18 +85,18 @@ class DrugCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DrugCategory $drugcategory)
+    public function update(Request $request, DrugClass $drugClass)
     {
         //
         $data = $request->validate([
             'name' => 'required'
         ]);
-        $drugcategory->update($data);
+        $drugClass->update($data);
         $notification = [
-            'message' => 'drug category created successfully',
+            'message' => 'drug Class created successfully',
             'alert-type' => 'success'
         ];
-        return redirect()->route('drugcategory.index')->with($notification);
+        return redirect()->route('drugClass.index')->with($notification);
     }
 
     /**
@@ -159,13 +105,13 @@ class DrugCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DrugCategory $drugcategory)
+    public function destroy(DrugClass $drugClass)
     {
-        $drugcategory->delete();
+        $drugClass->delete();
         $notification = [
-            'message' => 'drug category created successfully',
+            'message' => 'drug Class created successfully',
             'alert-type' => 'success'
         ];
-        return redirect()->route('drugcategory.index')->with($notification);
+        return redirect()->route('drugClass.index')->with($notification);
     }
 }

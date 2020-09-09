@@ -55,24 +55,22 @@
                                 </div>
 
                             @endforeach
-
-
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6 mt-2">
                                     <label class="d-block" style="font-size: 20px">Payment Mode</label><br>
-<div class="form-check" style="margin-top: -20px">
-    <input type="radio" style="height:25px; width:25px;" name="payment_mode" id="cash" class="form-check-input" value="1" required>
-    <label style="font-size: 18px" for="cash" class="form-check-label font-weight-normal ml-3 mt-1">Cash</label>
-</div>
-<div class="form-check mt-1">
-        <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="pos" class="form-check-input" value="2" required>
-        <label style="font-size: 18px" for="pos" class="form-check-label font-weight-normal ml-3 mt-1">POS</label>
-</div>
-<div class="form-check mt-1">
-    <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="transfer" class="form-check-input" value="3" required>
-    <label style="font-size: 18px" for="transfer" class="form-check-label font-weight-normal ml-3 mt-1">transfer</label>
-</div>
+                                        <div class="form-check" style="margin-top: -20px">
+                                            <input type="radio" style="height:25px; width:25px;" name="payment_mode" id="cash" class="form-check-input" value="1" required>
+                                            <label style="font-size: 18px" for="cash" class="form-check-label font-weight-normal ml-3 mt-1">Cash</label>
+                                        </div>
+                                        <div class="form-check mt-1">
+                                                <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="pos" class="form-check-input" value="2" required>
+                                                <label style="font-size: 18px" for="pos" class="form-check-label font-weight-normal ml-3 mt-1">POS</label>
+                                        </div>
+                                        <div class="form-check mt-1">
+                                            <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="transfer" class="form-check-input" value="3" required>
+                                            <label style="font-size: 18px" for="transfer" class="form-check-label font-weight-normal ml-3 mt-1">transfer</label>
+                                        </div>
 
                                 </div>
                             </div>

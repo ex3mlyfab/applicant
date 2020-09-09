@@ -159,17 +159,23 @@
                 <ul class="nav-main-submenu">
 
                     <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{route('pharmacy.index')}}">
+                        <a class="nav-main-link" href="{{route('pharmacy.index')}}">
                             <span class="nav-main-link-name">Dispense Drugs</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
-                    <a class="nav-main-link" href="{{route('drug.index')}}">
+                        <a class="nav-main-link" href="{{route('drug.index')}}">
                             <span class="nav-main-link-name">Drug lists</span>
                         </a>
                     </li>
-                    <a class="nav-main-link" href="{{route('drugcategory.index')}}">
+                    <li>
+                        <a class="nav-main-link" href="{{route('drugcategory.index')}}">
                             <span class="nav-main-link-name">Drug categories</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-main-link" href="{{route('purchaseOrder.index')}}">
+                            <span class="nav-main-link-name">Purchase Order</span>
                         </a>
                     </li>
                 </ul>
