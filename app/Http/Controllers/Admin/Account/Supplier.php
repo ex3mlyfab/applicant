@@ -36,6 +36,11 @@ class Supplier extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function loadSuppliers(){
+        $suppliers = ModelsSupplier::all();
+        return response()->json($suppliers);
+    }
+
     public function store(Request $request)
     {
         //

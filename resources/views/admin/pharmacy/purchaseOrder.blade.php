@@ -18,7 +18,7 @@
             <div class="block block-fx-shadow">
                 <div class="block-header bg-info-light">All Purchase Orders for {{ date('Y') }}
                     <div class="block-options">
-                        <button id="btn-add" name="btn-add" class="btn btn-primary btn-xs" data-toggle="modal" data-target="purchase-block-normal">Add New Purchase Order</button>
+                        <button id="btn-add" name="btn-add" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#purchase-block-normal">Add New Purchase Order</button>
                     </div>
                 </div>
                 <div class="block-content block-content-full">
@@ -42,10 +42,10 @@
                                 <td> {{ $item->status }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{route('charge.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
+                                            <a href="{{route('purchaseOrder.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                                 <i class="fa fa-fw fa-pencil-alt"></i>
                                             </a>
-                                            <form action="{{route('charge.destroy', $item->id)}}" method="POST" >
+                                            <form action="{{route('purchaseOrder.destroy', $item->id)}}" method="POST" >
                                                 @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
@@ -63,13 +63,12 @@
         </div>
     </div>
 </div>
- <!-- Pharmacy Modal -->
- <div class="modal" id="purchase-block-normal" tabindex="-1" role="dialog" aria-labelledby="purchase-block-normal" aria-hidden="true" >
+<div class="modal" id="purchase-block-normal" tabindex="-1" role="dialog" aria-labelledby="purchase-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg modal-dialog-top" role="document" >
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-light">
-                    <h3 class="block-title">Drug Request</h3>
+                    <h3 class="block-title">Drug Purchase Order</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
@@ -78,69 +77,84 @@
                 </div>
                 <div class="block-content font-size-sm">
 
-                    <div class="table-responsive">
-                        <form action="{{route('purchaseOrder.store') }}" method="POST" class="form form-element" onsubmit="return false;">
-                            @csrf
-                            <div class="form-group">
-                                <label for="supplier"></label>
-                                <select name="supplier_id" id="supplier" class="form-control form-control-lg" required>
-                                    <option>select one</option>
-                                    {{ create_option('suppliers', 'id', 'name') }}
-                                </select>
 
+                        <form class="form form-element" onsubmit="return false;">
+                            <div class="form-group form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="supplier">Choose Supplier</label>
+                                    <select name="supplier_id" id="supplier" class="form-control form-control-lg" required>
+                                        <option value="" selected disabled>Choose</option>
+                                        {{ create_option('suppliers', 'id', 'name') }}
+                                    </select>
+                                </div>
+                                <div class="form-group ml-auto">
+                                    <label>Selected Supplier</label>
+                                    <input type="text" class="form-control form-control-lg" id="selectedSupplier" readonly>
+                                </div>
                             </div>
+                            <h2 class="text-center">Fill Purchase Order</h2>
+                            <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
-                                <th>Category</th>
-                                <th>Subcategory</th>
+                                <th>Class</th>
                                 <th>Drug Name/ Form</th>
-                                <th>Dosage</th>
-                                <th>Instruction</th>
+                                <th>Quantity ordered</th>
+                                <th>Cost</th>
+                                <th>MIN / Avail</th>
 
                                 <th style="text-align: center;background: #eee">
 
                                 </th>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr id="row-1">
+                                    <td scope="row" class="trashIconContainer">
+                                        <i class="far fa-trash-alt" onclick="deleteRow()"></i>
+                                    </td>
                                     <td>
-                                        <select  class="js-select2 form-control" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
-                                            <option></option>
-                                            {{ create_option('drug_classes','id', 'name')}}
+                                        <select class="form-control form-control-lg selectDrug" data-id="1">
+
                                         </select>
                                     </td>
-                                     <td>
-                                        <select  class="js-select2 form-control" style="width: 100%;" id="drug" data-placeholder="Choose one.." required>
-                                        <option></option>
-                                    </select>
-                                </td>
-
                                     <td>
-
-                                        <input type="number" id="quantity" class="form-control form-control-lg"></td>
-                                    <td>
-                                        <input type="text" id="instruction" class="form-control form-control-lg">
+                                        <input class="form-control text-right" type="number" min="0" step=".01"
+                                        />
                                     </td>
-
-
-                                    <td  style="text-align: center">
-                                            <a  class="btn btn-success" onclick="rowAdd()">
-                                                <i class="fa fa-plus"> Add Drug</i>
-                                            </a>
+                                    <td>
+                                        <input class="form-control text-right" type="number" min="0" step=".01"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" readonly class="form-control drugname">
+                                    </td>
+                                    <td>
+                                        <input readonly class="form-control text-right" type="number" min="0" step=".01" />
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">
+                                        total Price
+                                    </td>
+                                    <td>
+                                        <p></p>
+                                    </td>
+                                </tr>
+
                                 </tbody>
                             </table>
                         </div>
 
 
+                    <button type='button' class="btn btn-info">
+                        <i class="fas fa-plus-circle"></i>
+                        Add
+                    </button>
 
 
-
-                    <button  id="drugSubmit" data-appointment="{{$appointment->id}}" class="btn btn-primary pull-right">Submit</button>
-                        </form>
+                            <button  id="drugSubmit" data-appointment="" class="btn btn-primary pull-right">Submit</button>
+                    </form>
 
                     </div>
+
                 </div>
                 <div class="block-content block-content-full text-right border-top">
                     <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
@@ -163,5 +177,106 @@
 
 <!-- Page JS Code -->
 <script src="{{asset('backend')}}/assets/js/pages/be_tables_datatables.min.js"></script>
+<script>
+    $(function(){
+        $('#supplier').on("change", function(){
+            var classID = $(this).val();
+            let selected = $('#selectedSupplier');
+            console.log(classID);
+            selected.val(classID);
+            });
+
+        $('#purchase-block-normal').on("click", appendDrugs());
+        $('.selectDrug').bind("change", function(){
+            let link_id = $(this).attr('data-id');
+            let contact = $(`#drugs > tbody > tr#row-${link_id} > .drugname` );
+            console.log(contact);
+            console.log(link_id);
+            $.get('/admin/selectdrug/' + link_id, function (data) {
+            // jQuery('#regtype_id').val(data.id);
+            // jQuery('#registration_type').val(data.name);
+            let contact = $(`#drugs > tbody > tr#${link_id} > .drugname` );
+
+            });
+
+         });
+
+
+    });
+    function appendDrugs(){
+        var link = "{{ url('/admin/drug/getall') }}";
+
+
+            $.ajax({
+            url: link,
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                id : "value",
+                name: "value",
+                forms : "value"
+                }),
+            success:function(response) {
+                $('.selectDrug').empty();
+
+                response.forEach(function(data){
+                    $('.selectDrug').append(
+                    '<option value="'+ data.id +'">'+ data.name + " - "+data.forms +'</option>');
+
+                    });
+                }
+                });
+    }
+     function rowAdd(){
+        var drug = $('#drug').val();
+
+        var drugClass = $('#drugClass').val();
+        var drug = $('#drug').val();
+        var price, min_re, avail;
+        drug_place = $('#drug').text();
+        drugcategory = $('#category').text();
+        drug_subcategory = $('#drug_subcategory').text();
+
+        var tablet={
+
+            drug, dosage, instruction
+        }
+        setTimeout(function(){
+            let tablerow = `
+        <tr>
+
+            <td colspan="3" class="">
+                <input type="text" value="${drug_place}" class="form-control"  readonly >
+                <input type="hidden" name="drug_model_id[]" value="${tablet.drug}" class="drug_model">
+            </td>
+            <td>
+                <input type="text" name="dosage[]" value="${tablet.dosage}" class="form-control dosage" >
+            </td>
+            <td>
+                <input type="text" name="instruction[]" value="${tablet.instruction}" class="form-control instruction" >
+            </td>
+            <td class="remove" style="text-align: center">
+            <a class="btn btn-danger" onclick="deleteRow()" > <i class="fa fa-times mr-1"></i>Delete</a>
+            </td>
+
+        </tr>`;
+            $('#drugs tbody').append(tablerow);
+        }, 200);
+
+
+    }
+    function deleteRow()
+    {
+        $(document).on('click', '.remove', function()
+        {
+            $(this).parent('tr').remove();
+        });
+    }
+</script>
+
 
 @endsection
+@push('view_js')
+<script src=" {{ asset('backend/js/app.js') }}"></script>
+@endpush

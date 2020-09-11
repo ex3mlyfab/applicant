@@ -17,7 +17,7 @@
                                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
                                         </div>
                                     </div>
-                                    <div class="block-content block-content-full">
+<div class="block-content block-content-full">
                                         <div class="py-1 text-center text-uppercase">
 
                                             <button type="button" class="btn btn-md btn-danger w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#haematology"> Haematology </button>

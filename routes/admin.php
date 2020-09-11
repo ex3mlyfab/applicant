@@ -56,6 +56,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('haematologyreq', 'Admin\Consult\HaematologyReqController');
         Route::resource('pathologyreq', 'Admin\Consult\PathologyController');
         Route::resource('histopathologyreq', 'Admin\Consult\HistopathologyReController');
+        Route::get('selectdrug/{drug}', 'Admin\Pharmacy\DrugController@selectDrug');
 
         Route::get('family/familyenroll/{family}', 'Admin\Front\FamilyController@familyEnroll')->name('family.enroll');
         Route::resource('family', 'Admin\Front\FamilyController')->middleware('permission:family-view');
@@ -66,6 +67,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('role', 'Admin\Setting\RoleController')->middleware('permission:role-view');
         Route::resource('permission', 'Admin\Setting\PermissionController')->middleware('permission:permission-view');
         Route::get('drug/drugajax/{drug}', 'Admin\Pharmacy\DrugController@drugAjax');
+        Route::get('drug/getall','Admin\Pharmacy\DrugController@getAll');
         Route::get('drugcategory/drugcategoryajax/{drug}', 'Admin\Pharmacy\DrugClassController@drugAjax');
         Route::resource('drugclass', 'Admin\Pharmacy\DrugClassController')->middleware('permission:drugcategory-view');
         Route::resource('drug', 'Admin\Pharmacy\DrugController')->middleware('permission:drug-view');
@@ -77,6 +79,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('pharmacy', 'Admin\Pharmacy\PharmacyController')->middleware('permission:pharmacy-view');
         Route::resource('purpose', 'Admin\Setting\VisitorPurposeSettingController');
         Route::resource('supplier', 'Admin\Account\Supplier')->middleware('permission:supplier-view');
+        Route::get('suppliers/load', 'Admin\Account\Supplier@loadSuppliers')->middleware('permission:purchase-create');
+
         Route::resource('insuranceCategory', 'Admin\Setting\InsuranceCategory')->middleware('permission:setting-view');
         Route::resource('insurance', 'Admin\Setting\Insurance')->middleware('permission:setting-view');
 

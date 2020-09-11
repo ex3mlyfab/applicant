@@ -1,4 +1,4 @@
-<div class="block block-fx-shadow">
+<div class="block block-fx-shadow pentacare-bg">
     <div class="block-header bg-info">
         <h3 class="block-title">Follow Up Visit</h3>
     </div>

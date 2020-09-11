@@ -35,9 +35,9 @@
         </div>
         <div class="d-flex align-items-center">
             <span style="font-size: 23px; color: rgb(51, 70, 128); cursor: pointer" class="bx bx-tada bx-envelope"></span>
-    <span style="font-size: 23px; cursor: pointer" class="text-success bx-spin ml-3 bx bx-cog"></span>
-    <span style="font-size: 23px; cursor: pointer; color: rgb(51, 70, 128)" class="ml-3 bx-burst bx bx-lock"></span>
-    <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{route('admin.logout')}}">
+            <span style="font-size: 23px; cursor: pointer" class="text-success bx-spin ml-3 bx bx-cog"></span>
+            <span style="font-size: 23px; cursor: pointer; color: rgb(51, 70, 128)" class="ml-3 bx-burst bx bx-lock"></span>
+            <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{route('admin.logout')}}">
                 <span style="font-size: 23px; cursor: pointer" class="text-danger ml-3 bx bx-log-in"></span>
             </a>
             <div class="dropdown d-inline-block ml-2">

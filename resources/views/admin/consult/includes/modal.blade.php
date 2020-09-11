@@ -620,16 +620,12 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select  class="js-select2 form-control" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
+                                        <select  class="js-select2 form-control drugClass" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
                                             <option></option>
-                                            {{ create_option('drug_categories','id', 'name')}}
+                                            {{ create_option('drug_classes','id', 'name')}}
                                         </select>
                                     </td>
-                                    <td>
-                                        <select  class="js-select2 form-control" style="width: 100%;" id="drug-subcategory" data-placeholder="Choose one.." required>
-                                        <option></option>
-                                    </select>
-                                    </td>
+
                                     <td>
                                         <select  class="js-select2 form-control" style="width: 100%;" id="drug" data-placeholder="Choose one.." required>
                                         <option></option>

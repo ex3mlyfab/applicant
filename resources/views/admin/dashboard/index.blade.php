@@ -129,7 +129,6 @@
 <script src="{{asset('backend')}}/assets/js/oneui.app.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 
-<script src="{{asset('backend')}}/chart.js/Chart.bundle.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/pages/be_comp_charts.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
 <script>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"></html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -16,6 +16,7 @@
                 background: rgba(255, 255, 255, 0.94);
                 border-radius: 10px;
             }
+
         </style>
     </head>
     <body>
@@ -25,9 +26,10 @@
 @include('admin.partials.header')
 <!-- Main Container -->
 <main id="main-container" style="background: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.5)), url('{{asset('backend')}}/images/penta.jpeg') no-repeat center center; background-size: cover;">
+    <div id="app">
 
     @yield('content')
-
+    </div>
 </main>
 @include('admin.partials.footer')
 @include('admin.partials.modal')
@@ -42,6 +44,7 @@
     });
 </script>
 @yield('foot_js')
+@stack('view_js')
 @include('admin.partials.flash')
 
 </body>
