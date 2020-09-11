@@ -35,7 +35,8 @@
         </style>
     </head>
     <body>
-        <div id="page-container">
+        <div id="app">
+            <App />
             <main id="main-container">
                 <div class="bg-image">
                     <div class="hero">
@@ -69,6 +70,8 @@
             gsap.from("#logo", {duration: 3, x: 300, opacity: 0, scale: 0.5});
             gsap.from("#welcome", {duration: 3, y: 300, opacity: 0, scale: 0.5});
             gsap.from(".btn", {duration: 3, y: 100, scale: 0.5});
+
         </script>
+        <script src="{{asset('backend/js/app.js')}}"></script>
     </body>
 </html>

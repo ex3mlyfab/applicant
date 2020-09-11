@@ -124,7 +124,7 @@
                                         <input class="form-control text-right" type="number" min="0" step=".01"/>
                                     </td>
                                     <td>
-                                        <input type="text" readonly class="form-control drugname">
+                                        <input type="text" readonly class="form-control" id="input-1">
                                     </td>
                                     <td>
                                         <input readonly class="form-control text-right" type="number" min="0" step=".01" />
@@ -187,19 +187,24 @@
             });
 
         $('#purchase-block-normal').on("click", appendDrugs());
+
         $('.selectDrug').bind("change", function(){
-            let link_id = $(this).attr('data-id');
-            let contact = $(`#drugs > tbody > tr#row-${link_id} > .drugname` );
-            console.log(contact);
-            console.log(link_id);
-            $.get('/admin/selectdrug/' + link_id, function (data) {
-            // jQuery('#regtype_id').val(data.id);
-            // jQuery('#registration_type').val(data.name);
-            let contact = $(`#drugs > tbody > tr#${link_id} > .drugname` );
+            let item = $(this).val()
+             let link_id=$(this).attr('data-id');
+
+
+            $.get('/admin/selectdrug/' + item, function (data) {
+
+            $('#input-'+link_id).val(data.name);
 
             });
 
          });
+        $("#add_row").click(function(){b=i-1;
+      	$('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
+      	$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
+      	i++;
+  	});
 
 
     });
@@ -277,6 +282,3 @@
 
 
 @endsection
-@push('view_js')
-<script src=" {{ asset('backend/js/app.js') }}"></script>
-@endpush
