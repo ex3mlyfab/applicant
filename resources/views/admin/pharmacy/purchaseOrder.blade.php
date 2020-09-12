@@ -79,6 +79,7 @@
 
 
                         <form class="form form-element" onsubmit="return false;">
+                            @csrf
                             <div class="form-group form-row">
                                 <div class="form-group col-md-4">
                                     <label for="supplier">Choose Supplier</label>
@@ -88,74 +89,81 @@
                                     </select>
                                 </div>
                                 <div class="form-group ml-auto">
-                                    <label>Selected Supplier</label>
+                                    <label class="ml-auto">Selected Supplier</label>
                                     <input type="text" class="form-control form-control-lg" id="selectedSupplier" readonly>
                                 </div>
                             </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4 ml-auto">
+                                    <label class="ml-auto">Total</label>
+                                    <input type="text" id="totalPurchase" readonly placeholder="0" class="form-control form-control-lg">
+                                </div>
+                            </div>
                             <h2 class="text-center">Fill Purchase Order</h2>
-                            <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="drugs">
-                                <thead>
-                                <th>Class</th>
-                                <th>Drug Name/ Form</th>
-                                <th>Quantity ordered</th>
-                                <th>Cost</th>
-                                <th>MIN / Avail</th>
-
-                                <th style="text-align: center;background: #eee">
-
-                                </th>
-                                </thead>
-                                <tbody>
-                                <tr id="row-1">
-                                    <td scope="row" class="trashIconContainer">
-                                        <i class="far fa-trash-alt" onclick="deleteRow()"></i>
-                                    </td>
-                                    <td>
-                                        <select class="form-control form-control-lg selectDrug" data-id="1">
-
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input class="form-control text-right" type="number" min="0" step=".01"
-                                        />
-                                    </td>
-                                    <td>
-                                        <input class="form-control text-right" type="number" min="0" step=".01"/>
-                                    </td>
-                                    <td>
-                                        <input type="text" readonly class="form-control" id="input-1">
-                                    </td>
-                                    <td>
-                                        <input readonly class="form-control text-right" type="number" min="0" step=".01" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="text-right">
-                                        total Price
-                                    </td>
-                                    <td>
-                                        <p></p>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
 
 
-                    <button type='button' class="btn btn-info">
-                        <i class="fas fa-plus-circle"></i>
-                        Add
-                    </button>
+
+                        <div class="table-responsive">
 
 
-                            <button  id="drugSubmit" data-appointment="" class="btn btn-primary pull-right">Submit</button>
+                                <table class="table table-bordered table-striped" id="drugs">
+                                    <thead>
+                                    <th>Drug Name - form</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Min/Avail</th>
+                                    <th>Cost</th>
+
+                                    <th style="text-align: center;background: #eee">
+
+                                    </th>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td style="width:30%; ">
+                                            <select  class="js-select2 form-control drugClass" style="width: 100%;" data-placeholder="Choose one.." id="drug-subcategory" required>
+                                                <option></option>
+                                                {{ create_option('drug_models','id', 'name')}}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="price" class="form-control form-control-lg">
+                                        </td>
+
+                                        <td>
+                                            <input type="number" id="qty" class="form-control form-control-lg">
+                                        </td>
+                                        <td>
+                                            <input type="text" id="avail" class="form-control form-control-lg" readonly>
+                                        </td>
+                                        <td>
+                                            <input type="number" id="lineCost" class="form-control form-control-lg" readonly>
+                                        </td>
+
+                                        <td  style="text-align: center">
+                                                <button type="button" class="btn btn-success" id="addDrug" onclick="rowAdd()">
+                                                    <i class="fa fa-plus"> Add Drug</i>
+                                                </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+
+
+                        <button  id="drugSubmit"  class="btn btn-primary pull-right">Submit</button>
+
+
                     </form>
+
 
                     </div>
 
                 </div>
+
                 <div class="block-content block-content-full text-right border-top">
                     <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
 
@@ -180,87 +188,98 @@
 <script>
     $(function(){
         $('#supplier').on("change", function(){
-            var classID = $(this).val();
+            let classID = $(this).val();
             let selected = $('#selectedSupplier');
             console.log(classID);
             selected.val(classID);
-            });
+        });
+        $('#addDrug').attr('disabled', true);
 
-        $('#purchase-block-normal').on("click", appendDrugs());
+        $('#qty').blur(function(){
+            let price = $('#price').val();
+            let quantity = $('#qty').val();
 
-        $('.selectDrug').bind("change", function(){
-            let item = $(this).val()
-             let link_id=$(this).attr('data-id');
+            if(Number(price) > 0){
+                setTimeout(function(){
+                     $('#lineCost').val((parseFloat(price)*parseFloat(quantity)).toFixed(2));
+                $('#addDrug').attr('disabled', false);
+                }, 200);
+
+            }
+        });
+
+        $('#drug-subcategory').on("change", function(){
+        var classID = $(this).val();
+        var link = "{{ url('admin/selectdrug/') }}";
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        if(classID) {
+            $.ajax({
+                url: link+"/"+classID,
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id : "value",
+                    name: "value",
+                    forms : "value"
+                    }),
+                success:function(response) {
 
 
-            $.get('/admin/selectdrug/' + item, function (data) {
+                    $('#price').val(response.price);
+                    $('#avail').val(response.minimum_level + '/'+ response.maximum_level);
 
-            $('#input-'+link_id).val(data.name);
+                    }
+                    });
 
-            });
+                }
 
-         });
-        $("#add_row").click(function(){b=i-1;
-      	$('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
-      	$('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
-      	i++;
-  	});
+
+
+        });
+
+
+
+
 
 
     });
-    function appendDrugs(){
-        var link = "{{ url('/admin/drug/getall') }}";
-
-
-            $.ajax({
-            url: link,
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                id : "value",
-                name: "value",
-                forms : "value"
-                }),
-            success:function(response) {
-                $('.selectDrug').empty();
-
-                response.forEach(function(data){
-                    $('.selectDrug').append(
-                    '<option value="'+ data.id +'">'+ data.name + " - "+data.forms +'</option>');
-
-                    });
-                }
-                });
-    }
      function rowAdd(){
-        var drug = $('#drug').val();
 
-        var drugClass = $('#drugClass').val();
-        var drug = $('#drug').val();
-        var price, min_re, avail;
-        drug_place = $('#drug').text();
-        drugcategory = $('#category').text();
-        drug_subcategory = $('#drug_subcategory').text();
+        let drugName =  $("#drug-subcategory option:selected").text();
+        let drug = $('#drug-subcategory').val();
+        let price =$('#price').val();
+        let qty= $('#qty').val();
+        let avail = $('#avail').val();
+        let lineCost = $('#lineCost').val();
 
-        var tablet={
-
-            drug, dosage, instruction
-        }
         setTimeout(function(){
             let tablerow = `
         <tr>
 
-            <td colspan="3" class="">
-                <input type="text" value="${drug_place}" class="form-control"  readonly >
-                <input type="hidden" name="drug_model_id[]" value="${tablet.drug}" class="drug_model">
+            <td>
+                <input type="text" value="${drugName}" class="form-control"  readonly >
+                <input type="hidden" name="drug_model_id[]" value="${drug}" class="drug_model">
             </td>
             <td>
-                <input type="text" name="dosage[]" value="${tablet.dosage}" class="form-control dosage" >
+                <input type="text" name="price[]" value="${price}" class="form-control instruction" readonly>
             </td>
             <td>
-                <input type="text" name="instruction[]" value="${tablet.instruction}" class="form-control instruction" >
+                <input type="text" name="quantity[]" value="${qty}" class="form-control dosage" readonly>
             </td>
+
+            <td>
+                <input type="text"  value="${avail}" class="form-control" readonly>
+            </td>
+            <td>
+                <input type="text" name="linecost[]" value="${lineCost}" class="form-control costLine" readonly>
+            </td>
+
             <td class="remove" style="text-align: center">
             <a class="btn btn-danger" onclick="deleteRow()" > <i class="fa fa-times mr-1"></i>Delete</a>
             </td>
@@ -269,6 +288,12 @@
             $('#drugs tbody').append(tablerow);
         }, 200);
 
+        $('#drug-subcategory').val('');
+        $('#price').val('');
+        $('#qty').val('');
+        $('#avail').val('');
+        $('#lineCost').val('');
+        $('#addDrug').attr('disabled', true);
 
     }
     function deleteRow()

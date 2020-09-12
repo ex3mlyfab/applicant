@@ -41,7 +41,7 @@ class RegistrationController extends Controller
         //
         $link = RegistrationType::create($request->all());
         $charge = $link->charge->amount;
-        $newCharge = array('amount' => $charge);
+        $newCharge = array('amount' => $charge); 
         $newlink = array_merge($link->toArray(), $newCharge);
 
         return Response::json($newlink);

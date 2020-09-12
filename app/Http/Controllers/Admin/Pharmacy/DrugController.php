@@ -87,6 +87,10 @@ class DrugController extends Controller
         return json_encode($sections);
     }
     public function selectDrug(DrugModel $drug){
+        $price = $drug->price ? $drug->price : 0;
+        $ewArrn = array('price' => $price);
+        $drug = array_merge($drug->toArray(), $ewArrn);
+
         return response()->json($drug);
     }
     /**

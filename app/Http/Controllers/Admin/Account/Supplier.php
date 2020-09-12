@@ -38,6 +38,7 @@ class Supplier extends Controller
      */
     public function loadSuppliers(){
         $suppliers = ModelsSupplier::all();
+
         return response()->json($suppliers);
     }
 
