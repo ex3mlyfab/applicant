@@ -154,8 +154,8 @@
 
 
 
-                        <button  id="drugSubmit"  class="btn btn-primary ml-auto" >Submit
-                            
+                        <button  id="drugSubmit" type="submit" class="btn btn-primary ml-auto" data-generatedby="{{Auth->user()->id  }}">Submit
+
                         </button>
 
 
@@ -376,7 +376,18 @@
     {
         $(document).on('click', '.remove', function()
         {
+
             $(this).parent('tr').remove();
+        });
+        $(function(){
+            let lineCosts;
+        $(".costline").each(function(){
+                lineCosts.push($(this).val());
+
+         });
+
+            let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : 0 ;
+         $('#totalPurchase').val(purchase);
         });
     }
 </script>
