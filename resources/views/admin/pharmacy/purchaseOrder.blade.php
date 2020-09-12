@@ -154,7 +154,9 @@
 
 
 
-                        <button  id="drugSubmit"  class="btn btn-primary pull-right">Submit</button>
+                        <button  id="drugSubmit"  class="btn btn-primary ml-auto" >Submit
+                            
+                        </button>
 
 
                     </form>
@@ -356,7 +358,7 @@
 
          });
 
-            let purchase = lineCosts.reduce((total, amount) => total + amount, 0);
+            let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : lineCost ;
          $('#totalPurchase').val(purchase);
         }, 200);
 
@@ -367,7 +369,7 @@
         $('#lineCost').val('');
         $('#addDrug').attr('disabled', true);
 
-         console.log(lineCosts);
+
 
     }
     function deleteRow()
