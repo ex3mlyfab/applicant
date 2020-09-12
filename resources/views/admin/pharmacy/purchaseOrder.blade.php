@@ -1,7 +1,7 @@
 @extends('admin.admin')
 
 @section('title')
-    add charge
+  Purchase Orders
 @endsection
 @section('head_css')
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.css">
@@ -35,16 +35,17 @@
                             <tbody>
                                 @foreach ($purchaseOrder as $item)
                                 <tr>
-                                    <td>{{$loop->iteration}}</td>
+                                <td><a href="{{route('purchaseOrder.show',$loop->iteration )}}">{{$loop->iteration}}</a></td>
                                     <td>{{$item->generatedBy->fullname}}</td>
                                     <td>{{$item->supplier->name}}</td>
-                                    <td>₦ {{$item->amount}}</td>
+                                    <td>₦ {{$item->total}}</td>
                                 <td> {{ $item->status }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{route('purchaseOrder.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
+                                            <a href="{{route('purchaseOrder.show', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="give approval">
                                                 <i class="fa fa-fw fa-pencil-alt"></i>
                                             </a>
+
                                             <form action="{{route('purchaseOrder.destroy', $item->id)}}" method="POST" >
                                                 @csrf
                                                     @method('DELETE')
@@ -96,7 +97,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4 ml-auto">
                                     <label class="ml-auto">Total</label>
-                                    <input type="text" id="totalPurchase" readonly placeholder="0" class="form-control form-control-lg">
+                                    <input type="number" id="totalPurchase" readonly class="form-control form-control-lg">
                                 </div>
                             </div>
                             <h2 class="text-center">Fill Purchase Order</h2>
@@ -154,7 +155,7 @@
 
 
 
-                        <button  id="drugSubmit" type="submit" class="btn btn-primary ml-auto" data-generatedby="{{Auth->user()->id  }}">Submit
+                        <button  id="drugSubmit" type="submit" class="btn btn-primary ml-auto" data-generatedby="{{ Auth::user()->id  }}">Submit
 
                         </button>
 
@@ -196,6 +197,7 @@
             selected.val(classID);
         });
         $('#addDrug').attr('disabled', true);
+        $('#drugSubmit').attr('disabled', true);
 
         $('#qty').blur(function(){
             let price = $('#price').val();
@@ -248,6 +250,9 @@
             var drugname = [];
             var quantity = [];
             var price = [];
+            let supplierID = $('#supplier').val();
+            let userId =  $(this).data('generatedby');
+            let total = $('#totalPurchase').val();
 
 
             $(".drug_model").each(function(){
@@ -256,10 +261,10 @@
             });
 
             $(".dosage").each(function(){
-                dosage.push($(this).val());
+                quantity.push($(this).val());
             });
             $(".instruction").each(function(){
-                instruction.push($(this).val());
+                price.push($(this).val());
             });
 
                 $.ajaxSetup({
@@ -270,33 +275,24 @@
 
                     e.preventDefault();
                     var type = "POST";
-                    var ajaxurl = 'pharmreq/create';
+                    var ajaxurl = "{{url('admin/purchase-order/create')}}";
                         $.ajax({
                             type: type,
                             url: ajaxurl,
                             data: {
-                                clinical_appointment: appointment,
-                                drug_model_id:drugname,
-                                dosage:dosage,
-                                instruction:instruction
+                                generated_by: userId,
+                                drug_model: drugname,
+                                price:price,
+                                quantity: quantity,
+                                supplier_id: supplierID,
+                                total: total,
                                     },
                             dataType: 'json',
-                            success: function (data){
-                                let link =`
-                                <li>
-                                    <a class="text-dark media py-2" href="javascript:void(0)">
-                                        <div class="mr-3 ml-2">
 
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="font-w600">${data.type}</div>
-                                            <div class="text-success">${data.status}</div>
-                                            <small class="text-muted">${ data.created_at}</small>
-                                        </div>
-                                    </a>
-                                </li>`;
-                                $("#recenttest").append(link);
+                            success: function (data){
+
                                 $("#pharmacy-block-normal").modal('hide');
+                                location.reload();
 
 
                             },
@@ -322,8 +318,7 @@
         let avail = $('#avail').val();
         let lineCost = $('#lineCost').val();
         let currentTotal = 0;
-        let lineCosts = [];
-
+        let lineCosts = 0;
 
         setTimeout(function(){
             let tablerow = `
@@ -334,17 +329,17 @@
                 <input type="hidden" name="drug_model_id[]" value="${drug}" class="drug_model">
             </td>
             <td>
-                <input type="text" name="price[]" value="${price}" class="form-control instruction" readonly>
+                <input type="number" name="price[]" value="${price}" class="form-control instruction" readonly>
             </td>
             <td>
-                <input type="text" name="quantity[]" value="${qty}" class="form-control dosage" readonly>
+                <input type="number" name="quantity[]" value="${qty}" class="form-control dosage" readonly>
             </td>
 
             <td>
                 <input type="text"  value="${avail}" class="form-control" readonly>
             </td>
             <td>
-                <input type="text" name="linecost[]" value="${lineCost}" class="form-control costLine" readonly>
+                <input type="number" name="linecost[]" value="${lineCost}" class="form-control costLine" readonly>
             </td>
 
             <td class="remove" style="text-align: center">
@@ -353,14 +348,17 @@
 
         </tr>`;
             $('#drugs tbody').append(tablerow);
-            $(".costline").each(function(){
-                lineCosts.push($(this).val());
+
+            $(".costLine").each(function(){
+              lineCosts += Number($(this).val());
 
          });
 
-            let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : lineCost ;
-         $('#totalPurchase').val(purchase);
+         alert(lineCosts);
+
+         $('#totalPurchase').val(parseFloat(lineCosts));
         }, 200);
+        console.log(typeof lineCosts);
 
         $('#drug-subcategory').val('');
         $('#price').val('');
@@ -368,6 +366,7 @@
         $('#avail').val('');
         $('#lineCost').val('');
         $('#addDrug').attr('disabled', true);
+        $('#drugSubmit').attr('disabled', false);
 
 
 
@@ -381,13 +380,17 @@
         });
         $(function(){
             let lineCosts;
-        $(".costline").each(function(){
-                lineCosts.push($(this).val());
+        $(".costLine").each(function(){
+                lineCosts.push(parseFloat($(this).val()).toFixed(2));
 
          });
 
             let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : 0 ;
          $('#totalPurchase').val(purchase);
+         if($('#totalPurchase').val() <= 0){
+            $('#drugSubmit').attr('disabled', true);
+
+         }
         });
     }
 </script>

@@ -57,6 +57,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('pathologyreq', 'Admin\Consult\PathologyController');
         Route::resource('histopathologyreq', 'Admin\Consult\HistopathologyReController');
         Route::get('selectdrug/{drug}', 'Admin\Pharmacy\DrugController@selectDrug');
+        Route::post('purchase-order/create', 'Admin\Pharmacy\PurchaseOrder@store');
 
         Route::get('family/familyenroll/{family}', 'Admin\Front\FamilyController@familyEnroll')->name('family.enroll');
         Route::resource('family', 'Admin\Front\FamilyController')->middleware('permission:family-view');

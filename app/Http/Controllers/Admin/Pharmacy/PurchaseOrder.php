@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pharmacy;
 
 use App\Http\Controllers\Controller;
 use App\Models\PurchaseOrder as ModelsPurchaseOrder;
+use App\Models\PurchaseOrderDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,8 @@ class PurchaseOrder extends Controller
      */
     public function index()
     {
-        $purchaseOrder = ModelsPurchaseOrder::whereYear('created_at', date('Y') )->orderByDesc('status');
+        $purchaseOrder = ModelsPurchaseOrder::all();
+
         return view('admin.pharmacy.purchaseOrder', compact('purchaseOrder'));
     }
 
@@ -38,7 +40,26 @@ class PurchaseOrder extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $new = ModelsPurchaseOrder::create([
+            'generated_by' => $request->generated_by,
+            'supplier_id'  => $request->supplier_id,
+            'total' => $request->total,
+        ]);
+
+        foreach ($request->drug_model as $key => $medicine_id) {
+            $data = array(
+                'purchase_order_id' =>$new->id,
+                'drug_model_id' => $request->drug_model[$key],
+                'price' => $request->price[$key],
+              'quantity_needed'  => $request->quantity[$key],
+
+
+            );
+              PurchaseOrderDetail::insert($data);
+
+        }
+        return json_encode(['message'=>'created']);
+
     }
 
     /**
@@ -49,7 +70,7 @@ class PurchaseOrder extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
