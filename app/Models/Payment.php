@@ -21,7 +21,7 @@ class Payment extends Model
     }
     public function invoices(): HasManyThrough
     {
-        return $this->hasManyThrough(Invoice::class, InvoiceItem::class,);
+        return $this->hasManyThrough(Invoice::class, InvoiceItem::class);
     }
 
     public function getBillingAttribute()

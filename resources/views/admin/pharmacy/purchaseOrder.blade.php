@@ -121,7 +121,7 @@
                                     <tbody>
                                     <tr>
                                         <td style="width:30%; ">
-                                            <select  class="js-select2 form-control drugClass" style="width: 100%;" data-placeholder="Choose one.." id="drug-subcategory" required>
+                                            <select  class="js-select2 form-control" style="width: 100%;" data-placeholder="Choose one.." id="drug-subcategory" required>
                                                 <option></option>
                                                 {{ create_option('drug_models','id', 'name')}}
                                             </select>
@@ -188,9 +188,9 @@
 <script>
     $(function(){
         $('#supplier').on("change", function(){
-            let classID = $(this).val();
+            let classID = $("#supplier option:selected").text();
             let selected = $('#selectedSupplier');
-            console.log(classID);
+
             selected.val(classID);
         });
         $('#addDrug').attr('disabled', true);
@@ -209,39 +209,101 @@
         });
 
         $('#drug-subcategory').on("change", function(){
-        var classID = $(this).val();
-        var link = "{{ url('admin/selectdrug/') }}";
-        $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+            var classID = $(this).val();
+            var link = "{{ url('admin/selectdrug/') }}";
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-        if(classID) {
-            $.ajax({
-                url: link+"/"+classID,
-                type: "GET",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    id : "value",
-                    name: "value",
-                    forms : "value"
-                    }),
-                success:function(response) {
+            if(classID) {
+                $.ajax({
+                    url: link+"/"+classID,
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        id : "value",
+                        name: "value",
+                        forms : "value"
+                        }),
+                    success:function(response) {
 
 
-                    $('#price').val(response.price);
-                    $('#avail').val(response.minimum_level + '/'+ response.maximum_level);
+                        $('#price').val(response.price);
+                        $('#avail').val(response.minimum_level + '/'+ response.maximum_level);
 
+                        }
+                        });
+
+                    }
+
+
+
+            });
+    $("#drugSubmit").click(function(e){
+            var drugname = [];
+            var quantity = [];
+            var price = [];
+
+
+            $(".drug_model").each(function(){
+                drugname.push($(this).val());
+
+            });
+
+            $(".dosage").each(function(){
+                dosage.push($(this).val());
+            });
+            $(".instruction").each(function(){
+                instruction.push($(this).val());
+            });
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
                     }
                     });
 
-                }
+                    e.preventDefault();
+                    var type = "POST";
+                    var ajaxurl = 'pharmreq/create';
+                        $.ajax({
+                            type: type,
+                            url: ajaxurl,
+                            data: {
+                                clinical_appointment: appointment,
+                                drug_model_id:drugname,
+                                dosage:dosage,
+                                instruction:instruction
+                                    },
+                            dataType: 'json',
+                            success: function (data){
+                                let link =`
+                                <li>
+                                    <a class="text-dark media py-2" href="javascript:void(0)">
+                                        <div class="mr-3 ml-2">
+
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="font-w600">${data.type}</div>
+                                            <div class="text-success">${data.status}</div>
+                                            <small class="text-muted">${ data.created_at}</small>
+                                        </div>
+                                    </a>
+                                </li>`;
+                                $("#recenttest").append(link);
+                                $("#pharmacy-block-normal").modal('hide');
 
 
+                            },
+                            error: function (data) {
+                                console.log('Error:', data);
+                            }
+                        });
 
-        });
+                        });
 
 
 
@@ -257,6 +319,9 @@
         let qty= $('#qty').val();
         let avail = $('#avail').val();
         let lineCost = $('#lineCost').val();
+        let currentTotal = 0;
+        let lineCosts = [];
+
 
         setTimeout(function(){
             let tablerow = `
@@ -286,6 +351,13 @@
 
         </tr>`;
             $('#drugs tbody').append(tablerow);
+            $(".costline").each(function(){
+                lineCosts.push($(this).val());
+
+         });
+
+            let purchase = lineCosts.reduce((total, amount) => total + amount, 0);
+         $('#totalPurchase').val(purchase);
         }, 200);
 
         $('#drug-subcategory').val('');
@@ -294,6 +366,8 @@
         $('#avail').val('');
         $('#lineCost').val('');
         $('#addDrug').attr('disabled', true);
+
+         console.log(lineCosts);
 
     }
     function deleteRow()
