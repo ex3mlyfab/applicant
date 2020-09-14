@@ -42,9 +42,13 @@
                                 <td> {{ $item->status }}</td>
                                     <td>
                                         <div class="btn-group">
+                                            @if (!$item->status)
                                             <a href="{{route('purchaseOrder.show', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="give approval">
                                                 <i class="fa fa-fw fa-pencil-alt"></i>
                                             </a>
+                                            @endif
+                                            
+
 
                                             <form action="{{route('purchaseOrder.destroy', $item->id)}}" method="POST" >
                                                 @csrf

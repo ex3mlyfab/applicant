@@ -98,8 +98,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('assetcategory', 'Admin\Setting\AssetCategoryController')->middleware('permission:assetcategory-view');
         Route::resource('assetpurchase', 'Admin\Setting\AssetPurchaseController')->middleware('permission:assetpurchase-view');
         Route::resource('assetassign', 'Admin\Setting\AssetAssignController')->middleware('permission:assetassign-view');
-        Route::resource('purchaseOrder', 'Admin\Pharmacy\PurchaseOrder')->middleware('permission: order-create');
-
+        Route::resource('purchaseOrder', 'Admin\Pharmacy\PurchaseOrder')->middleware('permission:order-create');
+        Route::resource('recieveorder', 'Admin\Pharmacy\RecieveOrderController')->middleware('permission:recieve-create');
+        Route::post('recieveorder/createone', 'Admin\Pharmacy\RecieveOrderController@createOne')->name('recieveorder.createOne')->middleware('permission:recieveorder-create');
 
 
         Route::group(['prefix' => 'regtype'], function () {

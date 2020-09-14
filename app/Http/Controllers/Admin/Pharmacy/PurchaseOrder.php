@@ -81,7 +81,7 @@ class PurchaseOrder extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -91,9 +91,36 @@ class PurchaseOrder extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,ModelsPurchaseOrder $purchaseOrder)
     {
         //
+
+        $confirmed=[];
+        $details = $purchaseOrder->purchaseOrderDetails()->pluck('id');
+        $approved = $request->approved;
+        foreach ($request->purchase_order_detail_id as $key => $value) {
+            if(in_array($request->purchase_order_detail_id[$key], $approved)){
+                array_push($confirmed, $request->purchase_order_detail_id[$key]);
+            }
+
+         }
+         $diiference = array_diff($details->toarray(), $confirmed);
+        // dd($details->toArray(), $approved, $confirmed, $diiference);
+        if((sizeof($diiference))){
+            foreach( $diiference as $key=> $value){
+                $del = PurchaseOrderDetail::find($diiference[$key]);
+                $del->delete();
+            }
+        }
+       $purchaseOrder->update([
+           'status' => 'approved',
+           'time_approved' => now()
+       ]);
+       $notification = [
+           'message' => 'Approval granted succesfully',
+           'type' => 'success'
+       ];
+       return redirect()->route('purchaseOrder.index')->with($notification);
     }
 
     /**
@@ -102,8 +129,14 @@ class PurchaseOrder extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ModelsPurchaseOrder $purchaseOrder)
     {
-        //
+        $purchaseOrder->purchaseOrderDetails()->delete();
+        $purchaseOrder->delete();
+        $notification = [
+            'message' => 'deleted successfully',
+            'type' => 'warning'
+        ];
+        return back()->with($notification);
     }
 }

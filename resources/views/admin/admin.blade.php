@@ -44,7 +44,7 @@
     });
 </script>
 @yield('foot_js')
-@stack('view_js')
+
 @include('admin.partials.flash')
 
 </body>

@@ -178,6 +178,11 @@
                             <span class="nav-main-link-name">Purchase Order</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="nav-main-link" href="{{route('recieveorder.index')}}">
+                            <span class="nav-main-link-name">Recieve Order</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan
