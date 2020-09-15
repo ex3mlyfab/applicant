@@ -13,7 +13,7 @@ Receive orders
                 <select name="id" id="" class="form-control" required>
                     <option>choose one...</option>
                    @foreach ($approved as $item)
-                <option value="{{$item->id}}">{{$item->supplier->name }}</option>
+                <option value="{{$item->id}}">{{$item->supplier->name.' '.$item->time_approved }}</option>
                    @endforeach
                 </select>
                 <button type="submit" class="btn btn-primary"> Recieve Order</button>

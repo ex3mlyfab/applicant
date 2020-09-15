@@ -14,8 +14,5 @@ class PresentingComplaint extends Model
     {
         return $this->morphTo();
     }
-    public function consult(): HasOne
-    {
-        return $this->hasOne(Consult::class);
-    }
+
 }

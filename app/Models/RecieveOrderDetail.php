@@ -14,4 +14,9 @@ class RecieveOrderDetail extends Model
     {
         return $this->belongsTo(RecieveOrder::class);
     }
+
+    public function drugModel(): BelongsTo
+    {
+        return $this->belongsTo(DrugModel::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pharmacy;
 
 use App\Http\Controllers\Controller;
 use App\Models\DrugBatchDetail;
+use App\Models\DrugModel;
 use App\Models\PurchaseOrder;
 use App\Models\RecieveOrder;
 use App\Models\RecieveOrderDetail;
@@ -48,7 +49,7 @@ class RecieveOrderController extends Controller
     {
         //store recieve order
         $recieve = RecieveOrder::create([
-            'purchase_order_id' => $request->purchase_order,
+            'purchase_order_id' => $request->purchase_order_id,
             'status' => 'recieved',
             'supplier_id' => $request->supplier_id,
             'costs' => $request->cost,
@@ -67,18 +68,22 @@ class RecieveOrderController extends Controller
                 'quantity_needed' => $request->quantity_needed[$key],
                 'price' => $request->price[$key],
             );
-            RecieveOrderDetail::insert($data);
+            $juice = RecieveOrderDetail::create($data);
+
             $dugdata = array(
                 'drug_model_id' => $request->drug_model_id[$key],
                 'quantity_supplied' => $request->quantity_needed[$key],
                 'expiry_date' => Carbon::parse($request->expiry_date[$key]),
-                'selling_price' => $request->selling_price[$key],
+                'cost' => $request->selling_price[$key],
                 'supplier_id' => $request->supplier_id,
                 'purchase_price' => $request->price[$key],
                 'purchase_date' => Carbon::parse($request->purchase_date),
                 'recieve_order_id' => $request->supplier_id,
+                'packing_quantity' => ($juice->drugModel->available ? $juice->drugModel->available : 0),
+
             );
-             DrugBatchDetail::insert($dugdata);
+            DrugModel::find($request->drug_model_id[$key]);
+             DrugBatchDetail::create($dugdata);
 
 
         }
@@ -105,13 +110,17 @@ class RecieveOrderController extends Controller
 
 
         }
+        //update status  on purchase
+        $recieve->purchaseOrder()->update([
+                'status' => 'completed',
+        ]);
         $notification =[
             'message' => 'Order received successfully',
             'type' => 'success'
         ];
 
         return redirect()->route('recieveorder.index')->with($notification);
-       
+
     }
 
     /**

@@ -22,8 +22,7 @@ class DrugModel extends Model
     {
         // $price = DrugBatchDetail::where('pharmacy_id', $this->id)->orderBy('created_at', 'desc')->first();
         // return $price->available_quantity;
-
-        return $this->drugBatchDetails->sum('available_quantity');
+        return $this->drugBatchDetails()->sum('available_quantity');
     }
     public function getPriceAttribute()
     {

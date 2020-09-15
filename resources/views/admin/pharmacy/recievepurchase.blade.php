@@ -106,11 +106,11 @@
                             <label>Payment Mode</label>
                             <div class="custom-control custom-radio payment custom-control-lg mb-1">
                                 <input type="radio" name="payment_mode" id="debit" class="custom-control-input" value="debit" required>
-                                <label for="debit" class="custom-control-label">debit</label>
+                                <label for="debit" class="custom-control-label">Cash</label>
                             </div>
                             <div class="custom-control custom-radio payment custom-control-lg mb-1">
                                 <input type="radio" name="payment_mode" id="credit" class="custom-control-input" value="credit" required>
-                                <label for="credit" class="custom-control-label">credit</label>
+                                <label for="credit" class="custom-control-label">Credit</label>
                             </div>
 
                         </div>

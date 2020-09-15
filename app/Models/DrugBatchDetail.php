@@ -20,8 +20,5 @@ class DrugBatchDetail extends Model
         return $this->where('drug_model_id', $this->drugModel->id)->sum('available_quantity');
     }
 
-    public function getBroughtForwardAttribute()
-    {
-        return $this->where('drug_model_id', $this->drugModel->id)->where('id', '!=', $this->id)->where('created_at', '<', $this->created_at)->sum('available_quantity');
-    }
+
 }

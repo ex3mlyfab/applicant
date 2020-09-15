@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Consult extends Model
 {
@@ -19,18 +20,18 @@ class Consult extends Model
     {
         return $this->hasMany(ConsultTest::class);
     }
-    public function presentingComplaint(): BelongsTo
+    public function presentingComplaints(): MorphMany
     {
-        return $this->belongsTo(PresentingComplaint::class);
+        return $this->morphMany(PresentingComplaint::class, 'patientable');
+    }
+    public function physicalExams(): MorphMany
+    {
+        return $this->morphMany(PhysicalExam::class, 'patientable');
+    }
+    public function followUps(): MorphMany
+    {
+        return $this->morphMany(FollowUp::class, 'patientable');
     }
 
-    public function physicalExam(): BelongsTo
-    {
-        return $this->belongsTo(PhysicalExam::class);
-    }
-
-    public function followUp(): BelongsTo
-    {
-        return $this->belongsTo(FollowUp::class);
-    }
+   
 }
