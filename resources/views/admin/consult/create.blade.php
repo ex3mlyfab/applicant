@@ -85,15 +85,16 @@
                                     <span class="presenting">
                                     @include('admin.consult.includes.presenting')
                                     </span>
+                                    {{
+                                        ($patient->encounters()->first()->physicalExams->count() ? "yes" :" No dummy")
+                                    }}
 
                                 </div>
                                 <div class="tab-pane" id="btabs-alt-static-profile" role="tabpanel">
-
-
-                                    <span class="physical">
-                                    @include('admin.consult.includes.physical')
-                                    </span>
                                     @include('admin.consult.includes.physicalHistory')
+                                    <span class="physical">
+                                        @include('admin.consult.includes.physical')
+                                    </span>
                                 </div>
                                 @if (($consults->count() > 1))
                                     <div class="tab-pane active" id="btabs-alt-static-followup" role="tabpanel">
@@ -254,10 +255,10 @@
 
             @if($consults->count() >= 1)
                @foreach($patient->encounters as $consult)
-                @if($consult->presentingComplaints())
+                @if($consult->presentingComplaints->count())
                     $('.presenting').hide();
                 @endif
-                @if($consult->physicalExams())
+                @if($consult->physicalExams->count())
                     $('.physical').hide();
                 @endif
                @endforeach
