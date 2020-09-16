@@ -21,10 +21,10 @@ class Consult extends Model
     {
         return $this->hasMany(ConsultTest::class);
     }
-    public function encounters(): MorphOne
+    public function encounter(): MorphOne
     {
         return $this->morphOne(Encounter::class, 'encounterable');
-    
+
     }
 
 

@@ -19,7 +19,7 @@
 
 
                 <!-- Block Tabs Animated Slide Left -->
-                <div class="block">
+                <div class="block pentacare-bg">
                     <ul class="nav nav-tabs nav-tabs-block" data-toggle="tabs" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" href="#btabs-animated-slideleft-home">Today {{Date('d-M-Y')}}</a>
@@ -32,7 +32,7 @@
                         </li>
                         <li class="nav-item ml-auto">
                             <a class="nav-link" href="#btabs-animated-slideleft-settings">
-                                <i class="fa fa-plus mr-1">New Appointment</i>
+                                <button type="button" class="btn btn-lg btn-primary m-2"><i class="fa fa-plus mr-1">New Appointment</i></button>
                             </a>
                         </li>
                     </ul>

@@ -12,91 +12,91 @@
         </div>
         <div class="col-lg-12">
 
-                <div class="block">
-                    <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#btabs-alt-static-home">Appointment</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#btabs-alt-static-profile">Patient Register</a>
-                        </li>
+            <div class="block">
+                <ul class="nav nav-tabs nav-tabs-alt" data-toggle="tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#btabs-alt-static-home">Appointment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#btabs-alt-static-profile">Patient Register</a>
+                    </li>
 
-                    </ul>
-                    <div class="block-content tab-content">
-                        <div class="tab-pane active" id="btabs-alt-static-home" role="tabpanel">
-                            <h4 class="font-w400">Patient on Appointment</h4>
-                             <div class="block block-bordered block-fx-pop">
+                </ul>
+                <div class="block-content tab-content">
+                    <div class="tab-pane active" id="btabs-alt-static-home" role="tabpanel">
+                        <h4 class="font-w400">Patient on Appointment</h4>
+                            <div class="block block-bordered block-fx-pop">
 
-                                <div class="block-content block-content-full">
-                                    <h4 class="font-w400">Today's Appointment {{ now()->today()->format('d-M-Y')}}</h4>
-                                        <div class="table-responsive">
-                                                <table class="table table-stripped table-bordered table-vcenter">
-                                                    <thead>
-                                                        <th>S/no</th>
-                                                        <th>Name</th>
-                                                        <th>Picture/f-no</th>
-                                                        <th>sex</th>
-                                                        <th>Age</th>
-                                                        <th>status</th>
-                                                        <th>action</th>
-                                                    </thead>
-                                                        <tbody>
-                                                            @foreach ($today as $item)
-                                                            <tr>
-                                                                <td>
-                                                                    {{$loop->iteration}}
-                                                                </td>
-                                                                <td>
-                                                                    {{ $item->user->full_name}}
-                                                                </td>
-                                                                <td>
-                                                                    <img src="{{ $item->user->avatar ? asset('backend/images/avatar/'. $item->user->avatar) : asset('backend/images/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
-                                                                    <span class="badge badge-pill p-2 badge-light">
-                                                                        {{$item->user->folder_number}}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->user->sex}}
+                            <div class="block-content block-content-full">
+                                <h4 class="font-w400">Today's Appointment {{ now()->today()->format('d-M-Y')}}</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-stripped table-bordered table-vcenter">
+                                        <thead>
+                                            <th>S/no</th>
+                                            <th>Name</th>
+                                            <th>Picture/f-no</th>
+                                            <th>sex</th>
+                                            <th>Age</th>
+                                            <th>status</th>
+                                            <th>action</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($today as $item)
+                                            <tr>
+                                                <td>
+                                                    {{$loop->iteration}}
+                                                </td>
+                                                <td>
+                                                    {{ $item->user->full_name}}
+                                                </td>
+                                                <td>
+                                                    <img src="{{ $item->user->avatar ? asset('backend/images/avatar/'. $item->user->avatar) : asset('backend/images/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
+                                                    <span class="badge badge-pill p-2 badge-light">
+                                                        {{$item->user->folder_number}}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    {{$item->user->sex}}
 
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->user->age}}
-                                                                </td>
+                                                </td>
+                                                <td>
+                                                    {{$item->user->age}}
+                                                </td>
 
-                                                                <td>
-                                                                    <span class="badge badge-primary"> {{$item->status}}</span>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="btn-group">
+                                                <td>
+                                                    <span class="badge badge-primary"> {{$item->status}}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group">
 
-                                                                        <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" data-fullname="{{ $item->user->full_name}}" data-patient-id="{{$item->user->id}}" data-folder-number="{{ $item->user->folder_number}}" data-sex="{{ $item->user->sex}}"><span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-clipboard"></i> </span></button>
-                                                                        @if ( ($item->status == "vitals sign taken"))
-                                                                    <a href="{{route('consult.create', $item->user->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Start Consultation">
-                                                                                <i class="fa fa-fw fa-stethoscope"></i>
-                                                                            </a>
-                                                                        @endif
+                                                        <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" data-fullname="{{ $item->user->full_name}}" data-patient-id="{{$item->user->id}}" data-folder-number="{{ $item->user->folder_number}}" data-sex="{{ $item->user->sex}}"><span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-clipboard"></i> </span></button>
+                                                        @if ( ($item->status == "vitals sign taken"))
+                                                    <a href="{{route('consult.create', $item->user->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Start Consultation">
+                                                                <i class="fa fa-fw fa-stethoscope"></i>
+                                                            </a>
+                                                        @endif
 
-                                                                    </div>
-                                                                </td>
+                                                    </div>
+                                                </td>
 
-                                                            </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="btabs-alt-static-profile" role="tabpanel">
-                            <h4 class="font-w400">Profile Content</h4>
-                            <p>...</p>
-                        </div>
-
                     </div>
+                    <div class="tab-pane" id="btabs-alt-static-profile" role="tabpanel">
+                        <h4 class="font-w400">Profile Content</h4>
+                        <p>...</p>
+                    </div>
+
                 </div>
+            </div>
         <!-- END Blockss="block-content block-content-full">
               Tabs Alternative Style -->
-            </>
+
         </div>
     </div>
     <div class="modal" id="modal-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >

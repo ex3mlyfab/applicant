@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Encounter extends Model
@@ -16,61 +16,61 @@ class Encounter extends Model
         return $this->morphTo();
     }
 
-    public function bloodreqs(): HasOne
+    public function bloodreqs(): HasMany
     {
-        return $this->hasOne(Bloodreq::class);
+        return $this->hasMany(Bloodreq::class);
     }
-    public function presentingComplaints(): HasOne
+    public function presentingComplaints(): HasMany
     {
-        return $this->hasOne(PresentingComplaint::class);
-    }
-
-    public function physicalExams(): HasOne
-    {
-        return $this->hasOne(PhysicalExam::class);
+        return $this->hasMany(PresentingComplaint::class);
     }
 
-    public function followUps(): HasOne
+    public function physicalExams(): HasMany
     {
-        return $this->hasOne(FollowUp::class);
+        return $this->hasMany(PhysicalExam::class);
     }
 
-    public function pharmreqs(): HasOne
+    public function followUps(): HasMany
     {
-        return $this->hasOne(Pharmreq::class);
+        return $this->hasMany(FollowUp::class);
     }
 
-    public function haematologyreqs(): HasOne
+    public function pharmreqs(): HasMany
     {
-        return $this->hasOne(Haematologyreq::class);
+        return $this->hasMany(Pharmreq::class);
     }
 
-    public function microbiologyreqs(): HasOne
+    public function haematologyreqs(): HasMany
     {
-        return $this->hasOne(Microbiologyreq::class);
+        return $this->hasMany(Haematologyreq::class);
     }
 
-    public function radiologyreqs(): HasOne
+    public function microbiologyreqs(): HasMany
     {
-        return $this->hasOne(Radiologyreq::class);
+        return $this->hasMany(Microbiologyreq::class);
+    }
+
+    public function radiologyreqs(): HasMany
+    {
+        return $this->hasMany(Radiologyreq::class);
     }
 
 
-    public function ultrasoundreqs(): HasOne
+    public function ultrasoundreqs(): HasMany
     {
-        return $this->hasOne(Ultrasoundreq::class);
+        return $this->hasMany(Ultrasoundreq::class);
     }
-    public function admits(): HasOne
+    public function admits(): HasMany
     {
-        return $this->hasOne(AdmitModel::class);
+        return $this->hasMany(AdmitModel::class);
     }
-    public function tcas(): HasOne
+    public function tcas(): HasMany
     {
-        return $this->hasOne(Tca::class);
+        return $this->hasMany(Tca::class);
     }
 
-    public function histopathologyreq(): HasOne
+    public function histopathologyreq(): HasMany
     {
-        return $this->hasOne(Histopathologyreq::class);
+        return $this->hasMany(Histopathologyreq::class);
     }
 }

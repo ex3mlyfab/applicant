@@ -25,6 +25,7 @@
     <form action="{{route('pc.store')}}" method="POST">
             @csrf
     <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+    <input type="hidden" name="encounter_id" value={{$encounter->id}}>
             <!-- Steps Content -->
             <div class="block-content block-content-full tab-content px-md-5" style="min-height: 314px;">
                 <!-- Step 1 -->
@@ -79,7 +80,7 @@
                                     </div>
 
                             </div>
- 
+
 
                     <div class="form-group form-row bg-modern-lighter p-2">
                         <div class="col-md-4">

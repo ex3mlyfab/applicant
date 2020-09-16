@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClinicalAppointment;
 use App\Models\Consult;
 use App\Models\PresentingComplaint;
 use Illuminate\Http\Request;
@@ -38,14 +39,18 @@ class PresentingComplaintController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->except('_token');
+
+
+        $validated = $request->except(['_token', 'clinical_appointment_id']);
         $pc = PresentingComplaint::create($validated);
-        $status = $pc->clinical_appointment_id;
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $consult->update([
+
+
+        $consult = Consult::where('clinical_appointment_id',$request->clinical_appointment_id)->update([
             'presenting_complaint_id' => $pc->id
         ]);
-        $consult->clinicalAppointment()->update([
+
+
+        ClinicalAppointment::find($request->clinical_appointment_id)->update([
             'status' => 'history_recorded'
         ]);
         $notification = array(

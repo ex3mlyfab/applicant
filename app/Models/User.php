@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function vitalSigns(): HasMany
     {
-        return $this->hasMany(VitalSign::class, 'patient_id');
+        return $this->hasMany(VitalSign::class, 'patient_id')->orderByDesc('created_at');
     }
 
     public function family(): BelongsTo
@@ -104,9 +104,9 @@ class User extends Authenticatable
         return $this->hasManyThrough(Consult::class, ClinicalAppointment::class, 'patient_id');
     }
 
-    public function encounters(): HasManyThrough
+    public function encounters(): HasMany
     {
-        return $this->hasManyThrough(Encounter::class, ClinicalAppointment::class, 'patient_id');
+        return $this->hasMany(Encounter::class);
     }
     public function retainership(): HasOne
     {
