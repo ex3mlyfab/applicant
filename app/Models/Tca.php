@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Tca extends Model
 {
     protected $guarded = [];
-    public function clinicalAppointment(): BelongsTo
+
+
+    public function encounter(): BelongsTo
     {
-        return $this->belongsTo(ClinicalAppointment::class);
+        return $this->belongsTo(Encounter::class);
     }
 }

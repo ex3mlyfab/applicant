@@ -14,7 +14,7 @@
             <div class="col-md-2">
                 <div class="block block-bordered block-rounded block-fx-shadow">
                     <div class="block-content">
-                        <img class="img-fluid img-fluid-100 options-item" src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="">
+                        <img class="img-fluid img-fluid-100 options-item" src="{{ $patient->avatar ? asset('backend/images/avatar/'. $patient->avatar) : asset('backend/images/no_image.png')}}" alt="">
                         <div class="table-responsive">
                             <table class="table table-borderless table-vcenter">
                                 <tbody>
@@ -162,7 +162,7 @@
                 $('#username123').hide();
             });
 
-            @if($consults->count() >= 1)
+            @if($consults->count() > 1)
                @foreach($consults as $consult)
                 @if($consult->presentingComplaint)
                     $('.presenting').hide();

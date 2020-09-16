@@ -10,7 +10,6 @@ use App\Models\Charge;
 use App\Models\Payment;
 use Auth;
 use Carbon\Carbon;
-
 class ClinicalAppointmentController extends Controller
 {
     /**
@@ -23,6 +22,8 @@ class ClinicalAppointmentController extends Controller
         $appointments = ClinicalAppointment::all();
         $today = $appointments->where('appointment_due', Carbon::today());
         $patients = User::all();
+        
+
         $charge = Charge::where('name', 'Consultation')->first();
 
         return view('admin.appointment.index', compact('appointments', 'patients', 'charge', 'today'));
@@ -52,13 +53,12 @@ class ClinicalAppointmentController extends Controller
             'to_see' => 'nullable',
             'appointment_due' => 'required',
         ]);
-        $admin_id = 1;
+        $admin_id = Auth::user()->id;
 
 
         if ($request->has('appointment_due')) {
-            $dob = strtotime($request->appointment_due);
-            $newDate = date('Y-m-d', $dob);
-            $validated['appointment_due'] = $newDate;
+
+            $validated['appointment_due'] = Carbon::parse($request->appointment_due);
         }
 
         $validated['status'] = "waiting";

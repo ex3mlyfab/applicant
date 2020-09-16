@@ -91,6 +91,10 @@ class User extends Authenticatable
             return "(No visit recorded)";
         }
     }
+    public function patientImage(): HasMany
+    {
+        return $this->hasMany(PatientImages::class);
+    }
     public function pharmacyBills(): HasMany
     {
         return $this->hasMany(PharmacyBill::class);
@@ -100,6 +104,10 @@ class User extends Authenticatable
         return $this->hasManyThrough(Consult::class, ClinicalAppointment::class, 'patient_id');
     }
 
+    public function encounters(): HasManyThrough
+    {
+        return $this->hasManyThrough(Encounter::class, ClinicalAppointment::class, 'patient_id');
+    }
     public function retainership(): HasOne
     {
         return $this->hasOne(Retainership::class);

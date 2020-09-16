@@ -19,7 +19,7 @@ class ConsultController extends Controller
     public function index()
     {
         // collect all appointment for today for display in the consultation module
-        $today = ClinicalAppointment::whereDate('appointment_due', now()->today())->get();
+        $today = ClinicalAppointment::whereDate('appointment_due', now()->today())->orWhereNotIn('status',['completed'])->get();
 
         $patients = User::all();
         return view('admin.consult.index', compact('today', 'patients'));
@@ -36,7 +36,14 @@ class ConsultController extends Controller
         // all previous consultattion details collection
         $consults = Consult::all()->whereIn('clinical_appointment_id', $patient->clinicalAppointments->pluck('id'));
         //start new consultation or maintain new consultation id on event of investigations requests or treatment.
+
+
+
         $consult = Consult::firstOrCreate(['clinical_appointment_id' => $appointment->id]);
+        //collect all pc and Pe of patient
+        $collection = collect();
+        $collection->push($patient->consult)
+        dd($collection);
         // collect all vital signs recorded for patient
         $vitals = VitalSign::where('patient_id', $id)->get();
         $vitals = $vitals->groupBy(function (VitalSign $item) {

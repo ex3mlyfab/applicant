@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeBatchNoColumnRecievedOrder extends Migration
+class AdduserColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class ChangeBatchNoColumnRecievedOrder extends Migration
      */
     public function up()
     {
-        Schema::table('drug_batch_details', function (Blueprint $table) {
+        Schema::table('allergies', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('recieve_order_id');
-            $table->dropColumn('batch_no');
+            $table->unsignedBigInteger('user_id');
         });
     }
 
@@ -27,10 +26,9 @@ class ChangeBatchNoColumnRecievedOrder extends Migration
      */
     public function down()
     {
-        Schema::table('drug_batch_details', function (Blueprint $table) {
+        Schema::table('allergies', function (Blueprint $table) {
             //
-             $table->dropColumn('recieve_order_id');
-            $table->string('batch_no');
+            $table->dropColumn('user_id');
         });
     }
 }

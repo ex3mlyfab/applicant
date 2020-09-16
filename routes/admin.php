@@ -4,6 +4,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.login.post');
     Route::get('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
     Route::group(['middleware' => ['auth:admin']], function () {
+        Route::get('birthdays', function () {
+            return view('admin.patient.birthday');
+        })->name('birthdays'); //birthdays celebrant
         Route::post('patient/classajax/{patient}', 'Admin\Front\PatientController@patientAjax');
         Route::get('balance', 'Admin\Account\PaymentController@balance')->name('balance');
         Route::get('filterpayments', 'Admin\Account\PaymentController@filter')->name('filter.payment');

@@ -11,15 +11,12 @@ class Bloodreq extends Model
     //
     protected $guarded = [];
 
-    public function clinicalAppointment(): BelongsTo
+    public function encounter(): BelongsTo
     {
-        return $this->belongsTo(ClinicalAppointment::class);
+        return $this->belongsTo(Encounter::class);
     }
 
-    public function bloodRequests(): MorphMany
-    {
-        return $this->morphMany(ConsultTest::class, 'testable');
-    }
+
     public function invoices(): MorphMany
     {
         return $this->morphMany(InvoiceItem::class, 'bill');

@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Inpatient;
+namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdmitModel;
-use App\Models\Consult;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class AdmitController extends Controller
+class EncounterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +14,7 @@ class AdmitController extends Controller
      */
     public function index()
     {
-        $all = AdmitModel::whereIn('status',['discharged', 'dead'])->get();
-        
-        return view('admin.inpatient.index', compact('all'));
+        //
     }
 
     /**
@@ -40,24 +35,7 @@ class AdmitController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        $data['status'] = 'waiting';
-        $data['admin_id'] = Auth::user()->id;
-        $id = AdmitModel::create($data);
-        $status = $id->clinical_appointment_id;
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $id->labinfos()->create([
-            'consult_id' => $consult->id,
-            'type' => 'Sent for Admission',
-            'status' => 'waiting',
-
-        ]);
-        $notification =
-            [
-                'message' => 'admission request for patient sent',
-                'alert-type' => 'success'
-            ];
-        return back()->with($notification);
+        //
     }
 
     /**
@@ -100,13 +78,8 @@ class AdmitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AdmitModel $admitpatient)
+    public function destroy($id)
     {
-        $admitpatient->delete();
-        $notification = [
-            'message' => 'Admition request Cancelled',
-            'alert-type' => 'info'
-        ];
-        return back()->with($notification);
+        //
     }
 }

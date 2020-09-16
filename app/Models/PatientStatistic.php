@@ -8,5 +8,6 @@ class PatientStatistic extends Model
 {
     //
     protected $guarded = [];
+    
 
 }

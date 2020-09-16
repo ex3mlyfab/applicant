@@ -11,18 +11,9 @@ class Ultrasoundreq extends Model
     //
     protected $guarded = [];
 
-    public function clinicalAppointment(): BelongsTo
+    public function encounter(): BelongsTo
     {
-        return $this->belongsTo(ClinicalAppointment::class);
-    }
-    public function consultTest(): BelongsTo
-    {
-        return $this->belongsTo(ConsultTest::class);
-    }
-
-    public function labinfos(): MorphMany
-    {
-        return $this->morphMany(ConsultTest::class, 'labtest');
+        return $this->belongsTo(Encounter::class);
     }
     public function invoices(): MorphMany
     {

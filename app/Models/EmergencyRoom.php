@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class EmergencyRoom extends Model
 {
     //
+    protected $guarded = [];
+
 }

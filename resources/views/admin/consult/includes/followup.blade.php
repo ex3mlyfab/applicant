@@ -43,5 +43,16 @@
             </div>
                 <button type="submit" class="btn btn-lg btn-outline-info w-100">Submit</button>
         </form>
+        <div class="form-group bg-smooth-lighter p-2">
+            <label for="plan" class="text-white">Plan</label>
+            <div class="d-flex pl-2 pr-2">
+                <button type="button" class="btn mr-2 btn-md btn-danger w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#haematology"> Haematology </button>
+                <button type="button" class="btn mr-2 btn-md w-100 mb-2 text-white text-uppercase" data-toggle="modal" data-target="#microbiology-block-normal" style="background-color: #2cd3be;"> microbiology</button>
+                <button type="button" class="btn mr-2 btn-md btn-warning  w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#pathology"  > Chemical Pathology </button>
+                <button type="button" class="btn mr-2 btn-md w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#histology-block-normal" style="background-color: #cb9696;">Histopathology</button>
+                <button type="button" class="btn mr-2 btn-md w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#ultrasound" style="background-color: #ff9224;">Radiology</button>
+                <button type="button" class="btn btn-md btn-danger w-100 mb-2 text-uppercase" data-toggle="modal" data-target="#blood-block-normal">blood bank request</button>
+            </div>
+        </div>
     </div>
 </div>

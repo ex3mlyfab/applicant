@@ -140,8 +140,9 @@
                 let total_amount = price * qty;
                 $('#row'+rowId+ ' .linecost' ).val(total_amount);
             });
-            let totalCost = 0;
+
             $('.payment').bind('change', function(){
+                let totalCost = 0;
                 $('.linecost').each(function(){
                     totalCost += parseFloat($(this).val());
                 });

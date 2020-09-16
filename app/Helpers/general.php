@@ -171,7 +171,20 @@ if (!function_exists('get_option')) {
         return "";
     }
 }
-
+if (!function_exists('get_birthdays_today_no')) {
+    function get_birthdays_today_no()
+    {
+        $count = User::whereMonth('dob', date('m'))->whereDay('dob', date('d'))->count();
+        return $count;
+    }
+}
+if (!function_exists('get_birthdays_today')) {
+    function get_birthdays_today()
+    {
+        $count = User::whereMonth('dob', date('m'))->whereDay('dob', date('d'))->get();
+        return $count;
+    }
+}
 if (!function_exists('has_permission')) {
     function has_permission($name, $role_id)
     {

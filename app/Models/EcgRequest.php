@@ -9,18 +9,11 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class EcgRequest extends Model
 {
     //
-    protected $guarded = [];
-    public function clinicalAppointment(): BelongsTo
+   protected $guarded = [];
+
+    public function encounter(): BelongsTo
     {
-        return $this->belongsTo(ClinicalAppointment::class);
+        return $this->belongsTo(Encounter::class);
     }
 
-    public function labinfos(): MorphMany
-    {
-        return $this->morphMany(ConsultTest::class, 'labtest');
-    }
-    public function invoices(): MorphMany
-    {
-        return $this->morphMany(InvoiceItem::class, 'bill');
-    }
 }

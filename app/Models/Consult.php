@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Consult extends Model
 {
@@ -20,18 +21,11 @@ class Consult extends Model
     {
         return $this->hasMany(ConsultTest::class);
     }
-    public function presentingComplaints(): MorphMany
+    public function encounters(): MorphOne
     {
-        return $this->morphMany(PresentingComplaint::class, 'patientable');
-    }
-    public function physicalExams(): MorphMany
-    {
-        return $this->morphMany(PhysicalExam::class, 'patientable');
-    }
-    public function followUps(): MorphMany
-    {
-        return $this->morphMany(FollowUp::class, 'patientable');
+        return $this->morphOne(Encounter::class, 'encounterable');
+    
     }
 
-   
+
 }

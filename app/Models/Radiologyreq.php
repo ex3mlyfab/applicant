@@ -11,15 +11,12 @@ class Radiologyreq extends Model
     //
     protected $guarded = [];
 
-    public function clinicalAppointment(): BelongsTo
-    {
-        return $this->belongsTo(ClinicalAppointment::class);
-    }
+    
 
 
-    public function labinfos(): MorphMany
+    public function encounter(): BelongsTo
     {
-        return $this->morphMany(ConsultTest::class, 'labtest');
+        return $this->belongsTo(Encounter::class);
     }
     public function invoices(): MorphMany
     {
