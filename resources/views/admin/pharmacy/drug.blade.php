@@ -9,9 +9,9 @@
 <div class="content">
     <div class="row">
         <div class="col-12">
-            <div class="block">
-                <div class="block-header with-border">
-                    <h4 class="block-title">Drugs Inventory</h4>
+            <div class="block pentacare-bg">
+                <div class="block-header with-border" style="background: rgb(51, 70, 128, 0.8)">
+                    <h4 class="block-title text-white">Drugs Inventory</h4>
                     <div class="block-options">
                     <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#drug-block-normal"> Add New Drug</button>
                 </div>

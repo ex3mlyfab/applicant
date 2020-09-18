@@ -116,6 +116,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Inpatient::class);
     }
+    public function allergies(): HasMany
+    {
+        return $this->hasMany(Allergy::class)->orderByDesc('created_at');
+    }
     /**
      * The attributes that should be cast to native types.
      *

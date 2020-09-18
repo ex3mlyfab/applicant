@@ -21,8 +21,8 @@ class Histopathologyreq extends Model
     }
 
 
-    public function labinfos(): MorphMany
+    public function testables(): MorphMany
     {
-        return $this->morphMany(ConsultTest::class, 'labtest');
+        return $this->morphMany(EncounterTest::class, 'testable');
     }
 }

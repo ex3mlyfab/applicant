@@ -15,15 +15,15 @@
 
 @section('content')
  <!-- Hero -->
- <div class="bg-body-light">
-    <div class="content content-full">
+ <div class="" style="background: rgb(255, 255, 255, 0.8)">
+    <div class="content">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-            <h1 class="flex-sm-fill h3 my-2">
+            <h1 class="flex-sm-fill h5">
                 Patients Register
             </h1>
             <span class="ml-md-auto">
 
-            <a href="{{route('family.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Family Account</a>
+            <a style="margin-top: -15px;" href="{{route('family.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle mr-1"></i>Add New Family Account</a>
 
         </div>
     </div>
@@ -31,19 +31,19 @@
 <!-- END Hero -->
 <div class="content">
      <!-- Dynamic Table with Export Buttons -->
-     <div class="block">
+     <div style="background: transparent" class="block pentacare-bg">
         <div class="block-header">
              </div>
-        <div class="block-content block-content-full">
+        <div class="block-content block-content-full pentacare-bg">
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
-            <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+            <table style="background: transparent" class="table table-bordered pentacare-bg table-vcenter js-dataTable-buttons">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 80px;">Folder Number</th>
-                        <th> Anchor Person Name </th>
-                        <th class="d-none d-sm-table-cell">Picture</th>
-                        <th class="d-none d-sm-table-cell" style="width: 5%;">No enrolled</th>
-                        <th class="d-none d-sm-table-cell" style="width: 5%;">account type</th>
+                        <th class="text-center" style="font-size: 14px; width: 18%;">Folder Number</th>
+                        <th style="width: 23%"> Anchor Person Name </th>
+                        <th>Picture</th>
+                        <th style="width: 17%">No enrolled</th>
+                        <th style="width: 16%;">account type</th>
                         <th style="width: 15%;">Action</th>
                     </tr>
                 </thead>
@@ -52,25 +52,25 @@
 
 
                     <tr>
-                        <td class="text-center font-size-sm">{{$family->folder_number}}</td>
+                        <td class="text-center" style="font-size: 16px">{{$family->folder_number}}</td>
                         <td class="font-w600 font-size-sm">
-                        <a href="{{route('family.show', $family->id)}}">
+                        <a href="{{route('family.show', $family->id)}}" style="font-size: 16px">
                             {{ $family->users->first()->full_name}}
                         </a>
 
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm">
-                        <img src="{{asset('backend')}}/images/avatar/{{$family->users->first()->avatar}}" alt="{{$family->users->first->full_name}}" class="img-avatar img-avatar128">
+                        <img style="height: 90px; width: 90px; border-radius: 5px" src="{{asset('backend')}}/images/avatar/{{$family->users->first()->avatar}}" alt="{{$family->users->first->full_name}}">
 
                         </td>
-                        <td class="d-none d-sm-table-cell font-size-sm">
+                        <td style="font-size: 18px">
                             {{$family->enrolment_count}}/{{$family->registrationType->max_enrollment}}
                         </td>
-                        <td class="d-none d-sm-table-cell">
+                        <td style="font-size: 18px">
                             {{$family->registrationType->name}}
                         </td>
                         <td>
-                        @role('super-admin')    
+                        @role('super-admin')
                         <form action="{{route('family.destroy', $family->id)}}" method="POST" >
                             @csrf
                                 @method('DELETE')

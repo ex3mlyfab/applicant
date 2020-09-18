@@ -15,7 +15,10 @@ class Bloodreq extends Model
     {
         return $this->belongsTo(Encounter::class);
     }
-
+    public function testables(): MorphMany
+    {
+        return $this->morphMany(EncounterTest::class, 'testable');
+    }
 
     public function invoices(): MorphMany
     {

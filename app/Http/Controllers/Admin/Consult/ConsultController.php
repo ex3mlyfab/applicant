@@ -33,7 +33,7 @@ class ConsultController extends Controller
         $patient = User::findOrFail($id);
         $appointment = ClinicalAppointment::where('patient_id', $patient->id)->where(function($query){
             $query->where('appointment_due', now()->today())->orWhereNotIn('status',['completed']);
-        })->first();
+        })->latest()->first();
         // dd($appointment->id);
         // collect all previous appointment of patients
         $consult = Consult::firstOrCreate(['clinical_appointment_id' => $appointment->id]);

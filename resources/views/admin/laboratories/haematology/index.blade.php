@@ -2,7 +2,7 @@
 @section('content')
 <div class="content">
     <div class="col-12">
-        <div class="block">
+        <div class="block pentacare-bg">
             <div class="block-header with-border">
                 <h4 class="block-title">TEST Requests</h4>
 
@@ -74,4 +74,3 @@
 
 
 @endsection
-

@@ -27,6 +27,10 @@ class Pharmreq extends Model
     {
         return $this->morphMany(InvoiceItem::class, 'bill');
     }
+    public function testables(): MorphMany
+    {
+        return $this->morphMany(EncounterTest::class, 'testable');
+    }
 
     public function pharmreqDetails(): HasMany
     {

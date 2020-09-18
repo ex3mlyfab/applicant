@@ -17,16 +17,13 @@ class Haematologyreq extends Model
     }
 
 
-    public function labinfos(): MorphMany
+    public function testables(): MorphMany
     {
-        return $this->morphMany(ConsultTest::class, 'labtest');
+        return $this->morphMany(EncounterTest::class, 'testable');
     }
     public function invoices(): MorphMany
     {
         return $this->morphMany(InvoiceItem::class, 'bill');
     }
-    public function inHaematologyreq(): MorphMany
-    {
-        return $this->morphMany(InpatientDetail::class, 'inlabtest');
-    }
+    
 }

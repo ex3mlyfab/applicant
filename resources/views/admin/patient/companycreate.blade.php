@@ -5,8 +5,8 @@
 @endsection
 @section('content')
 <div class="content">
-    <div class="block block-fx-shadow">
-        <div class="block-header bg-modern-dark text-center">
+    <div class="block block-fx-shadow pentacare-bg">
+        <div class="block-header text-center " style="background: rgb(51, 70, 128, 0.6);">
             <h3 class="block-title text-white">
                 Add New company
             </h3>
@@ -17,34 +17,35 @@
                     <form action="{{ route('company.store')}}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label class="d-block">Registration Type</label>
+                            <label class="d-block" style="font-size: 20px">Registration Type</label>
 
                             @foreach ($companies as $item)
-                                <div class="form-check">
+                                <div class="form-check mb-3">
                                 <input class="form-check-input regtype" type="radio" id="example-radios-inline{{$item->id}}" name="registration_type_id" value="{{$item->id}}" required>
-                                    <label class="form-check-label" for="example-radios-inline{{$item->id}}">{{$item->name}} | &nbsp; <span class="text-info"> Charge: {{ $item->charge->amount }}</span></label>
+                                    <label class="form-check-label font-weight-normal" for="example-radios-inline{{$item->id}}">{{$item->name}} | &nbsp; <span class="text-info"> Charge: {{ $item->charge->amount }}</span></label>
                                 </div>
 
                             @endforeach
 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label for="organisation_name">Company Name</label>
-                            <input type="text" name="organisation_name" id="organisation_name" class="form-control form-control-lg" >
+                            <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" name="organisation_name" id="organisation_name" class="form-control form-control-lg" >
                         </div>
                         <div class="form-group">
                             <label for="organisation_address">Company address</label>
-                            <textarea name="address" id="organisation_address"  rows="4" class="form-control"></textarea>
+                            <textarea name="address" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" id="organisation_address"  rows="4" class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="organisation_phone">Company Phone</label>
-                            <input type="text" name="contact_phone" id="organisation_phone" class="form-control">
+                            <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" name="contact_phone" id="organisation_phone" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-2">
+                        <label class="d-block" style="font-size: 16px">Payment Status</label>
                             <input type="checkbox" name="paid" id="paid" class="form-check-inline" required>
                             <label for="paid" class="form-check-label">Paid</label>
                         </div>
-                        <button type="submit" class="btn btn-block btn-info">Submit</button>
+                        <button type="submit" style="background: rgb(51, 70, 128)" class="btn btn-block btn-info">Submit</button>
                     </form>
                 </div>
             </div>

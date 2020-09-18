@@ -22,6 +22,39 @@
         </div>
     </div>
 </div>
+<!-- Allergy Block Modal -->
+<div class="modal" id="allergy-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Patient Reaction Details </h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <h3 class="text-center">Add Allergic Reaction</h3>
+                    <form action="#" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="reaction">Allergic to:</label>
+                            <input type="text" name="allergy" id="reaction">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!--take vital signs-->
 <div class="modal" id="vital-signs" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-top modal-lg" role="document">
@@ -607,8 +640,7 @@
                             <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
-                                <th>Category</th>
-                                <th>Subcategory</th>
+                                <th>Class</th>
                                 <th>Drug Name/ Form</th>
                                 <th>Dosage</th>
                                 <th>Instruction</th>
@@ -625,13 +657,6 @@
                                             {{ create_option('drug_classes','id', 'name')}}
                                         </select>
                                     </td>
-
-                                    <td>
-                                        <select  class="js-select2 form-control" style="width: 100%;" id="drug" data-placeholder="Choose one.." required>
-                                        <option></option>
-                                    </select>
-                                </td>
-
                                     <td>
 
                                         <input type="text" id="dosage" class="form-control form-control-lg"></td>
@@ -1238,6 +1263,7 @@
                     <form action="{{route('admitpatient.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
                         <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                        <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
                         <div class="form-group">
                             <label>Clinical Information</label>
                             <input type="text" name="clinical_information"  class="form-control form-control-lg" required>

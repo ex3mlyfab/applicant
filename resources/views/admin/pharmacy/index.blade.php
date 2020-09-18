@@ -6,9 +6,9 @@
 @section('content')
 <div class="content">
     <div class="col-12">
-        <div class="block">
-            <div class="block-header with-border">
-                <h4 class="block-title">Prescription List</h4>
+        <div class="block pentacare-bg">
+            <div class="block-header with-border text-white" style="background: rgb(51, 70, 128, 0.8)">
+                <h4 class="block-title text-white">Prescription List</h4>
 
 
             </div>

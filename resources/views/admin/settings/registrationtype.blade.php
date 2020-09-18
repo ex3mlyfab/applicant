@@ -8,11 +8,11 @@ add regtype
 @section('content')
 <div class="content">
     <div class="block block-fx-shadow pentacare-bg">
-        <div class="block-header bg-amethyst-lighter">
-            <h3 class="block-title">Registration Types</h3>
+        <div class="block-header" style="background: rgb(51, 70, 128);">
+            <h3 class="block-title text-white">Registration Types</h3>
             <div class="block-options">
 
-                <button id="btn-add" name="btn-add" class="btn btn-primary btn-xs">Add New Registration Type</button>
+                <button id="btn-add" name="btn-add" style="font-size: 13px" class="btn btn-primary btn-sm">Add New Registration Type</button>
 
         </div>
         </div>
@@ -73,7 +73,7 @@ add regtype
         <div class="modal-dialog modal-dialog-top modal-dialog-popin modal-md" role="document"style=" width: 80%;">
             <div class="modal-content">
                 <div class="block block-themed block-transparent mb-0">
-                    <div class="block-header bg-secondary-dark">
+                    <div class="block-header" style="background: rgb(51, 70, 128);">
                         <h3 class="block-title"  id="linkEditorModalLabel">Add Registration Type</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -102,7 +102,7 @@ add regtype
 
                     </div>
                     <div class="block-content block-content-full text-right border-top">
-                        <button type="button" class="btn btn-primary" id="btn-save" value="add">Save changes
+                        <button type="button" class="btn text-white" style="background: rgb(51, 70, 128);" id="btn-save" value="add">Save changes
                         </button>
                         <input type="hidden" id="regtype_id" name="regtype_id" value="0">
 

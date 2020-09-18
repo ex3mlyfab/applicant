@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="content">
-        <div class="block block-bordered block-fx-pop">
-            <div class="block-header bg-info"> </div>
+        <div class="block block-bordered block-fx-pop pentacare-bg">
+            <div class="block-header text-white" style="background: rgb(51, 70, 128, 0.8)"> NURSING </div>
             <div class="block-content block-content-full">
                 <h4 class="font-w400">Today's Appointment {{now()->format('d-M-Y')}}</h4>
                             <div class="table-responsive">
@@ -45,9 +45,9 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
-                                                    
+
                                                     <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal" data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" data-fullname="{{ $item->user->full_name}}" data-patient-id="{{$item->user->id}}" data-folder-number="{{ $item->user->folder_number}}" data-sex="{{ $item->user->sex}}"><span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-clipboard"></i> </span></button>
-                                                       
+
 
                                                     </div>
                                                 </td>

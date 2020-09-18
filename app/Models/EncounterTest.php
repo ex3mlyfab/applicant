@@ -4,20 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class EcgRequest extends Model
+class EncounterTest extends Model
 {
-    //
-   protected $guarded = [];
+    protected $guarded =[];
 
     public function encounter(): BelongsTo
     {
         return $this->belongsTo(Encounter::class);
     }
-    
-    public function testables(): MorphMany
+
+    public function testable(): MorphTo
     {
-        return $this->morphMany(EncounterTest::class, 'testable');
+        return $this->morphTo();
     }
 }

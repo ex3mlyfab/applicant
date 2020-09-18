@@ -6,12 +6,11 @@
 
 @section('content')
 <div class="content">
-    <h2 class="content-heading text-center">Drug Class</h2>
     <div class="row">
         <div class="col-sm-4">
-            <div class="block block-theme">
-                <div class="block-header bg-primary">
-                    <h3 class="block-title">Add Drug Class</h3>
+            <div class="block block-theme pentacare-bg">
+                <div class="block-header" style="background: rgb(51, 70, 128, 0.8)">
+                    <h3 class="block-title text-white">Add Drug Class</h3>
                 </div>
 
                 <div class="block-content block-content-full">
@@ -31,7 +30,7 @@
                     @endif  id="example-text-input" name="name">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success mr-auto" data-toggle="click-ripple"><i class="fa fa-fw fa-plus mr-1"></i>{{ isset($task)? 'Update ': 'Add '}}  drugclass</button>
+                            <button type="submit" class="btn btn-primary mr-auto" data-toggle="click-ripple"><i class="fa fa-fw fa-plus-circle mr-1"></i>{{ isset($task)? 'Update ': 'Add '}}  drugclass</button>
 
                         </div>
 
@@ -41,9 +40,9 @@
 
         </div>
         <div class="col-sm-8">
-            <div class="block block-fx-shadow block-rounded bg-">
+            <div class="block block-fx-shadow block-rounded pentacare-bg">
                 <div class="block-header bg-primary-light">
-                    <h3 class="block-title">Drug Class List</h3>
+                    <h3 class="block-title text-white">Drug Class List</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">

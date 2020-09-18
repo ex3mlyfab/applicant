@@ -1,4 +1,4 @@
-@if ($consults->count() > 1)
+@if ($consults->count() > 2)
     <div class="block block-fx-pop">
     <div class="block-header bg-black-50">
         <h3 class="block-title">previous Follow up visit</h3>

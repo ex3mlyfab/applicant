@@ -1,12 +1,10 @@
 @if ($consults->count() >= 1)
 @foreach ($patient->encounters as $consult)
-
-
-    @if($consult->presentingComplaints())
+    @if($consult->presentingComplaints()->count())
         @foreach ($consult->presentingComplaints as $consult)
             <div class="block block-bordered">
                 <div class="block-header bg-info-light">
-                    <h4>Physical Examination History  For {{$appointment->user->full_name ?? ''}} </h4>
+                    <h4>Presenting Complaints History  For {{$appointment->user->full_name ?? ''}} </h4>
 
                 </div>
                 <div class="block-body">
@@ -16,6 +14,20 @@
 
                     <table class="table table-hover">
                         <tbody>
+                            <tr>
+                                <th class="bg-info-light" style="width: 12.5%;">
+                                    Presenting complaints
+                                </th>
+                                <th>
+                                    <p>{{ $consult->pc}}</p>
+                                </th>
+                                <th class="bg-info-light" style="width: 12.5%;">
+                                    Duration
+                                </th>
+                                <th>
+                                    <p>{{ $consult->duration}}</p>
+                                </th>
+                            </tr>
                             <tr>
                                 <th class="bg-info-light">
                                     History of presenting complaints
@@ -93,7 +105,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th colspan="4" class="bg-secondary">Systemic Review</th>
+                                <th colspan="4" class="bg-secondary text-white">Systemic Review</th>
                             </tr>
                             <tr>
                                 <th class="bg-info-light">

@@ -63,3 +63,30 @@
         <span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-2x fa-stopwatch"></i></span>
     </button>
 </div>
+<div class="block block-bordered bg-danger pentacare-bg">
+    @if ($patient->allergies->count() > 0)
+        <h3 class="text-danger bg-white">Patient Reacts To:</h3>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach ($patient->allergies as $item)
+                        <tr>
+                            <td width="80%">
+                                {{$item->name}}
+                            </td>
+                            <td>
+                                <form action="{{route('allergy.remove', $item->id)}}" method="POST" >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+    @endif
+</div>

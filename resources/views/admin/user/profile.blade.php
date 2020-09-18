@@ -10,30 +10,13 @@
 @endsection
 
 @section('content')
-<!-- Hero -->
-<div class="bg-image" style="background-image: url('{{asset('backend')}}/assets/media/photos/photo8@2x.jpg');">
-    <div class="bg-black-50">
-        <div class="content content-full text-center">
-            <div class="my-3">
-                <img class="img-avatar img-avatar128" @if (isset($admin->avatar))
-            src="{{asset('backend')}}/images/documents/{{$admin->avatar}}"
-                @else
-                src="{{asset('backend')}}/assets/media/avatars/avatar13.jpg"
-            @endif  alt="{{$admin->full_name}} picture">
-            </div>
-            <h1 class="h2 text-white mb-0"> {{ $admin->full_name}} </h1>
-            <span class="text-white-75">{{$admin->getRoleNames()[0]}}</span>
-        </div>
-    </div>
-</div>
-<!-- END Hero -->
 <div class="content">
-    <div class="block">
-        <div class="block-header bg-amethyst-lighter">
-            <h3 class="block-title text-center"> </h3>
+    <div class="block pentacare-bg">
+        <div class="block-header" style="height: 50px; background: rgb(51, 70, 128);">
+            <h3 class="block-title text-center text-white"> {{$admin->full_name}}({{$admin->getRoleNames()[0]}}) </h3>
         </div>
-        <div class="block-content block-content-full">
-            <div class="block block-fx-pop">
+        <div class="block-content block-content-full pentacare-bg">
+            <div class="block block-fx-pop pentacare-bg">
                 <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" href="#btabswo-static-home">Profile</a>

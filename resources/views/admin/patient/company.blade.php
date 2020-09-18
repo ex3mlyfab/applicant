@@ -15,15 +15,15 @@
 
 @section('content')
  <!-- Hero -->
- <div class="bg-body-light">
-    <div class="content content-full">
+ <div style="background: rgb(255, 255, 255, 0.8)">
+    <div class="content">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-            <h1 class="flex-sm-fill h3 my-2">
+            <h1 class="flex-sm-fill h5">
                 Companies Register
             </h1>
             <span class="ml-md-auto">
 
-            <a href="{{route('company.create')}}" class="btn btnlg btn-outline-primary"><i class="fa fa-plus mr-1"></i>Add New Company Account</a>
+            <a style="margin-top: -15px;" href="{{route('company.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle mr-1"></i>Add New Company Account</a>
             </span>
         </div>
     </div>
@@ -31,21 +31,21 @@
 <!-- END Hero -->
 <div class="content">
      <!-- Dynamic Table with Export Buttons -->
-     <div class="block">
+     <div style="background: transparent" class="block pentacare-bg">
         <div class="block-header">
 
     </div>
-        <div class="block-content block-content-full">
+        <div class="block-content block-content-full pentacare-bg">
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _es6/pages/be_tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 80px;">S/no</th>
-                        <th>Name </th>
-                        <th class="d-none d-sm-table-cell">Address</th>
-                        <th class="d-none d-sm-table-cell" style="width:10%;">Phone</th>
-                        <th class="d-none d-sm-table-cell" style="width: 5%;">Reg. Type</th>
-                        <th style="width: 15%;">Number Enrolled</th>
+                        <th class="text-center" style="font-size: 14px; width: 12%;">S/no</th>
+                        <th style="width: 20%">Name </th>
+                        <th style="width: 17%">Address</th>
+                        <th style="width: 16%;">Phone</th>
+                        <th style="width: 15%;">Reg. Type</th>
+                        <th style="width: 20%;">Number Enrolled</th>
                         <th>action</th>
                     </tr>
                 </thead>
@@ -54,21 +54,21 @@
 
 
                     <tr>
-                        <td class="text-center font-size-sm">{{$loop->iteration}}</td>
+                        <td class="text-center" style="font-size: 16px">{{$loop->iteration}}</td>
                         <td class="font-w600 font-size-sm">
-                        <a href="{{route('company.show',$item->id)}}">{{$item->organisation_name}}</a>
+                        <a href="{{route('company.show',$item->id)}}" style="font-size: 16px">{{$item->organisation_name}}</a>
                         </td>
-                        <td class="d-none d-sm-table-cell font-size-sm">
+                        <td class="d-none d-sm-table-cell font-size-sm" style="font-size: 16px">
                             {{$item->address}}
                         </td>
-                        <td class="d-none d-sm-table-cell font-size-sm">
+                        <td class="d-none d-sm-table-cell font-size-sm" style="font-size: 16px">
                             {{$item->contact_phone}}
                         </td>
-                        <td class="d-none d-sm-table-cell">
+                        <td class="d-none d-sm-table-cell" style="font-size: 16px">
                             {{$item->registrationType->name}}
                         </td>
                         <td>
-                            <em class="text-muted font-size-sm">{{$item->enrolment_count}}</em>
+                            <em class="text-muted font-size-sm" style="font-size: 16px">{{$item->enrolment_count}}</em>
                         </td>
                         <td>
 

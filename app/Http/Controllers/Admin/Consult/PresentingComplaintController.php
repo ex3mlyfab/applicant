@@ -40,12 +40,11 @@ class PresentingComplaintController extends Controller
     public function store(Request $request)
     {
 
-
+        //collect all presenting complaints
         $validated = $request->except(['_token', 'clinical_appointment_id']);
         $pc = PresentingComplaint::create($validated);
 
-
-        $consult = Consult::where('clinical_appointment_id',$request->clinical_appointment_id)->update([
+        Consult::where('clinical_appointment_id',$request->clinical_appointment_id)->update([
             'presenting_complaint_id' => $pc->id
         ]);
 

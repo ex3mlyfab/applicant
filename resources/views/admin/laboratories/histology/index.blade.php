@@ -3,7 +3,7 @@
 <div class="content">
     <div class="col-12">
         <div class="block">
-            <div class="block-header with-border">
+            <div class="block-header with-border pentacare-bg">
                 <h4 class="block-title">TEST Requests</h4>
 
 
@@ -73,4 +73,3 @@
 </div>
 
 @endsection
-

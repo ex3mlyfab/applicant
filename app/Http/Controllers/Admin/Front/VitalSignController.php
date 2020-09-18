@@ -48,15 +48,16 @@ class VitalSignController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'weight' => 'required',
-            'height' => 'required',
+            'weight' => 'sometimes',
+            'height' => 'sometimes',
             'rr' => 'required',
             'pr' => 'required',
             'temp' => 'required',
             'systolic' => 'required',
             'diastolic' => 'required',
             'patient_id' => 'required',
-            'bmi' => 'nullable'
+            'bmi' => 'nullable',
+            'spo2' => 'sometimes'
         ]);
 
         $validated['done_by'] = Auth::user()->id;

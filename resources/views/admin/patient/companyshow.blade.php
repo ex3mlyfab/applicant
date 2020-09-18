@@ -6,7 +6,7 @@
 <div class="bg-info" >
     <div class="content">
         <div class="row">
-            
+
             <div class="col-md-9">
                 <div class="block block-fx-pop block-rounded">
                     <div class="block-content content-full">
@@ -32,14 +32,10 @@
                                             <th style="width: 35%;"><strong>Contact Phone Number</strong></th>
                                             <td>{{$company->organisation_phone}}</td>
                                         </tr>
-
-
-
-
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                         </div>
 
                     </div>

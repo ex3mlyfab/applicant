@@ -13,4 +13,5 @@ class PathologyReport extends Model
     {
         return $this->belongsTo(Pathologyreq::class);
     }
+    
 }

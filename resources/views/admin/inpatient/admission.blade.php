@@ -11,9 +11,9 @@
 @endsection
 @section('content')
 <div class="content">
-    <div class="block block-fx-pop">
-        <div class="block-header bg-info-light">
-            <h3 class="block-title"> Patient List</h3>
+    <div class="block block-fx-pop pentacare-bg">
+        <div class="block-header" style="background: rgb(51, 70, 128, 0.8)">
+            <h3 class="block-title text-white"> Patient List</h3>
         </div>
         <div class="block-content block-content-full">
             <h4 class="font-w400">Pending Admissions List</h4>

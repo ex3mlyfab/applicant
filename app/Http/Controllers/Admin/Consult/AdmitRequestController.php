@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Inpatient;
+namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
-use App\Models\AdmitModel;
-use App\Models\ClinicalAppointment;
-use App\Models\Consult;
-use App\Models\EncounterTest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class AdmitController extends Controller
+class AdmitRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +14,7 @@ class AdmitController extends Controller
      */
     public function index()
     {
-        $all = AdmitModel::whereIn('status',['discharged', 'dead'])->get();
-
-        return view('admin.inpatient.index', compact('all'));
+        //
     }
 
     /**
@@ -42,26 +35,19 @@ class AdmitController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['_token', 'clinical_appointment_id']);
-        $data['status'] = 'waiting';
-        $data['admin_id'] = Auth::user()->id;
-        $id = AdmitModel::create($data);
-        $testable = EncounterTest::create([
-            'encounter_id' => $request->encounter_id,
-            'status' => 'Admit request pending'
+        //
+        $validated = $request->except(['_token', 'clinical_appointment_id']);
+        
+        Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
 
-        ]);
-        $id->testables()->save($testable);
-        Consult::firstOrCreate(['clinical_appointment_id' => $request->clinical_appointment_id]);
         ClinicalAppointment::find($request->clinical_appointment_id)->update([
-            'status' => 'history_recorded',
-
+            'status' => 'history_recorded'
         ]);
-        $notification =
-            [
-                'message' => 'admission request for patient sent',
-                'alert-type' => 'success'
-            ];
+
+        $notification = array(
+            'message' => 'Physical exams recorded successfully!',
+            'alert-type' => 'success'
+        );
         return back()->with($notification);
     }
 
@@ -105,13 +91,8 @@ class AdmitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AdmitModel $admitpatient)
+    public function destroy($id)
     {
-        $admitpatient->delete();
-        $notification = [
-            'message' => 'Admition request Cancelled',
-            'alert-type' => 'info'
-        ];
-        return back()->with($notification);
+        //
     }
 }

@@ -53,7 +53,7 @@
                          <div class="block">
                             <ul class="nav nav-tabs nav-tabs-alt text-uppercase bg-city-lighter" data-toggle="tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link @if (!($consults->count() > 1)&&($patients->encounters))
+                                    <a class="nav-link @if (!($consults->count() > 1))
                                         active
                                     @endif " href="#btabs-alt-static-home">Presenting Complaints</a>
                                 </li>
@@ -114,97 +114,10 @@
 
                                 </div>
                                 <div class="tab-pane" id="btabs-alt-static-vitals" role="tabpanel">
-                                    <div class="block">
-                                        <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#babtabswo-static-home">Chart</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#babtabswo-static-profile">Tabular</a>
-                                            </li>
-                                            <li class="nav-item ml-auto">
-                                                <div class="block-options pl-3 pr-2">
-                                                    <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="block-content tab-content">
-                                            <div class="tab-pane active" id="babtabswo-static-home" role="tabpanel">
-                                                <canvas class="js-chartjs-lines" width="800" height="450"></canvas>
-                                            </div>
-                                            <div class="tab-pane" id="babtabswo-static-profile" role="tabpanel">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-bordered">
-                                                        <thead class="bg-amethyst text-white text-center">
-                                                            <th>
-                                                             time done
-                                                            </th>
-                                                            <th>
-                                                                BP
-                                                            </th>
 
-                                                            <th>
-                                                                pr
-                                                            </th>
-                                                            <th>
-                                                                rr
-                                                            </th>
-                                                            <th>
-                                                                spO<sub>2</sub>
-                                                            </th>
-                                                            <th>
-                                                                temp <sup>o</sup>C
-                                                            </th>
-                                                            <th>
-                                                                weight/height
-                                                            </th>
-                                                            <th>
-                                                                bmi
-                                                            </th>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($patient->vitalsigns as $item)
-                                                            <tr>
-                                                                <td>
-                                                                    {{$item->created_at->diffForHumans()}}
-                                                                    <br>
-                                                                    ({{
-                                                                        $item->created_at
-                                                                    }})
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->systolic}}/{{$item->diastolic}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->pr}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->rr}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->spo2}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->temp}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->weight}}/
-                                                                    {{$item->height}}
-                                                                </td>
-                                                                <td>
-                                                                    {{$item->bmi}}
-                                                                </td>
-                                                            </tr>
-
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="block-content block-content-full">
-                                            <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" data-fullname="{{ $inpatient->user->full_name}}" data-patient-id="{{$inpatient->user->id}}" data-folder-no="{{ $inpatient->user->folder_number}}" data-sex="{{ $inpatient->user->sex}}">
+                                        <canvas class="js-chartjs-lines" width="800" height="450"></canvas>
+                                        <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" data-fullname="{{ $inpatient->user->full_name}}" data-patient-id="{{$inpatient->user->id}}" data-folder-no="{{ $inpatient->user->folder_number}}" data-sex="{{ $inpatient->user->sex}}">
                                             <span data-toggle="tooltip" title="take vitals sign"><i class="fa fa-fw fa-2x fa-stopwatch"></i></span>
                                         </button>
                                     </div>
@@ -457,58 +370,70 @@
                                 });
 
                                 });
-    var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
+                                var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
 
-    new Chart($(".js-chartjs-lines"), {
-                    "type": "line",
-                    "data": {
-                        "labels":cData.label,
-                        "datasets":[
-                                {
-                                    "label":"Systolic",
-                                    "data":cData.systolic,
-                                    "fill":false,
-                                    "borderColor":"rgb(235,26,8)"
-                                },
-                                {
-                                    "label":"Diastolic",
-                                    "data":cData.diastolic,
-                                    "fill":false,
-                                    "borderColor":"rgb(235,26,8)"
-                                },
-                                {
-                                    "label":"SPO2",
-                                    "data":cData.spo2,
-                                    "fill":false,
-                                    "borderColor":"#19c341"
-                                },
-                                {
-                                    "label":"Respiratory Rate",
-                                    "data":cData.rr,
-                                    "fill":false,
-                                    "borderColor":"#3308cd"
-                                },
-                                {
-                                    "label":"Pulse Rate",
-                                    "data":cData.pr,
-                                    "fill":false,
-                                    "borderColor":"#8e5ea2"
-                                },
-                                {
-                                    "label":"Temperature",
-                                    "data":cData.temp,
-                                    "fill":false,
-                                    "borderColor":"#ff0101"
-                                }
-                            ]
-                    },
-                    options: {
-                        title: {
-                        display: true,
-                        text: 'Patients Vital Signs Chart'
-                        }
-                    }
-                });
+                                new Chart($(".js-chartjs-lines"), {
+                                    "type": "line",
+                                    "data": {
+                                        "labels":cData.label,
+                                        "datasets":[
+                                                {
+                                                    "label":"Systolic",
+                                                    "data":cData.systolic,
+                                                    "fill":false,
+                                                    "borderColor":"rgb(235,26,8)"
+                                                },
+                                                {
+                                                    "label":"Diastolic",
+                                                    "data":cData.diastolic,
+                                                    "fill":false,
+                                                    "borderColor":"rgb(235,26,8)"
+                                                },
+                                                {
+                                                    "label":"Height",
+                                                    "data":cData.height,
+                                                    "fill":false,
+                                                    "borderColor":"#19c341"
+                                                },
+                                                {
+                                                    "label":"weight",
+                                                    "data":cData.weight,
+                                                    "fill":false,
+                                                    "borderColor":"#39f3e1"
+                                                },
+                                                {
+                                                    "label":"Respiratory Rate",
+                                                    "data":cData.rr,
+                                                    "fill":false,
+                                                    "borderColor":"#3308cd"
+                                                },
+                                                {
+                                                    "label":"Pulse Rate",
+                                                    "data":cData.pr,
+                                                    "fill":false,
+                                                    "borderColor":"#8e5ea2"
+                                                },
+                                                {
+                                                    "label":"BMI",
+                                                    "data":cData.bmi,
+                                                    "fill":false,
+                                                    "borderColor":"#ee00ff"
+                                                },
+                                                {
+                                                    "label":"Temperature",
+                                                    "data":cData.temp,
+                                                    "fill":false,
+                                                    "borderColor":"#ff0101"
+                                                }
+                                            ]
+                                    },
+                                    options: {
+                                        title: {
+                                        display: true,
+                                        text: 'Patients Vital Signs Chart'
+                                        }
+                                    }
+                                });
 
 
 

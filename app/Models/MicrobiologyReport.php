@@ -14,4 +14,5 @@ class MicrobiologyReport extends Model
     {
         return $this->belongsTo(Microbiologyreq::class);
     }
+    
 }

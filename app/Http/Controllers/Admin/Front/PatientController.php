@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Allergy;
 use App\Models\Payment;
 use App\Models\RegistrationType;
 use App\Models\User;
@@ -246,6 +247,28 @@ class PatientController extends Controller
         $user = User::select('avatar', 'sex', 'folder_number', 'phone')->where('id', $id)->get();
 
         return json_encode($user);
+    }
+    public function addAllergy(Request $request)
+    {
+        //
+        Allergy::create($request->validate([
+
+        ]));
+        $notification = [
+            'message' => 'allergy added successfully',
+            'type' => 'success'
+        ];
+        return back()->with($notification);
+    }
+    public function removeAllergy(Allergy $allergy)
+    {
+        $allergy->delete();
+        $notification = [
+            'message' => 'allergy deleted successfully',
+            'type' => 'danger',
+        ];
+        return back()->with($notification);
+
     }
     /**
      * Remove the specified resource from storage.

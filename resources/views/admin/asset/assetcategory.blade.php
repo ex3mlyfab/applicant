@@ -6,12 +6,11 @@
 
 @section('content')
 <div class="content">
-    <h2 class="content-heading text-center">assetcategorys Type</h2>
     <div class="row">
         <div class="col-sm-4">
-            <div class="block block-theme">
-                <div class="block-header bg-primary">
-                    <h3 class="block-title">Add assetcategory</h3>
+            <div class="block block-theme pentacare-bg">
+                <div class="block-header" style="height: 50px; background: rgb(51, 70, 128);">
+                    <h5 class="block-title text-white">Add assetcategory</h5>
                 </div>
 
                 <div class="block-content block-content-full">
@@ -26,12 +25,12 @@
                         @endif
                         <div class="form-group">
                             <label for="example-text-input">assetcategory Name</label>
-                        <input type="text" class="form-control" @if (isset($task))
+                        <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" class="form-control" @if (isset($task))
                         value="{{ $task->name}}"
                     @endif  id="example-text-input" name="name">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success mr-auto" data-toggle="click-ripple"><i class="fa fa-fw fa-plus mr-1"></i>{{ isset($task)? 'Update ': 'Add '}}  assetcategory</button>
+                            <button type="submit" class="btn btn-primary mr-auto" data-toggle="click-ripple"><i class="fa fa-fw fa-plus-circle mr-1"></i>{{ isset($task)? 'Update ': 'Add '}}  assetcategory</button>
 
                         </div>
 
@@ -41,18 +40,13 @@
 
         </div>
         <div class="col-sm-8">
-            <div class="block block-fx-shadow block-rounded bg-">
-                <div class="block-header bg-primary-light">
-                    <h3 class="block-title">assetcategories List</h3>
+            <div class="block block-fx-shadow block-rounded pentacare-bg">
+                <div class="block-header" style="height: 50px; background: rgb(51, 70, 128);">
+                    <h3 class="block-title text-white">assetcategories List</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">
-                        <thead>
-                            <tr>
-                               <th>assetcategory</th>
-                               <th class="text-right"><strong>Action</strong></th>
-                            </tr>
-                        </thead>
+
                         <tbody>
                             @foreach ($assetcategories as $assetcategory)
                             <tr>

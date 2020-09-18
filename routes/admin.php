@@ -55,6 +55,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('bloodreq', 'Admin\Consult\BloodreqController');
         Route::resource('radiologyreq', 'Admin\Consult\RadiologyreqController');
         Route::resource('ultrasoundreq', 'Admin\Consult\UltrasoundreqController');
+        Route::post('addallergy', 'Admin\Front\PatientController@addAllergy')->middleware('permission:consult-create');
+        Route::delete('removeAllergy/{allergy}', 'Admin\Front\PatientController@removeAllergy')->name('allergy.remove')->middleware('permission:consult-delete');
 
         Route::resource('haematologyreq', 'Admin\Consult\HaematologyReqController');
         Route::resource('pathologyreq', 'Admin\Consult\PathologyController');

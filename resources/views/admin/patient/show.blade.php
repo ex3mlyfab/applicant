@@ -5,12 +5,21 @@
 @endsection
 @section('content')
      <!-- Hero -->
-<div class="bg-info" >
+     <div class="" style="background: rgb(255, 255, 255, 0.8)">
+    <div class="content">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-sm-fill h5">
+                PATIENT DETAILS
+            </h1>
+        </div>
+    </div>
+</div>
+<div>
     <div class="content">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="options-container fx-item-zoom-in fx-overlay-slide-top">
-                <img class="img-fluid img-fluid-100 options-item" src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="">
+                <img style="height: 345px; border-radius: 10px" class="img-fluid img-fluid-100 options-item" src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="">
                     <div class="options-overlay bg-black-75">
                         <div class="options-overlay-content">
 
@@ -25,8 +34,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
-                <div class="block block-fx-pop block-rounded">
+            <div class="col-md-8">
+                <div class="block block-fx-pop block-rounded pentacare-bg">
                     <div class="block-content content-full">
                         <div class="row">
                             <div class="col-md-5">
@@ -34,12 +43,12 @@
                                     <tbody>
                                         <tr class="mb-0">
                                             <th style="width: 35%;"><strong>NAME:</strong></th>
-                                            <td>{{$patient->full_name}}</td>
+                                            <td class="text-capitalize">{{$patient->full_name}}</td>
 
                                         </tr>
                                         <tr>
                                             <th style="width: 35%;"><strong>Folder Number:</strong></th>
-                                            <td>{{$patient->folder_number}}</td>
+                                            <td class="text-capitalize">{{$patient->folder_number}}</td>
 
                                         </tr>
                                         <tr>
@@ -61,7 +70,12 @@
                                     <tbody>
                                         <tr>
                                             <th style="width: 35%;"><strong>Phone/email</strong></th>
-                                            <td>{{$patient->phone}}/{{$patient->email}}</td>
+                                            <td>{{$patient->phone}}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 35%;"><strong>Email</strong></th>
+                                            <td>{{$patient->email}}</td>
 
                                         </tr>
                                         <tr>
@@ -89,7 +103,9 @@
                         <form action="{{route('patient.destroy', $patient->id)}}" method="POST" >
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-md btn-outline-danger w-100" data-toggle="tooltip" data-placement="top" title="delete patient" type="submit"><i class="fa fa-times text-white ml-auto"></i> Delete</button>
+                            <div class="d-flex justify-content-center mb-2">
+                                <button class="btn btn-md btn-danger" data-toggle="tooltip" data-placement="top" title="delete patient" type="submit"><i class="fa fa-times text-white ml-auto"></i> Delete</button>
+                            </div>
                         </form>
                         @endrole
 
@@ -101,16 +117,16 @@
 </div>
 <div class="content">
     <div class="row">
-        <div class="col-md-6">
-            <div class="block block-fx-shadow">
-                <div class="block-header block-header-default bg-info">
-                    <h3 class="block-title">Next of Kin Information</h3> </div>
+        <div class="col-md-5">
+            <div class="block block-fx-shadow pentacare-bg">
+                <div class="block-header block-header-default text-white" style="background: rgb(51, 70, 128, 0.8)">
+                    <h3 class="block-title text-white">Next of Kin Information</h3> </div>
                 <div class="block-content block-content-full">
                     <table class="table table-borderless table-vcenter">
                         <tbody>
                             <tr>
                                 <th style="width: 35%;"><strong>Next of Kin</strong></th>
-                                <td>{{$patient->nok}}</td>
+                                <td class="textm-capitalize">{{$patient->nok}}</td>
 
                             </tr>
 
@@ -134,16 +150,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="block block-fx-shadow">
-                <div class="block-header block-header-default bg-info">
-                    <h3 class="block-title"> hospital Visits</h3>
+        <div class="col-md-7">
+            <div class="block block-fx-shadow pentacare-bg">
+                <div class="block-header block-header-default" style="background: rgb(51, 70, 128, 0.8)">
+                    <h3 class="block-title text-white"> hospital Visits</h3>
                 </div>
                 <div class="block-content-full">
-                    <ul>
+                    <ul class="mt-2">
                     @foreach ($patient->consults as $item)
-                        <li>
-                            <p class="text-lg-center">{{$item->created_at->format('d-M-Y')}}</p>
+                        <li class="mb-2">
+                            <p style="font-size: 16px">{{$item->created_at->format('d-M-Y')}}</p>
 
 
                         </li>
@@ -154,9 +170,9 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="block block-fx-shadow">
-                <div class="block-header block-header-default bg-info">
-                    <h3 class="block-title"> Reports</h3>
+            <div class="block block-fx-shadow pentacare-bg">
+                <div class="block-header block-header-default text-white" style="background: rgb(51, 70, 128, 0.8)">
+                    <h3 class="text-white block-title"> Reports</h3>
                 </div>
                 <div class="block-content-full"></div>
             </div>

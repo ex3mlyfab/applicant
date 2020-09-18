@@ -337,6 +337,31 @@
                         </a>
                     </li>
                     <li class="nav-main-item">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                            <span class="nav-main-link-name">Ward Settings</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item">
+                                <a href="{{route('ward.index')}}" class="nav-main-link">
+                                    <span class="nav-main-link-name">wards</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a href="{{route('floor.index')}}" class="nav-main-link">
+                                    <span class="nav-main-link-name">floors</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a href="{{route('bed.index')}}" class="nav-main-link">
+                                    <span class="nav-main-link-name">beds</span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+
+                    </li>
+                    <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('regtype.index')}}">
                             <span class="nav-main-link-name">Registration type</span>
                         </a>

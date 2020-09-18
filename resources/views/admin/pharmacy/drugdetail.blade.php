@@ -11,28 +11,21 @@
 
 @section('content')
     <div class="content">
-        <div class="block block-fx-shadow">
-            <div class="block-header bg-info-light">
-                <h3 class="block-title">{{$drug->name  }}</h3>
-                <div class="block-options">
-                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#batch"> Add New Drug Batch</button>
-                </div>
+        <div class="block block-fx-shadow pentacare-bg">
+            <div class="block-header" style="background: rgb(51, 70, 128, 0.8)">
+                <h3 class="block-title text-white">{{$drug->name  }}</h3>
+
             </div>
-            <div class="block-content block-content-full">
+            <div class="block-content block-content-full pentcare-bg">
                 <div class="block block-bordered">
                     <div class="block-content block-content-full">
                         <div class="row no-gutters">
-                            <div class="col-md-6 border-right">
-                                <p>Drug Name</p>
-                                <h3 class="display-4">{{$drug->name}}</h3>
+                            <div class="col-md-12">
+                                <p class="mr-2" style="font-size: 17px">Drug Name</p>
+                                <h3 class="mr-2" style="font-size: 18px">{{$drug->name}}</h3>
                             </div>
-
-                            <div class="col-md-3 border-right">
-
-                            </div>
-
                         </div>
-                        <div class="bg-white border-top">
+                        <div class="pentacare-bg border-top">
                             <div class="content content-boxed">
                                 <div class="row items-pus text-center">
                                     <div class="col-md-4 border-right">
@@ -60,7 +53,7 @@
                     </div>
                 </div>
                     <hr>
-                    <div class="table-responsive">
+                    <div class="table-responsive pentacare-bg">
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <th>
@@ -126,7 +119,7 @@
                                                 <a href="{{route('drugbatch.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                                     <i class="fa fa-fw fa-pencil-alt"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
+                                                <button type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete">
                                                     <i class="fa fa-fw fa-times"></i>
                                                 </button>
                                             </div>
@@ -140,84 +133,7 @@
             </div>
         </div>
     </div>
-    <div class="modal" id="batch" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
-        <div class="modal-dialog modal-md" role="document"style=" width: 80%;">
-            <div class="modal-content">
-                <div class="block block-themed block-transparent mb-0">
-                    <div class="block-header bg-secondary-dark">
-                        <h3 class="block-title">Add Drug Batch </h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                                <i class="fa fa-fw fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="block-content font-size-sm">
-                    <form action="{{route('drugbatch.store')}}" method="post">
-                            @csrf
-                            <div class="form-group form-row">
-                                <label for="name">drug Name</label>
-                                <input type="text"  id="name" value="{{ $drug->name}}"  class="form-control form-control-lg" disabled >
-                            <input type="hidden" name="drug_model_id" value="{{ $drug->id}}">
-                            </div>
-                            <div class="form-group form-row">
-                                <div class="col-md-6">
-                                    <label for="bn">Batch_no (Receipt_no)</label>
-                                    <input type="text" name="batch_no" id="bn"   class="form-control form-control-lg"  >
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="ed"> Quantity Purchased</label>
-                                <input type="number" name="quantity_supplied" id="ed"   class="form-control form-control-lg"  >
-                            </div>
 
-                            </div>
-
-                            <div class="form-group form-row">
-                                <div class="col-md-6">
-                                    <label for="pd"> Purchase Date</label>
-                                <input type="text" name="purchase_date" id="pd"   class="js-datepicker form-control form-control-lg" data-week-start="1" data-autoclose="true" data-startDate="today" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" required>
-                            </div>
-                                <div class="col-md-6">
-                                    <label for="qs"> Expiry Date</label>
-                                <input type="text" name="expiry_date" id="qs"   class="js-datepicker form-control form-control-lg" data-week-start="1" data-autoclose="true" data-startDate="today" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" required>
-                                </div>
-
-                            </div>
-                            <div class="form-group form-row">
-                                <div class="col-md-6">
-                                    <label for="purchase_price">Purchase Price</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">₦ </span>
-                                        <input type="number" name="purchase_price" id="purchase_price"   class="form-control" required>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="col-md-6"><label for="cost">Cost</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">₦ </span>
-                                        <input type="number" name="cost" id="cost"   class="form-control" readonly required>
-                                    </div>
-                                </div></div>
-
-                            </div>
-                            <div class="form-group form-row">
-                                <label for="supplier"> Name of Supplier</label>
-                                <input type="text" name="supplier" id="supplier"   class="form-control" >
-                            </div>
-
-
-                    </div>
-                    <div class="block-content block-content-full text-right border-top">
-
-                        <button type="submit" class="btn btn-sm btn-primary" ><i class="fa fa-check mr-1"></i>Ok</button>
-                    </div>
-                </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('foot_js')

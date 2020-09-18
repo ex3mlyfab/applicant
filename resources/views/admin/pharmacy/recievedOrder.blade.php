@@ -6,7 +6,7 @@ Receive orders
 @section('content')
 <div class="content">
     <div class="block pentacare-bg">
-        <div class="block-header bg-info-light">All Orders Recieved for {{ date('Y') }}
+        <div class="block-header text-white" style="background: rgb(51, 70, 128, 0.8)">All Orders Recieved for {{ date('Y') }}
             <div class="block-options">
             <form action="{{ route('recieveorder.createOne')}}" class="form-inline" method="post">
                 @csrf
@@ -33,7 +33,6 @@ Receive orders
                         <th>Receipt No</th>
                         <th>P. Status</th>
                         <th> Checked by</th>
-                        <th>Action</th>
                     </thead>
                     <tbody>
                         @foreach ($recieve as $item)
