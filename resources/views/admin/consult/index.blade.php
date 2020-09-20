@@ -47,7 +47,7 @@
                                                     {{$loop->iteration}}
                                                 </td>
                                                 <td>
-                                                    {{ $item->user->full_name}}
+                                                    {{ $item->full_name}}
                                                 </td>
                                                 <td>
                                                     <img src="{{ $item->user->avatar ? asset('backend/images/avatar/'. $item->user->avatar) : asset('backend/images/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>

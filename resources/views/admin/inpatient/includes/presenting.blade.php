@@ -24,15 +24,22 @@
         <!-- Form -->
     <form action="{{route('pc.store')}}" method="POST">
             @csrf
-    <input type="hidden" name="clinical_appointment_id" value="{{$inpatient->id}}">
+    <input type="hidden" name="encounter_id" value={{$inpatient->encounter->id}}>
             <!-- Steps Content -->
             <div class="block-content block-content-full tab-content px-md-5" style="min-height: 314px;">
                 <!-- Step 1 -->
                 <div class="tab-pane active" id="wizard-progress2-step1" role="tabpanel">
-                    <div class="form-group bg-amethyst-light p-2">
-                        <label for="pchx">1. Presenting Complaints</label>
-                        <textarea name="pchx" id="pc"  rows="4" class="form-control">{{old('pc') ?? ''}}</textarea>
+                    <div class="form-row">
+                        <div class="form-group col-md-8 bg-amethyst-light p-2">
+                            <label for="pc">1. Presenting Complaints</label>
+                            <textarea name="pc" id="pc"  rows="4" class="form-control">{{old('pc') ?? ''}}</textarea>
+                        </div>
+                        <div class="form-group col-md-4 bg-amethyst-lighter p-2">
+                            <label for="duration">Duration</label>
+                            <input type="text" name="duration" id="duration" class="form-control form-control-lg">
+                        </div>
                     </div>
+
                     <div class="form-group bg-flat-lighter p-2">
                         <label for="pchx">2. History of Presenting Complaints</label>
                         <textarea name="pchx" id="pchx"  rows="4" class="form-control">{{old('pchx') ?? ''}}</textarea>

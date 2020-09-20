@@ -1,11 +1,12 @@
-<div class="block block-fx-shadow">
+<div class="block block-fx-shadow pentacare-bg">
     <div class="block-header bg-info">
         <h3 class="block-title">Follow Up Visit</h3>
     </div>
     <div class="block-content block-content-full">
     <form action="{{route('followup.store')}}" method="post">
             @csrf
-    <input type="hidden" name="clinical_appointment_id" value="{{ $appointment->id }}">
+
+    <input type="hidden" name="encounter_id" value={{$inpatient->encounter->id}}>
             <div class="form-group bg-info-light p-2">
                 <label class="form-control-label-lg">Subjective complaints:</label>
                 <textarea name="subjective_complaints"   class="form-control" rows="5">
@@ -35,13 +36,9 @@
 
 
             </div>
-            <div class="form-group bg-city-light p-2">
-                <label for="plan">Plan</label>
-                <textarea name="plan" id="plan"  rows="4" class="form-control">
 
-                </textarea>
-            </div>
                 <button type="submit" class="btn btn-lg btn-outline-info w-100">Submit</button>
         </form>
+
     </div>
 </div>

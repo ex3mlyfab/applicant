@@ -1,4 +1,4 @@
-<dsiv class="block block-bordered block-fx-pop">
+<div class="block block-bordered block-fx-pop">
     <p class="font-size-3 bg-white text-black text-center mb-0">Vital Signs</p>
 
     <div class="block-content block-content-full bg-flat-lighter text-white">
@@ -59,7 +59,34 @@
     </div>
 
 
-    <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" data-fullname="{{ $inpatient->user->full_name}}" data-patient-id="{{$inpatient->user->id}}" data-folder-no="{{ $inpatient->user->folder_number}}" data-sex="{{ $inpatient->user->sex}}">
+    <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" data-fullname="{{ $inpatient->user->full_name}}" data-user-id="{{$inpatient->user->id}}" data-folder-no="{{$inpatient->user->folder_number}}" data-sex="{{ $inpatient->user->sex}}">
         <span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-2x fa-stopwatch"></i></span>
     </button>
-</dsiv>
+</div>
+<div class="block block-bordered bg-danger pentacare-bg">
+    @if ($inpatient->user->allergies->count() > 0)
+        <h3 class="text-danger bg-white">Patient Reacts To:</h3>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach ($inpatient->user->allergies as $item)
+                        <tr>
+                            <td width="80%">
+                                {{$item->name}}
+                            </td>
+                            <td>
+                                <form action="{{route('allergy.remove', $item->id)}}" method="POST" >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+    @endif
+</div>

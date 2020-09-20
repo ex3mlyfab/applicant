@@ -1,7 +1,7 @@
 @extends('admin.admin')
 
 @section('title')
-    {{$inpatient->user->full_name}} Ward round
+    consultation
 @endsection
 @section('head_css')
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
@@ -14,7 +14,7 @@
             <div class="col-md-2">
                 <div class="block block-bordered block-rounded block-fx-shadow">
                     <div class="block-content">
-                        <img class="img-fluid img-fluid-100 options-item" src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="">
+                        <img class="img-fluid img-fluid-100 options-item" src="{{ $inpatient->user->avatar ? asset('backend/images/avatar/'. $inpatient->user->avatar) : asset('backend/images/no_image.png')}}" alt="">
                         <div class="table-responsive">
                             <table class="table table-borderless table-vcenter">
                                 <tbody>
@@ -47,20 +47,20 @@
                 @include('admin.inpatient.includes.vitalsigns')
             </div>
             <div class="col-md-10">
-                <div class="block block-fx-pop">
+                <div class="block block-fx-pop pentacare-bg">
                     <div class="block-content block-content-full">
                          <!-- Block Tabs Alternative Style -->
                          <div class="block">
                             <ul class="nav nav-tabs nav-tabs-alt text-uppercase bg-city-lighter" data-toggle="tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link @if (!($consults->count() > 1))
+                                    <a class="nav-link @if (!($inpatient->user->consults->count() > 1))
                                         active
                                     @endif " href="#btabs-alt-static-home">Presenting Complaints</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-profile">Physical Exam</a>
                                 </li>
-                                @if (($consults->count() > 1))
+                                @if (($inpatient->user->consults->count() > 1))
                                 <li class="nav-item">
                                     <a class="nav-link active" href="#btabs-alt-static-followup">Follow Up</a>
                                 </li>
@@ -75,26 +75,27 @@
 
                             </ul>
                             <div class="block-content tab-content">
-                                <div class="tab-pane @if (!($consults->count() > 1))
+                                <div class="tab-pane @if (!($inpatient->user->consults->count() > 1))
                                     active
                                 @endif " id="btabs-alt-static-home" role="tabpanel">
 
 
+
+                                    @include('admin.inpatient.includes.presentingHistory')
                                     <span class="presenting">
                                     @include('admin.inpatient.includes.presenting')
                                     </span>
-                                    @include('admin.inpatient.includes.presentingHistory')
 
                                 </div>
                                 <div class="tab-pane" id="btabs-alt-static-profile" role="tabpanel">
-
-
+                                    @include('admin.inpatient.includes.physicalHistory')
                                     <span class="physical">
-                                    @include('admin.inpatient.includes.physical')
+                                        @include('admin.inpatient.includes.physical')
                                     </span>
-                                    @include('admin.consult.includes.physicalHistory')
+                                    @include('admin.inpatient.includes.treatment')
+
                                 </div>
-                                @if (($consults->count() > 1))
+                                @if (($inpatient->user->consults->count() > 1))
                                     <div class="tab-pane active" id="btabs-alt-static-followup" role="tabpanel">
 
 
@@ -102,7 +103,7 @@
 
 
                                     @include('admin.inpatient.includes.followup')
-
+                                    @include('admin.inpatient.includes.treatment')
 
                                 </div>
                                 @endif
@@ -114,10 +115,99 @@
 
                                 </div>
                                 <div class="tab-pane" id="btabs-alt-static-vitals" role="tabpanel">
+                                    <div class="block">
+                                        <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#babtabswo-static-home">Chart</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#babtabswo-static-profile">Tabular</a>
+                                            </li>
+                                            <li class="nav-item ml-auto">
+                                                <div class="block-options pl-3 pr-2">
+                                                    <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="block-content tab-content">
+                                            <div class="tab-pane active" id="babtabswo-static-home" role="tabpanel">
+                                                <canvas class="js-chartjs-lines" width="800" height="450"></canvas>
+                                            </div>
+                                            <div class="tab-pane" id="babtabswo-static-profile" role="tabpanel">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered">
+                                                        <thead class="bg-amethyst text-white text-center">
+                                                            <th>
+                                                             time done
+                                                            </th>
+                                                            <th>
+                                                                BP
+                                                            </th>
 
+                                                            <th>
+                                                                pr
+                                                            </th>
+                                                            <th>
+                                                                rr
+                                                            </th>
+                                                            <th>
+                                                                spO<sub>2</sub>
+                                                            </th>
+                                                            <th>
+                                                                temp <sup>o</sup>C
+                                                            </th>
+                                                            <th>
+                                                                weight/height
+                                                            </th>
+                                                            <th>
+                                                                bmi
+                                                            </th>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($inpatient->user->vitalsigns as $item)
+                                                            <tr>
+                                                                <td>
+                                                                    {{$item->created_at->diffForHumans()}}
+                                                                    <br>
+                                                                    ({{
+                                                                        $item->created_at
+                                                                    }})
+                                                                </td>
+                                                                <td>
+                                                                    {{$item->systolic}}/{{$item->diastolic}}
+                                                                </td>
+                                                                <td>
+                                                                    {{$item->pr}}
+                                                                </td>
+                                                                <td>
+                                                                    {{$item->rr}}
+                                                                </td>
+                                                                <td>
+                                                                    {{$item->spo2}}
+                                                                </td>
+                                                                <td>
+                                                                    {{$item->temp}}
+                                                                </td>
+                                                                <td>
+                                                                    {{$item->weight}}/
+                                                                    {{$item->height}}
+                                                                </td>
+                                                                <td>
+                                                                    {{$item->bmi}}
+                                                                </td>
+                                                            </tr>
+
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="block-content block-content-full">
-                                        <canvas class="js-chartjs-lines" width="800" height="450"></canvas>
-                                        <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" data-fullname="{{ $inpatient->user->full_name}}" data-patient-id="{{$inpatient->user->id}}" data-folder-no="{{ $inpatient->user->folder_number}}" data-sex="{{ $inpatient->user->sex}}">
+
+
+                                        <button type="button" class="btn btn-md btn-danger w-100 takevitals" data-toggle="modal"  data-target="#vital-signs" data-pictures="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" data-fullname="{{ $inpatient->user->full_name}}" data-user-id="{{$inpatient->user->id}}" data-folder-no="{{ $inpatient->user->folder_number}}" data-sex="{{ $inpatient->user->sex}}">
                                             <span data-toggle="tooltip" title="take vitals sign"><i class="fa fa-fw fa-2x fa-stopwatch"></i></span>
                                         </button>
                                     </div>
@@ -132,6 +222,7 @@
         </div>
     </div>
     @include('admin.inpatient.includes.modal')
+
 @endsection
 
 @section('foot_js')
@@ -162,12 +253,12 @@
                 $('#username123').hide();
             });
 
-            @if($consults->count() >= 1)
-               @foreach($consults as $consult)
-                @if($consult->presentingComplaint)
+            @if($inpatient->user->consults->count() >= 1)
+               @foreach($inpatient->user->encounters as $patent)
+                @if($patent->presentingComplaints->count())
                     $('.presenting').hide();
                 @endif
-                @if($consult->physicalExam)
+                @if($patent->physicalExams->count())
                     $('.physical').hide();
                 @endif
                @endforeach
@@ -290,7 +381,7 @@
                     $('#fullname1').val( $(this).data('fullname'));
                     $('#folder_no').val( $(this).data('folder-no'));
                     $('#gender0').val( $(this).data('sex'));
-                    $('#patient_identity').val( $(this).data('patient-id'));
+                    $('#patient_identity').val( $(this).data('user-id'));
                 });
 
                 $('#height').prop("readonly", true);
@@ -370,70 +461,58 @@
                                 });
 
                                 });
-                                var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
+    var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
 
-                                new Chart($(".js-chartjs-lines"), {
-                                    "type": "line",
-                                    "data": {
-                                        "labels":cData.label,
-                                        "datasets":[
-                                                {
-                                                    "label":"Systolic",
-                                                    "data":cData.systolic,
-                                                    "fill":false,
-                                                    "borderColor":"rgb(235,26,8)"
-                                                },
-                                                {
-                                                    "label":"Diastolic",
-                                                    "data":cData.diastolic,
-                                                    "fill":false,
-                                                    "borderColor":"rgb(235,26,8)"
-                                                },
-                                                {
-                                                    "label":"Height",
-                                                    "data":cData.height,
-                                                    "fill":false,
-                                                    "borderColor":"#19c341"
-                                                },
-                                                {
-                                                    "label":"weight",
-                                                    "data":cData.weight,
-                                                    "fill":false,
-                                                    "borderColor":"#39f3e1"
-                                                },
-                                                {
-                                                    "label":"Respiratory Rate",
-                                                    "data":cData.rr,
-                                                    "fill":false,
-                                                    "borderColor":"#3308cd"
-                                                },
-                                                {
-                                                    "label":"Pulse Rate",
-                                                    "data":cData.pr,
-                                                    "fill":false,
-                                                    "borderColor":"#8e5ea2"
-                                                },
-                                                {
-                                                    "label":"BMI",
-                                                    "data":cData.bmi,
-                                                    "fill":false,
-                                                    "borderColor":"#ee00ff"
-                                                },
-                                                {
-                                                    "label":"Temperature",
-                                                    "data":cData.temp,
-                                                    "fill":false,
-                                                    "borderColor":"#ff0101"
-                                                }
-                                            ]
-                                    },
-                                    options: {
-                                        title: {
-                                        display: true,
-                                        text: 'Patients Vital Signs Chart'
-                                        }
-                                    }
-                                });
+    new Chart($(".js-chartjs-lines"), {
+        "type": "line",
+        "data": {
+            "labels":cData.label,
+            "datasets":[
+                    {
+                        "label":"Systolic",
+                        "data":cData.systolic,
+                        "fill":false,
+                        "borderColor":"#D92657"
+                    },
+                    {
+                        "label":"Diastolic",
+                        "data":cData.diastolic,
+                        "fill":"-1",
+                        "borderColor":"#26D9A8"
+                    },
+                    {
+                        "label":"SPO2",
+                        "data":cData.spo2,
+                        "fill":false,
+                        "borderColor":"#19c341"
+                    },
+                    {
+                        "label":"Respiratory Rate",
+                        "data":cData.rr,
+                        "fill":false,
+                        "borderColor":"#E908F1"
+                    },
+                    {
+                        "label":"Pulse Rate",
+                        "data":cData.pr,
+                        "fill":false,
+                        "borderColor":"#1248EE"
+                    },
+                    {
+                        "label":"Temperature",
+                        "data":cData.temp,
+                        "fill":false,
+                        "borderColor":"#ff0101"
+                    }
+                ]
+        },
+        options: {
+            title: {
+            display: true,
+            text: 'Patients Vital Signs Chart'
+            }
+        }
+    });
 
 
 
@@ -483,20 +562,6 @@
 
 
     }
-function addRow()
-{
-    var tr='<tr>'+
-            '<td><select name="category[]" class="form-control drug-category"style="width: 100%;" data-placeholder="Choose one.." required><option></option></select></td>' +
-            '<td><select name="subcategory[]" class="js-select2 form-control drug-subcategory"style="width: 100%;" data-placeholder="Choose one.." required>      <option></option></select></td>'+
-            '<td><input type="text" name="medicine[]" class="form-control form-control-lg"></td>'+
-            '<td><input type="text" name="quantity[]" class="form-control form-control-lg"></td>'+
-            '<td><input type="text" name="dosage[]" class="form-control form-control-lg"></td>'+
-
-            '<td class="remove" style="text-align: center"><a href="#" class="btn btn-danger" onclick="deleteRow()"><i class="fa fa-times"></i></a></td>'+
-            '</tr>';
-
-    $('#drugs tbody').append(tr);
-}
 
 function deleteRow()
 {

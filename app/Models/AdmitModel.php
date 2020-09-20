@@ -18,4 +18,9 @@ class AdmitModel extends Model
     {
         return $this->morphMany(EncounterTest::class, 'testable');
     }
+
+    public function encounter(): BelongsTo
+    {
+        return $this->belongsTo(Encounter::class);
+    }
 }

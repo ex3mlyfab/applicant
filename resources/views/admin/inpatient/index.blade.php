@@ -6,6 +6,10 @@
 @section('head_css')
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
 
+<link href="{{asset('backend')}}/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+
+
+
 @endsection
 
 @section('content')
@@ -34,20 +38,20 @@
                                             {{$loop->iteration}}
                                         </td>
                                         <td>
-                                            {{ $item->clinicalAppointment->user->full_name}}
+                                            {{ $item->encounter->user->full_name}}
                                         </td>
                                         <td>
-                                            <img src="{{ $item->clinicalAppointment->user->avatar ? asset('backend/images/avatar/'. $item->clinicalAppointment->user->avatar) : asset('frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
+                                            <img src="{{ $item->encounter->user->avatar ? asset('backend/images/avatar/'. $item->encounter->user->avatar) : asset('frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
                                             <span class="badge badge-pill p-2 badge-light">
-                                                {{$item->clinicalAppointment->user->folder_number}}
+                                                {{$item->encounter->user->folder_number}}
                                             </span>
                                         </td>
                                         <td>
-                                            {{$item->clinicalAppointment->user->sex}}
+                                            {{$item->encounter->user->sex}}
 
                                         </td>
                                         <td>
-                                            {{$item->clinicalAppointment->user->age}}
+                                            {{$item->encounter->user->age}}
                                         </td>
 
                                         <td>
@@ -60,7 +64,7 @@
 
 
                                                 @else
-                                                <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->clinicalAppointment->user->avatar}}" data-fullname="{{ $item->clinicalAppointment->user->full_name}}" data-patient-id="{{$item->clinicalAppointment->user->id}}" data-folder-number="{{ $item->clinicalAppointment->user->folder_number}}" data-sex="{{ $item->clinicalAppointment->user->sex}}"
+                                                <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->encounter->user->avatar}}" data-fullname="{{ $item->encounter->user->full_name}}" data-patient-id="{{$item->encounter->user->id}}" data-folder-number="{{ $item->encounter->user->folder_number}}" data-sex="{{ $item->encounter->user->sex}}"
                                                 data-adminreq="{{$item->id}}"><span data-toggle="tooltip" title="Process Admission"> <i class="fa fa-fw fa-clipboard"></i> Process Admission </span></button>
 
                                                 @endif
@@ -95,7 +99,7 @@
                         <div class="block block-fx-pop">
 
                             <div class="block-content content-full">
-                                <form action="{{route('inpatient.store')}}" method="post" class="mb-4">
+                                <form action="{{route('inpatient.store')}}" method="post" class="mb-4" onsubmit="">
                                     @csrf
                                     <div class="form-group form-row">
                                         <div class="col-md-4">
@@ -139,18 +143,20 @@
 
                                             </select>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="">Date of Admission</label>
-                                                <input type="text" class="js-datepicker form-control" id="example-datepicker2" name="date_of_admission" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" required>
+                                                    <label for="datetime12"> Select Date & time of admission</label><br>
+                                                    <div class="form-group mb-0">
+                                                        <div class='input-group date' id='datetimepicker3'>
+                                                            <input type='text' class="form-control" name="date_of_admission" />
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                            <label for="example-masked-time">Time of Admission</label>
-                                            <input type="text" class="js-masked-time form-control" id="example-masked-time" name="time_of_admission" placeholder="00:00">
-                                        </div>
-                                        </div>
+
                                     </div>
                                     <div class="form-group form-row bg-amethyst-lighter">
                                         <div class="col-md-6">
@@ -162,9 +168,9 @@
                                                         ₦
                                                     </span>
                                                 </div>
-                                                <input type="text" class="form-control form-control-alt text-center" id="deposit" name="deposit" placeholder="00">
+                                                <input type="text" class="form-control form-control-alt text-center" id="deposit" name="deposit" placeholder="">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text input-group-text-alt">,00</span>
+                                                    <span class="input-group-text input-group-text-alt">.00</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -179,9 +185,9 @@
                                                         ₦
                                                     </span>
                                                 </div>
-                                                <input type="text" class="form-control form-control-alt text-center" id="example-group1-input3-alt" name="credit_limit" placeholder="00" required>
+                                                <input type="text" class="form-control form-control-alt text-center" id="example-group1-input3-alt" name="credit_limit" placeholder="" required>
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text input-group-text-alt">,00</span>
+                                                    <span class="input-group-text input-group-text-alt">.00</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -222,10 +228,14 @@
 
 @endsection
 @section('foot_js')
-<script src="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
 <script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
-<script src="{{asset('backend')}}/assets/js/plugins/jquery.maskedinput/jquery.maskedinput.min.js"></script>
-<script>jQuery(function(){ One.helpers([ 'select2', 'masked-inputs', 'datepicker']); });</script>
+<script src="{{asset('backend')}}/assets/js/moment.js"></script>
+<script src="{{asset('backend')}}/assets/js/bootstrap-datetimepicker.min.js"></script>
+
+
+
+<script>jQuery(function(){ One.helpers([ 'select2']); });</script>
 <script>
     $(function(){
 
@@ -257,40 +267,44 @@
         $('tbody tr:nth-child(odd)').addClass("bg-city-lighter");
 
         $('#room').on("change", function(){
-                            var classID = $(this).val();
-                            var link = "{{ url('admin/wardmodelajax/') }}";
+            var classID = $(this).val();
+            var link = "{{ url('admin/wardmodelajax/') }}";
 
-                            if(classID) {
-                                $.ajax({
-                                    url: link+"/"+classID,
-                                    type: "GET",
-                                    dataType: "json",
-                                    success:function(data) {
+            if(classID) {
+                $.ajax({
+                    url: link+"/"+classID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
 
 
-                                        $.each(data, function(key, value) {
+                        $.each(data, function(key, value) {
 
-                                            $('#bed').append(
-                                            '<option value="'+ value +'"> Bed-'+ value +'</option>');
-
-                                            });
-                                        }
-                                        });
-
-                                        }
-                                        else{
-                                            $('select[name="drug_subcategory"]').empty();
-                                            }
-
+                            $('#bed').append(
+                            '<option value="'+ value +'"> Bed-'+ value +'</option>');
 
                             });
+                        }
+                        });
 
-        //      }
-        // });
+                        }
+                        else{
+                            $('select[name="drug_subcategory"]').empty();
+                            }
 
 
-        // });
+            });
+            $('#datetimepicker3').datetimepicker({
+                defaultDate: new Date(),
+                format: 'DD/MM/YYYY hh:mm:ss A',
+                sideBySide: true
+            });
+
+
+
     });
+
+
 </script>
 
 @endsection

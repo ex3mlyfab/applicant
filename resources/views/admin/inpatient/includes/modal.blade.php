@@ -22,6 +22,39 @@
         </div>
     </div>
 </div>
+<!-- Allergy Block Modal -->
+<div class="modal" id="allergy-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Patient Reaction Details </h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <h3 class="text-center">Add Allergic Reaction</h3>
+                    <form action="#" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="reaction">Allergic to:</label>
+                            <input type="text" name="allergy" id="reaction">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!--take vital signs-->
 <div class="modal" id="vital-signs" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-top modal-lg" role="document">
@@ -201,13 +234,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -219,7 +252,7 @@
                         <div class="form-group">
                             <label >Clinical Details</label>
                             <input type="text" name="clinical_details"  class="form-control">
-                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
                         </div>
                         <div class="form-group form-row">
                             <div class="col-sm-3">
@@ -409,13 +442,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -424,7 +457,7 @@
                     </div>
                 <form action="{{route('bloodreq.store')}}" method="post">
                     @csrf
-                    <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                    <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
                     <div class="form-group form-row">
                         <div class="col-md-8">
                             <label for="diagnosis">Diagnosis</label>
@@ -529,13 +562,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -547,7 +580,7 @@
                         <div class="form-group">
                             <label > Nature of Specimen</label>
                             <input type="text" name="specimen"  class="form-control form-control-lg">
-                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
                         </div>
                         <div class="form-group">
                             <label > Diagnosis and Clinical Details</label>
@@ -588,13 +621,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -604,11 +637,10 @@
                     <div class="table-responsive">
                         <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element" onsubmit="return false;">
                             @csrf
-                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
-                                <th>Category</th>
-                                <th>Subcategory</th>
+                                <th>Class</th>
                                 <th>Drug Name/ Form</th>
                                 <th>Dosage</th>
                                 <th>Instruction</th>
@@ -620,21 +652,11 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select  class="js-select2 form-control" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
+                                        <select  class="js-select2 form-control drugClass" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
                                             <option></option>
-                                            {{ create_option('drug_categories','id', 'name')}}
+                                            {{ create_option('drug_classes','id', 'name')}}
                                         </select>
                                     </td>
-                                    <td>
-                                        <select  class="js-select2 form-control" style="width: 100%;" id="drug-subcategory" data-placeholder="Choose one.." required>
-                                        <option></option>
-                                    </select>
-                                    </td>
-                                    <td>
-                                        <select  class="js-select2 form-control" style="width: 100%;" id="drug" data-placeholder="Choose one.." required>
-                                        <option></option>
-                                    </select></td>
-
                                     <td>
 
                                         <input type="text" id="dosage" class="form-control form-control-lg"></td>
@@ -657,7 +679,7 @@
 
 
 
-                    <button  id="drugSubmit" data-appointment="{{$appointment->id}}" class="btn btn-primary pull-right">Submit</button>
+                    <button  id="drugSubmit" data-inpatient->encounter="{{$inpatient->encounter->id}}" class="btn btn-primary pull-right">Submit</button>
                         </form>
 
                     </div>
@@ -690,13 +712,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -710,7 +732,7 @@
                             <div class="col-md-3">
                                 <label >Clinical Details</label>
                                 <input type="text" name="clinical_details"  class="form-control">
-                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
                             </div>
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
@@ -1152,13 +1174,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -1167,7 +1189,7 @@
                     </div>
                     <form action="{{route('ultrasoundreq.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
-                        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                        <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
                         <div class="form-group">
                             <label for="request_type"> Request Type:</label>
                             <div class="form-check">
@@ -1205,12 +1227,12 @@
 </div>
 <!--End Ultrasound request-->
 
-<!-- xray Block Modal -->
+<!-- admit Block Modal -->
 <div class="modal" id="admit" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg" role="document"style=" width: 80%;">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
-                <div class="block-header bg-gray text-white-75">
+                <div class="block-header bg-gray">
                     <h3 class="block-title">Admit request
                     </h3>
                     <div class="block-options">
@@ -1225,29 +1247,30 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    <form action="{{route('radiologyreq.store')}}" method="post" class="bg-flat text-white px-2">
+                    <form action="{{route('admitpatient.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
-                        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                        <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
+                        
                         <div class="form-group">
-                            <label >Clinical Information</label>
+                            <label>Clinical Information</label>
                             <input type="text" name="clinical_information"  class="form-control form-control-lg" required>
                         </div>
                         <div class="form-group">
-                            <label > Reason for Admission</label>
-                            <textarea name="reason"  class="form-control form-control-lg">
+                            <label> Reason for Admission</label>
+                            <textarea class="form-control form-control-lg" name="reason" row="4" placeholder="reasons for admission">
                             </textarea>
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
@@ -1269,7 +1292,7 @@
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-success text-white-75">
-                    <h3 class="block-title">Tca
+                    <h3 class="block-title">Time To Call Again
                     </h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -1283,13 +1306,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -1298,13 +1321,14 @@
                     </div>
                     <form action="{{route('radiologyreq.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
-                        <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                        <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
                         <div class="form-group">
                             <label >Clinical Information</label>
                             <input type="text" name="clinical_information"  class="form-control form-control-lg">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="js-datepicker form-control" id="int123" name="call_again" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
+                            <label>Call Again</label>
+                            <input type="text" class="js-datepicker form-control" id="int123" name="call_again" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" required>
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
                     </form>
@@ -1340,13 +1364,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>

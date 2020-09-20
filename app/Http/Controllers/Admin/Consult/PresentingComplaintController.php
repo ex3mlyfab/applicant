@@ -42,6 +42,7 @@ class PresentingComplaintController extends Controller
 
         //collect all presenting complaints
         $validated = $request->except(['_token', 'clinical_appointment_id']);
+        
         $pc = PresentingComplaint::create($validated);
 
         Consult::where('clinical_appointment_id',$request->clinical_appointment_id)->update([

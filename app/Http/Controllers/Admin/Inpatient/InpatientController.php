@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin\Inpatient;
 use App\Http\Controllers\Controller;
 use App\Models\AdmitModel;
 use App\Models\Consult;
+use App\Models\Encounter;
 use App\Models\Inpatient;
 use App\Models\Retainership;
 use App\Models\VitalSign;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,11 +35,13 @@ class InpatientController extends Controller
      */
     public function wardRound(Inpatient $inpatient)
     {
-        // collect all previous consultation records
-        $consults = Consult::whereIn('clinical_appointment_id', $inpatient->user->clinicalAppointments->pluck('id'));
-        // patient details
-        $patient = $inpatient->user();
-        // collect all vital signs
+
+        // // patient details
+        // $patient = $inpatient->user;
+        // $encounter = $inpatient->encounter;
+        // // collect all vital signs
+        
+
 
         $vitals = VitalSign::where('patient_id', $inpatient->user->id)->get();
         $vitals = $vitals->groupBy(function (VitalSign $item) {
@@ -50,16 +54,14 @@ class InpatientController extends Controller
             foreach ($values as $value) {
                 $dataChart['systolic'][] = (float) $value->systolic;
                 $dataChart['diastolic'][] = (int) $value->diastolic;
-                $dataChart['height'][] = (float) $value->height;
-                $dataChart['weight'][] = (float) $value->weight;
                 $dataChart['rr'][] = (int) $value->rr;
                 $dataChart['pr'][] = (int) $value->pr;
                 $dataChart['temp'][] = (float) $value->temp;
-                $dataChart['bmi'][] = (float) $value->bmi;
+                $dataChart['spo2'][] = (float) $value->spo2;
             }
         }
         $dataChart['chart_data'] = json_encode($dataChart);
-        return view('admin.inpatient.create', compact('dataChart', 'vitals', 'consults', 'inpatient', 'patient'));
+        return view('admin.inpatient.create', compact('dataChart', 'vitals', 'inpatient'));
     }
     public function create()
     {
@@ -75,25 +77,27 @@ class InpatientController extends Controller
     public function store(Request $request)
     {
 
+        // dd($request->except('_token'));
+        // dd(Carbon::parse($request->date_of_admission));
 
-        $doa = strtotime($request->date_of_admission);
-        $newDate = date('Y-m-d', $doa);
-        $toa = strtotime($request->time_of_admission);
-        $newtime = date('H:i', $toa);
         $adminreq = AdmitModel::findOrFail($request->admin_req_id);
         $adminreq->update([
             'status' => 'admitted'
         ]);
 
-        Inpatient::create([
+        $inpatient= Inpatient::create([
             'user_id' => $request->patient_id,
-            'time_of_admission' => $newtime,
-            'date_of_admission' => $newDate,
+
+            'date_of_admission' => Carbon::parse($request->date_of_admission),
             'bed_id' => $request->bed_id,
             'credit_limit' => $request->credit_limit,
             'status' => 'admission active',
             'condition' => $adminreq->clinical_information,
         ]);
+        $encounter = Encounter::create([
+            'user_id' => $adminreq->encounter->user->id,
+        ]);
+        $inpatient->encounter()->save($encounter);
         $balance = Retainership::where('user_id', $request->patient_id)->get();
 
         $oldbalance = ($balance->count() > 0) ? $balance->last()->balance : 0;

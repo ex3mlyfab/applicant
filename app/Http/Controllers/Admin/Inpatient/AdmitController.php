@@ -19,8 +19,8 @@ class AdmitController extends Controller
      */
     public function index()
     {
-        $all = AdmitModel::whereIn('status',['discharged', 'dead'])->get();
-
+        $all = AdmitModel::whereIn('status',['waiting'])->get();
+        
         return view('admin.inpatient.index', compact('all'));
     }
 

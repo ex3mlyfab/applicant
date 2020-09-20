@@ -39,8 +39,8 @@ class ConsultController extends Controller
         $consult = Consult::firstOrCreate(['clinical_appointment_id' => $appointment->id]);
 
         // // all previous consultattion details collection
-        $consults = Consult::all();
-        $consults = $consults->whereIn('clinical_appointment_id', $patient->clinicalAppointments->pluck('id'));
+        $consults = Consult::whereIn('clinical_appointment_id', $patient->clinicalAppointments->pluck('id'))->get();
+        // $consults = $consults->;
         // //start new consultation or maintain new consultation id on event of investigations requests or treatment.
         // dd($patient->clinicalAppointments->pluck('id'), $consults);
 
