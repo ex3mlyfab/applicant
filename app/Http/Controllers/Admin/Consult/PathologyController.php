@@ -39,16 +39,14 @@ class PathologyController extends Controller
     {
         //
         //
+        dd($request->except('_token'));
         $data = $request->except('_token');
         $data['status'] = 'waiting';
-        $data['requested_by'] = 1;
+        $data['requested_by'] = auth()->user()->id;
         $id = Pathologyreq::create($data);
 
-        $status = $id->clinical_appointment_id;
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $id->labinfos()->create([
-            'consult_id' => $consult->id,
-            'type' => $request->examination_required . 'sent to  laboratory',
+        $id->testables()->create([
+            'encounter_id' => $id->encounter_id,
             'status' => 'waiting',
 
         ]);

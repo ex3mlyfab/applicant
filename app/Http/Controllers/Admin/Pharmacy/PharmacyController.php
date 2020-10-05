@@ -21,7 +21,7 @@ class PharmacyController extends Controller
     public function index()
     {
         $prescriptions = Pharmreq::where('status', '!=', 'dispensed')->orWhere('status', NULL)->get();
-
+        // dd($prescriptions);
         return view('admin.pharmacy.index', compact('prescriptions'));
     }
     public function billdrug(Request $request)

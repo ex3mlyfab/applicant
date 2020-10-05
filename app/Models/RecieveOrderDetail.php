@@ -12,7 +12,7 @@ class RecieveOrderDetail extends Model
 
     public function recieveOrder(): BelongsTo
     {
-        return $this->belongsTo(RecieveOrder::class);
+        return $this->belongsTo(RecieveOrder::class, 'receive_order_id' );
     }
 
     public function drugModel(): BelongsTo

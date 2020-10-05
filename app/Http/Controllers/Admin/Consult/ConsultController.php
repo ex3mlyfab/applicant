@@ -85,6 +85,18 @@ class ConsultController extends Controller
         // $consults = $consults->toArray();
         return view('admin.consult.create', compact('patient', 'consults', 'appointment', 'consult', 'dataChart', 'encounter'));
     }
+    public function endConsult(ClinicalAppointment $consult)
+    {
+        $consult->update([
+            'status' => 'completed'
+        ]);
+        $notification = [
+            'message' => 'consultation ended succesfully',
+            'type' =>'success'
+        ];
+        return redirect()->route('consults.index')->with($notification);
+
+    }
     /**
      * Show the form for creating a new resource.
      *

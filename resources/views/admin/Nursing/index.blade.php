@@ -160,7 +160,7 @@
                                             <input type="text" name="spo2" id="spo2" placeholder="SPO2" class="form-control form-control-lg">
                                             <div class="input-group-append">
                                                 <span class="input-group-text">
-                                              bpm
+                                              %
                                                 </span>
                                             </div>
                                         </div>

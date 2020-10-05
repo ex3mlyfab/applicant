@@ -21,7 +21,7 @@ class PurchaseOrder extends Model
     {
         return $this->hasMany(PurchaseOrderDetail::class);
     }
-    public function approvedBY(): BelongsTo
+    public function approvedBy(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'approved_by');
     }

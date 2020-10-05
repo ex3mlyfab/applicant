@@ -80,6 +80,8 @@ class RecieveOrderController extends Controller
                 'purchase_date' => Carbon::parse(strtotime($request->purchase_date)),
                 'recieve_order_id' => $request->supplier_id,
                 'packing_quantity' => ($juice->drugModel->available ? $juice->drugModel->available : 0),
+                'available_quantity' => ($juice->drugModel->available ? $juice->drugModel->available + $request->quantity_needed[$key] : 0 + $request->quantity_needed[$key])
+
 
             );
              DrugBatchDetail::create($dugdata);
@@ -128,9 +130,10 @@ class RecieveOrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(RecieveOrder $recieveorder)
     {
         //
+        return view('admin.pharmacy.recieveorderdetails', compact('recieveorder'));
     }
 
     /**

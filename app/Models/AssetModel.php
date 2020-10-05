@@ -29,6 +29,6 @@ class AssetModel extends Model
         // $price = DrugBatchDetail::where('pharmacy_id', $this->id)->orderBy('created_at', 'desc')->first();
         // return $price->available_quantity;
 
-        return AssetPurchase::where('asset_model_id', $this->id)->sum('balance');
+        return AssetPurchase::where('asset_model_id', $this->id)->sum('quantity');
     }
 }

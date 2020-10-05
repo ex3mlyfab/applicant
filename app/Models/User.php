@@ -24,7 +24,7 @@ class User extends Authenticatable
     protected $fillable = [
         'last_name', 'email', 'password', 'other_names', 'phone', 'age_at_reg',
         'dob', 'avatar', 'folder_number', 'occupation', 'marital_status', 'address', 'city', 'state', 'nationality','religion','tribe', 'source', 'nok', 'nok_relationship', 'nok_phone', 'nok_address', 'registered_by', 'sex', 'registration_type_id', 'belongs_to',
-        'referral_source','status','paymentMethod','insurance_number'
+        'referral_source','status','paymentMethod','insurance_number', 'enroll_user_id'
     ];
 
     /**
@@ -51,6 +51,10 @@ class User extends Authenticatable
         }
     }
 
+    public function enrollUser(): BelongsTo
+    {
+        return $this->belongsTo(EnrollUser::class);
+    }
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class, 'patient_id');
@@ -91,6 +95,34 @@ class User extends Authenticatable
             return "(No visit recorded)";
         }
     }
+    public function getCurrentAppointmentAttribute()
+    {
+        $current = $this->clinicalAppointments->filter(function($item){
+            return $item['status'] != 'completed';
+        });
+        if ($current->count()){
+            return true;
+        }else{
+
+            return false;
+        }
+
+    }
+
+    public function getAdmissionStatusAttribute()
+    {
+        $current = $this->inpatients->filter(function($item){
+            return $item['status'] != 'discharged';
+        });
+        if ($current->count()){
+            return true;
+        }else{
+
+            return false;
+        }
+
+    }
+
     public function patientImage(): HasMany
     {
         return $this->hasMany(PatientImages::class);
@@ -110,7 +142,7 @@ class User extends Authenticatable
     }
     public function retainership(): HasOne
     {
-        return $this->hasOne(Retainership::class);
+        return $this->hasOne(Retainership::class)->orderByDesc('created_at');
     }
     public function inpatients(): HasMany
     {
@@ -119,6 +151,14 @@ class User extends Authenticatable
     public function allergies(): HasMany
     {
         return $this->hasMany(Allergy::class)->orderByDesc('created_at');
+    }
+    public function mdAccount(): HasOne
+    {
+        return $this->hasOne(MdAccount::class);
+    }
+    public function getRetainershipBalanceAtrribute()
+    {
+        return $this->retainership->first()->balance;
     }
     /**
      * The attributes that should be cast to native types.

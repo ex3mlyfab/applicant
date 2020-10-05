@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Consult;
 use App\Models\ConsultTest;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\PharmacyBill;
 use App\Models\PharmacyBillDetail;
 use App\Models\Pharmreq;
@@ -89,29 +90,47 @@ class PharmreqController extends Controller
     {
         //
         // dd($request->all)
-        $validated = $request->except('_token');
+
         $pc = Pharmreq::create([
-            'clinical_appointment_id' => $request->clinical_appointment_id,
-            'seen_by' => 1,
+            'encounter_id' => $request->encounter_id,
+            'status'=> 'invoice generated',
+            'total' => $request->totalBalance,
+            'seen_by' => auth()->user()->id,
+        ]); 
+        $invoice= Invoice::create([
+                'user_id' => $pc->encounter->user->id,
+                'invoice_no' => generate_invoice_no(),
+                'amount' => $pc->total,
+                'admin_id' => auth()->user()->id,
+                'p_status' => 'NYP',
         ]);
-        $status = $pc->clinical_appointment_id;
-        foreach ($request->medicine as $key => $medicine_id) {
+        $pc->invoice()->save($invoice);
+        foreach ($request->drug_model_id as $key => $medicine_id) {
             $data = array(
                 'pharmreq_id' => $pc->id,
                 'drug_model_id' => $request->drug_model_id[$key],
-                'medicine' => $request->medicine[$key],
+                'dosage' => $request->dosage[$key],
                 'duration' => $request->duration[$key],
                 'quantity' => $request->quantity[$key],
+                'cost' => $request->linecost[$key],
 
             );
-            PharmreqDetail::insert($data);
+            $knowDrug= PharmreqDetail::create($data);
+            //save drug detail to display for invoice item
+
+            $newta = array(
+                'invoice_id' => $invoice->id,
+                'item_description' => $knowDrug->drugModel->name,
+                'amount' =>$knowDrug->cost,
+                'status' =>'NYP',
+            );
+            InvoiceItem::create($newta);
+
         }
 
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $pc->labinfos()->create([
-            'consult_id' => $consult->id,
-            'type' => 'Drug Prescription',
-            'status' => 'waiting',
+        $pc->testable()->create([
+            'encounter_id' => $pc->encounter_id,
+            'status' => 'invoice generated',
         ]);
 
         $notification = array(
@@ -120,6 +139,8 @@ class PharmreqController extends Controller
         );
         return back()->with($notification);
     }
+
+
     public function ajaxdrug(Request $request)
     {
         $validated = $request->except('_token');

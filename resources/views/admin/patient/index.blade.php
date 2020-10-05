@@ -19,7 +19,7 @@
     <div class="content">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
             <h1 class="flex-sm-fill h5">
-                Registered Patient (INDIVIDUAL)
+                Registered Patient
             </h1>
             <span class="ml-md-auto">
             <a style="margin-top: -15px;" href="{{route('patient.create')}}" class="btn btn-sm btn-primary" style="font-size: 13px;"><i style="font-size: 15px" class="fa fa-plus-circle"></i> Add New Patient</a>
@@ -40,10 +40,10 @@
                     <tr>
                         <th class="text-center" style="font-size: 14px; width: 18%;">Folder Number</th>
                         <th style="width: 23%">Full Name </th>
-                        <th>Picture</th>
-                        <th style="width: 17%">sex</th>
-                        <th style="width: 10%;">Age</th>
-                        <th style="width: 15%;">Last visit</th>
+                        <th>Picture/Sex</th>
+                        <th style="width: 17%">Age</th>
+                        <th style="width: 10%;">Last visit</th>
+                        <th style="width: 15%;" class="text-center">action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,16 +57,22 @@
                         </td>
                         <td class="d-none d-sm-table-cell">
                         <img style="height: 90px; width: 90px; border-radius: 5px" src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="{{$patient->full_name}}">
-
+                            <span class="badge badge-info">{{$patient->sex}}</span>
                         </td>
                         <td style="font-size: 18px">
-                            {{$patient->sex}}
-                        </td>
-                        <td style="font-size: 16px">
                             {{$patient->age}}
                         </td>
-                        <td>
+                        <td style="font-size: 16px">
                             <em style="font-size: 20px" class="text-muted font-size-sm">{{$patient->last_visit}}</em>
+                        </td>
+                        <td class="text-center">
+                            @if ($patient->current_appointment)
+                                <span class="badge badge-warning">On Consultation</span>
+                            @elseif($patient->admission_status)
+                            <span class="badge badge-warning">On Admission</span>
+                            @else
+                        <button class="btn btn-outline-danger book" data-user="{{$patient->id}}" >Book Consultation</button>
+                            @endif
                         </td>
                     </tr>
                      @endforeach
@@ -75,6 +81,96 @@
         </div>
     </div>
     <!-- END Dynamic Table with Export Buttons -->
+</div>
+<div class="modal" id="modal-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Book Consultation</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <form action="{{route('clinicalappointment.store')}}" method="post" autocomplete="off">
+                        @csrf
+                        <div class="form-group form-row">
+                            <div class="col-md-4">
+                                <label for="patient"> Patient Name</label>
+                                <input type="text" name="name" id="patient" class="form-control form-control-lg" disabled>
+                                <input type="hidden" name="patient_id" id="patient_id">
+                            </div>
+                            <div class="col-md-4">
+                                <span id="space">
+
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="folder_number">folder number</label>
+                                        <input type="text" name="folder_number" id="folder_number" class="form-control form-control-lg" disabled>
+
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="sex">Sex</label>
+                                        <input type="text" name="sex" id="sex" class="form-control form-control-lg" disabled>
+
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="phone">Phone Number</label>
+                                        <input type="text" name="phone" id="phone" class="form-control form-control-lg" disabled>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group form-row">
+                            <div class="col-md-4">
+                                <label for="see">To See</label>
+                                <input type="text" name="to_see" id="see" class="form-control form-control-lg">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="charge">Charges</label>
+                                <input type="text" name="charges" id="charge" class="form-control form-control-lg" readonly>
+                                <input type="hidden" name="true-charge" id="true-charge">
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="login-remember" name="payment" @if (old('payment')=='paid')
+                                        selected
+                                    @endif value="paid" required>
+                                    <label class="custom-control-label font-w400" for="login-remember"> Paid</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" id="login-remember1" name="payment" @if (old('payment')=='deffered')
+                                        selected
+                                    @endif value="deffered" required>
+                                    <label class="custom-control-label font-w400" for="login-remember1">Defer Payment</label>
+                                </div>
+                            </div>
+
+
+                        <button type="submit" class="btn btn-lg btn-outline-primary">Submit</button>
+                    </form>
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endsection
@@ -93,6 +189,65 @@
        <script>
            $(function(){
             $('tbody tr:nth-child(odd)').addClass("bg-default-light");
+            $('.book').bind('click',function(){
+                var classID = $(this).data('user');
+                    var link = "{{ url('admin/patient/classajax/') }}";
+                    var imgPath = "{{ asset('backend')}}/images/avatar";
+                    let charges= "{{$charge->amount}}";
+                    let value= 0, paymentMethod = "", payment=$('#charge');
+
+                    $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+
+                $.ajax({
+                    type:"POST",
+                    url:link+"/"+classID,
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        avatar : "value",
+                        sex: "value",
+                        folder_number: "value",
+                        phone:"value"
+                        }),
+                    error : function(data){
+                        console.log("error:" + data)
+                        },
+
+                    success : function(response) {
+
+                        $('#space').html('');
+                        response.forEach(function(data) {
+                            $('#space').append('<img src="'+ imgPath + '/' + data.avatar+ '" class="img-fluid img-avatar96">')
+                            $('#sex').val(data.sex);
+                            $('#patient').val(data.last_name + ' '+ data.other_names);
+                            $('#patient_id').val(data.id);
+                            $('#folder_number').val(data.folder_number);
+                            $('#phone').val(data.phone);
+                            paymentMethod = data.paymentMethod;
+
+
+                        });
+
+                    }
+                });
+
+                switch (paymentMethod) {
+                    case 'Insurance':
+                            payment.val(charges* 0.10);
+                        break;
+                    default:
+                            payment.val(charges);
+                        break;
+                }
+$('#modal-block-normal').modal('show');
+            });
+
+
            });
        </script>
 

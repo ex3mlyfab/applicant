@@ -16,24 +16,24 @@
 
                         <div class="form-group form-row">
                             <div class="col-md-4">
-                            <img src="{{asset('backend')}}/images/avatar/{{$pharmreq->clinicalAppointment->user->avatar}}" alt="" >
+                            <img src="{{asset('backend')}}/images/avatar/{{$pharmreq->encounter->user->avatar}}" alt="" >
                             </div>
                             <div class="col-md-4">
                                 <label for="patient_id"> Patient Name</label>
-                                <input type="text" value="{{$pharmreq->clinicalAppointment->user->full_name}}" class="form-control form-control-lg" disabled>
+                                <input type="text" value="{{$pharmreq->encounter->user->full_name}}" class="form-control form-control-lg" disabled>
 
                             </div>
                             <div class="col-md-4">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="folder_number">folder number</label>
-                                    <input type="text"  id="folder_number" value="{{$pharmreq->clinicalAppointment->user->folder_number}}" class="form-control form-control-lg" disabled>
+                                    <input type="text"  id="folder_number" value="{{$pharmreq->encounter->user->folder_number}}" class="form-control form-control-lg" disabled>
 
 
                                     </div>
                                     <div class="col-md-12">
                                         <label for="sex">Sex</label>
-                                    <input type="text"  id="sex" value="{{$pharmreq->clinicalAppointment->user->sex}}" class="form-control form-control-lg" disabled>
+                                    <input type="text"  id="sex" value="{{$pharmreq->encounter->user->sex}}" class="form-control form-control-lg" disabled>
 
 
                                     </div>

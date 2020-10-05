@@ -27,7 +27,7 @@ class Encounter extends Model
     }
     public function encounterTests(): HasMany
     {
-        return $this->hasMany(EncounterTest::class);
+        return $this->hasMany(EncounterTest::class)->orderByDesc('created_at');
     }
 
     public function physicalExams(): HasMany

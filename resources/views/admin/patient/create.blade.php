@@ -59,23 +59,21 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6 mt-2">
                                     <label class="d-block" style="font-size: 20px">Payment Mode</label><br>
-                                        <div class="form-check" style="margin-top: -20px">
-                                            <input type="radio" style="height:25px; width:25px;" name="payment_mode" id="cash" class="form-check-input" value="1" required>
-                                            <label style="font-size: 18px" for="cash" class="form-check-label font-weight-normal ml-3 mt-1">Cash</label>
-                                        </div>
-                                        <div class="form-check mt-1">
-                                                <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="pos" class="form-check-input" value="2" required>
-                                                <label style="font-size: 18px" for="pos" class="form-check-label font-weight-normal ml-3 mt-1">POS</label>
-                                        </div>
-                                        <div class="form-check mt-1">
-                                            <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="transfer" class="form-check-input" value="3" required>
-                                            <label style="font-size: 18px" for="transfer" class="form-check-label font-weight-normal ml-3 mt-1">transfer</label>
-                                        </div>
 
+                                    @foreach ($paymentmode as $item)
+                                    <div class="form-check mt-1">
+                                        <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="pos-{{$loop->iteration}}" class="form-check-input payment-option" value="{{$item->id}}" required>
+                                        <label style="font-size: 18px" for="pos-{{$loop->iteration}}" class="form-check-label font-weight-normal ml-3 mt-1">{{$item->name}}</label>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+                                <div class="form-group col-md-6 bg-amethyst-lighter block block-rounded" id="payment-mode">
+                                    @include('admin.paymentmode')
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-6 mt-2">
+                                <div class="form-group col-md-6 mt-2" id="payment-status">
                                     <label class="d-block" style="font-size: 20px">Payment Status</label>
                                     <div class="form-check mt-3">
                                         <input type="checkbox" name="payment" id="paid" class="form-check-inline" style="height:15px; width:15px;" required>
@@ -102,31 +100,31 @@
                             </div>
                             <div class="form-group form-row">
                                 <div class="col-sm-4 mb-2">
-                                    <label for="select-sex">Religion</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
+                                    <label for="select-religion">Religion</label>
+                                    <select class="form-control form-control-lg" type="text" id="select-religion" name="sex" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
                                         <option value="">Choose One...</option>
-                                        <option value="Muslim" {{ (old('religion')=='Muslim') ? 'select' :''}}>Muslim</option>
-                                        <option value="Christian" {{ old('religion')=='Christian' ? 'select':''}}>Christian</option>
-                                        <option value="Traditional" {{ old('religion')=='Traditional' ? 'select':''}}>Traditional</option>
-                                        <option value="Others" {{ old('religion')=='Others' ? 'select':''}}>Others</option>
+                                        <option value="Islam" {{ (old('religion')=='Islam') ? 'selected' :''}}>Islam</option>
+                                        <option value="Christianity" {{ old('religion')=='Christianity' ? 'selected':''}}>Christianity</option>
+                                        <option value="Traditional" {{ old('religion')=='Traditional' ? 'selected':''}}>Traditional</option>
+                                        <option value="Others" {{ old('religion')=='Others' ? 'selected':''}}>Others</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4 mb-2">
                                     <label for="select-sex">Sex</label>
                                     <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
                                         <option value="">Choose One...</option>
-                                        <option value="Male" {{ (old('sex')=='Male') ? 'select' :''}}>Male</option>
-                                        <option value="Female" {{ old('sex')=='Female' ? 'select':''}}>Female</option>
+                                        <option value="Male" {{ (old('sex')=='Male') ? 'selected' :''}}>Male</option>
+                                        <option value="Female" {{ old('sex')=='Female' ? 'selected':''}}>Female</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4 mb-2">
-                                    <label for="select-mar">Marital Status</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-mar" name="marital_status" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
+                                    <label for="select-marriage">Marital Status</label>
+                                    <select class="form-control form-control-lg" type="text" id="select-marriage" name="marital_status" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
                                         <option value="">Choose One...</option>
                                         <option value="Never Married" {{ old('marital_status')=='Never Married' ? 'select':''}}>Never Married(single)</option>
-                                        <option value="Married" {{ old('marital_status')=='married' ? 'select':''}}>Married</option>
-                                        <option value="widowed" {{ old('marital_status')=='Widowed' ? 'select':''}}>Widowed</option>
-                                        <option value="divorced" {{ old('marital_status')=='divorced' ? 'select':''}}>Divorced</option>
+                                        <option value="Married" {{ old('marital_status')=='Married' ? 'selected':''}}>Married</option>
+                                        <option value="Widowed" {{ old('marital_status')=='Widowed' ? 'selected':''}}>Widowed</option>
+                                        <option value="divorced" {{ old('marital_status')=='divorced' ? 'selected':''}}>Divorced</option>
 
                                     </select>
                                 </div>
@@ -150,17 +148,19 @@
                             </div>
                             <div class="form-group form-row">
                                 <div class="col-sm-4 mb-2">
-                                    <label for="city">State</label>
-                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the State of Origin" class="form-control form-control-lg" type="text" id="state" name="state" value="{{old('state')}}" required>
+                                    <label for="address">Address</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the Address" class="form-control form-control-lg" id="address" name="address" value="{{old('address')}}" required>
                                 </div>
                                 <div class="col-sm-4 mb-2">
                                     <label for="city">City</label>
                                     <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the City" class="form-control form-control-lg" type="text" id="city" name="city" value="{{old('city')}}" required>
                                 </div>
                                 <div class="col-sm-4 mb-2">
-                                    <label for="address">Address</label>
-                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the Address" class="form-control form-control-lg" id="address" name="address" value="{{old('address')}}" required>
+                                    <label for="city">State</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the State of Origin" class="form-control form-control-lg" type="text" id="state" name="state" value="{{old('state')}}" required>
                                 </div>
+
+
                                 <div class="col-sm-4 mb-2">
                                     <label for="tribe">TRIBE</label>
                                     <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the Tribe" class="form-control form-control-lg" type="text" id="tribe" name="tribe" value="{{old('tribe')}}" required>
@@ -284,8 +284,29 @@ $('#startCamera').click(() => {
     $('#takeCamera').show(300);
     $('#startCamera').hide(300)
 })
+$('#payment-mode').hide();
+
+$('.payment-option').bind('click',function(){
+        let identity = $(this);
+
+    if(identity.is(':checked')){
+        if(identity.prop('id')== 'pos-2'|| identity.prop('id') == 'pos-3'){
+            console.log(identity.prop('id'));
+            $('#payment-mode').show();
+            $('#payment-status').show();
+        }else if(identity.prop('id')== 'pos-5'|| identity.prop('id') == 'pos-4'){
+            $('#payment-status').hide();
+            $('#payment-mode').hide();
+        }else{
+            $('#payment-mode').hide();
+            $('#payment-status').show();
+        }
 
 
+
+    }
+
+});
 $('#takeCamera').click(() => {
     $('#startCamera').show(300);
     $('#takeCamera').hide(300)

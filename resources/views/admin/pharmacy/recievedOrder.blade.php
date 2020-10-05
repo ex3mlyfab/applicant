@@ -7,20 +7,23 @@ Receive orders
 <div class="content">
     <div class="block pentacare-bg">
         <div class="block-header text-white" style="background: rgb(51, 70, 128, 0.8)">All Orders Recieved for {{ date('Y') }}
-            <div class="block-options">
-            <form action="{{ route('recieveorder.createOne')}}" class="form-inline" method="post">
-                @csrf
-                <select name="id" id="" class="form-control" required>
-                    <option>choose one...</option>
-                   @foreach ($approved as $item)
-                <option value="{{$item->id}}">{{$item->supplier->name.' '.$item->time_approved }}</option>
-                   @endforeach
-                </select>
-                <button type="submit" class="btn btn-primary"> Recieve Order</button>
+            @if ($approved->count())
+                <div class="block-options">
+                    <form action="{{ route('recieveorder.createOne')}}" class="form-inline" method="post">
+                        @csrf
+                        <select name="id" id="" class="form-control" required>
+                            <option>choose one...</option>
+                        @foreach ($approved as $item)
+                        <option value="{{$item->id}}">{{$item->supplier->name.' '.$item->time_approved }}</option>
+                        @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-primary"> Recieve Order</button>
 
-            </form>
+                    </form>
 
-            </div>
+                </div>
+            @endif
+
         </div>
         <div class="block-content block-content-full">
             <h3 class="text-center"> Recieved Orders</h3>
@@ -41,7 +44,7 @@ Receive orders
                                 {{$loop->iteration}}
                             </td>
                             <td>
-                                {{$item->supplier->name}}
+                            <a href="{{route('recieveorder.show', $item->id)}}"> {{$item->supplier->name}}</a>
                             </td>
                             <td>
                                 {{ $item->costs}}
@@ -53,7 +56,7 @@ Receive orders
                                 {{ $item->payment_status}}
                             </td>
                             <td>
-                                {{ $item->checked_by }}
+                                {{ $item->admin->name }}
                             </td>
                         </tr>
                         @endforeach

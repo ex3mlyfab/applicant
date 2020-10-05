@@ -42,17 +42,19 @@ class PresentingComplaintController extends Controller
 
         //collect all presenting complaints
         $validated = $request->except(['_token', 'clinical_appointment_id']);
-        
+
         $pc = PresentingComplaint::create($validated);
+        if($request->has('clinical_appointment_id')){
+            Consult::where('clinical_appointment_id',$request->clinical_appointment_id)->update([
+                'presenting_complaint_id' => $pc->id
+            ]);
 
-        Consult::where('clinical_appointment_id',$request->clinical_appointment_id)->update([
-            'presenting_complaint_id' => $pc->id
-        ]);
 
+            ClinicalAppointment::find($request->clinical_appointment_id)->update([
+                'status' => 'history_recorded'
+            ]);
+        }
 
-        ClinicalAppointment::find($request->clinical_appointment_id)->update([
-            'status' => 'history_recorded'
-        ]);
         $notification = array(
             'message' => 'Presenting Complaints recorded successfully!',
             'alert-type' => 'success'

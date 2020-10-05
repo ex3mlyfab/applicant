@@ -37,12 +37,12 @@
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$item->generatedBy->fullname}}</td>
                                     <td>{{$item->supplier->name}}</td>
-                                    <td>₦ {{$item->amount}}</td>
+                                    <td>₦ {{$item->total}}</td>
                                 <td> {{ $item->status }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{route('purchaseOrder.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
-                                                <i class="fa fa-fw fa-pencil-alt"></i>
+                                        <a href="{{($item->status == 'completed'|| $item->status == 'approved' ) ? route('purchaseOrder.show', $item->id): route('purchaseOrder.edit', $item->id) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="{{($item->status == 'completed' || $item->status == 'approved') ? 'preview': 'grant approval'  }}">
+                                                <i class="fa fa-fw {{($item->status == 'completed' || $item->status == 'approved') ? 'fa-clipboard': 'fa-pencil-alt'  }}"></i>
                                             </a>
                                             <form action="{{route('purchaseOrder.destroy', $item->id)}}" method="POST" >
                                                 @csrf
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="block-content font-size-sm">
-                        <form class="form form-element" onsubmit="return false;">
+                <form class="form form-element" action="{{ route('purchaseOrder.store')}}" method="POST">
                             @csrf
                             <div class="form-group form-row">
                                 <div class="form-group col-md-4">
@@ -93,7 +93,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4 ml-auto">
                                     <label class="ml-auto">Total</label>
-                                    <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="totalPurchase" readonly placeholder="0" class="form-control form-control-lg">
+                                    <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="totalPurchase" name="totalPurchase" readonly placeholder="0" class="form-control form-control-lg">
                                 </div>
                             </div>
                             <h2 class="text-center">Fill Purchase Order</h2>
@@ -148,7 +148,7 @@
 
 
 
-                        <button  id="drugSubmit"  class="btn btn-primary ml-auto" >Submit
+                        <button  id="drugSubmit" type="submit"  class="btn btn-primary ml-auto" >Submit
 
                         </button>
 
@@ -195,15 +195,16 @@
             let price = $('#price').val();
             let quantity = $('#qty').val();
 
-            if(Number(price) > 0){
+            if(Number(quantity) > 0){
                 setTimeout(function(){
                      $('#lineCost').val((parseFloat(price)*parseFloat(quantity)).toFixed(2));
                 $('#addDrug').attr('disabled', false);
+
                 }, 200);
 
             }
         });
-
+        $('#drugSubmit').attr('disabled', true);
         $('#drug-subcategory').on("change", function(){
             var classID = $(this).val();
             var link = "{{ url('admin/selectdrug/') }}";
@@ -238,73 +239,6 @@
 
 
             });
-    $("#drugSubmit").click(function(e){
-            var drugname = [];
-            var quantity = [];
-            var price = [];
-
-
-            $(".drug_model").each(function(){
-                drugname.push($(this).val());
-
-            });
-
-            $(".dosage").each(function(){
-                dosage.push($(this).val());
-            });
-            $(".instruction").each(function(){
-                instruction.push($(this).val());
-            });
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                    }
-                    });
-
-                    e.preventDefault();
-                    var type = "POST";
-                    var ajaxurl = 'pharmreq/create';
-                        $.ajax({
-                            type: type,
-                            url: ajaxurl,
-                            data: {
-                                clinical_appointment: appointment,
-                                drug_model_id:drugname,
-                                dosage:dosage,
-                                instruction:instruction
-                                    },
-                            dataType: 'json',
-                            success: function (data){
-                                let link =`
-                                <li>
-                                    <a class="text-dark media py-2" href="javascript:void(0)">
-                                        <div class="mr-3 ml-2">
-
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="font-w600">${data.type}</div>
-                                            <div class="text-success">${data.status}</div>
-                                            <small class="text-muted">${ data.created_at}</small>
-                                        </div>
-                                    </a>
-                                </li>`;
-                                $("#recenttest").append(link);
-                                $("#pharmacy-block-normal").modal('hide');
-
-
-                            },
-                            error: function (data) {
-                                console.log('Error:', data);
-                            }
-                        });
-
-                        });
-
-
-
-
-
 
     });
      function rowAdd(){
@@ -317,7 +251,7 @@
         let lineCost = $('#lineCost').val();
         let currentTotal = 0;
         let lineCosts = [];
-
+        $('#drugSubmit').attr('disabled', false);
 
         setTimeout(function(){
             let tablerow = `
@@ -346,22 +280,16 @@
             </td>
 
         </tr>`;
-     function deleteRow()
-        {
-            $(document).on('click', '.remove', function()
-            {
-                $(this).parent('tr').remove();
-            });
-        }
+
 
           $('#drugs tbody').append(tablerow);
-            $(".costline").each(function(){
-             lineCosts.push($(this).val());
+            $(".costLine").each(function(){
+                lineCosts.push(parseFloat($(this).val()));
 
          });
 
             let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : lineCost ;
-         $('#totalPurchase').val(purchase);
+         $('#totalPurchase').val(parseFloat(purchase).toFixed(2));
         }, 200);
 
         $('#drug-subcategory').val('');
@@ -375,6 +303,31 @@
 
 
     }
+    function deleteRow()
+        {
+            $(document).on('click', '.remove', function()
+            {
+                $(this).parent('tr').remove();
+                setTimeout(function(){
+                let lineCosts = [];
+                $(".costLine").each(function(){
+                lineCosts.push(parseFloat($(this).val()));
+
+            });
+
+            let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : 0 ;
+                $('#totalPurchase').val(parseFloat(purchase).toFixed(2));
+
+                 if(purchase > 0){
+                $('#drugSubmit').attr('disabled', false);
+            }else{
+                 $('#drugSubmit').attr('disabled', true);
+            }
+            }, 300);
+
+            });
+
+        }
 </script>
 
 @endsection

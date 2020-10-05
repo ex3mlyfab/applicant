@@ -4,7 +4,13 @@ namespace App\Http\Controllers\Admin\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Allergy;
+use App\Models\BankTransfer;
+use App\Models\Charge;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use App\Models\MdAccount;
 use App\Models\Payment;
+use App\Models\PaymentMode;
 use App\Models\RegistrationType;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,7 +28,8 @@ class PatientController extends Controller
     public function index()
     {
         $patients = User::all();
-        return view('admin.patient.index', compact('patients'));
+        $charge = Charge::where('name', 'Consultation')->first();
+        return view('admin.patient.index', compact('patients','charge'));
     }
 
     /**
@@ -33,8 +40,8 @@ class PatientController extends Controller
     public function create()
     {
         $individual = RegistrationType::where('name', 'Individual')->orWhere('name', 'Student')->orWhere('name', 'Ante-Natal')->get();
-
-        return view('admin.patient.create', compact('individual'));
+        $paymentmode = PaymentMode::all();
+        return view('admin.patient.create', compact('individual', 'paymentmode'));
     }
 
     /**
@@ -46,6 +53,7 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request->except('_token'));
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
             'other_names' => 'required|string|max:255',
@@ -126,14 +134,82 @@ class PatientController extends Controller
         $validated['password'] = Hash::make('pentacare');
 
         $new = User::create($validated);
-        Payment::create([
-            'payment_mode_id' => 1,
-            'user_id' => $new->id,
-            'admin_id' => Auth::user()->id,
-            'service' => 'Payments for new ' . $new->source . ' registration',
-            'amount' => $new->registrationType->charge->amount,
-            'invoice_no' => generate_invoice_no(),
-        ]);
+        switch ($request->payment_mode) {
+            case 2:
+                BankTransfer::create([
+                    'bank_id' => $request->transfer_id,
+                    'user_id' => $new->id,
+                    'amount_transfered' => $new->registrationType->charge->amount,
+                    'status' => 'POS'
+                ]);
+                Payment::create([
+                    'payment_mode_id' => $request->payment_mode,
+                    'user_id' => $new->id,
+                    'admin_id' => Auth::user()->id,
+                    'service' => 'Payments for new ' . $new->source . ' registration',
+                    'amount' => $new->registrationType->charge->amount,
+                    'invoice_no' => generate_invoice_no(),
+                    ]);
+                break;
+            case 1:
+                Payment::create([
+                'payment_mode_id' => $request->payment_mode,
+                'user_id' => $new->id,
+                'admin_id' => Auth::user()->id,
+                'service' => 'Payments for new ' . $new->source . ' registration',
+                'amount' => $new->registrationType->charge->amount,
+                'invoice_no' => generate_invoice_no(),
+                ]);
+                break;
+            case 3:
+                BankTransfer::create([
+                    'bank_id' => $request->transfer_id,
+                    'user_id' => $new->id,
+                    'amount_transfered' => $new->registrationType->charge->amount,
+                    'status' => 'Transfer'
+                ]);
+                Payment::create([
+                    'payment_mode_id' => $request->payment_mode,
+                    'user_id' => $new->id,
+                    'admin_id' => Auth::user()->id,
+                    'service' => 'Payments for new ' . $new->source . ' registration',
+                    'amount' => $new->registrationType->charge->amount,
+                    'invoice_no' => generate_invoice_no(),
+                    ]);
+                break;
+            case 4 :
+                $invoice= Invoice::create([
+                    'user_id' => $new->id,
+                    'invoice_no' => generate_invoice_no(),
+                    'amount' => $new->registrationType->charge->amount,
+                    'admin_id' => auth()->user()->id,
+                    'p_status' => 'MD account',
+                ]);
+                $newta = array(
+                    'invoice_id' => $invoice->id,
+                    'item_description' => 'New Individual Patient Account Registration',
+                    'amount' => $new->registrationType->charge->amount ,
+                    'status' =>'MD Account',
+                );
+                InvoiceItem::create($newta);
+                $mdaccount = MdAccount::create([
+                    'user_id' =>$new->id
+                ]);
+                $mdaccount->invoice()->save($invoice);
+                break;
+            case 5 :
+                $new->retainership()->create([
+                    'credit' => $new->registrationType->charge->amount,
+                    'comment' => 'New registration charge',
+                    'balance' => number_format($new->retainership_balance - $new->registrationType->charge->amount,2, '.', ''),
+                ]);
+                break;
+            default:
+                # code...
+                break;
+        }
+
+
 
         $notification = array(
             'message' => 'Patient created successfully!',
@@ -201,6 +277,8 @@ class PatientController extends Controller
             'payment_method' => 'nullable',
             'dob' => 'sometimes',
             'payment_mode' => 'sometimes',
+            'insurance_number' => 'unique:users',
+            'enroll_user_id' => 'required'
 
         ]);
 
@@ -244,7 +322,7 @@ class PatientController extends Controller
     }
     public function patientAjax($id)
     {
-        $user = User::select('avatar', 'sex', 'folder_number', 'phone')->where('id', $id)->get();
+        $user = User::where('id', $id)->get();
 
         return json_encode($user);
     }

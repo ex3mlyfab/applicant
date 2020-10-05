@@ -1,6 +1,6 @@
 /*!
  * OneUI - v4.0.0
- * @author pixelcave - https://pixelcave.com
+ * @author pixelcave -
  * Copyright (c) 2018
  */
 *,
@@ -16,6 +16,8 @@ html {
     -ms-text-size-adjust: 100%;
     -ms-overflow-style: scrollbar;
     -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 @-ms-viewport {

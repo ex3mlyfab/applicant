@@ -15,7 +15,6 @@ class CreateFamiliesTable extends Migration
     {
         Schema::create('families', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('enrolment count');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('registration_type_id');
             $table->String('folder_number', 50)->nullable();

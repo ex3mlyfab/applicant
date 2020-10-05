@@ -37,12 +37,15 @@ class FollowUpController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->except('_token');
+        $validated = $request->except('_token'.'clinical_appointment_id');
         $pc = FollowUp::create($validated);
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
+        if($request->has('clinical_appointment_id')){
+            $consult = Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
         $consult->update([
             'follow_up_id' => $pc->id
         ]);
+        }
+
         $notification = array(
             'message' => 'Follow up observation recorded successfully!',
             'alert-type' => 'success'

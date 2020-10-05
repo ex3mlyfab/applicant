@@ -602,8 +602,8 @@
     </div>
 </div>
 <!-- END microbiology Modal -->
- <!-- Pharmacy Modal -->
- <div class="modal" id="pharmacy-block-normal" tabindex="-1" role="dialog" aria-labelledby="pharmacy-block-normal" aria-hidden="true" >
+<!-- Pharmacy Modal -->
+<div class="modal" id="pharmacy-block-normal" tabindex="-1" role="dialog" aria-labelledby="pharmacy-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg modal-dialog-top" role="document" >
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
@@ -621,65 +621,87 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
-                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
+                                    <p>Age:&nbsp; {{$patient->age}}</p>
 
                                 </div>
                             </div>
 
                         </div>
                     </div>
+                    <h3 class="text-center text-uppercase">Prescription sheet</h3>
                     <div class="table-responsive">
-                        <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element" onsubmit="return false;">
+                        <form action="{{route('pharmreq.store')}}" method="POST" >
                             @csrf
-                            <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
+
+                            <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
-                                <th>Class</th>
-                                <th>Drug Name/ Form</th>
-                                <th>Dosage</th>
-                                <th>Instruction</th>
+                                    <th>Drug Name</th>
+                                    <th>Drug Form/ Strength</th>
+                                    <th>Dosage</th>
+                                    <th>Duration</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Line Cost</th>
+                                    <th style="text-align: center;background: #eee">
 
-                                <th style="text-align: center;background: #eee">
-
-                                </th>
+                                    </th>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select  class="js-select2 form-control drugClass" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
-                                            <option></option>
-                                            {{ create_option('drug_classes','id', 'name')}}
+                                        <select  class="js-select2 form-control" style="width: 100%; border: 1px solid rgb(51, 70, 128, 0.8)" data-placeholder="Choose one.." id="drug-subcategory">
+                                            <option class="p-2"></option>
+                                            {{ create_option('drug_models','id', 'name')}}
                                         </select>
                                     </td>
                                     <td>
-
-                                        <input type="text" id="dosage" class="form-control form-control-lg"></td>
-                                    <td>
-                                        <input type="text" id="instruction" class="form-control form-control-lg">
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="forms" class="form-control form-control-lg p-2" readonly>
                                     </td>
 
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="dosage" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="duration1" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="qty" step="0.1" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="price" class="form-control form-control-lg" readonly>
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="lineCost" class="form-control form-control-lg" readonly>
+                                    </td>
 
                                     <td  style="text-align: center">
-                                            <a  class="btn btn-success" onclick="rowAdd()">
-                                                <i class="fa fa-plus"> Add Drug</i>
-                                            </a>
+                                            <button type="button" class="btn btn-success p-3" id="addDrug" onclick="rowAdd()">
+                                                <i class="fa fa-plus-circle"> Add Drug</i>
+                                            </button>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group ml-5">
+                                <label for="totalBalance">Total Cost</label>
+                                <input type="text" name="totalBalance" class="form-control form-control-lg" id="totalBalance" readonly>
+                            </div>
                         </div>
 
 
 
 
 
-                    <button  id="drugSubmit" data-inpatient->encounter="{{$inpatient->encounter->id}}" class="btn btn-primary pull-right">Submit</button>
+                    <button type="submit" id="drugSubmit" class="btn btn-primary pull-right">Submit</button>
                         </form>
 
                     </div>
@@ -1263,7 +1285,7 @@
                     <form action="{{route('admitpatient.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
                         <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
-                        
+
                         <div class="form-group">
                             <label>Clinical Information</label>
                             <input type="text" name="clinical_information"  class="form-control form-control-lg" required>

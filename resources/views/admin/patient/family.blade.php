@@ -62,23 +62,21 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6 mt-2">
                                     <label class="d-block" style="font-size: 20px">Payment Mode</label><br>
-                                        <div class="form-check" style="margin-top: -20px">
-                                            <input type="radio" style="height:25px; width:25px;" name="payment_mode" id="cash" class="form-check-input" value="1" required>
-                                            <label style="font-size: 18px" for="cash" class="form-check-label font-weight-normal ml-3 mt-1">Cash</label>
-                                        </div>
-                                        <div class="form-check mt-1">
-                                                <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="pos" class="form-check-input" value="2" required>
-                                                <label style="font-size: 18px" for="pos" class="form-check-label font-weight-normal ml-3 mt-1">POS</label>
-                                        </div>
-                                        <div class="form-check mt-1">
-                                            <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="transfer" class="form-check-input" value="3" required>
-                                            <label style="font-size: 18px" for="transfer" class="form-check-label font-weight-normal ml-3 mt-1">transfer</label>
-                                        </div>
 
+                                    @foreach ($paymentmode as $item)
+                                    <div class="form-check mt-1">
+                                        <input type="radio" name="payment_mode" style="height:25px; width:25px;" id="pos-{{$loop->iteration}}" class="form-check-input payment-option" value="{{$item->id}}" required>
+                                        <label style="font-size: 18px" for="pos-{{$loop->iteration}}" class="form-check-label font-weight-normal ml-3 mt-1">{{$item->name}}</label>
+                                    </div>
+                                    @endforeach
+
+                                </div>
+                                <div class="form-group col-md-6 bg-amethyst-lighter block block-rounded" id="payment-mode">
+                                    @include('admin.paymentmode')
                                 </div>
                             </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id="payment-status">
                             <input type="checkbox" name="paid" id="paid" class="form-check-inline" required>
                             <label for="paid" class="form-check-label">Paid</label>
                         </div>
@@ -215,6 +213,10 @@
                                 <input type="hidden" name="source" value="front-desk">
 
                                 <div class="col-md-12 mb-2">
+                                    <div class="custom-control custom-checkbox custom-control-lg mt-2 mb-2">
+                                        <input type="checkbox" class="custom-control-input" id="custom-lg1" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa">
+                                        <label class="custom-control-label" for="custom-lg1">check if same as above</label>
+                                    </div>
                                     <div class="form-group">
                                         <label for="shortDescription3" class="text-bold-600 font-medium-2">Next of Kin Address</label>
                                         <textarea style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" name="nok_address" id="shortDescription3" rows="4" class="form-control"></textarea>
@@ -245,11 +247,11 @@
                     </div>
                     <div class="block-content block-content-sm block-content-full bg-body-light rounded-bottom">
                         <div class="row">
-                        <div class="col-6">
-        <button type="button" class="btn btn-secondary d-flex" data-wizard="prev">
-            <i style="font-size: 23px;" class="bx bx-chevrons-left bx-fade-right mr-2"></i> <span>Previous</span>
-        </button>
-    </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-secondary d-flex" data-wizard="prev">
+                                    <i style="font-size: 23px;" class="bx bx-chevrons-left bx-fade-right mr-2"></i> <span>Previous</span>
+                                </button>
+                            </div>
                             <div class="col-6 text-right">
                                 <button type="button" class="btn text-white d-flex ml-auto" style="background: rgb(51, 70, 128)" data-wizard="next">
                                     Next <i style="font-size: 23px;" class="bx bx-chevrons-right bx-fade-left ml-2"></i>
@@ -291,7 +293,36 @@ $('#startCamera').click(() => {
     $('#takeCamera').show(300);
     $('#startCamera').hide(300)
 })
+$('#payment-mode').hide();
 
+$('.payment-option').bind('click',function(){
+        let identity = $(this);
+
+    if(identity.is(':checked')){
+        if(identity.prop('id')== 'pos-2'|| identity.prop('id') == 'pos-3'){
+
+            $('#payment-mode').show();
+            $('#payment-status').show();
+        }else if(identity.prop('id')== 'pos-5'|| identity.prop('id') == 'pos-4'){
+            $('#payment-status').hide();
+            $('#payment-mode').hide();
+        }else
+        {
+            $('#payment-mode').hide();
+            $('#payment-status').show();
+        }
+
+
+    }
+
+});
+$('#custom-lg1').click(function(){
+if($(this).is(':checked')){
+$('#shortDescription3').val($('#address').val() + '\n' + $('#city').val()+ '\n' + $('#state').val());
+}else{
+$('#shortDescription3').val('');
+}
+});
 
 $('#takeCamera').click(() => {
     $('#startCamera').show(300);

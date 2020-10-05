@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\EnrollUser;
 use App\Models\Family;
 use App\Models\Invoice;
+use App\Models\MdAccount;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -47,7 +49,7 @@ if (!function_exists('assign_Fno')) {
     function assign_Fno($account_type)
     {
         $users = new User();
-        $count = $users->whereYear('created_at', '=', date('Y'))->whereIn('source', ['student', 'antenatal', 'individual'])->count();
+        $count = $users->whereYear('created_at', '=', date('Y'))->whereIn('source', ['student', 'antenatal', 'individual', 'nhis'])->count();
         $count += 1;
         $formatted_value = sprintf("%04d", $count);
         switch ($account_type) {
@@ -57,6 +59,8 @@ if (!function_exists('assign_Fno')) {
             case 'antenatal':
                 $code = "/ANC/";
                 break;
+            case 'nhis':
+                $code = "/NHIS/";
             default:
                 $code = "/I/";
                 break;
@@ -198,7 +202,45 @@ if (!function_exists('has_permission')) {
         return false;
     }
 }
+if(!function_exists('split_charges')){
+    function split_charges($package)
+    {
+        $percentCoverage = EnrollUser::where('id', $package)->first();
+        $coverage =$percentCoverage->insurancePackage->percentage;
+        if($coverage < 100){
+            $paysplit =[
+                'patient_pays' => 100 - $coverage,
+                'coverage' => $coverage
+            ];
+        }else{
+            $paysplit = [
+                'coverage' => $coverage
+            ];
+        }
+        return $paysplit;
+    }
+}
 
+if(!function_exists('split_md_charges')){
+    function split_md_charges($package, $service)
+    {
+        $percentCoverage = MdAccount::where('user_id', $package)->first();
+        $coverage = $percentCoverage->mdAccountCovers->where('name', $service)->first();
+        $newcoverage =$coverage->percentage;
+        if( $newcoverage< 100)
+        {
+            $paysplit =[
+            'patient_pays' => 100 - $newcoverage,
+            'coverage' => $newcoverage
+        ];
+        }else{
+            $paysplit = [
+            'coverage' => $newcoverage
+        ];
+    }
+    return $paysplit;
+    }
+}
 
 if (!function_exists('get_fee_select')) {
 

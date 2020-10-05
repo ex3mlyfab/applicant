@@ -41,6 +41,6 @@ class Admin  extends Authenticatable
     {
         return $this->hasMany(Payment::class);
     }
-
+    
     protected $hidden = ['password'];
 }

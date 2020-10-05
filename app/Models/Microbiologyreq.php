@@ -29,4 +29,8 @@ class Microbiologyreq extends Model
     {
         return $this->hasOne(MicrobiologyReport::class);
     }
+    public function encounter(): BelongsTo
+    {
+        return $this->belongsTo(Encounter::class);
+    }
 }

@@ -32,12 +32,12 @@
                         @forelse ($prescriptions as $item)
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$item->clinicalAppointment->user->full_name}}</td>
-                            <td>{{$item->clinicalAppointment->user->folder_number}}</td>
-                            <td><img src="{{ $item->clinicalAppointment->user->avatar ? asset('backend/images/avatar/'. $item->clinicalAppointment->user->avatar) : asset('frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar48" ></td>
-                            <td><span class="badge badge-warning">{{$item->clinicalAppointment->user->sex}}</span></td>
+                            <td>{{$item->encounter->user->full_name}}</td>
+                            <td>{{$item->encounter->user->folder_number}}</td>
+                            <td><img src="{{ $item->encounter->user->avatar ? asset('backend/images/avatar/'. $item->encounter->user->avatar) : asset('frontend/img/no_image.png')}}" alt="" class="img-avatar img-avatar48" ></td>
+                            <td><span class="badge badge-warning">{{$item->encounter->user->sex}}</span></td>
 
-                            <td>{{$item->seen_by->full_name ?? ''}}</td>
+                            <td>{{$item->admin->name}}</td>
                             <td><span class="badge badge-success">{{$item->status}}</span></td>
                             <td>
                             <span class="btn-group">

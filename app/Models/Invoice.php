@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Invoice extends Model
 {
@@ -38,5 +39,9 @@ class Invoice extends Model
     public function pharmbills(): HasMany
     {
         return $this->hasMany(PharmacyBill::class);
+    }
+    public function invoiceable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

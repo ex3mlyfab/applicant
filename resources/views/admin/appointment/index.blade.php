@@ -126,44 +126,44 @@
 
             $('tbody tr:nth-child(odd)').addClass("bg-info-light");
             $('#patient_id').on('change', function(){
-            var classID = $(this).val();
-            var link = "{{ url('admin/patient/classajax/') }}";
-            var imgPath = "{{ asset('backend')}}/images/avatar";
+                    var classID = $(this).val();
+                    var link = "{{ url('admin/patient/classajax/') }}";
+                    var imgPath = "{{ asset('backend')}}/images/avatar";
 
-            $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+                    $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
 
 
-        $.ajax({
-            type:"POST",
-            url:link+"/"+classID,
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                avatar : "value",
-                sex: "value",
-                folder_number: "value",
-                phone:"value"
-                }),
-             error : function(data){
-                 console.log("error:" + data)
-                },
+                $.ajax({
+                    type:"POST",
+                    url:link+"/"+classID,
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        avatar : "value",
+                        sex: "value",
+                        folder_number: "value",
+                        phone:"value"
+                        }),
+                    error : function(data){
+                        console.log("error:" + data)
+                        },
 
-             success : function(response) {
+                    success : function(response) {
 
-                 $('#space').html('');
-                response.forEach(function(data) {
-                    $('#space').append('<img src="'+ imgPath + '/' + data.avatar+ '" class="img-fluid img-avatar96">')
-                    $('#sex').val(data.sex);
-                    $('#folder_number').val(data.folder_number);
-                    $('#phone').val(data.phone);
+                        $('#space').html('');
+                        response.forEach(function(data) {
+                            $('#space').append('<img src="'+ imgPath + '/' + data.avatar+ '" class="img-fluid img-avatar96">')
+                            $('#sex').val(data.sex);
+                            $('#folder_number').val(data.folder_number);
+                            $('#phone').val(data.phone);
+                        });
+
+                    }
                 });
-
-             }
-        });
 
             });
 

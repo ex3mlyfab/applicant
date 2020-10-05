@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Admin\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankTransfer;
 use App\Models\Family;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use App\Models\MdAccount;
 use App\Models\Payment;
+use App\Models\PaymentMode;
 use App\Models\RegistrationType;
 use App\Models\User;
 use Carbon\Carbon;
@@ -34,7 +39,8 @@ class FamilyController extends Controller
     public function create()
     {
         $families = RegistrationType::where('name', 'Like', 'family%')->get();
-        return view('admin.patient.family', compact('families'));
+        $paymentmode = PaymentMode::all();
+        return view('admin.patient.family', compact('families', 'paymentmode'));
         //
     }
 
@@ -52,6 +58,7 @@ class FamilyController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request->except('_token'));
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
             'other_names' => 'required|string|max:255',
@@ -130,6 +137,81 @@ class FamilyController extends Controller
                 'folder_number' => $id->folder_number . num_to_letters(1),
                 'belongs_to' => $id->id,
             ]);
+            switch ($request->payment_mode) {
+                case 2:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $anchor->id,
+                        'amount_transfered' => $id->registrationType->charge->amount,
+                        'status' => 'POS'
+                    ]);
+                    Payment::create([
+                        'payment_mode_id' => $request->payment_mode,
+                        'user_id' => $anchor->id,
+                        'admin_id' => Auth::user()->id,
+                        'service' =>'Payments for new ' . $id->registrationType->name . ' registration',
+                        'amount' => $id->registrationType->charge->amount,
+                        'invoice_no' => generate_invoice_no(),
+                        ]);
+                    break;
+                case 1:
+                    Payment::create([
+                    'payment_mode_id' => $request->payment_mode,
+                    'user_id' => $anchor->id,
+                    'admin_id' => Auth::user()->id,
+                    'service' => 'Payments for new ' . $id->registrationType->name . ' registration',
+                    'amount' => $id->registrationType->charge->amount,
+                    'invoice_no' => generate_invoice_no(),
+                    ]);
+                    break;
+                case 3:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $anchor->id,
+                        'amount_transfered' => $id->registrationType->charge->amount,
+                        'status' => 'Transfer'
+                    ]);
+                    Payment::create([
+                        'payment_mode_id' => $request->payment_mode,
+                        'user_id' => $anchor->id,
+                        'admin_id' => Auth::user()->id,
+                        'service' => 'Payments for new ' . $id->registrationType->name . ' registration',
+                        'amount' => $id->registrationType->charge->amount,
+                        'invoice_no' => generate_invoice_no(),
+                        ]);
+                    break;
+                case 4 :
+                    $invoice= Invoice::create([
+                        'user_id' => $anchor->id,
+                        'invoice_no' => generate_invoice_no(),
+                        'amount' => $id->registrationType->charge->amount,
+                        'admin_id' => auth()->user()->id,
+                        'p_status' => 'MD account',
+                    ]);
+                    $newta = array(
+                        'invoice_id' => $invoice->id,
+                        'item_description' => 'New Individual Patient Account Registration',
+                        'amount' => $id->registrationType->charge->amount ,
+                        'status' =>'MD Account',
+                    );
+                    InvoiceItem::create($newta);
+                    $mdaccount = MdAccount::create([
+                        'user_id' =>$anchor->id
+                    ]);
+                    $mdaccount->invoice()->save($invoice);
+                    break;
+                case 5 :
+                    $anchor->retainership()->create([
+                        'credit' => $id->registrationType->charge->amount,
+                        'comment' => 'New registration charge',
+                        'balance' => number_format($anchor->retainership_balance - $id->registrationType->charge->amount,2, '.', ''),
+                    ]);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+
             Payment::create([
                 'payment_mode_id' => 1,
                 'user_id' => $anchor->id,

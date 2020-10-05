@@ -86,7 +86,7 @@
                                 @foreach ($insurances as $item)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$item->name}}</td>
+                                    <td><a href="{{route('insurance.show', $item->id)}}"> {{$item->name}} </a></td>
                                     <td>{{$item->insuranceCategory->name}}</td>
                                     <td>{{$item->contact_telephone}}</td>
                                     <td>

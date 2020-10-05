@@ -102,7 +102,7 @@
                                         </td>
 
                                         <td>
-                                            {{$item->brought_forward}}
+                                            {{$item->packing_quantity}}
                                         </td>
                                         <td>
                                             {{$item->balance}}

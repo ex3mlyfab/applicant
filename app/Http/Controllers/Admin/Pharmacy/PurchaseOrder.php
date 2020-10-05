@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Pharmacy;
 use App\Http\Controllers\Controller;
 use App\Models\PurchaseOrder as ModelsPurchaseOrder;
 use App\Models\PurchaseOrderDetail;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PurchaseOrder extends Controller
@@ -40,26 +39,32 @@ class PurchaseOrder extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->except('_token'));
         $new = ModelsPurchaseOrder::create([
-            'generated_by' => $request->generated_by,
+            'generated_by' => auth()->user()->id,
             'supplier_id'  => $request->supplier_id,
-            'total' => $request->total,
+            'total' => $request->totalPurchase,
+            'status' => 'awaiting approval',
         ]);
 
-        foreach ($request->drug_model as $key => $medicine_id) {
+        foreach ($request->drug_model_id as $key => $medicine_id) {
             $data = array(
                 'purchase_order_id' =>$new->id,
-                'drug_model_id' => $request->drug_model[$key],
+                'drug_model_id' => $request->drug_model_id[$key],
                 'price' => $request->price[$key],
               'quantity_needed'  => $request->quantity[$key],
 
 
             );
-              PurchaseOrderDetail::insert($data);
+
+            PurchaseOrderDetail::insert($data);
 
         }
-        return json_encode(['message'=>'created']);
-
+       $notification = [
+           'message' => 'Purchase Order generated succesfully',
+           'type' => 'success'
+       ];
+       return back()->with($notification);
     }
 
     /**
@@ -70,7 +75,7 @@ class PurchaseOrder extends Controller
      */
     public function show(ModelsPurchaseOrder $purchaseOrder)
     {
-        return view('admin.pharmacy.purchaseorderdetails', compact('purchaseOrder'));
+        return view('admin.pharmacy.purchasepreview', compact('purchaseOrder'));
     }
 
     /**
@@ -79,9 +84,9 @@ class PurchaseOrder extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ModelsPurchaseOrder $purchaseOrder)
     {
-        
+        return view('admin.pharmacy.purchaseorderdetails', compact('purchaseOrder'));
     }
 
     /**
@@ -114,7 +119,8 @@ class PurchaseOrder extends Controller
         }
        $purchaseOrder->update([
            'status' => 'approved',
-           'time_approved' => now()
+           'time_approved' => now(),
+           'approved_by' => auth()->user()->id,
        ]);
        $notification = [
            'message' => 'Approval granted succesfully',

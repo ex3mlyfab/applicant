@@ -17,7 +17,11 @@ class RecieveOrder extends Model
     }
    public function recieveOrderDetails(): HasMany
    {
-       return $this->hasMany(RecieveOrderDetail::class);
+       return $this->hasMany(RecieveOrderDetail::class, 'receive_order_id');
+   }
+   public function admin(): BelongsTo
+   {
+       return $this->belongsTo(Admin::class, 'checked_by');
    }
 
    public function supplier(): BelongsTo

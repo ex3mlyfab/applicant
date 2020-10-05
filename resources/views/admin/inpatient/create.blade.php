@@ -97,7 +97,23 @@
                                 </div>
                                 @if (($inpatient->user->consults->count() > 1))
                                     <div class="tab-pane active" id="btabs-alt-static-followup" role="tabpanel">
+                                        <div class="block text-center" style="border-radius: 20%;">
+                                            <div class="block-header" style="background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,34,121,0.6898109585631127) 26%, rgba(0,212,255,0.6337885495995272) 100%);">
+                                                <h3 class="text-center text-white text-uppercase">Working Diagnosis</h3>
+                                            </div>
+                                            <div class="block-content">
+                                                @foreach ($inpatient->user->encounters as $item)
+                                                @if ($item->physicalExams->count())
+                                                    {{
+                                                       $item->physicalExams->last()->initial_diagnosis
+                                                    }}
+                                                @endif
 
+
+                                                @endforeach
+
+                                            </div>
+                                        </div>
 
                                         @include('admin.inpatient.includes.followupHistory')
 
@@ -105,7 +121,7 @@
                                     @include('admin.inpatient.includes.followup')
                                     @include('admin.inpatient.includes.treatment')
 
-                                </div>
+                                    </div>
                                 @endif
 
                                 <div class="tab-pane" id="btabs-alt-static-action" role="tabpanel">
@@ -398,69 +414,10 @@
 
                     $('#bmi').val(bmi.toFixed(2));
                 });
-
-                $("#drugSubmit").click(function(e){
-                    var drugname = [];
-                    var dosage = [];
-                    var instruction = [];
-                    var appointment = $(this).data('appointment');
-
-                    $(".drug_model").each(function(){
-                        drugname.push($(this).val());
-
-                    });
-
-                    $(".dosage").each(function(){
-                        dosage.push($(this).val());
-                    });
-                    $(".instruction").each(function(){
-                        instruction.push($(this).val());
-                    });
-
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                            }
-                            });
-
-                            e.preventDefault();
-                            var type = "POST";
-                            var ajaxurl = 'pharmreq/create';
-                                $.ajax({
-                                    type: type,
-                                    url: ajaxurl,
-                                    data: {
-                                        clinical_appointment: appointment,
-                                        drug_model_id:drugname,
-                                        dosage:dosage,
-                                        instruction:instruction
-                                            },
-                                    dataType: 'json',
-                                    success: function (data){
-                                        let link =`
-                                        <li>
-                                            <a class="text-dark media py-2" href="javascript:void(0)">
-                                                <div class="mr-3 ml-2">
-
-                                                </div>
-                                                <div class="media-body">
-                                                    <div class="font-w600">${data.type}</div>
-                                                    <div class="text-success">${data.status}</div>
-                                                    <small class="text-muted">${ data.created_at}</small>
-                                                </div>
-                                            </a>
-                                        </li>`;
-                                        $("#recenttest").append(link);
-                                        $("#pharmacy-block-normal").modal('hide');
+                $('#addDrug').attr('disabled', true);
+                $('#drugSubmit').attr('disabled', true);
 
 
-                                    },
-                                    error: function (data) {
-                                        console.log('Error:', data);
-                                    }
-                                });
-
-                                });
     var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
 
     new Chart($(".js-chartjs-lines"), {
@@ -509,67 +466,132 @@
         options: {
             title: {
             display: true,
-            text: 'Patients Vital Signs Chart'
+            text: '{{$patient->full_name}} Vital Signs Chart'
             }
         }
     });
 
 
+    $('#qty').blur(function(){
+            let price = $('#price').val();
+            let quantity = $('#qty').val();
 
+            if(Number(quantity) > 0){
+                setTimeout(function(){
+                     $('#lineCost').val((parseFloat(price)*parseFloat(quantity)).toFixed(2));
+                $('#addDrug').attr('disabled', false);
+                }, 200);
 
-
-
-
+            }
+        });
     });
 
-
     function rowAdd(){
-        var drug = $('#drug').val();
 
-                    var dosage = $('#dosage').val();
-                    var instruction = $('#instruction').val();
-                    var drugcategory, drug_subcategory, drug_place;
-                    drug_place = $('#drug').text();
-                    drugcategory = $('#category').text();
-                    drug_subcategory = $('#drug_subcategory').text();
+            let drugName =  $("#drug-subcategory option:selected").text();
+            let drug = $('#drug-subcategory').val();
+            let drugForms = $('#forms').val();
+            let price =$('#price').val();
+            let qty= $('#qty').val();
+            let dosage = $('#dosage').val();
+            let duration = $('#duration1').val();
+            let lineCost = $('#lineCost').val();
+            let currentTotal = 0;
+            let lineCosts = [];
 
-                    var tablet={
 
-                        drug, dosage, instruction
-                    }
-// console.log(typeof drug_place, typeof drugcategory, typeof drug_subcategory);
-                    setTimeout(function(){
-                        let tablerow = `
-                    <tr>
+            setTimeout(function(){
+                let tablerow = `
+            <tr>
 
-                        <td colspan="3" class="">
-                            <input type="text" value="${drug_place}" class="form-control"  readonly >
-                            <input type="hidden" name="drug_model_id[]" value="${tablet.drug}" class="drug_model">
-                        </td>
-                        <td>
-                            <input type="text" name="dosage[]" value="${tablet.dosage}" class="form-control dosage" >
-                        </td>
-                        <td>
-                            <input type="text" name="instruction[]" value="${tablet.instruction}" class="form-control instruction" >
-                        </td>
-                        <td class="remove" style="text-align: center">
-                        <a class="btn btn-danger" onclick="deleteRow()" > <i class="fa fa-times mr-1"></i>Delete</a>
-                        </td>
+                <td>
+                    <input type="text" value="${drugName}" class="form-control"  readonly >
+                    <input type="hidden" name="drug_model_id[]" value="${drug}" class="drug_model">
+                </td>
+                <td>
+                    <input type="text"  value="${drugForms}" class="form-control" readonly>
+                </td>
+                <td>
+                    <input type="text" name="dosage[]" value="${dosage}" class="form-control drugDosage" readonly>
+                </td>
+                <td>
+                    <input type="text" name="duration[]" value="${duration}" class="form-control drugDuration" readonly>
+                </td>
+                <td>
+                    <input type="text" name="quantity[]" value="${qty}" class="form-control quantity" readonly>
+                </td>
+                <td>
+                    <input type="text" name="price[]" value="${price}" class="form-control dosage" readonly>
+                </td>
 
-                    </tr>`;
-                     $('#drugs tbody').append(tablerow);
-                    }, 200);
+                <td>
+                    <input type="text" name="linecost[]" value="${lineCost}" class="form-control costLine" readonly>
+                </td>
+
+                <td class="remove" style="text-align: center">
+                    <a class="btn btn-danger" onclick="deleteRow()">
+                    <i class="fa fa-times-plus text-white mr-1"></i>
+                    <span class="text-white"> Delete</span></a>
+                </td>
+
+            </tr>`;
+
+        $('#drugs tbody').append(tablerow);
+
+        $(".costLine").each(function(){
+             lineCosts.push(parseFloat($(this).val()));
+
+         });
+
+        let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : lineCost ;
+         $('#totalBalance').val(parseFloat(purchase).toFixed(2));
+
+         if(purchase >0) $('#drugSubmit').attr('disabled', false);
+
+        //
+ }, 200);
+
+        $('#drug-subcategory').val('');
+        $('#price').val('');
+        $('#forms').val('');
+        $('#qty').val('');
+        $('#dosage').val('');
+        $('#duration1').val('');
+        $('#lineCost').val('');
+        $('#addDrug').attr('disabled', true);
+
+
 
 
     }
+    function deleteRow()
+        {
+            $(document).on('click', '.remove', function()
+            {
+                $(this).parent('tr').remove();
 
-function deleteRow()
-{
-    $(document).on('click', '.remove', function()
-    {
-        $(this).parent('tr').remove();
-    });
-}
+            setTimeout(function(){
+
+                let lineCosts =[];
+                $(".costLine").each(function(){
+
+                 lineCosts.push(parseFloat($(this).val()));
+
+                });
+
+            let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : 0 ;
+
+            $('#totalBalance').val(parseFloat(purchase).toFixed(2));
+                if(purchase > 0){
+                    $('#drugSubmit').attr('disabled', false);
+                }else{
+                    $('#drugSubmit').attr('disabled', true);
+                }
+            }, 300);
+
+            });
+        }
+
 
 </script>
 

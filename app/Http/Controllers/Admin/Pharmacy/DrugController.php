@@ -83,7 +83,8 @@ class DrugController extends Controller
     public function drugAjax(DrugClass $drug)
     {
         // $drug->drugModels->pluck("name", "id", "forms");
-        $sections = DrugModel::select("id", "name", "forms")->where('drug_class_id', $drug->id)->get();
+        $sections = DrugModel::select("id", "name", "forms", "strength")->where('drug_class_id', $drug->id)->get();
+        dd($sections->toArray());
         return json_encode($sections);
     }
     public function selectDrug(DrugModel $drug){

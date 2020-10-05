@@ -89,4 +89,5 @@
             </div>
 
     @endif
+    <button type="button" class="btn mr-2 btn-md mb-2 text-uppercase" data-toggle="modal" data-target="#allergy-block-normal" style="background-color: #cb9696;">Add Reactions</button>
 </div>

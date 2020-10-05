@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Pharmreq extends Model
 {
@@ -15,21 +16,18 @@ class Pharmreq extends Model
 
 
 
-    public function seen_by(): BelongsTo
+    public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'seen_by');
     }
-    public function pharmReq(): MorphMany
+    
+    public function invoice(): MorphOne
     {
-        return $this->morphMany(ConsultTest::class, 'testable');
+        return $this->morphOne(Invoice::class, 'invoiceable');
     }
-    public function invoices(): MorphMany
+    public function testable(): MorphOne
     {
-        return $this->morphMany(InvoiceItem::class, 'bill');
-    }
-    public function testables(): MorphMany
-    {
-        return $this->morphMany(EncounterTest::class, 'testable');
+        return $this->morphOne(EncounterTest::class, 'testable');
     }
 
     public function pharmreqDetails(): HasMany
@@ -37,8 +35,8 @@ class Pharmreq extends Model
         return $this->hasMany(PharmreqDetail::class);
     }
 
-    public function pharmacyBill(): HasOne
+    public function encounter(): BelongsTo
     {
-        return $this->hasOne(PharmacyBill::class);
+        return $this->belongsTo(Encounter::class);
     }
 }

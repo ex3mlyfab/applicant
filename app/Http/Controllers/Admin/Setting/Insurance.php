@@ -41,6 +41,20 @@ class Insurance extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'name' => 'required|string',
+            'insurance_category_id' => 'required',
+            'reg_no' => 'sometimes',
+            'contact_telephone' => 'sometimes',
+            'address' => 'sometimes'
+        ]);
+
+        ModelsInsurance::create($data);
+        $notification = [
+            'message' => 'insurance company created successfully',
+            'type' => 'success'
+        ];
+        return back()->with($notification);
     }
 
     /**
@@ -49,9 +63,10 @@ class Insurance extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ModelsInsurance $insurance)
     {
         //
+        return view('admin.settings.insurancepackage', compact('insurance'));
     }
 
     /**

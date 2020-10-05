@@ -42,12 +42,15 @@ class PhysicalExamController extends Controller
         //record all Physical Exams
         $validated = $request->except(['_token', 'clinical_appointment_id']);
         $pc = PhysicalExam::create($validated);
-        Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
+        if($request->has('clinical_appointment_id')){
+            Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);
 
-        ClinicalAppointment::find($request->clinical_appointment_id)->update([
-            'status' => 'history_recorded'
-        ]);
-        
+            ClinicalAppointment::find($request->clinical_appointment_id)->update([
+                'status' => 'history_recorded'
+            ]);
+        }
+
+
         $notification = array(
             'message' => 'Physical exams recorded successfully!',
             'alert-type' => 'success'

@@ -3,12 +3,8 @@
     <div class="form-group form-row">
         <div class="col-md-4">
             <label for="patient_id"> Patient Name</label>
-            <select name="patient_id" id="patient_id" class="js-select2 form-control form-control-lg" style="width: 100%;" data-placeholder="Choose one.." >
-                <option></option>
-                @foreach ($patients as $item)
-                   <option value="{{$item->id}}">{{$item->full_name}}</option>
-                @endforeach
-            </select>
+            <input type="text" name="name" id="patient_id" class="form-control form-control-lg">
+            <input type="hidden" name="patient_id">
         </div>
         <div class="col-md-4">
             <span id="space">

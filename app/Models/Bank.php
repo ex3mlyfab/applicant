@@ -12,7 +12,9 @@ class Bank extends Model
 
     public function bankTransfers(): HasMany
     {
-        return $this->hasMany(BankTransfer::class);
+        return $this->hasMany(BankTransfer::class)->orderByDesc('created_at');
     }
-    
+
+
+
 }

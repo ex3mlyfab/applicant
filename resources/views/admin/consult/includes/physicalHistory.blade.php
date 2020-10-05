@@ -8,10 +8,21 @@
                     <p> recorded on {{$consult->created_at}} </p>
                 </div>
                 <div class="block-body">
-                    <h3 class="bg-aqua">
-                        Presumptive Diagnosis
-                    </h3>
-                    <p>{{$tree->presentingcomplaints()->first()->presumptive_diagnosis}}</p>
+                    <div class="row">
+                        <div class="col-md-6 border-right">
+                            <h3 class="bg-aqua">
+                                Presumptive Diagnosis
+                            </h3>
+                            <p>{{$tree->presentingComplaints->last()->presumptive_diagnosis}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="bg-aqua">
+                                Initial Diagnosis
+                            </h3>
+                            <p>{{$consult->initial_diagnosis}}</p>
+                        </div>
+                    </div>
+
                     <div class="table-responsive-lg">
                         <table class="table table-hover">
                             <tbody>

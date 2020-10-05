@@ -36,6 +36,11 @@
                                 </a>
                             </li>
                             <li class="nav-main-item">
+                                <a class="nav-main-link" href="{{route('nhis.create')}}">
+                                    <span class="nav-main-link-name">NHIS Account</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
                                 <a class="nav-main-link" href="{{route('family.create')}}">
                                     <span class="nav-main-link-name">Family Account</span>
                                 </a>
@@ -209,6 +214,16 @@
                             <span class="nav-main-link-name">Balance</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('bank.index')}}">
+                            <span class="nav-main-link-name">Banks</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('banktransfer.index')}}">
+                            <span class="nav-main-link-name">Bank Transfers</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan
@@ -319,6 +334,22 @@
                 </ul>
             </li>
             @endcan
+            @can('insurance-view')
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon far fa-address-card"></i>
+                    <span class="nav-main-link-name">Insurance</span>
+                </a>
+                <ul class="nav-main-submenu">
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('insurance.index')}}">
+                            <span class="nav-main-link-name">List Insurance</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item"></li>
+                </ul>
+            </li>
+            @endcan
             @can('system-view')
                <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
@@ -384,6 +415,21 @@
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('insurance.index')}}">
                             <span class="nav-main-link-name">Insurance</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('mdaccount.index')}}">
+                            <span class="nav-main-link-name">Md's Account</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('paymentmode.index')}}">
+                            <span class="nav-main-link-name">Add Payment Mode</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('bank.index')}}">
+                            <span class="nav-main-link-name">Banks</span>
                         </a>
                     </li>
 

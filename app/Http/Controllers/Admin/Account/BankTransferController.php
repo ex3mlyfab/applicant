@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Setting;
+namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankTransfer;
 use Illuminate\Http\Request;
 
-class PateintStatistics extends Controller
+class BankTransferController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,6 +16,8 @@ class PateintStatistics extends Controller
     public function index()
     {
         //
+        $transfers = BankTransfer::whereYear('created_at', date('Y'))->orderByDesc('created_at');
+        return view('admin.Account.alltransfers', compact('transfers'));
     }
 
     /**

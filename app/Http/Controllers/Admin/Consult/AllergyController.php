@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Consult;
 
 use App\Http\Controllers\Controller;
+use App\Models\Allergy;
 use Illuminate\Http\Request;
 
 class AllergyController extends Controller
@@ -35,7 +36,19 @@ class AllergyController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $data= $request->validate([
+            'name' => 'required',
+            'user_id' => 'required',
+            'admin_id' => 'required'
+        ]);
+        Allergy::create($data);
+
+        $notification = [
+            'message'=> 'reaction added successfully',
+            'type' => 'success'
+        ];
+        return back()->with($notification);
+
     }
 
     /**
@@ -78,8 +91,13 @@ class AllergyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Allergy $allergy)
     {
-        //
+        $allergy->delete();
+        $notification = [
+            'message'=> 'reaction deleted successfully',
+            'type' => 'danger'
+        ];
+        return back()->with($notification);
     }
 }

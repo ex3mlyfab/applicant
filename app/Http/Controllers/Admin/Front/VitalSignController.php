@@ -62,9 +62,13 @@ class VitalSignController extends Controller
 
         $validated['done_by'] = Auth::user()->id;
 
-        if (!($request->has('consultation_room'))) {
+        if (!($request->has('consultation_room')))
+        {
+            // dd($request->except('_token'));
 
-            $update = ClinicalAppointment::where('patient_id', $request->patient_id)->where('appointment_due', Carbon::today())->where('status', 'waiting')->first();
+            $update = ClinicalAppointment::where('patient_id', $request->patient_id)->where(function($query){
+                $query->where('appointment_due', now()->today())->orWhereNotIn('status',['completed']);
+            })->latest()->first();
             $update->status = 'vitals sign taken';
             $update->timestamps = false;
             $update->save();

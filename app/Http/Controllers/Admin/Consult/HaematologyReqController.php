@@ -39,16 +39,14 @@ class HaematologyReqController extends Controller
     {
         //
 
-        $data = $request->except('_token');
+        $data = $request->except(['_token', 'clinical_appointment_id']);
         $data['status'] = 'waiting';
-        $data['requested_by'] = Auth::user()->id;
+        $data['requested_by'] = auth()->user()->id;
         $id = Haematologyreq::create($data);
 
-        $status = $id->clinical_appointment_id;
-        $consult = Consult::firstOrCreate(['clinical_appointment_id' => $status]);
-        $id->labinfos()->create([
-            'consult_id' => $consult->id,
-            'type' => $request->investigation_required . ' in haematology',
+
+        $id->testables()->create([
+            'encounter_id' => $request->encounter_id,
             'status' => 'waiting',
 
         ]);

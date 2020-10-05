@@ -24,7 +24,7 @@
 </div>
 <!-- Allergy Block Modal -->
 <div class="modal" id="allergy-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-secondary-dark">
@@ -37,11 +37,14 @@
                 </div>
                 <div class="block-content font-size-sm">
                     <h3 class="text-center">Add Allergic Reaction</h3>
-                    <form action="#" method="post">
+                <form action="{{route('allergy.store')}}" method="post">
                         @csrf
                         <div class="form-group">
                             <label for="reaction">Allergic to:</label>
-                            <input type="text" name="allergy" id="reaction">
+                            <input type="text" name="name" id="reaction" class="form-control form-control-lg">
+
+                        <input type="hidden" name="user_id" value="{{$patient->id}}">
+                        <input type="hidden" name="admin_id" value="{{Auth::user()->id}}">
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>
@@ -158,7 +161,7 @@
                                         <input type="text" name="spo2" id="spo2" placeholder="SPO2" class="form-control form-control-lg">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
-                                          bpm
+                                          %
                                             </span>
                                         </div>
                                     </div>
@@ -580,7 +583,7 @@
                         <div class="form-group">
                             <label > Nature of Specimen</label>
                             <input type="text" name="specimen"  class="form-control form-control-lg">
-                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
                         </div>
                         <div class="form-group">
                             <label > Diagnosis and Clinical Details</label>
@@ -634,53 +637,77 @@
 
                         </div>
                     </div>
+                    <h3 class="text-center text-uppercase">Prescription sheet</h3>
                     <div class="table-responsive">
-                        <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element" onsubmit="return false;">
+                        <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element" >
                             @csrf
                             <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
-                                <th>Class</th>
-                                <th>Drug Name/ Form</th>
-                                <th>Dosage</th>
-                                <th>Instruction</th>
+                                    <th>Drug Name</th>
+                                    <th>Drug Form/ Strength</th>
+                                    <th>Dosage</th>
+                                    <th>Duration</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Line Cost</th>
+                                    <th style="text-align: center;background: #eee">
 
-                                <th style="text-align: center;background: #eee">
-
-                                </th>
+                                    </th>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select  class="js-select2 form-control drugClass" style="width: 100%;" data-placeholder="Choose one.." id="category" required>
-                                            <option></option>
-                                            {{ create_option('drug_classes','id', 'name')}}
+                                        <select  class="js-select2 form-control" style="width: 100%; border: 1px solid rgb(51, 70, 128, 0.8)" data-placeholder="Choose one.." id="drug-subcategory">
+                                            <option class="p-2"></option>
+                                            {{ create_option('drug_models','id', 'name')}}
                                         </select>
                                     </td>
                                     <td>
-
-                                        <input type="text" id="dosage" class="form-control form-control-lg"></td>
-                                    <td>
-                                        <input type="text" id="instruction" class="form-control form-control-lg">
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="forms" class="form-control form-control-lg p-2" readonly>
                                     </td>
 
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="dosage" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="duration1" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="qty" step="0.1" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="price" class="form-control form-control-lg" readonly>
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="lineCost" class="form-control form-control-lg" readonly>
+                                    </td>
 
                                     <td  style="text-align: center">
-                                            <a  class="btn btn-success" onclick="rowAdd()">
-                                                <i class="fa fa-plus"> Add Drug</i>
-                                            </a>
+                                            <button type="button" class="btn btn-success p-3" id="addDrug" onclick="rowAdd()">
+                                                <i class="fa fa-plus-circle"> Add Drug</i>
+                                            </button>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group ml-5">
+                                <label for="totalBalance">Total Cost</label>
+                                <input type="text" name="totalBalance" class="form-control form-control-lg" id="totalBalance" readonly>
+                            </div>
                         </div>
 
 
 
 
 
-                    <button  id="drugSubmit" data-appointment="{{$appointment->id}}" class="btn btn-primary pull-right">Submit</button>
-                        </form>
+                    <button id="drugSubmit" type="submit" class="btn btn-primary pull-right">
+                       <i class="fa fa-save"></i> Submit
+                    </button>
+                </form>
 
                     </div>
                 </div>
@@ -731,8 +758,9 @@
 
                             <div class="col-md-3">
                                 <label >Clinical Details</label>
-                                <input type="text" name="clinical_details"  class="form-control">
+                            <input type="text" name="clinical_details"  class="form-control">
                             <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
                             </div>
                             <div class="col-md-3"></div>
                             <div class="col-md-3">
@@ -1382,7 +1410,7 @@
                         <div class="form-group form-row">
                             <div class="col-md-4">
                                 <label >Clinical Details</label>
-                                <input type="text" name="clinical_details"  class="form-control form-control-lg">
+                                <input type="text" name="clinical_details"  id="clinical_pathology" class="form-control form-control-lg">
                             </div>
                             <div class="col-md-4">
                                 <label >Nature of Specimen</label>
@@ -1399,62 +1427,62 @@
                             <div class="col-sm-1 m-0 p-0">
                                 <input type="checkbox" name="sodium" value="1"><br>
                                 <label for="">SODIUM<br>mmoL/l<br>135-145</label>
-                                <input type="text" name="sodium_value" class="form-control">
+                                <input type="text" name="sodium_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0">
                                 <input type="checkbox" name="potassium" value="1" ><br>
                                 <label for="">POTASSIUM<br>mmoL/l<br>2.9.5.0</label>
-                                <input type="text" name="potassium_value" class="form-control">
+                                <input type="text" name="potassium_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0">
                                 <input type="checkbox" name="hc03" value="1" ><br>
                                 <label for="">Hco<sub>3</sub><br>mmoL/l<br>21.28</label>
-                                <input type="text" name="hc03_value" class="form-control">
+                                <input type="text" name="hc03_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0">
                                 <input type="checkbox" name="chloride" value="1"><br>
                                 <label for="">CHLORIDE<br>mmoL/l<br>95-106</label>
-                                <input type="text" name="chloride_value" class="form-control">
+                                <input type="text" name="chloride_value" class="form-control"  disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="urea" value="1"><br>
                                 <label for="">UREA<br>mmoL/l<br>2.5-6.5</label>
-                                <input type="text" name="urea_value" class="form-control">
+                                <input type="text" name="urea_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="creatinine" value="1" ><br>
                                 <label for="">CREATININE<br>mmoL/l<br>53-106</label>
-                                <input type="text" name="creatinine_value" class="form-control">
+                                <input type="text" name="creatinine_value" class="form-control"  disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="urate" value="1" ><br>
                                 <label>URATE<br>mmoL/l<br>0.2-0.45</label>
-                                <input type="text" name="urate_value" class="form-control">
+                                <input type="text" name="urate_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="calcium" value="1" ><br>
                                 <label for="">CALCIUM<br>mmoL/l<br>2.25-2.65</label>
-                                <input type="text" name="calcium_value" class="form-control">
+                                <input type="text" name="calcium_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="phosphate" value="1"><br>
                                 <label>PHOSPHATE<br>mmoL/l<br>0.6-1.4</label>
-                                <input type="text" name="phosphate_value" class="form-control">
+                                <input type="text" name="phosphate_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="glucose" value="1" ><br>
                                 <label>GLUCOSE<br>mmoL/l<br>135-145</label>
-                                <input type="text" name="glucose_value" class="form-control">
+                                <input type="text" name="glucose_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="gly-hb" value="1" ><br>
                                 <label>GLY-HB<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="gly-hb" class="form-control">
+                                <input type="text" name="gly-hb" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="cholesterol" value="1" ><br>
                                 <label>Cholesterol<br>mmoL/l<br>2.0-5.2</label>
-                                <input type="text" name="cholesterol_value" class="form-control">
+                                <input type="text" name="cholesterol_value" class="form-control" disabled>
                             </div>
 
                         </div>
@@ -1463,62 +1491,62 @@
                             <div class="col-sm-1 m-0 p-0 block-bordered">
                                 <input type="checkbox" name="triglycerides" value="1"><br>
                                 <label>TRIGLYCERIDES<br>mmoL/l<br>0.3-1.7</label>
-                                <input type="text" name="triglycerides_value" class="form-control">
+                                <input type="text" name="triglycerides_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 block-bordered">
                                 <input type="checkbox" name="ldl-c" value="1"><br>
                                 <label>LDL-C<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="ldl-c_value" class="form-control">
+                                <input type="text" name="ldl-c_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="hdl-c" value="1"><br>
                                 <label>HDL-C<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="hdl-c_value" class="form-control">
+                                <input type="text" name="hdl-c_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="alt" value="1"><br>
                                 <label>ALT<br>IU/L<br>0-15</label>
-                                <input type="text" name="alt_value" class="form-control">
+                                <input type="text" name="alt_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="ast" value="1"><br>
                                 <label for="">AST<br>IU/L<br>0-20</label>
-                                <input type="text" name="ast_value" class="form-control">
+                                <input type="text" name="ast_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="alk-phos" value="1"><br>
                                 <label>ALK.PHOS<br>IU/L<br>21-91</label>
-                                <input type="text" name="alk-phos_value" class="form-control">
+                                <input type="text" name="alk-phos_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="ggt" value="1"><br>
                                 <label for="">GGT<br>IU/L<br>i455</label>
-                                <input type="text" name="ggt_value" class="form-control">
+                                <input type="text" name="ggt_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="amylase" value="1"><br>
                                 <label >AMYLASE</label><br>IU/L<br>0-15</label>
-                                <input type="text" name="amylase_value" class="form-control">
+                                <input type="text" name="amylase_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="total_acid" value="1"><br>
                                 <label for="">Total Acid Phos <br>IU/L<br>0-10</label>
-                                <input type="text" name="total_acid_value" class="form-control">
+                                <input type="text" name="total_acid_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="total_bilirubin" value="1"><br>
                                 <label for="">Total Bilirubin<br>umoL/L<br>0-2</label>
-                                <input type="text" name="total_bilirubin_value" class="form-control">
+                                <input type="text" name="total_bilirubin_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="conj_bilirubin" value="1"><br>
                                 <label>CONJ BILIRUBIN<br>umoL/L<br>0-2</label>
-                                <input type="text" name="conj_bilirubin_value" class="form-control">
+                                <input type="text" name="conj_bilirubin_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="total_protein" value="1"><br>
                                 <label for="">Total Protein<br>g/l<br>35/50</label>
-                                <input type="text" name="total_protein_value" class="form-control">
+                                <input type="text" name="total_protein_value" class="form-control" disabled>
                             </div>
 
                         </div>
@@ -1528,53 +1556,53 @@
                             <div class="col-sm-1 m-0 p-0 block-bordered">
                                 <input type="checkbox" name="albumin" value="1"><br>
                                 <label>ALBUMIN<br>G/L<br>35/50</label>
-                                <input type="text" name="albumin_value" class="form-control">
+                                <input type="text" name="albumin_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 block-bordered">
                                 <input type="checkbox" name="csf_protein" value="1"><br>
                                 <label>CSF Protein<br>mg/dl<br>45-45</label>
-                                <input type="text" name="csf_protein_value" class="form-control">
+                                <input type="text" name="csf_protein_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="hdl-c" value="1"><br>
                                 <label>CSF Sugar<br>mmol/l<br>22/3.9</label>
-                                <input type="text" name="hdl-c_value" class="form-control">
+                                <input type="text" name="hdl-c_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-3 m-0 p-0 border-info">
                                 <input type="checkbox" name="pes" value="1"><br>
                                 <label>Protein Electrophoretic strip<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="pes_value" class="form-control">
+                                <input type="text" name="pes_value" class="form-control" disabled>
                             </div>
 
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="ft3" value="1"><br>
                                 <label>FT 3<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="ft3_value" class="form-control">
+                                <input type="text" name="ft3_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="ft4" value="1"><br>
                                 <label for="">FT 4<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="ft4_value" class="form-control">
+                                <input type="text" name="ft4_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="total_t3" value="1"><br>
                                 <label >Total T3</label><br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="total_t3_value" class="form-control">
+                                <input type="text" name="total_t3_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="total_acid" value="1"><br>
                                 <label for="">Total T4<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="total_acid_value" class="form-control">
+                                <input type="text" name="total_acid_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="tsh" value="1"><br>
                                 <label for="">TSH<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="tsh_value" class="form-control">
+                                <input type="text" name="tsh_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="fsh" value="1"><br>
                                 <label>FSH<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="fsh_value" class="form-control">
+                                <input type="text" name="fsh_value" class="form-control" disabled>
                             </div>
 
 
@@ -1583,43 +1611,43 @@
                             <div class="col-sm-1 m-0 p-0 block-bordered">
                                 <input type="checkbox" name="lh" value="1"><br>
                                 <label>LH<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="lh_value" class="form-control">
+                                <input type="text" name="lh_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 block-bordered">
                                 <input type="checkbox" name="protactin" value="1"><br>
                                 <label>Proctactin<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="protactin_value" class="form-control">
+                                <input type="text" name="protactin_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="progesterone" value="1"><br>
                                 <label>Progesterone<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="progesterone_value" class="form-control">
+                                <input type="text" name="progesterone_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="estrogen" value="1"><br>
                                 <label>ESTROGEN<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="estrogen_value" class="form-control">
+                                <input type="text" name="estrogen_value" class="form-control" disabled>
                             </div>
 
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="testosterone" value="1"><br>
                                 <label>Testosterone<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="testosterone_value" class="form-control">
+                                <input type="text" name="testosterone_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="psa" value="1"><br>
                                 <label>PSA<br>ng/ml<br>0-4.5</label>
-                                <input type="text" name="psa_value" class="form-control">
+                                <input type="text" name="psa_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-1 m-0 p-0 border-info">
                                 <input type="checkbox" name="rf" value="1"><br>
                                 <label >RF</label><br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="rf_value" class="form-control">
+                                <input type="text" name="rf_value" class="form-control" disabled>
                             </div>
                             <div class="col-sm-2 m-0 p-0 border-info">
                                 <input type="checkbox" name="pregnancy_test" value="1"><br>
                                 <label for="">Pregnancy Test<br>&nbsp;<br>&nbsp;</label>
-                                <input type="text" name="pregnancy_test_value" class="form-control">
+                                <input type="text" name="pregnancy_test_value" class="form-control" disabled>
                             </div>
 
 
@@ -1630,7 +1658,7 @@
                 </div>
                 <div class="block-content block-content-full text-right border-top">
 
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check mr-1"></i>Ok</button>
+                    <button type="submit" class="btn btn-sm btn-primary" id="pathology_submit"><i class="fa fa-check mr-1"></i>Ok</button>
                 </div>
             </form>
             </div>

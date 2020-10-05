@@ -16,6 +16,8 @@ class DrugClassController extends Controller
     public function index()
     {
         $drugcategories = DrugClass::all();
+
+
         return View('admin.pharmacy.drugcategories', compact('drugcategories'));
     }
 
@@ -74,7 +76,7 @@ class DrugClassController extends Controller
     {
         //
         $task = $drugClass;
-       
+
         return View('admin.pharmacy.drugcategories', compact('drugcategories', 'task'));
     }
 

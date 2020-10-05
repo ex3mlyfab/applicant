@@ -16,6 +16,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('payment/printinvoice/{invoice}', 'Admin\Account\PaymentController@printInvoice')->name('payment.invoice');
         Route::get('payment/printreceipt/{payment}', 'Admin\Account\PaymentController@printReceipt')->name('payment.print');
         Route::post('payment/pay', 'Admin\Account\PaymentController@pay')->name('payment.pay');
+        Route::resource('paymentmode', 'Admin\Setting\PaymentModeController')->middleware('permission:paymentmode-create');
+        Route::resource('paymentmethod', 'Admin\Setting\PaymentMethodController')->middleware('permission:paymentmethod-create');
         /**
          * Inpatient Routes
          */
@@ -33,6 +35,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('expense', 'Admin\Account\ExpenseController');
         Route::resource('expensehead', 'Admin\Account\ExpenseHeadController');
         Route::resource('chargecategory', 'Admin\Account\ChargeCategoryController');
+        Route::resource('bank', 'Admin\Account\BankController')->middleware('permission:bank-view');
+        Route::resource('banktransfer', 'Admin\Account\BankTransferController')->middleware('permission:bank-view');
+
         Route::resource('charge', 'Admin\Account\ChargeController')->middleware('permission:charge-view');
         Route::resource('clinicalappointment', 'Admin\Front\ClinicalAppointmentController')->middleware('permission:appointment-view');
         Route::resource('nursing', 'Admin\Front\VitalSignController')->middleware('permission:nursing-view');
@@ -41,6 +46,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('physical', 'Admin\Consult\PhysicalExamController');
         Route::resource('pc', 'Admin\Consult\PresentingComplaintController');
         Route::get('consult/{consult}', 'Admin\Consult\ConsultController@consult')->middleware('permission:consult-view')->name('consult.create');
+        Route::get('endconsult/{consult}', 'Admin\Consult\ConsultController@endConsult')->middleware('permission:consult-create')->name('consult.end');
+        Route::resource('mdaccount', 'Admin\Setting\MdAccountController')->middleware('permission:mdaccount-create');
 
         Route::post('pharmacy/calculate-drugs', 'Admin\Pharmacy\PharmacyController@prepare')->name('pharmacy.cost');
         Route::post('pharmacy/billdrug', 'Admin\Pharmacy\PharmacyController@billdrug')->name('pharmacy.billdrug');
@@ -55,6 +62,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('bloodreq', 'Admin\Consult\BloodreqController');
         Route::resource('radiologyreq', 'Admin\Consult\RadiologyreqController');
         Route::resource('ultrasoundreq', 'Admin\Consult\UltrasoundreqController');
+        Route::resource('allergy', 'Admin\Consult\AllergyController');
         Route::post('addallergy', 'Admin\Front\PatientController@addAllergy')->middleware('permission:consult-create');
         Route::delete('removeAllergy/{allergy}', 'Admin\Front\PatientController@removeAllergy')->name('allergy.remove')->middleware('permission:consult-delete');
 
@@ -62,7 +70,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('pathologyreq', 'Admin\Consult\PathologyController');
         Route::resource('histopathologyreq', 'Admin\Consult\HistopathologyReController');
         Route::get('selectdrug/{drug}', 'Admin\Pharmacy\DrugController@selectDrug');
-        Route::post('purchase-order/create', 'Admin\Pharmacy\PurchaseOrder@store');
 
         Route::get('family/familyenroll/{family}', 'Admin\Front\FamilyController@familyEnroll')->name('family.enroll');
         Route::resource('family', 'Admin\Front\FamilyController')->middleware('permission:family-view');
@@ -74,7 +81,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('permission', 'Admin\Setting\PermissionController')->middleware('permission:permission-view');
         Route::get('drug/drugajax/{drug}', 'Admin\Pharmacy\DrugController@drugAjax');
         Route::get('drug/getall','Admin\Pharmacy\DrugController@getAll');
-        Route::get('drugcategory/drugcategoryajax/{drug}', 'Admin\Pharmacy\DrugClassController@drugAjax');
+        Route::get('drugcategory/drugcategoryajax/{drug}', 'Admin\Pharmacy\DrugClassController@classAjax');
         Route::resource('drugclass', 'Admin\Pharmacy\DrugClassController')->middleware('permission:drugcategory-view');
         Route::resource('drug', 'Admin\Pharmacy\DrugController')->middleware('permission:drug-view');
         Route::resource('drugbatch', 'Admin\Pharmacy\DrugBatchController')->middleware('permission:drugbatch-view');
@@ -86,9 +93,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('purpose', 'Admin\Setting\VisitorPurposeSettingController');
         Route::resource('supplier', 'Admin\Account\Supplier')->middleware('permission:supplier-view');
         Route::get('suppliers/load', 'Admin\Account\Supplier@loadSuppliers')->middleware('permission:purchase-create');
+        Route::resource('nhis', 'Admin\Front\NhisPatientController')->middleware('permission:patient-create');
 
         Route::resource('insuranceCategory', 'Admin\Setting\InsuranceCategory')->middleware('permission:setting-view');
         Route::resource('insurance', 'Admin\Setting\Insurance')->middleware('permission:setting-view');
+        Route::resource('insurancepackage', 'Admin\Setting\InsurancePackageController')->middleware('permission:insurance-view');
+        Route::get('getinsured/{id}', 'Admin\Insurance\EnrollUserController@getInsuredPatient')->name('getinsured');
+        Route::get('getbyinsurance/{id}', 'Admin\Insurance\EnrollUserController@getByInsurance')->name('getby.insurance');
+        Route::resource('enrolluser', 'Admin\Insurance\EnrollUserController')->middleware('permission:insurance-create');
 
         Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
         Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');

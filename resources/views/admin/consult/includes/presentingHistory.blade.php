@@ -5,6 +5,7 @@
             <div class="block block-bordered">
                 <div class="block-header bg-info-light">
                     <h4>Presenting Complaints History  For {{$appointment->user->full_name ?? ''}} </h4>
+                    <p> recorded on {{$consult->created_at}} </p>
 
                 </div>
                 <div class="block-body">
