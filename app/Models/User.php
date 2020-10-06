@@ -95,6 +95,16 @@ class User extends Authenticatable
             return "(No visit recorded)";
         }
     }
+    public function getDayAgosAppointmentAttribute(){
+
+        if ($this->clinicalAppointments->count()) {
+        $dayAgo = $this->clinicalAppointments->last();
+        $actualdays = $dayAgo['created_at']->diffInDays(now());
+        return $actualdays;}
+        else{
+            return 0;
+        }
+    }
     public function getCurrentAppointmentAttribute()
     {
         $current = $this->clinicalAppointments->filter(function($item){
@@ -159,6 +169,23 @@ class User extends Authenticatable
     public function getRetainershipBalanceAtrribute()
     {
         return $this->retainership->first()->balance;
+    }
+
+    public function getPaymentMethodAttribute()
+    {
+        if($this->mdAccount){
+            return 'mdaccount';
+        }else if($this->enrollUser){
+
+            if($this->enrollUser->user_active){
+                return 'insured';
+            }else{
+                return 'pocket';
+            }
+
+        }else{
+            return 'pocket';
+        }
     }
     /**
      * The attributes that should be cast to native types.

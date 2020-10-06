@@ -202,6 +202,28 @@ if (!function_exists('has_permission')) {
         return false;
     }
 }
+if(!function_exists('check_insurance_coverage')){
+    function check_insurance_coverage($insured, $service){
+        $percentCoverage = EnrollUser::where('id', $insured)->first();
+        $coverage = $percentCoverage->insuranceServices->where('service_type', $service)->first();
+        if($coverage){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
+if(!function_exists('check_mdaccount_coverage')){
+    function check_mdaccount_coverage($beneficiary, $service){
+        $percentCoverage = MdAccount::where('user_id', $beneficiary)->first();
+        $coverage = $percentCoverage->mdAccountCovers->where('name', $service)->first();
+        if($coverage){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
 if(!function_exists('split_charges')){
     function split_charges($package)
     {

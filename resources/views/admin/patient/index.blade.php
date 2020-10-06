@@ -19,7 +19,7 @@
     <div class="content">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
             <h1 class="flex-sm-fill h5">
-                Registered Patient
+                Registered Patients
             </h1>
             <span class="ml-md-auto">
             <a style="margin-top: -15px;" href="{{route('patient.create')}}" class="btn btn-sm btn-primary" style="font-size: 13px;"><i style="font-size: 15px" class="fa fa-plus-circle"></i> Add New Patient</a>
@@ -63,7 +63,7 @@
                             {{$patient->age}}
                         </td>
                         <td style="font-size: 16px">
-                            <em style="font-size: 20px" class="text-muted font-size-sm">{{$patient->last_visit}}</em>
+                            <em style="font-size: 20px" class="text-muted font-size-sm">{{$patient->last_visit .' /'. $patient->day_agos_appointment}}</em>
                         </td>
                         <td class="text-center">
                             @if ($patient->current_appointment)
@@ -71,7 +71,7 @@
                             @elseif($patient->admission_status)
                             <span class="badge badge-warning">On Admission</span>
                             @else
-                        <button class="btn btn-outline-danger book" data-user="{{$patient->id}}" >Book Consultation</button>
+                        <a href="{{route('consultation.book', $patient->id)}}" class="btn btn-outline-danger">Book Consultation</a>
                             @endif
                         </td>
                     </tr>

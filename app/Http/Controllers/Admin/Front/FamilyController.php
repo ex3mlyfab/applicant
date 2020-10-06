@@ -84,6 +84,7 @@ class FamilyController extends Controller
             'payment_method' => 'nullable',
             'dob' => 'sometimes',
             'payment_mode' => 'sometimes',
+            'belongs_to' =>'sometimes',
         ]);
 
         if ($request->has('dob')) {
@@ -104,6 +105,7 @@ class FamilyController extends Controller
             $number->update([
                 'enrolment_count' => $number->enrolment_count + 1,
             ]);
+
         }
         if ($request->has('avatar')) {
             //
@@ -212,14 +214,7 @@ class FamilyController extends Controller
                     break;
             }
 
-            Payment::create([
-                'payment_mode_id' => 1,
-                'user_id' => $anchor->id,
-                'admin_id' => Auth::user()->id,
-                'service' => 'Payments for new ' . $id->registrationType->name . ' registration',
-                'amount' => $id->registrationType->charge->amount,
-                'invoice_no' => generate_invoice_no(),
-            ]);
+
         }
 
         $notification = array(

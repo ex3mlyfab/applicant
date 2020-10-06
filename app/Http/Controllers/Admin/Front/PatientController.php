@@ -255,7 +255,7 @@ class PatientController extends Controller
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
             'other_names' => 'required|string|max:255',
-            'phone' => 'required|string|max:255|unique:users',
+            'phone' => 'required|string|max:255',
             'sex' => 'nullable|string',
             'email' => 'nullable|email|max:255',
             'nok' => 'nullable|max:255',
@@ -278,7 +278,7 @@ class PatientController extends Controller
             'dob' => 'sometimes',
             'payment_mode' => 'sometimes',
             'insurance_number' => 'unique:users',
-            'enroll_user_id' => 'required'
+            'enroll_user_id' => 'sometimes'
 
         ]);
 

@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="select-sex">Religion</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1px solid rgb(51, 70, 128)" required>
+                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="religion" style="border: 1px solid rgb(51, 70, 128)" required>
                                         <option value="">Choose One...</option>
                                         <option value="Islam" {{ (old('religion')=='Islam') ? 'select' :''}}>Islam</option>
                                         <option value="Christian" {{ old('religion')=='Christianity' ? 'select':''}}>Christian</option>
@@ -135,7 +135,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="nin">Nationality</label>
-                                    <input class="form-control form-control-lg" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" id="nin" name="nationality" value="{{old('nationality')}}" required>
+                                    <input class="form-control form-control-lg" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" id="nin" name="nationality" value="{{$family->users->first()->nationality ?? old('nationality')}}" required>
                                 </div>
                             </div>
                             <div class="form-group form-row">
@@ -181,7 +181,7 @@
                                         <label for="nok" class="text-bold-600 font-medium-2">
                                             Name of Next of Kin
                                         </label>
-                                        <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" class="form-control form-control-lg" id="nok" name="nok" value="{{old('nok')}}" required>
+                                        <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" class="form-control form-control-lg" id="nok" name="nok" value="{{$family->users->first()->full_name ?? old('nok')}}" required>
 
                                 </div>
                                 <div class="col-md-12 mb-2">
@@ -196,7 +196,7 @@
                                         <label for="nok_phone" class="text-bold-600 font-medium-2">
                                             Phone
                                         </label>
-                                        <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" class="form-control form-control-lg required" id="nok_phone" name="nok_phone" value="{{old('nok_phone')}}">
+                                        <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" class="form-control form-control-lg required" id="nok_phone" name="nok_phone" value="{{ $family->users->first()->phone ?? old('nok_phone')}}">
 
                                 </div>
                                 <input type="hidden" name="source" value="front-desk">
@@ -208,7 +208,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="shortDescription3" class="text-bold-600 font-medium-2">Next of Kin Address</label>
-                                        <textarea style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" name="nok_address" id="shortDescription3" rows="4" class="form-control"></textarea>
+                                    <textarea style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" name="nok_address" id="shortDescription3" rows="4" class="form-control">{{$family->users->first()->nok_address ?? nok_address }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -286,12 +286,22 @@
            $('#int123').toggle();
            $('#int124').toggle();
        });
-
+$('#takeCamera').click(() => {
+    $('#startCamera').show(300);
+    $('#takeCamera').hide(300)
+})
 
 
        $('.datepicker').datepicker({
    formatSubmit:'yyyy/mm/dd'
    });
+   $('#custom-lg1').click(function(){
+        if($(this).is(':checked')){
+        $('#shortDescription3').val($('#address').val() + '\n' + $('#city').val()+ '\n' + $('#state').val());
+        }else{
+        $('#shortDescription3').val('');
+        }
+    });
 
    });
     </script>
@@ -299,8 +309,8 @@
        // Configure a few settings and attach camera
        function configure(){
         Webcam.set({
-         width: 200,
-         height: 200,
+         width: 500,
+         height: 350,
          image_format: 'jpeg',
          jpeg_quality: 90
         });

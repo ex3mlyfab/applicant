@@ -31,9 +31,7 @@ class DrugModel extends Model
 
     public function getBatchNoAttribute()
     {
-        $item = $this->drugBatchDetails->first(function ($value, $key) {
-            return $value->available_quantity > 0;
-        });
+        $item = $this->drugBatchDetails->first();
         return $item->batch_no;
     }
 

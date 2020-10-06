@@ -82,9 +82,6 @@ class ClinicalAppointment extends Model
     {
         return $this->hasMany(Histopathologyreq::class);
     }
-    // public function vitalsigns() : HasManyThrough
-    // {
-    //     return $this->hasManyThrough(VitalSign::class,
-    //     User::class, )
-    // }
+    
+    
 }

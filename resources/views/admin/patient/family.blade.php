@@ -135,8 +135,8 @@
                                 <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg p-2" type="email" id="email" name="email" value="{{old('email')}}">
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="select-sex">Religion</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1px solid rgb(51, 70, 128)" required>
+                                    <label for="select-religion">Religion</label>
+                                    <select class="form-control form-control-lg" type="text" id="select-religion" name="religion" style="border: 1px solid rgb(51, 70, 128)" required>
                                         <option value="">Choose One...</option>
                                         <option value="Islam" {{ (old('religion')=='Islam') ? 'select' :''}}>Islam</option>
                                         <option value="Christian" {{ old('religion')=='Christianity' ? 'select':''}}>Christian</option>
@@ -345,7 +345,7 @@ $('#takeCamera').click(() => {
 
    });
     </script>
-   <script language="JavaScript">
+<script language="JavaScript">
        // Configure a few settings and attach camera
        function configure(){
         Webcam.set({

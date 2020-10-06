@@ -101,7 +101,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('getinsured/{id}', 'Admin\Insurance\EnrollUserController@getInsuredPatient')->name('getinsured');
         Route::get('getbyinsurance/{id}', 'Admin\Insurance\EnrollUserController@getByInsurance')->name('getby.insurance');
         Route::resource('enrolluser', 'Admin\Insurance\EnrollUserController')->middleware('permission:insurance-create');
-
+        Route::get('bookconsultation/{patient}', 'Admin\Front\ClinicalAppointmentController@bookConsultation')->name('consultation.book')->middleware('permission:consultation-view');
         Route::post('haematology/prepareinvoice', 'Admin\Laboratory\HaematologyController@prepareInvoice')->name('haematology.prepareinvoice');
         Route::get('haematology/invoice/{id}', 'Admin\Laboratory\HaematologyController@invoice')->name('haematology.invoice');
         Route::get('haematology/completed', 'Admin\Laboratory\HaematologyController@completed')->name('haematology.completed');

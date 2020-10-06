@@ -42,6 +42,7 @@
     $(function(){
         $('label').css("text-transform", "uppercase");
         $('form'). attr('autocomplete', 'off');
+
     });
 </script>
 @yield('foot_js')

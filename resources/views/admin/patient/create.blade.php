@@ -101,7 +101,7 @@
                             <div class="form-group form-row">
                                 <div class="col-sm-4 mb-2">
                                     <label for="select-religion">Religion</label>
-                                    <select class="form-control form-control-lg" type="text" id="select-religion" name="sex" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
+                                    <select class="form-control form-control-lg" type="text" id="select-religion" name="religion" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
                                         <option value="">Choose One...</option>
                                         <option value="Islam" {{ (old('religion')=='Islam') ? 'selected' :''}}>Islam</option>
                                         <option value="Christianity" {{ old('religion')=='Christianity' ? 'selected':''}}>Christianity</option>

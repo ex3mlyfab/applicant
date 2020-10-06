@@ -47,77 +47,94 @@
                             <div class="form-group form-row">
                                 <div class="col-sm-4">
                                     <label for="wizard-validation2-lastname">Last Name</label>
-                                <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="wizard-validation2-lastname" name="last_name" value="{{$patient->last_name ?? old('last_name')}}" required>
+                                <input placeholder="Enter Last name" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="wizard-validation2-lastname" name="last_name" value="{{$patient->last_name ?? old('last_name')}}" required>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="wizard-validation2-firstname">Other Names</label>
-                                <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="wizard-validation2-othername" name="other_names" value="{{$patient->other_names ?? old('other_names')}}" required>
+                                <input placeholder="Enter Other Names" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="wizard-validation2-othername" name="other_names" value="{{$patient->other_names ?? old('other_names')}}" required>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="wizard-validation2-phone">Phone Number</label>
-                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="wizard-validation2-phone" name="phone" value="{{$patient->phone ?? old('phone')}}" required>
+                                    <input class="form-control form-control-lg" placeholder="Enter Phone Number" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="number" id="wizard-validation2-phone" name="phone" value="{{$patient->phone ?? old('phone')}}" required>
                                 </div>
                             </div>
                             <div class="form-group form-row">
-                                <div class="col-sm-4">
-                                    <label for="select-sex">Sex</label>
-                                    <select style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="select-sex" name="sex" required>
+                                <div class="col-sm-4 mb-2">
+                                    <label for="select-religion">Religion</label>
+                                    <select class="form-control form-control-lg" type="text" id="select-religion" name="religion" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
                                         <option value="">Choose One...</option>
-                                        <option value="Male" {{($patient->sex =='Male'|| old('sex')=='Male') ? 'selected="selected"': ''}}>Male</option>
-                                        <option value="Female" {{($patient->sex =='Female'|| old('sex')=='Female') ? 'selected="selected"': ''}}>Female</option>
+                                        <option value="Islam" {{ $patient->religion =='Islam' || (old('religion')=='Islam') ? 'selected' :''}}>Islam</option>
+                                        <option value="Christianity" {{ $patient->religion =='Christianity' || old('religion')=='Christianity' ? 'selected':''}}>Christianity</option>
+                                        <option value="Traditional" {{ $patient->religion =='Traditional' || old('religion')=='Traditional' ? 'selected':''}}>Traditional</option>
+                                        <option value="Others" {{ old('religion')=='Others' ? 'selected':''}}>Others</option>
                                     </select>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <label for="select-sex">Sex</label>
+                                    <select class="form-control form-control-lg" type="text" id="select-sex" name="sex" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
+                                        <option value="">Choose One...</option>
+                                        <option value="Male" {{ $patient->sex =='Male' || (old('sex')=='Male') ? 'selected' :''}}>Male</option>
+                                        <option value="Female" {{ $patient->sex =='Female' || old('sex')=='Female' ? 'selected':''}}>Female</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <label for="select-marriage">Marital Status</label>
+                                    <select class="form-control form-control-lg" type="text" id="select-marriage" name="marital_status" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" required>
+                                        <option value="">Choose One...</option>
+                                        <option value="Never Married" {{ $patient->marital_status =='Never Married' || old('marital_status')=='Never Married' ? 'select':''}}>Never Married(single)</option>
+                                        <option value="Married" {{ $patient->marital_status =='Married' || old('marital_status')=='Married' ? 'selected':''}}>Married</option>
+                                        <option value="Widowed" {{$patient->marital_status =='Widowed' || old('marital_status')=='Widowed' ? 'selected':''}}>Widowed</option>
+                                        <option value="divorced" {{ $patient->marital_status =='divorced' ||  old('marital_status')=='divorced' ? 'selected':''}}>Divorced</option>
+
+                                    </select>
+                                </div>
+                                    <div class="col-sm-4">
+                                        <label for="email">Email</label>
+                                        <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter your Email Address" class="form-control form-control-lg" type="email" id="email" name="email" value="{{ $patient->email ?? old('email')}}">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label>
+                                            Date of Birth :
+                                        </label><a href="#" id="switch">estimated age? click</a>
+
+                                        <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa"  type="text" class="p-2 js-datepicker form-control p-2 mt-2" id="int123" name="dob" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy"
+                                    value="{{  \Carbon\Carbon::parse( $patient->dob)->format('d/M/Y')  ?? \Carbon\Carbon::parse( old('dob'))->format('d/M/Y') }}" required>
+                                    <input type="text"  name="age_at_reg" class="form-control form-control-lg p-2" id="int124" placeholder="Enter estimated Age" value="{{ $patient->age_at_reg ?? old('age_at_reg')}}" required>
+                                    </div>
+                                    <div class="col-sm-4 mb-2">
+                                    <label for="nin">Nationality</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the Nationality" class="form-control form-control-lg" type="text" id="nin" name="national_id" value="{{$patient->nationality ?? old('nationality')}}" required>
+                                </div>
+                            </div>
+                            <div class="form-group form-row">
+                                <div class="col-sm-4 mb-2">
+                                    <label for="address">Address</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the Address" class="form-control form-control-lg" id="address" name="address" value="{{$patient->address ?? old('address')}}" required>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <label for="city">City</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the City" class="form-control form-control-lg" type="text" id="city" name="city" value="{{$patient->city ?? old('city')}}" required>
+                                </div>
+                                <div class="col-sm-4 mb-2">
+                                    <label for="city">State</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the State of Origin" class="form-control form-control-lg" type="text" id="state" name="state" value="{{ $patient->state ?? old('state')}}" required>
+                                </div>
+
+
+                                <div class="col-sm-4 mb-2">
+                                    <label for="tribe">TRIBE</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the Tribe" class="form-control form-control-lg" type="text" id="tribe" name="tribe" value="{{$patient->tribe ??  old('tribe')}}" required>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="select-mar">Marital Status</label>
-                                    <select style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="select-mar" name="marital_status" required>
-                                        <option value="">Select status</option>
-									<option value="Never Married" {{ ($patient->marital_status == 'Never Married') ? 'selected': ''}}>Never Married(single)</option>
-									<option value="married" {{($patient->marital_status == 'married') ? 'selected': ''}} >Married</option>
-									<option value="widow" {{($patient->marital_status == 'widow') ? 'selected': ''}}>Widow</option>
-									<option value="divorced" {{($patient->marital_status == 'divorced') ? 'selected': ''}}>Divorced</option>
-
-                                    </select>
+                                    <label for="occupation">Occupation</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the Occupation" class="form-control form-control-lg" type="text" id="occupation" name="occupation" value="{{$patient->occupation ??  old('occupation')}}" required>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="int123" class="text-bold-600 font-medium-2">
-                                            Date of Birth :
-                                        </label><a href="#" id="switch">? click for estimated age</a>
-
-                                        <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" type="text" class="js-datepicker form-control" id="int123" name="dob" data-week-start="1" data-autoclose="true" data-today-highlight="false" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" >
-                                    <input type="text"  name="age_at_reg" class="form-control form-control-lg" id="int124" placeholder="Enter estimateg Age" value="{{$patient->age_at_reg ?? old('age_at_reg')}}">
-                                    </div>
+                                <div class="col-sm-4">
+                                    <label for="referral_source">Referral Source</label>
+                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" placeholder="Enter the Referral Source" class="form-control form-control-lg" type="text" id="referral_source" name="referral_source" value="{{$patient->referral_source ?? old('referral_source')}}">
                                 </div>
 
                             </div>
-                            <div class="form-group form-row">
-                                <div class="col-sm-4">
-                                    <label for="email">Email</label>
-                                <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="email" id="email" name="email" value="{{$patient->email ?? old('email')}}">
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="address">Address</label>
-                                    <textarea style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-alt" id="address" name="address" rows="2">{{ $patient->address ?? old('address')}}</textarea>
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="city">City</label>
-                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="city" name="city" value="{{$patient->city ??old('city')}}">
-                                </div>
-                                </div>
-                                <div class="form-group form-row">
-                                <div class="col-sm-4">
-                                    <label for="city">State</label>
-                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="state" name="state" value="{{$patient->state ??old('state')}}">
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="nin">National Identification Number</label>
-                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="nin" name="national_id" value="{{$patient->national_id ??old('national_id')}}">
-                                </div>
-                                <div class="col-sm-4">
-                                    <label for="nin">Occupation</label>
-                                    <input style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="nin" name="occupation" value="{{$patient->occupation ??old('occupation')}}">
-                                </div>
-    </div>
 
                         </div>
                         <!-- END Step 1 -->
