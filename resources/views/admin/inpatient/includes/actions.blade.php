@@ -19,18 +19,53 @@
                                 <!-- Activity List -->
                                 <ul class="nav-items mb-0" id="recenttest">
                                     @foreach ($inpatient->user->encounters as $item)
-                                    <li class="bg-city-lighter">
-                                        <a class="text-dark media py-2" href="javascript:void(0)">
-                                            <div class="mr-3 ml-2">
+                                    @foreach($item->encounterTests as $treatment)
 
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="font-w600">{{ $item->type}}</div>
-                                                <div class="text-success">{{$item->status}}</div>
-                                                <small class="text-muted">{{$item->created_at->diffForHumans()}}</small>
-                                            </div>
-                                        </a>
-                                    </li>
+                                    <div class="mr-3 ml-2">
+                                        @switch($treatment->testable_type)
+                                            @case('App\Models\Pharmreq')
+                                                <li class="bg-default-light">
+                                                    <a class="text-dark media py-2" href="javascript:void(0)">
+                                                        <div class="media-body ml-3">
+                                                            <div class="font-w600">Drug Prescribed</div>
+                                                        <div class="text-white">{{$treatment->status}}
+                                                            @if ($treatment->status !== 'dispensed')
+                                                                <button class="btn btn-sm btn-primary prescribe-review" data-type="{{$treatment->testable_id}}" data-model="{{$treatment->testable_type}}"
+                                                                    data-toggle="modal" data-target="#pharmacy-review-block-normal">review prescrition</button>
+                                                            @endif
+                                                            </div>
+                                                            <small class="text-muted">{{$treatment->created_at->diffForHumans()}}</small>
+                                                        </div>
+                                                     </a>
+                                                </li>
+
+                                                @break
+                                            @case('App\Models\Microbiologyreq')
+                                                <li class="bg-warning">
+                                                    <a class="text-dark media py-2" href="javascript:void(0)">
+                                                        <div class="media-body ml-3">
+                                                            <div class="font-w600">Microbiology test requested</div>
+                                                            <div class="text-white">{{$treatment->status}}</div>
+                                                            <small class="text-muted">{{$treatment->created_at->diffForHumans()}}</small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                @break
+                                            @default
+                                            <li class="bg-info">
+                                                <a class="text-dark media py-2" href="javascript:void(0)">
+                                                    <div class="media-body ml-3">
+                                                    <div class="font-w600">{{$treatment->testable_type}}</div>
+                                                        <div class="text-white">{{$treatment->status}}</div>
+                                                        <small class="text-muted">{{$treatment->created_at->diffForHumans()}}</small>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endswitch
+
+                                    </div>
+
+                                @endforeach
                                     @endforeach
 
 

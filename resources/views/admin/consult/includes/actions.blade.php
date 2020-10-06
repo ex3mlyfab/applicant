@@ -28,7 +28,12 @@
                                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                                 <div class="media-body ml-3">
                                                                     <div class="font-w600">Drug Prescribed</div>
-                                                                    <div class="text-white">{{$treatment->status}}</div>
+                                                                <div class="text-white">{{$treatment->status}}
+                                                                    @if ($treatment->status !== 'dispensed')
+                                                                        <button class="btn btn-sm btn-primary prescribe-review" data-type="{{$treatment->testable_id}}" data-model="{{$treatment->testable_type}}"
+                                                                            data-toggle="modal" data-target="#pharmacy-review-block-normal">review prescrition</button>
+                                                                    @endif
+                                                                    </div>
                                                                     <small class="text-muted">{{$treatment->created_at->diffForHumans()}}</small>
                                                                 </div>
                                                              </a>

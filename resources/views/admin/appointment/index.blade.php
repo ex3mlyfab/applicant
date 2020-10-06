@@ -30,11 +30,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#btabs-animated-slideleft-all"> All Appointment</a>
                         </li>
-                        <li class="nav-item ml-auto">
+                        {{-- <li class="nav-item ml-auto">
                             <a class="nav-link" href="#btabs-animated-slideleft-settings">
                                 <i class="fa fa-plus mr-1">New Appointment</i>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="block-content tab-content overflow-hidden">
                         <div class="tab-pane fade fade-left show active" id="btabs-animated-slideleft-home" role="tabpanel">
@@ -60,7 +60,7 @@
                                                     {{ $item->user->full_name}}
                                                 </td>
                                                 <td>
-                                                <img src="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" alt=""><br>
+                                                <img src="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" alt="" style="width: 80px;"><br>
                                                 {{$item->user->folder_number}}
                                                 </td>
                                                 <td>

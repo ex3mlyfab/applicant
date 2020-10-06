@@ -364,6 +364,12 @@
 
 
             });
+            $('.prescribe-review').bind('click', function(){
+                    let model = $(this).data('model');
+                    let id = $(this).data('type');
+
+
+            });
             $('#drugName').on("change", function(){
                 var classID = $(this).val();
             var link = "{{ url('admin/selectdrug/') }}";
@@ -426,7 +432,7 @@
                 $('#height').prop("readonly", true);
                 $('#bmi').val('Enter weight and Height for Bmi');
 
-                $('#pathology_submit').prop("disabled", true); 
+                $('#pathology_submit').prop("disabled", true);
                 //disable the pathology submit button
                 $('#weight').on('blur', function(){
                     weight = $(this).val();
@@ -437,7 +443,7 @@
                     if($(this).val() != ''){
                         $('#pathology_submit').prop("disabled", false);
                     }
-                    
+
                 });
                 $('#height').on('blur', function(){
                     height = $(this).val();
@@ -445,8 +451,11 @@
 
                     $('#bmi').val(bmi.toFixed(2));
                 });
+                $('#drug_subcategory').select2({
+        dropdownParent: $('#pharmacy-block-normal')
+        });
 
-                
+
     var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
 
     new Chart($(".js-chartjs-lines"), {

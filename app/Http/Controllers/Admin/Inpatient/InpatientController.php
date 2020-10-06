@@ -36,18 +36,21 @@ class InpatientController extends Controller
     public function wardRound(Inpatient $inpatient)
     {
 
-        // // patient details
-        // $patient = $inpatient->user;
-        // $encounter = $inpatient->encounter;
-        // // collect all vital signs
-        
-
-
         $vitals = VitalSign::where('patient_id', $inpatient->user->id)->get();
         $vitals = $vitals->groupBy(function (VitalSign $item) {
             return $item->created_at->format('d/m/Y h:i:s A');
         });
+        if( !($inpatient->encounter)){
 
+            $encounter= Encounter::create([
+                'user_id' => $inpatient->user->id,
+            ]);
+            $inpatient->encounter()->save($encounter);
+
+
+       }else{
+           $encounter = $inpatient->encounter;
+       }
         $dataChart = [];
         foreach ($vitals as $item => $values) {
             $dataChart['label'][] = $item;
@@ -61,7 +64,7 @@ class InpatientController extends Controller
             }
         }
         $dataChart['chart_data'] = json_encode($dataChart);
-        return view('admin.inpatient.create', compact('dataChart', 'vitals', 'inpatient'));
+        return view('admin.inpatient.create', compact('dataChart', 'vitals', 'inpatient','encounter'));
     }
     public function create()
     {
@@ -84,7 +87,9 @@ class InpatientController extends Controller
         $adminreq->update([
             'status' => 'admitted'
         ]);
-
+        $adminreq->testables()->update([
+            'status' => 'admitted'
+        ]);
         $inpatient= Inpatient::create([
             'user_id' => $request->patient_id,
 

@@ -645,6 +645,126 @@
                             <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
+                                    <th width="15%">Drug Name</th>
+                                    <th>Drug Form/ Strength</th>
+                                    <th>Dosage</th>
+                                    <th>Duration</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Line Cost</th>
+                                    <th style="text-align: center;background: #eee">
+
+                                    </th>
+                                </thead>
+                                @php
+                                    $drugs = \App\Models\DrugModel::all();
+                                @endphp
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <select  class="js-select2 form-control form-control-lg" style="width:100%;" data-placeholder="Choose one.." id="drug-subcategory">
+                                            <option></option>
+                                            @foreach ($drugs as $item)
+                                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="forms" class="m-0 form-control form-control-lg p-0" readonly>
+                                    </td>
+
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="dosage" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="duration1" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="qty" step="0.1" class="form-control form-control-lg">
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="price" class="form-control form-control-lg" readonly>
+                                    </td>
+                                    <td>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="lineCost" class="form-control form-control-lg" readonly>
+                                    </td>
+
+                                    <td  style="text-align: center">
+                                            <button type="button" class="btn btn-success p-3" id="addDrug" onclick="rowAdd()">
+                                                <i class="fa fa-plus-circle"> Add Drug</i>
+                                            </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group ml-5">
+                                <label for="totalBalance">Total Cost</label>
+                                <input type="text" name="totalBalance" class="form-control form-control-lg" id="totalBalance" readonly>
+                            </div>
+                        </div>
+
+
+
+
+
+                    <button id="drugSubmit" type="submit" class="btn btn-primary pull-right">
+                       <i class="fa fa-save"></i> Submit
+                    </button>
+                </form>
+
+                    </div>
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- Pharmacy Modal -->
+ <!-- Pharmacy Modal -->
+ <div class="modal" id="pharmacy-review-block-normal" tabindex="-1" role="dialog" aria-labelledby="pharmacy-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg modal-dialog-top" role="document" >
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-light">
+                    <h3 class="block-title">Drug Request-review</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="block block-fx-pop">
+                        <div class="block-header bg-info-dark"></div>
+                        <div class="block-content ">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                </div>
+                                <div class="col-md-8 font-size-sm">
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
+                                    <p>Age:&nbsp; {{$patient->age}}</p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <h3 class="text-center text-uppercase">Prescription sheet</h3>
+                    <div class="table-responsive">
+                        <form action="#" method="POST" class="form form-element" >
+                            @csrf
+                            <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
+                            <table class="table table-bordered table-striped" id="drugs">
+                                <thead>
                                     <th>Drug Name</th>
                                     <th>Drug Form/ Strength</th>
                                     <th>Dosage</th>

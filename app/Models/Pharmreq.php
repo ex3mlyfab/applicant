@@ -20,7 +20,8 @@ class Pharmreq extends Model
     {
         return $this->belongsTo(Admin::class, 'seen_by');
     }
-    
+
+
     public function invoice(): MorphOne
     {
         return $this->morphOne(Invoice::class, 'invoiceable');

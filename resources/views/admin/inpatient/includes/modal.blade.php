@@ -621,13 +621,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$patient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$patient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$patient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$patient->sex}}</p>
-                                    <p>Age:&nbsp; {{$patient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->age}}</p>
 
                                 </div>
                             </div>

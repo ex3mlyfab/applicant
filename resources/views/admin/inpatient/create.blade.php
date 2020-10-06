@@ -466,7 +466,7 @@
         options: {
             title: {
             display: true,
-            text: '{{$patient->full_name}} Vital Signs Chart'
+            text: '{{$inpatient->full_name}} Vital Signs Chart'
             }
         }
     });
