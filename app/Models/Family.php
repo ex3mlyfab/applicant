@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Family extends Model
 {
@@ -23,5 +24,9 @@ class Family extends Model
     public function retainership(): HasOne
     {
         return $this->hasOne(Retainership::class);
+    }
+    public function payments(): MorphOne
+    {
+        return $this->morphOne(PaymentReceipt::class, 'paymentable');
     }
 }

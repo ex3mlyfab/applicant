@@ -249,7 +249,7 @@
         });
 
 
-            $('tbody tr:nth-child(odd)').addClass("bg-amethyst-lighter");
+        $('tbody tr:nth-child(odd)').addClass("bg-amethyst-lighter");
 
 });
 

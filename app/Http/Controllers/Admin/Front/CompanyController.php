@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankTransfer;
 use App\Models\Organization;
 use App\Models\Payment;
+use App\Models\PaymentReceipt;
 use App\Models\RegistrationType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -53,15 +56,72 @@ class CompanyController extends Controller
             'contact_phone' => 'nullable',
         ]);
         $data['folder_number'] = assign_Fno_company();
+
         $org = Organization::create($data);
-        Payment::create([
-            'payment_mode_id' => 1,
-            'name' => $org->organisation_name,
-            'admin_id' => Auth::user()->id,
-            'service' => 'Payments for new company account registration',
-            'amount' => $org->registrationType->charge->amount,
-            'invoice_no' => generate_invoice_no(),
-        ]);
+        switch ($request->payment_mode) {
+                case 2:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'name' => $org->organization_name,
+                        'amount_transfered' => $org->registrationType->charge->amount,
+                        'status' => 'POS'
+                    ]);
+                    $paid = PaymentReceipt::create([
+                        'name' => $org->organization_name,
+                        'payment_mode_id' => $request->payment_mode,
+                        'admin_id' => auth()->user()->id,
+                        'receipt_no' => generate_invoice_no(),
+                        'total' => $org->registrationType->charge->amount,
+                    ]);
+                    Payment::create([
+                        'payment_receipt_id' => $paid->id,
+                        'service' => 'Payments for new ' . $org->registrationType->name . ' registration',
+                        'amount' => $org->registrationType->charge->amount,
+
+                        ]);
+                    $org->payments()->save($paid);
+                    break;
+                case 1:
+                    $paid = PaymentReceipt::create([
+                        'name' => $org->organization_name,
+                        'payment_mode_id' => $request->payment_mode,
+                        'admin_id' => auth()->user()->id,
+                        'receipt_no' => generate_invoice_no(),
+                        'total' => $org->registrationType->charge->amount,
+                    ]);
+                    Payment::create([
+                        'payment_receipt_id' => $paid->id,
+                        'service' => 'Payments for new ' . $org->registrationType->name . ' registration',
+                        'amount' => $org->registrationType->charge->amount,
+
+                        ]);
+                    $org->payments()->save($paid);
+                    break;
+                case 3:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'name' => $org->organization_name,
+                        'amount_transfered' => $org->registrationType->charge->amount,
+                        'status' => 'Transfer'
+                    ]);
+                    $paid = PaymentReceipt::create([
+                        'name' => $org->organization_name,
+                        'payment_mode_id' => $request->payment_mode,
+                        'admin_id' => auth()->user()->id,
+                        'receipt_no' => generate_invoice_no(),
+                        'total' => $org->registrationType->charge->amount,
+                    ]);
+                    Payment::create([
+                        'payment_receipt_id' => $paid->id,
+                        'service' => 'Payments for new ' . $org->registrationType->name . ' registration',
+                        'amount' => $org->registrationType->charge->amount,
+
+                        ]);
+                    $org->payments()->save($paid);
+
+                    break;
+            }
+
         $notification = [
             'message' => 'Company account created',
             'alert' => 'success'
@@ -78,39 +138,49 @@ class CompanyController extends Controller
             'phone' => 'required|string|max:255|unique:users',
             'sex' => 'nullable|string',
             'email' => 'nullable|email|max:255',
-            'nok' => 'nullable|string|max:255',
-            'nok_phone' => 'nullable|string|max:255',
+            'nok' => 'nullable|max:255',
+            'nok_phone' => 'nullable|max:255',
             'nok_relationship' => 'nullable|string|max:255',
             'nok_address' => 'nullable|string',
             'address' => 'nullable|string',
-            'email' => 'nullable|string',
-            'national_id' => 'nullable|string',
+            'nationality' => 'nullable|string',
             'state' => 'nullable|string',
             'city' => 'nullable|string',
             'age_at_reg' => 'nullable|string',
             'marital_status' => 'nullable|string',
-            'registration_type_id' => 'required',
-            'belongs_to' => 'nullable',
+            'registration_type_id' => 'nullable',
+            'occupation' => 'nullable',
+            'tribe' => 'nullable',
+            'religion' => 'sometimes',
+            'referral_source' => 'sometimes',
+            'insurance_number' => 'nullable',
+            'payment_method' => 'nullable',
+            'dob' => 'sometimes',
+            'payment_mode' => 'sometimes',
+            'organization_id' => 'sometimes',
 
         ]);
 
+
         if ($request->has('dob')) {
             $dob = strtotime($request->dob);
-            $newDate = date('Y-m-d', $dob);
+
+            $newDate = date('d-m-Y', $dob);
+            $newDate = Carbon::parse($newDate);
             $validated['dob'] = $newDate;
         }
-
-
         $validated['source'] = 'company';
 
-        if ($request->has('belongs_to')) {
-            $number = Organization::where('id', $request->belongs_to)->first();
+
+        if ($request->has('organization_id')) {
+            $number = Organization::where('id', $request->organization_id)->first();
             $count = ($number->enrolment_count) ? $number->enrolment_count : 0;
             $getletter = num_to_letters(($count + 1));
             $validated['folder_number'] = $number->folder_number . $getletter;
             $number->update([
                 'enrolment_count' => $number->enrolment_count + 1,
             ]);
+
         }
         if ($request->has('avatar')) {
             //
@@ -130,8 +200,10 @@ class CompanyController extends Controller
 
         $validated['password'] = Hash::make('pentacare');
         $validated['registered_by'] = Auth::user()->id;
+        $number = Organization::where('id', $request->organization_id)->first();
 
         User::create($validated);
+
         $notification = [
             'message' => 'User added successfully',
             'alert' => 'success'

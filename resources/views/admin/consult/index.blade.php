@@ -119,7 +119,7 @@
                                     @csrf
                                     <div class="form-group form-row">
                                         <div class="col-md-4">
-                                        <img  alt="" id="picture">
+                                        <img  alt="" id="picture" style="max-width: 100%;">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="patient_id"> PATIENT NAME</label>
@@ -199,7 +199,7 @@
                                             <input type="text" name="spo2" id="spo2" placeholder="SPO2" class="form-control form-control-lg">
                                             <div class="input-group-append">
                                                 <span class="input-group-text">
-                                              bpm
+                                              %
                                                 </span>
                                             </div>
                                         </div>
@@ -278,12 +278,13 @@
         $('#bmi').val('Enter weight and Height for Bmi');
 
         $('#weight').on('blur', function(){
-            weight = $(this).val();
+            weight = parseFloat($(this).val());
             $('#height').prop("readonly",false );
 
         });
         $('#height').on('blur', function(){
-            height = $(this).val();
+            height =parseFloat($(this).val());
+
             bmi = weight/(height*height);
 
             $('#bmi').val(bmi.toFixed(2));

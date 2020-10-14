@@ -65,12 +65,12 @@
                                             <label for="radio123" class="form-check-label">Yes</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" name="previously_admitted" id="radio234" class="form-check-input" value="no">
-                                            <label for="radio234" class="form-check-label">No</label>
+                                            <input type="radio" name="previously_admitted" id="radio23411" class="form-check-input" value="no">
+                                            <label for="radio23411" class="form-check-label">No</label>
                                         </div>
                                         <div class="form-check">
-                                            <input type="radio" name="previously_admitted" id="radio234" class="form-check-input" value="Cannot Remember">
-                                            <label for="radio234" class="form-check-label">Cannot Remember</label>
+                                            <input type="radio" name="previously_admitted" id="radio234567" class="form-check-input" value="Cannot Remember">
+                                            <label for="radio234567" class="form-check-label">Cannot Remember</label>
                                         </div>
                                     </div>
 
@@ -78,12 +78,19 @@
 
                                 </div>
                                     <div class="col-md-4">
-                                        <label for="pas123" >History of hypertension :</label>
-                                        <input type="text" name="hypertensive" class="form-control form-control-lg" id="pas123" value="{{old('hypertensive') ?? ''}}">
+                                        <label>History of hypertension :</label>
+                                        <div class="form-check mt-3">
+                                            <input type="checkbox" name="hypertensive" id="hypertensive" class="form-check-inline" style="height:15px; width:15px;">
+                                            <label for="hypertensive" class="form-check-label font-weight-normal">hypertensive?</label>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="password123">History of Diabetes <br>:</label>
-                                        <input type="text" name="diabetic" class="form-control form-control-lg" id="password123" value="{{old('diabetic') ?? ''}}">
+                                        <label >History of Diabetes</label>
+                                        <div class="form-check mt-3">
+                                            <input type="checkbox" name="diabetic" id="diabetic" class="form-check-inline" style="height:15px; width:15px;">
+                                            <label for="diabetic" class="form-check-label font-weight-normal">diabetic ?</label>
+                                        </div>
+
                                     </div>
 
                             </div>
@@ -91,20 +98,29 @@
 
                     <div class="form-group form-row bg-modern-lighter p-2">
                         <div class="col-md-4">
-                            <label for="passwrd123" >Previous Blood transfusion :</label>
-							<input type="text" name="blood_transfusion" class="form-control form-control-lg" id="passwrd123" value="{{old('blood_transfusion') ?? ''}}">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="pasword123">History of Drug/Allergy :</label>
-								<input type="text" name="drug_or_allergy" class="form-control form-control-lg" id="pasword123" value="{{old('drug_or_allergy') ?? ''}}" >
+                            <label>Previous Blood transfusion</label>
+                            <div class="form-check mt-3">
+                                <input type="checkbox" name="blood_transfusion" id="blood_transfusion" class="form-check-inline" style="height:15px; width:15px;">
+                                <label for="blood_transfusion" class="form-check-label font-weight-normal">ever  been transfused?</label>
+                            </div>
+
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-								<label for="paswod123" class="form-control-label-lg">Sickle cell Disease <br>:</label>
-                                <input type="text" name="sc_disease" class="form-control form-control-lg" id="paswod123" value="{{old('sc_disease') ?? ''}}" >
+                                <label>Sickle cell Disease</label>
+                                <div class="form-check mt-3">
+                                    <input type="checkbox" name="sc_disease" id="sc_disease" class="form-check-inline" style="height:15px; width:15px;">
+                                    <label for="sc_disease" class="form-check-label font-weight-normal">has sickle cell?</label>
+                                </div>
+
 
 							</div>
                         </div>
+                        <div class="col-md-4">
+                            <label for="pasword123">History of Drug/Allergy </label>
+							<input type="text" name="drug_or_allergy" class="form-control form-control-lg" id="pasword123" value="{{old('drug_or_allergy') ?? ''}}" >
+                        </div>
+
                     </div>
                     <div class="form-group bg-primary-lighter p-2 ">
                         <label for="paswd123" class="form-control-label-lg">Others:</label>
@@ -125,7 +141,7 @@
 							<input type="text" name="cvs" class="form-control form-control-lg" id="cvs" placeholder="" value="{{old('cvs') ?? ''}}">
                         </div>
                         <div class="col-md-4">
-                            <label for="rs" >Respiratory System  <br> (rs) </label>
+                            <label for="rs" >Respiratory System (rs) </label>
 							<input type="text" name="resp_system" class="form-control form-control-lg" id="rs" placeholder="" value="{{old('resp_system') ?? ''}}">
                         </div>
 

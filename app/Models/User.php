@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class User extends Authenticatable
 {
@@ -174,6 +175,7 @@ class User extends Authenticatable
     public function getPaymentMethodAttribute()
     {
         if($this->mdAccount){
+
             return 'mdaccount';
         }else if($this->enrollUser){
 
@@ -186,6 +188,22 @@ class User extends Authenticatable
         }else{
             return 'pocket';
         }
+    }
+    public function member(): MorphOne
+    {
+        return $this->morphOne(Organization::class, 'organizeable');
+    }
+    public function payments(): MorphOne
+    {
+        return $this->morphOne(PaymentReceipt::class, 'paymentable');
+    }
+    public function treatmentSheets(): HasMany
+    {
+        return $this->hasMany(TreatmentSheet::class);
+    }
+    public function treatmentCharts(): HasMany
+    {
+        return $this->hasMany(TreatmentChart::class);
     }
     /**
      * The attributes that should be cast to native types.

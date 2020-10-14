@@ -16,7 +16,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $unpaid = Invoice::where('status', NULL)->get();
+        $unpaid = Invoice::where('p_status', 'NYP')->get();
+
+
         return view('admin.payment.invoicelist', compact('unpaid'));
     }
 

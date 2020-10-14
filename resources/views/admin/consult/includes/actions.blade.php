@@ -31,7 +31,7 @@
                                                                 <div class="text-white">{{$treatment->status}}
                                                                     @if ($treatment->status !== 'dispensed')
                                                                         <button class="btn btn-sm btn-primary prescribe-review" data-type="{{$treatment->testable_id}}" data-model="{{$treatment->testable_type}}"
-                                                                            data-toggle="modal" data-target="#pharmacy-review-block-normal">review prescrition</button>
+                                                                            data-toggle="modal" data-target="#pharmacy-review-block-normal">review prescription</button>
                                                                     @endif
                                                                     </div>
                                                                     <small class="text-muted">{{$treatment->created_at->diffForHumans()}}</small>
@@ -95,7 +95,7 @@
                             <th>action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        {{-- <tbody>
                             @foreach ($consult as $item)
                                 @if ($item->consulTests)
                                     @foreach ($item->consultTests as $item2)
@@ -116,7 +116,7 @@
                             @endforeach
 
 
-                        </tbody>
+                        </tbody> --}}
                     </table>
                 </div>
             </div>

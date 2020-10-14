@@ -20,8 +20,9 @@ class MdAccount extends Model
     {
         return $this->hasMany(MdAccountCover::class);
     }
-    public function invoice(): MorphMany
+
+    public function mdAccountCharges(): HasMany
     {
-        return $this->morphMany(Invoice::class, 'invoiceable');
+        return $this->hasMany(MdAccountCharge::class);
     }
 }

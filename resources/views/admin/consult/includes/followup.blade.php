@@ -9,14 +9,12 @@
     <input type="hidden" name="encounter_id" value={{$encounter->id}}>
             <div class="form-group bg-info-light p-2">
                 <label class="form-control-label-lg">Subjective complaints:</label>
-                <textarea name="subjective_complaints"   class="form-control" rows="5">
-                    {{old('subjective_complaints') ?? ''}}
+                <textarea name="subjective_complaints"   class="form-control" rows="5">{{old('subjective_complaints') ?? ''}}
                 </textarea>
             </div>
             <div class="form-group bg-amethyst-lighter p-2">
                 <label class="form-control-label-lg">Objective findings</label>
-                <textarea name="objective_findings"  class="form-control"  rows="5">
-                    {{old('objective_findings') ?? ''}}
+                <textarea name="objective_findings"  class="form-control"  rows="5">{{old('objective_findings') ?? ''}}
                 </textarea>
             </div>
             <div class="form-group bg-amethyst-light p-2">

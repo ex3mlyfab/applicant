@@ -20,7 +20,7 @@ class ConsultController extends Controller
     public function index()
     {
         // collect all appointment for today for display in the consultation module and for appointment not yet concluded
-        $today = ClinicalAppointment::whereDate('appointment_due', now()->today())->orWhereNotIn('status',['completed'])->get();
+        $today = ClinicalAppointment::whereDate('appointment_due','<=', now()->today())->WhereNotIn('status',['completed'])->get();
 
         $patients = User::all();
         return view('admin.consult.index', compact('today', 'patients'));

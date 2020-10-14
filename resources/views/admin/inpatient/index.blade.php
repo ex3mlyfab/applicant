@@ -296,7 +296,7 @@
             });
             $('#datetimepicker3').datetimepicker({
                 defaultDate: new Date(),
-                format: 'DD/MM/YYYY hh:mm:ss A',
+                format: 'DD-MM-YYYY hh:mm:ss A',
                 sideBySide: true
             });
 

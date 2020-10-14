@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -81,10 +81,10 @@ class LoginController extends Controller
     public function locked()
     {
         if (!session('lock-expires-at')) {
-            return redirect('/');
+            return redirect('/admin');
         }
         if (session('lock-expires-at') > now()) {
-            return redirect('/');
+            return redirect('/admin');
         }
         return view('admin.auth.locked');
     }
@@ -93,11 +93,11 @@ class LoginController extends Controller
     {
         $check = Hash::check($request->input('password'), $request->user()->password);
         if (!$check) {
-            return redirect()->route('login.locked')->withErrors([
+            return redirect()->route('admin.lock')->withErrors([
                 'Your password does not match your profile.'
             ]);
         }
         session(['lock-expires-at' => now()->addMinutes($request->user()->getLockoutTime())]);
-        return redirect('/');
+        return redirect('/admin');
     }
 }

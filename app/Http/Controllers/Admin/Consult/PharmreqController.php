@@ -13,6 +13,7 @@ use App\Models\Pharmreq;
 use App\Models\PharmreqDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 class PharmreqController extends Controller
 {
@@ -96,7 +97,8 @@ class PharmreqController extends Controller
             'status'=> 'invoice generated',
             'total' => $request->totalBalance,
             'seen_by' => auth()->user()->id,
-        ]); 
+        ]);
+
         $invoice= Invoice::create([
                 'user_id' => $pc->encounter->user->id,
                 'invoice_no' => generate_invoice_no(),
@@ -172,7 +174,9 @@ class PharmreqController extends Controller
 
         return json_encode($created);
     }
-
+    public function prescriptionReview(Pharmreq $pharmreq){
+        return view('admin.pharmacy.prescription', compact('pharmreq'));
+    }
     /**
      * Display the specified resource.
      *
@@ -181,7 +185,24 @@ class PharmreqController extends Controller
      */
     public function show(Pharmreq $pharmreq)
     {
-        return view('admin.pharmacy.costdrug', compact('pharmreq'));
+        $prescribed = $pharmreq->pharmreqDetails;
+        $inserted = [];
+        foreach ($prescribed as $key => $value) {
+            array_push($inserted,[
+                'drugName' =>$value->drugModel->name,
+                'drug_form'=> $value->drugModel->forms. '/'. $value->drugModel->strength,
+                'dosage'   => $value->dosage,
+                'duration' => $value->duration,
+                'cost' => $value->cost,
+                'quantity' =>$value->quantity
+            ]);
+        }
+        $data= [
+            'pharmreq' => $pharmreq,
+            'prescription' => $inserted
+
+        ];
+        return response()->json($data);
     }
 
     /**

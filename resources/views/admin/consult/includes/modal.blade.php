@@ -218,7 +218,7 @@
         </div>
     </div>
 </div>
- <!-- Histology Block Modal -->
+<!-- Histology Block Modal -->
  <div class="modal" id="histology-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-top modal-lg" role="document"style=" width: 80%;">
         <div class="modal-content">
@@ -725,8 +725,8 @@
 </div>
 
 <!-- Pharmacy Modal -->
- <!-- Pharmacy Modal -->
- <div class="modal" id="pharmacy-review-block-normal" tabindex="-1" role="dialog" aria-labelledby="pharmacy-block-normal" aria-hidden="true" >
+ <!-- Pharmacy REVIEW Modal -->
+<div class="modal" id="pharmacy-review-block-normal" tabindex="-1" role="dialog" aria-labelledby="pharmacy-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg modal-dialog-top" role="document" >
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
@@ -759,11 +759,11 @@
                     </div>
                     <h3 class="text-center text-uppercase">Prescription sheet</h3>
                     <div class="table-responsive">
-                        <form action="#" method="POST" class="form form-element" >
+                        <form action="#" method="POST" class="form form-element" onsubmit="return false;">
                             @csrf
                             <input type="hidden" name="clinical_appointment_id" value="{{$appointment->id}}">
                             <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
-                            <table class="table table-bordered table-striped" id="drugs">
+                            <table class="table table-bordered table-striped" id="drugs-review">
                                 <thead>
                                     <th>Drug Name</th>
                                     <th>Drug Form/ Strength</th>
@@ -777,46 +777,14 @@
                                     </th>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <select  class="js-select2 form-control" style="width: 100%; border: 1px solid rgb(51, 70, 128, 0.8)" data-placeholder="Choose one.." id="drug-subcategory">
-                                            <option class="p-2"></option>
-                                            {{ create_option('drug_models','id', 'name')}}
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="forms" class="form-control form-control-lg p-2" readonly>
-                                    </td>
 
-                                    <td>
-                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="dosage" class="form-control form-control-lg">
-                                    </td>
-                                    <td>
-                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="duration1" class="form-control form-control-lg">
-                                    </td>
-                                    <td>
-                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="qty" step="0.1" class="form-control form-control-lg">
-                                    </td>
-                                    <td>
-                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="price" class="form-control form-control-lg" readonly>
-                                    </td>
-                                    <td>
-                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="lineCost" class="form-control form-control-lg" readonly>
-                                    </td>
-
-                                    <td  style="text-align: center">
-                                            <button type="button" class="btn btn-success p-3" id="addDrug" onclick="rowAdd()">
-                                                <i class="fa fa-plus-circle"> Add Drug</i>
-                                            </button>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="row">
                             <div class="form-group ml-5">
                                 <label for="totalBalance">Total Cost</label>
-                                <input type="text" name="totalBalance" class="form-control form-control-lg" id="totalBalance" readonly>
+                                <input type="text" name="totalBalance" class="form-control form-control-lg" id="totalBalance-review" readonly>
                             </div>
                         </div>
 
@@ -824,8 +792,8 @@
 
 
 
-                    <button id="drugSubmit" type="submit" class="btn btn-primary pull-right">
-                       <i class="fa fa-save"></i> Submit
+                    <button id="drugSubmit-review" class="btn btn-primary pull-right" disabled>
+
                     </button>
                 </form>
 

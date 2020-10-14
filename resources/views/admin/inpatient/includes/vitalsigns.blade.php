@@ -79,7 +79,7 @@
                                 <form action="{{route('allergy.remove', $item->id)}}" method="POST" >
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
+                                    <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="remove allergy" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
                                 </form>
                             </td>
                         </tr>

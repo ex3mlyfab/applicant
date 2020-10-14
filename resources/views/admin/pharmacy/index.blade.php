@@ -48,7 +48,7 @@
                                     <button type="submit" class="btn btn-primary">Cost Drug</button>
                                     </form>
                                 @elseif(($item->status=='invoice generated'))
-                                    Not yet paid
+                                <a href="{{route('pharmreq.review', $item->id)}}">review Prescription</a>
                                 @elseif (($item->status == 'item paid'))
 
                                     <a href="{{route('pharmacy.dispensedrug',$item->id )}}" class="btn btn-sm btn-primary">Dispense Drugs</a>

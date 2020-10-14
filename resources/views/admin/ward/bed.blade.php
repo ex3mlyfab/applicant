@@ -48,7 +48,7 @@
                     {{$bed->bedType->name}}
                 </td>
                 <td>
-                    {{$bed->wardModel->name}}
+                    {{$bed->wardModel->name.'/'. $bed->wardModel->description}}
                 </td>
                 <td>
                     {{$bed->status}}
@@ -98,14 +98,16 @@
                             <label for="bed_id"> Bed Type </label>
                             <select name="bed_type_id" id="bed_id" class="form-control form-control-lg">
                                 <option value="">Select One</option>
-                                {{ create_option('bed_types', 'id', 'name')}}
+                                {{ create_option('bed_types', 'id', 'name', '')}}
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="ward_id">Ward</label>
                             <select name="ward_model_id" id="ward_id" class="form-control form-control-lg">
                                 <option value="">Select One</option>
-                                {{ create_option('ward_models', 'id', 'name')}}
+                                @foreach ($wards as $item)
+                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
                             </select>
                         </div>
 

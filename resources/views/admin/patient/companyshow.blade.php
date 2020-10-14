@@ -11,29 +11,34 @@
                 <div class="block block-fx-pop block-rounded">
                     <div class="block-content content-full">
                         <div class="row">
-                            <div class="col-md-8 offset-2">
-                                <table class="table table-borderless table-vcenter">
-                                    <tbody>
-                                        <tr class="mb-0">
-                                            <th style="width: 35%;"><strong>NAME:</strong></th>
-                                            <td>{{$company->organisation_name}}</td>
+                            <div class="col-md-8 offset-md-2">
+                                <div class="table-responsiveness">
+                                    <table class="table table-borderless table-vcenter">
+                                        <tbody>
+                                            <tr class="mb-0">
+                                                <th style="width: 35%;"><strong>NAME:</strong></th>
+                                                <td>{{$company->organisation_name}}</td>
 
-                                        </tr>
-                                        <tr>
-                                            <th style="width: 35%;"><strong>Folder Number:</strong></th>
-                                            <td>{{$company->folder_number}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width: 35%;"><strong>Folder Number:</strong></th>
+                                                <td>{{$company->folder_number}}</td>
 
-                                        </tr>
-                                        <tr>
-                                            <th style="width: 35%;"><strong>Address</strong></th>
-                                            <td>{{$company->address}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th style="width: 35%;"><strong>Contact Phone Number</strong></th>
-                                            <td>{{$company->organisation_phone}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </tr>
+                                            <tr>
+                                                <th style="width: 35%;"><strong>Address</strong></th>
+                                                <td>{{$company->address}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width: 35%;"><strong>Contact Phone Number</strong></th>
+                                                <td>{{$company->organisation_phone}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                @if ($company->enrolment_count <= $company->registrationType->max_enrollment)
+                                <a href="{{route('company.enroll', $company->id)}}" class="btn btn-info">Enroll members</a>
+                            @endif
                             </div>
 
                         </div>
@@ -69,27 +74,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($company->users as $item)
+                        @foreach ($company->users as $company)
                         <tr>
                             <td>
                                 {{$loop->iteration}}
                             </td>
                             <td>
-                            <a href="{{route('patient.show', $item->id)}}">{{$item->full_name}}</a>
+                            <a href="{{route('patient.show', $company->id)}}">{{$company->full_name}}</a>
                             </td>
                             <td>
-                                <img class="img-avatar img-avatar128 options-item" src="{{asset('backend')}}/images/avatar/{{$item->avatar}}" alt="">
+                                <img class="img-avatar img-avatar128 options-company" src="{{asset('backend')}}/images/avatar/{{$company->avatar}}" alt="">
                             </td>
                             <td>
-                                {{$item->folder_number}}
+                                {{$company->folder_number}}
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{route('patient.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
+                                    <a href="{{route('patient.edit', $company->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </a>
                                     @role('super-admin')
-                                    <form action="{{route('patient.destroy', $item->id)}}" method="POST" >
+                                    <form action="{{route('patient.destroy', $company->id)}}" method="POST" >
                                         @csrf
                                             @method('DELETE')
                                             <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnToFamiliesTable extends Migration
+class AddColumnToPaymentReciept extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class AddColumnToFamiliesTable extends Migration
      */
     public function up()
     {
-        Schema::table('families', function (Blueprint $table) {
+        Schema::table('payment_receipts', function (Blueprint $table) {
             //
-            $table->dropColumn('enrolment count	');
-            $table->unsignedMediumInteger('enrolment_count')->nullable();
-            $table->string('assigned_letters')->nullable();
         });
     }
 
@@ -28,7 +25,7 @@ class AddColumnToFamiliesTable extends Migration
      */
     public function down()
     {
-        Schema::table('families', function (Blueprint $table) {
+        Schema::table('payment_receipts', function (Blueprint $table) {
             //
         });
     }

@@ -164,6 +164,9 @@
                                             <li class="nav-item ml-auto">
                                                 <div class="block-options pl-3 pr-2">
                                                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+                                                    <button type="button" class="btn-block-option" data-toggle="block-option" data-action="pinned_toggle">
+                                                        <i class="si si-pin"></i>
+                                                    </button>
                                                 </div>
                                             </li>
                                         </ul>
@@ -277,7 +280,7 @@
 
 <script>
     $(function(){
-            $('label').css("text-transform", "uppercase");
+
             $('#specify').hide();
             $('#specify_symptoms').hide();
 
@@ -320,6 +323,11 @@
                 }
             });
 
+            $('#drug-subcategory').select2({
+                dropdownParent: $('#pharmacy-block-normal')
+            });
+
+
 
 
             $('#others').change(function(){
@@ -330,46 +338,92 @@
                 }
             });
 
-            var count = 1;
+
             $('#drug-subcategory').on("change", function(){
-            var classID = $(this).val();
-            var link = "{{ url('admin/selectdrug/') }}";
-            $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+                var classID = $(this).val();
+                var link = "{{ url('admin/selectdrug/') }}";
+                $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
 
-            if(classID) {
-                $.ajax({
-                    url: link+"/"+classID,
-                    type: "GET",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        id : "value",
-                        name: "value",
-                        forms : "value"
-                        }),
-                    success:function(response) {
+                if(classID) {
+                    $.ajax({
+                        url: link+"/"+classID,
+                        type: "GET",
+                        dataType: "json",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            id : "value",
+                            name: "value",
+                            forms : "value"
+                            }),
+                        success:function(response) {
 
-                        $('#forms').val(response.forms+ ' -'+response.strength)
-                        $('#price').val(response.price);
+                            $('#forms').val(response.forms+ ' -'+response.strength)
+                            $('#price').val(response.price);
+
+                            }
+                            });
 
                         }
-                        });
-
-                    }
 
 
 
             });
+
             $('.prescribe-review').bind('click', function(){
                     let model = $(this).data('model');
                     let id = $(this).data('type');
+                    let url = "{{url('admin/pharmreq')}}" + '/'+ id;
+
+                $.get(url, prescription);
 
 
             });
+
+            function prescription(data){
+                $('#drugs-review tbody').html('');
+                $('#totalBalance-review').val(data.pharmreq.total);
+                $('#drugSubmit-review').text(data.pharmreq.status);
+                $.each(data.prescription, function(key, value){
+                   setTimeout(function(){
+                        let tablerow = `
+                <tr>
+
+                    <td>
+                        <input type="text" value="${value.drugName}" class="form-control"  readonly >
+
+                    </td>
+                    <td>
+                        <input type="text"  value="${value.drug_form}" class="form-control" readonly>
+                    </td>
+                    <td>
+                        <input type="text"  value="${value.dosage}" class="form-control" readonly>
+                    </td>
+                    <td>
+                        <input type="text" name="duration[]" value="${value.duration}" class="form-control drugDuration" readonly>
+                    </td>
+                    <td>
+                        <input type="text" name="quantity[]" value="${value.quantity}" class="form-control quantity" readonly>
+                    </td>
+                    <td>
+                        <input type="text" name="price[]" value="${value.cost/value.quantity}" class="form-control" readonly>
+                    </td>
+
+                    <td>
+                        <input type="text" name="linecost[]" value="${value.cost}" class="form-control" readonly>
+                    </td>
+
+                </tr>`;
+
+                $('#drugs-review tbody').append(tablerow);
+                    }, 200);
+                    });
+
+
+            }
             $('#drugName').on("change", function(){
                 var classID = $(this).val();
             var link = "{{ url('admin/selectdrug/') }}";
@@ -410,13 +464,6 @@
                     $('#addDrug').attr('disabled', false);
                 });
 
-                $('#category').on('blur', function(){
-                    drugcategory = $('#category').text();
-                });
-
-                $('#drug_subcategory').on('blur', function(){
-                    drug_subcategory = $('#drug_subcategory').text();
-                });
                 $('#drug').on('blur', function(){
                     drug_place = $('#drug').text();
                 });
@@ -451,9 +498,10 @@
 
                     $('#bmi').val(bmi.toFixed(2));
                 });
+
                 $('#drug_subcategory').select2({
-        dropdownParent: $('#pharmacy-block-normal')
-        });
+                dropdownParent: $('#pharmacy-block-normal')
+                });
 
 
     var cData = JSON.parse(`<?php echo $dataChart['chart_data']; ?>`);
@@ -581,7 +629,7 @@
 
          });
 
-        let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : lineCost ;
+        let purchase = (Array.isArray(lineCosts) && lineCosts.length) ? lineCosts.reduce((total, amount) => total + amount, 0) : 0 ;
          $('#totalBalance').val(parseFloat(purchase).toFixed(2));
 
          if(purchase >0) $('#drugSubmit').attr('disabled', false);

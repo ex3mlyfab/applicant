@@ -64,7 +64,7 @@
                                 <input placeholder="Enter Last name" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="wizard-validation2-lastname" name="last_name" value="{{old('last_name')}}" readonly required>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="wizard-validation2-firstname">Other Names</label>
+                                    <label for="wizard-validation2-othername">Other Names</label>
                                 <input placeholder="Enter Other Names" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="wizard-validation2-othername" name="other_names" value="{{old('other_names')}}" required>
                                 </div>
                                 <div class="col-sm-4">
@@ -319,20 +319,20 @@ $('#insured').on('blur', function(){
                                 if(data.status == 'registered'){
                                     $('#space').append('<h2 class="text-danger">user already registered!</h2>');
                                     $('#wizard-validation2-lastname').val('');
-                                    $('#wizard-validation2-firstname').val('');
+                                    $('#wizard-validation2-othername').val('');
                                 }else{
                                     $('#space').append('<h2>Details found</h2><input type="hidden" name="enroll_user_id" value="'+ data.id +'">');
 
 
                                 $('#wizard-validation2-lastname').val(data.last_name);
-                                $('#wizard-validation2-firstname').val(data.other_names);
+                                $('#wizard-validation2-othername').val(data.other_names);
                                 }
 
                             });
                         }else{
                             $('#space').append('<h2 class="text-danger">Details Not found</h2>');
                             $('#wizard-validation2-lastname').val('');
-                            $('#wizard-validation2-firstname').val('');
+                            $('#wizard-validation2-othername').val('');
                         }
 
 

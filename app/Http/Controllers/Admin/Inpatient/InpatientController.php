@@ -83,6 +83,11 @@ class InpatientController extends Controller
         // dd($request->except('_token'));
         // dd(Carbon::parse($request->date_of_admission));
 
+        $pint = strtotime($request->date_of_admission);
+        // dd($pint);
+        $tip = date('Y-M-d H:i:s', $pint);
+        $tip = Carbon::parse($tip);
+
         $adminreq = AdmitModel::findOrFail($request->admin_req_id);
         $adminreq->update([
             'status' => 'admitted'
@@ -93,7 +98,7 @@ class InpatientController extends Controller
         $inpatient= Inpatient::create([
             'user_id' => $request->patient_id,
 
-            'date_of_admission' => Carbon::parse($request->date_of_admission),
+            'date_of_admission' =>$tip ,
             'bed_id' => $request->bed_id,
             'credit_limit' => $request->credit_limit,
             'status' => 'admission active',

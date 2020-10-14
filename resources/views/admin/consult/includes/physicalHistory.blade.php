@@ -23,105 +23,124 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive-lg">
-                        <table class="table table-hover">
-                            <tbody>
-                                <tr>
-                                    <th class="bg-info-light" style="width: 12.5%;">
-                                        General Examination:
-                                    </th>
-                                    <th colspan="3">
-                                        <p>{{ $consult->general_exam}}</p>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th class="bg-info-light">
-                                        Local Exam :
-                                    </th>
-                                    <th colspan="3">
-                                        <p>{{ $consult->local_exam}}</p>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th class="bg-info-light">
-                                            Regional Exam :
-                                    </th>
-                                    <th colspan="3">
-                                        <p>{{ $consult->regional_exam}}</p>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th colspan="4" class="bg-secondary text-white">Systemic Review</th>
-                                </tr>
-                                <tr>
-                                    <th class="bg-info-light">
-                                            Central Nervous System(CNS)  :
-                                    </th>
-                                    <th>
-                                            <p>{{ $consult->cns }}</p>
-                                    </th>
-                                    <th class="bg-info-light" style="width: 12.5%;">
-                                            Cardio vascular System(CVS)  :
-                                    </th>
-                                    <th >
-                                            <p>{{ $consult->cvs}}</p>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th class="bg-info-light">
-                                            Respiratory System(RS)  :
-                                    </th>
-                                    <th>
-                                            <p>{{ $consult->resp_system }}</p>
-                                    </th>
-                                    <th class="bg-info-light">
-                                            Abdomen :
-                                    </th>
-                                    <th >
-                                            <p>{{ $consult->abdomen}}</p>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th class="bg-info-light">
-                                            Genito-Urinary-Tract inc. VE   :
-                                    </th>
-                                    <th>
-                                            <p>{{ $consult->gut }}</p>
-                                    </th>
-                                    <th class="bg-info-light">
-                                        Musculo Skeletal System :
-                                    </th>
-                                    <th >
-                                            <p>{{ $consult->musculo_skeletal}}</p>
-                                    </th>
+                    <div class="row gutters-tiny">
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center"> General Examination:</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->general_exam}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Local Exam :</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->local_exam}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Regional Exam :</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->regional_exam}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="block">
+                                <div class="block-header">
+                                    <h3 class="block-title bg-secondary text-center">Systemic Review</h3>
+                                </div>
 
-                                </tr>
-                                <tr>
-                                    <th class="bg-info-light">
-                                        Skin :
-                                </th>
-                                <th >
-                                        <p>{{ $consult->skin}}</p>
-                                </th>
-                                </tr>
-                                <tr>
-                                    <th class="bg-info-light">
-                                            Musculo Skeletal System  :
-                                    </th>
-                                    <th>
-                                            <p>{{ $consult->mss }}</p>
-                                    </th>
-                                    <th class="bg-info-light">
-                                            Obstetrics &amps; Gynaecology (OBGYN)  :
-                                    </th>
-                                    <th >
-                                            <p>{{ $consult->skin }}</p>
-                                    </th>
-                                </tr>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Central Nervous System(CNS)</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->cns}}</p>
+                                </div>
 
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Cardio vascular System(CVS)</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->cvs}}</p>
+                                </div>
 
-                            </tbody>
-                        </table>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Respiratory System(RS)</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->resp_system}}</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Abdomen</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->abdomen}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center"> Genito-Urinary-Tract inc. VE</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->gut}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center"> Musculo Skeletal System</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->musculo_skeletal}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center"> Inittial Diagnosis</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->initial_diagnosis}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
                     <button class="btn btn-action" id="physical">Take a new Physical Exam</button>
                 </div>

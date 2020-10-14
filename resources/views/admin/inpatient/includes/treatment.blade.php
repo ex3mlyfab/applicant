@@ -1,6 +1,21 @@
 <div class="row bg-smooth-lighter bt-3 mt-4 p-2">
+    <div class="block block-mode-hidden">
+        <div class="block-header bg-danger-light">
+            <h3 class="block-title">Treatment</h3>
+            <div class="block-options">
+                <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+            </div>
+        </div>
+        <div class="block-content block-content-full">
+            <div class="py-1 text-center">
+                <button type="button" class="btn btn-md btn-primary mb-2 text-uppercase" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
+                <button type="button" class="btn btn-md btn-gray mb-2 text-uppercase" data-toggle="modal" data-target="#admit">Operating Room</button>
+                <button type="button" class="btn btn-md btn-success text-white mb-2 text-uppercase" data-toggle="modal" data-target="#treatment-block-normal">Treatment Sheet</button>
+            </div>
 
-    <div class="block">
+        </div>
+    </div>
+    <div class="block block-mode-hidden">
         <div class="block-header bg-amethyst">
             <h3 class="block-title">Plan</h3>
             <div class="block-options">
@@ -21,20 +36,5 @@
 
 
 
-    <div class="block">
-        <div class="block-header bg-danger-light">
-            <h3 class="block-title">Treatment</h3>
-            <div class="block-options">
-                <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
-            </div>
-        </div>
-        <div class="block-content block-content-full">
-            <div class="py-1 text-center">
-                <button type="button" class="btn btn-md btn-primary mb-2 text-uppercase" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
-                <button type="button" class="btn btn-md btn-gray mb-2 text-uppercase" data-toggle="modal" data-target="#admit">Admit</button>
-                <button type="button" class="btn btn-md btn-success text-white mb-2 text-uppercase" data-toggle="modal" data-target="#tca">TCA</button>
-            </div>
 
-        </div>
-    </div>
 </div>

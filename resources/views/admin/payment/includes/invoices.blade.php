@@ -7,7 +7,7 @@
     <!-- /.block-header -->
 <div class="block-content">
     <div class="table-responsive">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-vcenter js-dataTable-buttons">
             <thead>
                 <tr>
                     <th>#</th>
@@ -28,7 +28,7 @@
                     <td>{{$item->invoice_no}}</td>
                     <td>{{$item->status}}</td>
                     <td>
-                        @if(($item->status == Null))
+                        @if(($item->p_status == 'NYP'|| $item->status =='consultation'))
                             <a href="{{route('payment.settle', $item->id)}}" class="text-info">Make Payment  </a>
                         @else
                         <a href="{{route('payment.invoice', $item->id)}}" class="text-info">print Receipt  </a>

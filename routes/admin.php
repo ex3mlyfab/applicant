@@ -3,10 +3,15 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login');
     Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.login.post');
     Route::get('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
+    Route::post('unlock', 'Admin\Auth\LoginController@unlock')->name('admin.unlock');
     Route::group(['middleware' => ['auth:admin']], function () {
+        Route::get('locked','Admin\Auth\LoginController@locked')->name('admin.lock');
         Route::get('birthdays', function () {
             return view('admin.patient.birthday');
         })->name('birthdays'); //birthdays celebrant
+        Route::get('prescriptionreview/{pharmreq}', 'Admin\Consult\PharmreqController@prescriptionReview')->name('pharmreq.review');
+        Route::post('wardround/changestatus', 'Admin\Inpatient\TreatmentSheetController@changeStatus');
+        Route::post('nurseround/recordtreatment', 'Admin\Inpatient\TreatmentSheetController@recordTreatment')->name('recordtreatment');
         Route::post('patient/classajax/{patient}', 'Admin\Front\PatientController@patientAjax');
         Route::get('balance', 'Admin\Account\PaymentController@balance')->name('balance');
         Route::get('filterpayments', 'Admin\Account\PaymentController@filter')->name('filter.payment');
@@ -16,12 +21,15 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('payment/printinvoice/{invoice}', 'Admin\Account\PaymentController@printInvoice')->name('payment.invoice');
         Route::get('payment/printreceipt/{payment}', 'Admin\Account\PaymentController@printReceipt')->name('payment.print');
         Route::post('payment/pay', 'Admin\Account\PaymentController@pay')->name('payment.pay');
+        Route::post('payment/pharmacy', 'Admin\Account\PaymentController@pharmacy')->name('payment.pharmacy');
         Route::resource('paymentmode', 'Admin\Setting\PaymentModeController')->middleware('permission:paymentmode-create');
         Route::resource('paymentmethod', 'Admin\Setting\PaymentMethodController')->middleware('permission:paymentmethod-create');
+        Route::resource('treatmentsheet', 'Admin\Inpatient\TreatmentSheetController')->middleware('permission:wardround-create');
         /**
          * Inpatient Routes
          */
-        Route::get('wardround/{inpatient}', 'Admin\Inpatient\InpatientController@wardRound')->name('wardround');
+        Route::get('wardround/{inpatient}', 'Admin\Inpatient\InpatientController@wardRound')->name('wardround')->middleware('permission:wardround-create');;
+        Route::get('nurseround/{inpatient}', 'Admin\Inpatient\NursingCareController@nursingCare')->name('nurseround')->middleware('permission:nurseround-create');
         Route::resource('admitpatient', 'Admin\Inpatient\AdmitController');
         Route::resource('inpatient', 'Admin\Inpatient\InpatientController');
         Route::get('wardmodelajax/{ward}', 'Admin\Setting\WardModelController@wardmodelajax');
@@ -62,9 +70,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('bloodreq', 'Admin\Consult\BloodreqController');
         Route::resource('radiologyreq', 'Admin\Consult\RadiologyreqController');
         Route::resource('ultrasoundreq', 'Admin\Consult\UltrasoundreqController');
-        Route::resource('allergy', 'Admin\Consult\AllergyController');
+        Route::resource('allergy', 'Admin\Consult\AllergyController')->middleware('permission:consult-create');
         Route::post('addallergy', 'Admin\Front\PatientController@addAllergy')->middleware('permission:consult-create');
         Route::delete('removeAllergy/{allergy}', 'Admin\Front\PatientController@removeAllergy')->name('allergy.remove')->middleware('permission:consult-delete');
+        Route::resource('patient-history', 'Admin\Inpatient\PatientHistoryController')->middleware('permission:nurseround');
+        Route::resource('physical-assessment', 'Admin\Inpatient\PhysicalAssessmentController')->middleware('permission:nurseround');
+        Route::resource('fun-health', 'Admin\Inpatient\FunHealthController')->middleware('permission:nurseround');
+        Route::resource('daily-record', 'Admin\Inpatient\DailyRecordController')->middleware('permission:nurseround');
 
         Route::resource('haematologyreq', 'Admin\Consult\HaematologyReqController');
         Route::resource('pathologyreq', 'Admin\Consult\PathologyController');
@@ -107,7 +119,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('haematology/completed', 'Admin\Laboratory\HaematologyController@completed')->name('haematology.completed');
         Route::resource('haematology', 'Admin\Laboratory\HaematologyController')->middleware('permission:haematology-view');
         Route::resource('microbiology', 'Admin\Laboratory\MicrobiologyController')->middleware('permission:microbiology-view');
-        Route::resource('drugClass', 'Admin\Pharmacy\DrugCategory')->middleware('permission:create');
+        Route::resource('drugClass', 'Admin\Pharmacy\DrugClassController')->middleware('permission:drugclass-create');
         Route::post('user/changepassword/{user}', 'Admin\Setting\AdminController@changePassword')->name('user.changepassword');
         Route::post('user/uploadpassport/{user}', 'Admin\Setting\AdminController@avatar')->name('user.avatar');
         Route::resource('user', 'Admin\Setting\AdminController')->middleware('permission:user-view');

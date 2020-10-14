@@ -17,7 +17,10 @@ class BedController extends Controller
     public function index()
     {
         $beds = Bed::all()->sortBy('ward_model_id');
-        return view('admin.ward.bed', compact('beds'));
+        $wards = WardModel::all()->filter(function($item){
+            return $item->beds->count() < $item->max_no_of_bed;
+        });
+        return view('admin.ward.bed', compact('beds', 'wards'));
     }
 
     /**
@@ -113,8 +116,14 @@ class BedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Bed $bed)
     {
         //
+        $bed->delete();
+        $notification = [
+            'message' => 'Bed Record updated successfully',
+            'alert-type' => 'success'
+        ];
+        return back()->with($notification);
     }
 }

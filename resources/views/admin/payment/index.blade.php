@@ -31,10 +31,10 @@ Payments information
                 </ul>
                 <div class="block-content tab-content">
                     <div class="tab-pane active" id="btabswo-static-home" role="tabpanel">
-                        @include('admin.payment.includes.paymentanalysis')
+                        @include('admin.payment.includes.payments')
                     </div>
                     <div class="tab-pane" id="btabswo-static-profile" role="tabpanel">
-                        @include('admin.payment.includes.payments')
+                        @include('admin.payment.includes.paymentanalysis')
                     </div>
                 </div>
             </div>

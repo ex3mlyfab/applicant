@@ -67,9 +67,15 @@
                                                 <!-- Unlock Form -->
                                                 <!-- jQuery Validation (.js-validation-lock class is initialized in js/pages/op_auth_lock.min.js which was auto compiled from _es6/pages/op_auth_lock.js) -->
                                                 <!-- For more info and examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                                <form class="js-validation-lock" action="be_pages_auth_all.html" method="POST">
+                                            <form class="js-validation-lock" action="{{route('admin.unlock')}}" method="POST">
+                                                    @csrf
                                                     <div class="form-group py-3">
-                                                        <input type="password" class="form-control form-control-lg form-control-alt" id="lock-password" name="lock-password" placeholder="Password..">
+                                                        <input type="password" class="form-control form-control-lg form-control-alt" id="lock-password" name="password" {{ $errors->has('password') ? ' is-invalid' : '' }}placeholder="Password..">
+                                                        @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
                                                     </div>
                                                     <div class="form-group row justify-content-center">
                                                         <div class="col-md-6 col-xl-5">
@@ -88,7 +94,7 @@
                             </div>
                         </div>
                         <div class="content content-full font-size-sm text-white text-center">
-                            <strong>OneUI 4.0</strong> &copy; <span data-toggle="year-copy">2018</span>
+                            <strong>success path solution</strong> &copy; <span data-toggle="year-copy">2018</span>
                         </div>
                     </div>
                 </div>
@@ -115,7 +121,7 @@
             assets/js/core/jquery.appear.min.js
             assets/js/core/js.cookie.min.js
         -->
-        <script src="assets/js/oneui.core.min.js"></script>
+        <script src="{{asset('backend')}}/assets/js/oneui.core.min.js"></script>
 
         <!--
             OneUI JS
@@ -123,12 +129,12 @@
             Custom functionality including Blocks/Layout API as well as other vital and optional helpers
             webpack is putting everything together at assets/_es6/main/app.js
         -->
-        <script src="assets/js/oneui.app.min.js"></script>
+        <script src="{{asset('backend')}}/assets/js/oneui.app.min.js"></script>
 
         <!-- Page JS Plugins -->
-        <script src="assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
+        <script src="{{asset('backend')}}/assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
 
         <!-- Page JS Code -->
-        <script src="assets/js/pages/op_auth_lock.min.js"></script>
+        <script src="{{asset('backend')}}/assets/js/pages/op_auth_lock.min.js"></script>
     </body>
 </html>

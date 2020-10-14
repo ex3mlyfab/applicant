@@ -387,6 +387,11 @@
                                     <span class="nav-main-link-name">beds</span>
                                 </a>
                             </li>
+                            <li class="nav-main-item">
+                                <a href="{{route('bedtype.index')}}" class="nav-main-link">
+                                    <span class="nav-main-link-name">bed type</span>
+                                </a>
+                            </li>
 
                         </ul>
 

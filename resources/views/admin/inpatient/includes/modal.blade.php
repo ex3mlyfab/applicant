@@ -1,5 +1,5 @@
  <!-- Normal Block Modal -->
- <div class="modal" id="modal-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+<div class="modal" id="modal-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
@@ -12,6 +12,88 @@
                     </div>
                 </div>
                 <div class="block-content font-size-sm">
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="treatment-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Treatment Sheet</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="block block-fx-pop">
+                        <div class="block-header bg-info-dark"></div>
+                        <div class="block-content ">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                                </div>
+                                <div class="col-md-8 font-size-sm">
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 bg-amethyst text-uppercase mb-3 rounded">
+                                    <h3 class="text-center my-1">Treatment Sheet</h3>
+                                </div>
+                                <div class="col-md-12 text-right">
+
+                                </div>
+
+                            </div>
+
+                        <form action="{{route('treatmentsheet.store')}}" method="POST" id="treatment-sheet">
+                                @csrf
+                                <input type="hidden" name="inpatient_id" value="{{$inpatient->id}}">
+                                <input type="hidden" name="admin_id" value="{{auth()->user()->id}}">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover mb-0" id="treatment">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Instructions</th>
+                                                <th style="width: 5%;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="treatment-body">
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="treatment[]" class="form-control form-control-lg" required>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-primary mb-3" id="treatment-add"><i class="fa fa-plus"></i>Add more treatment</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row d-flex justify-content-center align-item-center">
+                                    <button type="submit" class="btn btn-outline-primary btn-lg mt-3"><i class="fa fa-save"></i> Save</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
 
                 </div>
                 <div class="block-content block-content-full text-right border-top">
@@ -36,6 +118,19 @@
                     </div>
                 </div>
                 <div class="block-content font-size-sm">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                             <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                        </div>
+                        <div class="col-md-8 font-size-sm">
+                             <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                            <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                            <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                            <p>Age:&nbsp; {{$inpatient->user->age}}</p>
+
+                        </div>
+                    </div>
+
                     <h3 class="text-center">Add Allergic Reaction</h3>
                     <form action="#" method="post">
                         @csrf
@@ -247,7 +342,7 @@
 
                         </div>
                     </div>
-                <form action="{{route('histopathologyreq.store')}}" method="post" class="px-3">
+                    <form action="{{route('histopathologyreq.store')}}" method="post" class="px-3">
                         @csrf
                         <div class="form-group">
                             <label >Clinical Details</label>
@@ -602,7 +697,6 @@
     </div>
 </div>
 <!-- END microbiology Modal -->
-<!-- Pharmacy Modal -->
 <div class="modal" id="pharmacy-block-normal" tabindex="-1" role="dialog" aria-labelledby="pharmacy-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg modal-dialog-top" role="document" >
         <div class="modal-content">
@@ -621,13 +715,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->sex}}</p>
-                                    <p>Age:&nbsp; {{$inpatient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -636,13 +730,13 @@
                     </div>
                     <h3 class="text-center text-uppercase">Prescription sheet</h3>
                     <div class="table-responsive">
-                        <form action="{{route('pharmreq.store')}}" method="POST" >
+                        <form action="{{route('pharmreq.store') }}" method="POST" class="form form-element" >
                             @csrf
-
+                            <input type="hidden" name="clinical_appointment_id" value="{{$inpatient->id}}">
                             <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
                             <table class="table table-bordered table-striped" id="drugs">
                                 <thead>
-                                    <th>Drug Name</th>
+                                    <th width="15%">Drug Name</th>
                                     <th>Drug Form/ Strength</th>
                                     <th>Dosage</th>
                                     <th>Duration</th>
@@ -653,16 +747,21 @@
 
                                     </th>
                                 </thead>
+                                @php
+                                    $drugs = \App\Models\DrugModel::all();
+                                @endphp
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <select  class="js-select2 form-control" style="width: 100%; border: 1px solid rgb(51, 70, 128, 0.8)" data-placeholder="Choose one.." id="drug-subcategory">
-                                            <option class="p-2"></option>
-                                            {{ create_option('drug_models','id', 'name')}}
+                                        <select  class="js-select2 form-control form-control-lg" style="width:100%;" data-placeholder="Choose one.." id="drug-subcategory">
+                                            <option></option>
+                                            @foreach ($drugs as $item)
+                                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @endforeach
                                         </select>
                                     </td>
                                     <td>
-                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="forms" class="form-control form-control-lg p-2" readonly>
+                                        <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="forms" class="m-0 form-control form-control-lg p-0" readonly>
                                     </td>
 
                                     <td>
@@ -701,8 +800,92 @@
 
 
 
-                    <button type="submit" id="drugSubmit" class="btn btn-primary pull-right">Submit</button>
-                        </form>
+                    <button id="drugSubmit" type="submit" class="btn btn-primary pull-right">
+                       <i class="fa fa-save"></i> Submit
+                    </button>
+                </form>
+
+                    </div>
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+</div>
+<!--end Pharmacy Modal -->
+<!--pharmacy-review-->
+<div class="modal" id="pharmacy-review-block-normal" tabindex="-1" role="dialog" aria-labelledby="pharmacy-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg modal-dialog-top" role="document" >
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-primary-light">
+                    <h3 class="block-title">Drug Request-review</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="block block-fx-pop">
+                        <div class="block-header bg-info-dark"></div>
+                        <div class="block-content ">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                </div>
+                                <div class="col-md-8 font-size-sm">
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->age}}</p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <h3 class="text-center text-uppercase">Prescription sheet</h3>
+                    <div class="table-responsive">
+                        <form action="#" method="POST" class="form form-element" onsubmit="return false;">
+                            @csrf
+                            <input type="hidden" name="clinical_appointment_id" value="{{$inpatient->id}}">
+                            <input type="hidden" name="encounter_id" value="{{$encounter->id}}">
+                            <table class="table table-bordered table-striped" id="drugs-review">
+                                <thead>
+                                    <th>Drug Name</th>
+                                    <th>Drug Form/ Strength</th>
+                                    <th>Dosage</th>
+                                    <th>Duration</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Line Cost</th>
+                                    <th style="text-align: center;background: #eee">
+
+                                    </th>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="form-group ml-5">
+                                <label for="totalBalance">Total Cost</label>
+                                <input type="text" name="totalBalance" class="form-control form-control-lg" id="totalBalance-review" readonly>
+                            </div>
+                        </div>
+
+
+
+
+
+                    <button id="drugSubmit-review" class="btn btn-primary pull-right" disabled>
+
+                    </button>
+                </form>
 
                     </div>
                 </div>
@@ -714,7 +897,6 @@
         </div>
 </div>
 
-<!-- Pharmacy Modal -->
 <!-- Haematology Block Modal -->
 <div class="modal" id="haematology" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-top modal-lg" role="document"style=" width: 80%;">
@@ -1314,7 +1496,7 @@
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-success text-white-75">
-                    <h3 class="block-title">Time To Call Again
+                    <h3 class="block-title">Treatment Sheet (Inpatient)
                     </h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -1341,16 +1523,18 @@
 
                         </div>
                     </div>
-                    <form action="{{route('radiologyreq.store')}}" method="post" class="bg-flat text-white px-2">
+                    <form action="{{route('treatmentsheet.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
                         <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
-                        <div class="form-group">
-                            <label >Clinical Information</label>
-                            <input type="text" name="clinical_information"  class="form-control form-control-lg">
+
+                        <div class="table-responsive">
+                            .table.tab
                         </div>
                         <div class="form-group">
-                            <label>Call Again</label>
-                            <input type="text" class="js-datepicker form-control" id="int123" name="call_again" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" required>
+
+                        </div>
+                        <div class="form-group">
+
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
                     </form>

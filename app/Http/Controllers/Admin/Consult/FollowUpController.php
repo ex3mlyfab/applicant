@@ -37,7 +37,7 @@ class FollowUpController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->except('_token'.'clinical_appointment_id');
+        $validated = $request->except(['_token','clinical_appointment_id']);
         $pc = FollowUp::create($validated);
         if($request->has('clinical_appointment_id')){
             $consult = Consult::firstOrCreate(['clinical_appointment_id' => $pc->clinical_appointment_id]);

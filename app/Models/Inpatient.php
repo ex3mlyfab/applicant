@@ -16,17 +16,9 @@ class Inpatient extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function presentingComplaints(): MorphMany
+    public function treatmentSheets(): HasMany
     {
-        return $this->morphMany(PresentingComplaint::class, 'patientable');
-    }
-    public function physicalExams(): MorphMany
-    {
-        return $this->morphMany(PhysicalExam::class, 'patientable');
-    }
-    public function followUps(): MorphMany
-    {
-        return $this->morphMany(FollowUp::class, 'patientable');
+        return $this->hasMany(TreatmentSheet::class)->orderBy('continue');
     }
 
     public function encounter(): MorphOne
@@ -38,4 +30,22 @@ class Inpatient extends Model
     {
         return $this->hasMany(InpatientDetail::class);
     }
+    public function nursingHistoryTaking(): HasMany
+    {
+        return $this->hasMany(NursingHistoryTaking::class);
+    }
+    public function nursingFunctionalhp(): HasMany
+    {
+        return $this->hasMany(NursingFunctionalhp::class);
+    }
+
+    public function nursingPhysicalAssessments(): HasMany
+    {
+        return $this->hasMany(nursingPhysicalAssessment::class);
+    }
+    public function payments(): MorphMany
+    {
+        return $this->morphMany(PaymentReceipt::class, 'paymentable');
+    }
+
 }

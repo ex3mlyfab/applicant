@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class ClinicalAppointment extends Model
 {
@@ -26,62 +27,12 @@ class ClinicalAppointment extends Model
         return $this->hasone(Consult::class, 'clinical_appointment_id');
     }
 
-    public function presentingComplaints(): HasMany
+    public function payments(): MorphMany
     {
-        return $this->hasMany(PresentingComplaint::class);
+        return $this->morphMany(PaymentReceipt::class, 'paymentable');
     }
 
-    public function physicalExams(): HasMany
-    {
-        return $this->hasMany(PhysicalExam::class);
-    }
 
-    public function followUps(): HasMany
-    {
-        return $this->hasMany(FollowUp::class);
-    }
 
-    public function pharmreqs(): HasMany
-    {
-        return $this->hasMany(Pharmreq::class);
-    }
 
-    public function haematologyreqs(): HasMany
-    {
-        return $this->hasMany(Haematologyreq::class);
-    }
-
-    public function microbiologyreqs(): HasMany
-    {
-        return $this->hasMany(Microbiologyreq::class);
-    }
-
-    public function radiologyreqs(): HasMany
-    {
-        return $this->hasMany(Radiologyreq::class);
-    }
-    public function bloodreqs(): HasMany
-    {
-        return $this->hasMany(Bloodreq::class);
-    }
-
-    public function ultrasoundreqs(): HasMany
-    {
-        return $this->hasMany(Ultrasoundreq::class);
-    }
-    public function admits(): HasMany
-    {
-        return $this->hasMany(AdmitModel::class);
-    }
-    public function tcas(): HasMany
-    {
-        return $this->hasMany(Tca::class);
-    }
-
-    public function histopathologyreq(): HasMany
-    {
-        return $this->hasMany(Histopathologyreq::class);
-    }
-    
-    
 }

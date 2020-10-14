@@ -7,11 +7,13 @@ use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Payment;
+use App\Models\PaymentReceipt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -87,7 +89,54 @@ class PaymentController extends Controller
     }
     public function settleInvoice(Invoice $invoice)
     {
-        return view('admin.payment.pay', compact('invoice'));
+        $service = '';
+        if($invoice->invoiceable_type == 'App\Models\Pharmreq'){
+            $service = 'pharmacy';
+        }
+        $coverage = $invoice->user->payment_method;
+        switch ($coverage) {
+            case 'mdaccount':
+                $percentile =$invoice->user->mdAccount->mdAccountCovers->where('name', $service)->first();
+
+                if(($percentile && (($percentile->ends == NULL) ||(now()->between($percentile->starts, $percentile->ends))))){
+                    if($percentile->percentage < 100)
+                    {
+                        $message = "MD covers ".$percentile->percentage."% of charges";
+                        $due_payment= $invoice->total_amount - $percentile->percentage/100 * $invoice->total_amount;
+                    } else{
+                        $message = "MD covers ".$percentile->percentage."% of charges";
+                        $due_payment = 0;
+                    }
+                }
+                else{
+                    $message = 'out of Md coverage duration';
+                    $due_payment = $invoice->total_amount;
+                }
+                break;
+            case 'insured':
+                $percentile = $invoice->user->enrollUser->insurancePackage;
+                $covered= $percentile->insuranceServices->where('service_type',$service )->first();
+                if($covered){
+                    if($percentile->percentage < 100){
+                        $message = "insurance coverage of ".$percentile->percentage."% of charges";
+                        $due_payment= $invoice->total_amount - $percentile->percentage/100 * $invoice->total_amount;
+                    }else{
+                        $message = "insurance coverage of ".$percentile->percentage."% of charges";
+                        $due_payment = 0;
+                    }
+                }else{
+                    $message = "insurance enrollee out of coverage";
+                    $due_payment = $invoice->total_amount;
+
+                }
+            break;
+            default:
+            $message = '';
+            $due_payment = $invoice->total_amount;
+                break;
+        }
+
+        return view('admin.payment.pay', compact('invoice', 'due_payment', 'message'));
     }
     public function printInvoice(Invoice $invoice)
     {
@@ -119,8 +168,14 @@ class PaymentController extends Controller
     }
     public function pay(Request $request)
     {
+        dd($request->except('_token'));
 
+        $payment = PaymentReceipt::create([
+            'user_id' => $request->user_id,
+            'payment_mode_id' => $request->payment_mode,
+            'admin_id' => auth()->user()->id
 
+        ]);
         foreach ($request->pay as $key => $value) {
             $data = array(
                 'user_id' => $request->user_id,
@@ -129,18 +184,71 @@ class PaymentController extends Controller
                 'amount' => $request->amount[$key],
                 'admin_id' => Auth::user()->id,
                 'invoice_no' => $request->invoice_no,
-                'payment_mode_id' => 1,
+
             );
             Payment::create($data);
 
-            $lab = InvoiceItem::findOrFail($data['invoice_item_id']);
-            $lab->update([
+            $lab = InvoiceItem::find($data['invoice_item_id']);
+            if($lab){
+                $lab->update([
                 'status' => 'paid'
             ]);
             if ($lab->bill()) {
                 $lab->bill()->update([
                     'status' => "item paid",
                 ]);
+            }
+            }
+            $invoice = Invoice::where('invoice_no', $request->invoice_no)->first();
+
+            if ($invoice->invoiceItems->contains('status', '')) {
+                $invoice->update([
+                    'status' => 'partial paid',
+                ]);
+            } else {
+                $invoice->update([
+                    'status' => 'paid',
+                ]);
+            }
+        }
+        $notification = array(
+            'message' => 'Payment made successfully!',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('payment.index')->with($notification);
+    }
+    public function pharmacy(Request $request)
+    {
+        dd($request->except('_token'));
+
+        $payment = PaymentReceipt::create([
+            'user_id' => $request->user_id,
+            'payment_mode_id' => $request->payment_mode,
+            'admin_id' => auth()->user()->id
+
+        ]);
+        foreach ($request->pay as $key => $value) {
+            $data = array(
+                'user_id' => $request->user_id,
+                'service' => $request->service[$key],
+                'invoice_item_id' => $request->invoice_item_id[$key],
+                'amount' => $request->amount[$key],
+                'admin_id' => Auth::user()->id,
+                'invoice_no' => $request->invoice_no,
+
+            );
+            Payment::create($data);
+
+            $lab = InvoiceItem::find($data['invoice_item_id']);
+            if($lab){
+                $lab->update([
+                'status' => 'paid'
+            ]);
+            if ($lab->bill()) {
+                $lab->bill()->update([
+                    'status' => "item paid",
+                ]);
+            }
             }
             $invoice = Invoice::where('invoice_no', $request->invoice_no)->first();
 

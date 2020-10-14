@@ -110,26 +110,37 @@ class NhisPatientController extends Controller
 
 
         $charge = Charge::select('amount')->where('name', 'Individual')->first();
+        $percentCoverage = split_charges($new->enroll_user_id);
+        if($new->enrollUser->insurancePackage->percentage < 100)
+        {
+            $invoice= Invoice::create([
+                'user_id' => $new->id,
+                'invoice_no' => generate_invoice_no(),
+                'amount' => number_format($charge->amount * $percentCoverage['patient_pays']/100, 2, '.', '') ,
+                'admin_id' => auth()->user()->id,
+                'p_status' => 'NYP',
+            ]);
 
-        $invoice= Invoice::create([
-            'user_id' => $new->id,
-            'invoice_no' => generate_invoice_no(),
-            'amount' => $charge->amount,
-            'admin_id' => auth()->user()->id,
-            'p_status' => 'NYP',
-        ]);
-        $new->enrollUser->insurancePackage->invoice()->save($invoice);
-        $percentCoverage =split_charges($new->enroll_user_id);
-        foreach ($percentCoverage as $key => $value) {
-            $newta = array(
-                'invoice_id' => $invoice->id,
-                'item_description' => (($key == 'patient_pays' ) ? 'New Registration charge '.$percentCoverage[$key].'% patient-charge': 'New Registration charge '.$percentCoverage[$key].'% insurance charge'),
-                'amount' => number_format($charge->amount * $percentCoverage[$key]/100, 2, '.', '') ,
-                'status' =>'NYP',
-            );
-            InvoiceItem::create($newta);
+            $new->enrollUser->insurancePackage->invoice()->save($invoice);
+
+            $invoice->invoiceItems()->create([
+                'item_description' => 'New Registration Charge '.$percentCoverage['patient_pays'].'% patient-charge',
+                'amount' => number_format($charge->amount * $percentCoverage['patient_pays']/100, 2, '.', '') ,
+                'status' => 'NYP'
+            ]);
         }
-        
+
+        $new->user->enrollUser->enrollCharges()->create([
+            'service' => 'New Registration Charge '.$percentCoverage['coverage'].'% insurance-charge',
+            'charge' => $charge->amount,
+            'patient_paid' => (isset($percentCoverage['patient_pays'])? number_format($charge->amount * $percentCoverage['patient_pays']/100, 2, '.', ''): 0 ),
+            'insurance_cover' => number_format($charge->amount * $percentCoverage['coverage']/100, 2, '.', ''),
+            'status' => 'NYP'
+        ]);
+
+
+
+
         $new->enrollUser->update([
             'status'   =>   'registered'
         ]);

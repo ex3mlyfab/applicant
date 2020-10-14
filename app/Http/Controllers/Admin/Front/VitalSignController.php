@@ -19,7 +19,9 @@ class VitalSignController extends Controller
      */
     public function index()
     {
-        $today = ClinicalAppointment::where('appointment_due', Carbon::today())->get();
+        // collect all appointment for today for display in the consultation module and for appointment not yet concluded
+        $today = ClinicalAppointment::whereDate('appointment_due','<=', now()->today())->WhereNotIn('status',['completed'])->get();
+        // $today = ClinicalAppointment::where('appointment_due', Carbon::today())->get();
 
         return view('admin.nursing.index', compact('today'));
     }

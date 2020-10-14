@@ -12,7 +12,10 @@ class Radiologyreq extends Model
     protected $guarded = [];
 
 
-
+    public function payments(): MorphMany
+    {
+        return $this->morphMany(Payment::class, 'paymentable');
+    }
 
     public function encounter(): BelongsTo
     {

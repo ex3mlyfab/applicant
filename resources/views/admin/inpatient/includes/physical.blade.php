@@ -8,7 +8,7 @@
         @csrf
         <div class="block-content block-content-full tab-content px-md-5" style="min-height: 314px;">
 
-                
+
                 <input type="hidden" name="encounter_id" value={{$inpatient->encounter->id}}>
                 <div class="form-group bg-city-lighter p-2">
                     <label for="firstName5">1. General Examinations </label>
@@ -39,21 +39,21 @@
                 <div class="form-group form-row p-2" style="background: rgb(111, 134, 202)">
                     <div class="col-md-6">
                         <label for="int2345" class="form-control-label-lg text-white">Abdomen<br> &nbsp;  </label>
-                        <textarea name="abdomen" class="form-control form-control-lg" id="addressine13" value="{{old('abdomen') ?? ''}}"></textarea>
+                        <textarea name="abdomen" class="form-control form-control-lg" id="int2345" value="{{old('abdomen') ?? ''}}"></textarea>
                     </div>
                     <div class="col-md-6">
                         <label for="i34" class="form-control-label-lg text-white">Respiratory System<br> (rs) </label>
-                        <textarea name="resp_system" class="form-control form-control-lg" id="addressine13" value="{{old('resp_system') ?? ''}}"></textarea>
+                        <textarea name="resp_system" class="form-control form-control-lg" id="i34" value="{{old('resp_system') ?? ''}}"></textarea>
                     </div>
                 </div>
                 <div class="form-group form-row p-2" style="background: rgb(95, 177, 202)">
                     <div class="col-md-6">
                         <label for="addressline12" class="form-control-label-lg text-center text-white">Genito-Urinary-Tract inc. VE </label>
-                        <textarea name="gut" class="form-control form-control-lg" id="addressine13" value="{{old('gut') ?? ''}}"></textarea>
+                        <textarea name="gut" class="form-control form-control-lg" id="addressline12" value="{{old('gut') ?? ''}}"></textarea>
                     </div>
                     <div class="col-md-6">
                         <label for="addressline1345" class="form-control-label-lg text-white">Skin </label>
-                        <textarea name="skin" class="form-control form-control-lg" id="addressine13" value="{{old('skin') ?? ''}}"></textarea>
+                        <textarea name="skin" class="form-control form-control-lg" id="addressline1345" value="{{old('skin') ?? ''}}"></textarea>
                     </div>
                 </div>
 
