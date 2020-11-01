@@ -1,171 +1,247 @@
-@if ($inpatient->user->consults->count() >= 1)
+@if ($inpatient->user->encounters->count() >= 1)
 @foreach ($inpatient->user->encounters as $consult)
     @if($consult->presentingComplaints()->count())
         @foreach ($consult->presentingComplaints as $consult)
             <div class="block block-bordered">
                 <div class="block-header bg-info-light">
                     <h4>Presenting Complaints History  For {{$appointment->user->full_name ?? ''}} </h4>
-
+                    <p> recorded on {{$consult->created_at->format('d-M-Y H:i A')}} by
+                        <span class="badge badge-secondary">{{ $consult->seenBy->name ?? '' }}</span>  <br> </p>
                 </div>
                 <div class="block-body">
-                    <h3 class="bg-amythest">
+                    <h3 class="block-title textcenter">Presumptive Diagnosis</h3>
+                    <h3 class="text-center">
                         {{$consult->presumptive_diagnosis }}
                     </h3>
-
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <th class="bg-info-light" style="width: 12.5%;">
-                                    Presenting complaints
-                                </th>
-                                <th>
+                    <div class="row gutters-tiny">
+                        <div class="col-md-8">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Presenting Complaints</h3>
+                                </div>
+                                <div class="block-content">
                                     <p>{{ $consult->pc}}</p>
-                                </th>
-                                <th class="bg-info-light" style="width: 12.5%;">
-                                    Duration
-                                </th>
-                                <th>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Duration</h3>
+                                </div>
+                                <div class="block-content">
                                     <p>{{ $consult->duration}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                    History of presenting complaints
-                                </th>
-                                <th colspan="3">
-                                    <p>{{ $consult->pchx}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                    Past medical History :
-                                </th>
-                                <th colspan="3">
-                                    <p>{{ $consult->pmhx}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                        Family and Social History :
-                                </th>
-                                <th colspan="3">
-                                    <p>{{ $consult->fshx}}</p>
-                                </th>
-                            </tr>
-                            @if ($consult->previously_admitted)
-                                <tr>
-                                <th class="bg-info-light">
-                                        Previously Admittted for:
-                                </th>
-                                <th colspan="3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">History of presenting complaints</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->pchx }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Past Medical History</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->pmhx }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Family and Social History</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->fshx }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Previously admitted</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->previously_admitted }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @if ($consult->previously_admitted == 'yes')
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Reasons for Admission</h3>
+                                </div>
+                                <div class="block-content">
                                     <p>{{ $consult->reasons4admission}}</p>
-                                </th>
-                            </tr>
-                            @endif
-                            <tr>
-                                <th class="bg-info-light">
-                                            History of Hypertension :
-                                </th>
-                                <th>
-                                        <p>{{ $consult->hypertensive}}</p>
-                                </th>
-                                <th class="bg-info-light">
-                                        History of Diabetes :
-                                </th>
-                                <th >
-                                        <p>{{ $consult->diabetic}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                        Previous Blood transfusion :
-                                </th>
-                                <th>
-                                        <p>{{ $consult->blood_transfusion}}</p>
-                                </th>
-                                <th class="bg-info-light">
-                                        History of Drug/Allergy  :
-                                </th>
-                                <th >
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">History of Hypertension</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->hypertensive ? 'True' : 'False' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">History of Diabetes</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->diabetic ? 'True' : 'False' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Previous Blood transfusion</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->blood_transfusion ? 'True' : 'False' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">History of Sickle Cell</h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->sc_disease ? 'True' : 'False' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @if ($consult->drug_or_allergy)
+                            <div class="col-md-6">
+                                <div class="block block-themed">
+                                    <div class="block-header">
+                                        <h3 class="block-title text-center">History of Drug/allergy</h3>
+                                    </div>
+                                    <div class="block-content">
                                         <p>{{ $consult->drug_or_allergy}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                        Sickle cell Disease  :
-                                </th>
-                                <th>
-                                        <p>{{ $consult->sc_disease}}</p>
-                                </th>
-                                <th class="bg-info-light">
-                                        Others  :
-                                </th>
-                                <th >
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @if ($consult->others)
+                            <div class="col-md-6">
+                                <div class="block block-themed">
+                                    <div class="block-header">
+                                        <h3 class="block-title text-center">Others</h3>
+                                    </div>
+                                    <div class="block-content">
                                         <p>{{ $consult->others}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th colspan="4" class="bg-secondary text-white">Systemic Review</th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                        Central Nervous System(CNS)  :
-                                </th>
-                                <th>
-                                        <p>{{ $consult->cns }}</p>
-                                </th>
-                                <th class="bg-info-light">
-                                        Cardio vascular System(CVS)  :
-                                </th>
-                                <th >
-                                        <p>{{ $consult->cvs}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                        Respiratory System(RS)  :
-                                </th>
-                                <th>
-                                        <p>{{ $consult->resp_system }}</p>
-                                </th>
-                                <th class="bg-info-light">
-                                        Gastro Intestinal System (GIT)  :
-                                </th>
-                                <th >
-                                        <p>{{ $consult->git}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                        Urinary System(US)  :
-                                </th>
-                                <th>
-                                        <p>{{ $consult->urinary_system }}</p>
-                                </th>
-                                <th class="bg-info-light">
-                                        Obstetrics &amps; Gynaecology (OBGYN)  :
-                                </th>
-                                <th >
-                                        <p>{{ $consult->obgyn}}</p>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th class="bg-info-light">
-                                        Musculo Skeletal System  :
-                                </th>
-                                <th>
-                                        <p>{{ $consult->mss }}</p>
-                                </th>
-                                <th class="bg-info-light">
-                                        Obstetrics &amps; Gynaecology (OBGYN)  :
-                                </th>
-                                <th >
-                                        <p>{{ $consult->skin }}</p>
-                                </th>
-                            </tr>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="col-md-12">
+                            <div class="block">
+                                <div class="block-header">
+                                    <h3 class="block-title bg-secondary text-center">Systemic Review</h3>
+                                </div>
 
-                        </tbody>
-                    </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center"> Central Nervous System(CNS) </h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->cns}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center"> Cardio vascular System(CVS) </h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->cvs}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Respiratory System(RS) </h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->resp_system}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Gastro Intestinal System (GIT) </h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->git}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Urinary System(US) </h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->urinary_system }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center">Obstetrics &amps; Gynaecology (OBGYN) </h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->obgyn}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center"> Musculo Skeletal System </h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->mss}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="block block-themed">
+                                <div class="block-header">
+                                    <h3 class="block-title text-center"> Skin </h3>
+                                </div>
+                                <div class="block-content">
+                                    <p>{{ $consult->skin}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
                     <button class="btn btn-action" id="phx">take a new History</button>
                 </div>
             </div>

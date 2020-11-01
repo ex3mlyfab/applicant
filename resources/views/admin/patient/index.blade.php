@@ -21,9 +21,10 @@
             <h1 class="flex-sm-fill h5">
                 Registered Patients
             </h1>
-            <span class="ml-md-auto">
-            <a style="margin-top: -15px;" href="{{route('patient.create')}}" class="btn btn-sm btn-primary" style="font-size: 13px;"><i style="font-size: 15px" class="fa fa-plus-circle"></i> Add New Patient</a>
-            </span>
+            <div class="ml-md-auto">
+                <a href="{{route('patient-statistics.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+                <a href="{{route('patient.create')}}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add New Patient</a>
+            </div>
         </div>
     </div>
 </div>

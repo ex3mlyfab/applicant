@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdmitModel;
 use App\Models\ClinicalAppointment;
 use App\Models\Expense;
 use App\Models\Payment;
+use App\Models\PaymentReceipt;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,8 +20,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-
-        $admit = $yest_admit = 0;
+        $yest_admit =0;
+        $admit = AdmitModel::whereDate('created_at', now()->today())->count();
         $operation = $yest_operation = 0;
 
         $totalPatients = User::whereYear('created_at', date('Y'))->get()->groupBy(function (User $item) {
@@ -27,10 +29,10 @@ class DashboardController extends Controller
         })->map->count();
 
 
-        $yest_earning = Payment::whereDate('created_at', now()->yesterday())->sum('amount');
+        $yest_earning = PaymentReceipt::whereDate('created_at', now()->yesterday())->sum('total');
         $yest_consult = ClinicalAppointment::whereDate('created_at', now()->yesterday())->count();
         $consult = ClinicalAppointment::whereDate('created_at', now()->today())->count();
-        $earning = Payment::whereDate('created_at', now()->today())->sum('amount');
+        $earning = PaymentReceipt::whereDate('created_at', now()->today())->sum('total');
         return view('admin.dashboard.index', compact('consult', 'yest_earning', 'yest_consult', 'earning', 'admit', 'yest_admit', 'yest_operation', 'operation', 'totalPatients'));
     }
 

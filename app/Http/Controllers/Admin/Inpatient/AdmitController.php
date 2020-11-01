@@ -7,6 +7,7 @@ use App\Models\AdmitModel;
 use App\Models\ClinicalAppointment;
 use App\Models\Consult;
 use App\Models\EncounterTest;
+use App\Models\WardModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,8 +21,11 @@ class AdmitController extends Controller
     public function index()
     {
         $all = AdmitModel::whereIn('status',['waiting'])->get();
-        
-        return view('admin.inpatient.index', compact('all'));
+        $wards = WardModel::all()->filter(function(WardModel $ward){
+            return  $ward->bed_status < $ward->max_no_of_bed;
+        });
+
+        return view('admin.inpatient.index', compact('all','wards'));
     }
 
     /**
@@ -52,11 +56,11 @@ class AdmitController extends Controller
 
         ]);
         $id->testables()->save($testable);
-        Consult::firstOrCreate(['clinical_appointment_id' => $request->clinical_appointment_id]);
-        ClinicalAppointment::find($request->clinical_appointment_id)->update([
-            'status' => 'history_recorded',
+        // Consult::firstOrCreate(['clinical_appointment_id' => $request->clinical_appointment_id]);
+        // ClinicalAppointment::find($request->clinical_appointment_id)->update([
+        //     'status' => 'history_recorded',
 
-        ]);
+        // ]);
         $notification =
             [
                 'message' => 'admission request for patient sent',

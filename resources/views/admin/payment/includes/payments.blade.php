@@ -10,15 +10,13 @@
         <div class="row">
             <div class="col-md-7">
                 <h4 class="text-center">Today's earning</h4>
-                <p class="text-center">₦{{$payments->sum('amount')}}</p>
+                <p class="text-center">₦{{$payments->sum('total')}}</p>
             </div>
             <div class="col-md-5 border border-primary border-2x">
                     <h4>Collectors List</h4>
 
-                @foreach ($collectors as $item=>$values)
+                @foreach ($collectors as $item =>$values)
                    <h5 class="block-title">{{$item}} - ₦{{$values}}</h5>
-
-
                 @endforeach
             </div>
         </div>
@@ -43,9 +41,25 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$item->billing }}</td>
-                    <td>{{$item->amount}}</td>
-                    <td>{{$item->service}}</td>
-                    <td>{{$item->status}}</td>
+                    <td>{{$item->total}}</td>
+                    <td>
+                        @switch($item->paymentable_type)
+                            @case('App\Models\User')
+                            @case('App\Models\Family')
+                            @case('App\Models\Organization')
+                            @case('App\Models\ClinicalAppointment')
+
+                                Registration/Consultation
+                                @break
+                            @case('App\Models\Pharmreq')
+                                Pharmacy
+                                @break
+                            @default
+                                Others
+                        @endswitch
+                    </td>
+                    <td>{{$item->remark}}</td>
+                    <td></td>
                     <td>
 
                         <a href="{{route('payment.print', $item->id)}}" class="text-info">Print Receipt</a>

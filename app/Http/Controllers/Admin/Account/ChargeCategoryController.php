@@ -105,6 +105,7 @@ class ChargeCategoryController extends Controller
      */
     public function destroy(ChargeCategory $chargecategory)
     {
+        $chargecategory->charges()->delete();
         $chargecategory->delete();
         $notification = array(
             'message' => 'Charge Category deleted successfully!',

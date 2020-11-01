@@ -1,11 +1,12 @@
-@if ($inpatient->user->consults->count()>=1)
+@if ($inpatient->user->encounters->count()>=1)
 @foreach ($inpatient->user->encounters as $tree)
     @if($tree->physicalExams()->count())
         @foreach ($tree->physicalExams as $consult)
             <div class="block block-bordered">
                 <div class="block-header bg-info-light">
                     <h4>Physical Examination History  For {{$inpatient->user->full_name}} </h4>
-                    <p> recorded on {{$consult->created_at}} <br> </p>
+                    <p> recorded on {{$consult->created_at->format('d-M-Y H:i A')}} by
+                        <span class="badge badge-secondary">{{ $consult->seenBy->name ?? '' }}</span>  <br> </p>
                 </div>
                 <div class="block-body">
                     <h3 class="bg-aqua">

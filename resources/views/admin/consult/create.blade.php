@@ -43,7 +43,7 @@
                             </table>
                         </div>
                     </div>
-                    @if ($consults->count() == 1)
+                    @if ($$patient->encounters->count() == 1)
                         @if($encounter->physicalExams->count())
                             <a href="{{route('consult.end', $appointment->id)}}">
                                 <button  type="button" class="btn btn-outline-dark w-100">
@@ -203,6 +203,9 @@
                                                             <th>
                                                                 bmi
                                                             </th>
+                                                            <th>
+                                                                Done By
+                                                            </th>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($patient->vitalsigns as $item)
@@ -234,7 +237,12 @@
                                                                     {{$item->height}}
                                                                 </td>
                                                                 <td>
-                                                                    {{$item->bmi}}
+                                                                    {{(float)$item->bmi}}
+                                                                </td>
+                                                                <td>
+                                                                    {{
+                                                                    $item->doneBy->name
+                                                                    }}
                                                                 </td>
                                                             </tr>
 
@@ -387,6 +395,8 @@
                 $('#drugs-review tbody').html('');
                 $('#totalBalance-review').val(data.pharmreq.total);
                 $('#drugSubmit-review').text(data.pharmreq.status);
+                $('#prescribed-by').text(data.pharmreq.seen_by.name);
+
                 $.each(data.prescription, function(key, value){
                    setTimeout(function(){
                         let tablerow = `
@@ -553,6 +563,11 @@
             title: {
             display: true,
             text: '{{$patient->full_name}} Vital Signs Chart'
+            },
+            elements: {
+                    line: {
+                        tension: 0, // disables bezier curves
+                    }
             }
         }
     });

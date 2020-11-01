@@ -24,7 +24,8 @@
         <!-- Form -->
     <form action="{{route('pc.store')}}" method="POST">
             @csrf
-    <input type="hidden" name="encounter_id" value={{$inpatient->encounter->id}}>
+    <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
+    <input type="hidden" name="seen_by" value="{{auth()->user()->id}}">
             <!-- Steps Content -->
             <div class="block-content block-content-full tab-content px-md-5" style="min-height: 314px;">
                 <!-- Step 1 -->

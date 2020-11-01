@@ -79,9 +79,8 @@ class RecieveOrderController extends Controller
                 'purchase_price' => $request->price[$key],
                 'purchase_date' => Carbon::parse(strtotime($request->purchase_date)),
                 'recieve_order_id' => $request->supplier_id,
-                'packing_quantity' => ($juice->drugModel->available ? $juice->drugModel->available : 0),
-                'available_quantity' => ($juice->drugModel->available ? $juice->drugModel->available + $request->quantity_needed[$key] : 0 + $request->quantity_needed[$key])
-
+                'packing_quantity' => $juice->drugModel->available,
+                'available_quantity' => $request->quantity_needed[$key],
 
             );
              DrugBatchDetail::create($dugdata);

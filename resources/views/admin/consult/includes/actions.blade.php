@@ -29,10 +29,10 @@
                                                                 <div class="media-body ml-3">
                                                                     <div class="font-w600">Drug Prescribed</div>
                                                                 <div class="text-white">{{$treatment->status}}
-                                                                    @if ($treatment->status !== 'dispensed')
-                                                                        <button class="btn btn-sm btn-primary prescribe-review" data-type="{{$treatment->testable_id}}" data-model="{{$treatment->testable_type}}"
-                                                                            data-toggle="modal" data-target="#pharmacy-review-block-normal">review prescription</button>
-                                                                    @endif
+
+                                                                       <br> <button class="btn btn-sm btn-primary prescribe-review" data-type="{{$treatment->testable_id}}" data-model="{{$treatment->testable_type}}"
+                                                                            data-toggle="modal" data-target="#pharmacy-review-block-normal">View Prescription</button>
+
                                                                     </div>
                                                                     <small class="text-muted">{{$treatment->created_at->diffForHumans()}}</small>
                                                                 </div>
@@ -44,13 +44,25 @@
                                                         <li class="bg-warning">
                                                             <a class="text-dark media py-2" href="javascript:void(0)">
                                                                 <div class="media-body ml-3">
-                                                                    <div class="font-w600">Microbiology test requested</div>
-                                                                    <div class="text-white">{{$treatment->status}}</div>
+                                                                    <div class="font-w600">Microbiology Test</div>
+                                                                    <div class="text-white">{{$treatment->status}}
+                                                                        <br></div>
                                                                     <small class="text-muted">{{$treatment->created_at->diffForHumans()}}</small>
                                                                 </div>
                                                             </a>
                                                         </li>
                                                         @break
+                                                    @case('App\Models\Microbiologyreq')
+                                                    <li class="bg-info">
+                                                        <a class="text-dark media py-2" href="javascript:void(0)">
+                                                            <div class="media-body ml-3">
+                                                            <div class="font-w600">Inpatient</div>
+                                                                <div class="text-white">{{$treatment->status}}</div>
+                                                                <small class="text-muted">{{$treatment->created_at->diffForHumans()}}</small>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    @break
                                                     @default
                                                     <li class="bg-info">
                                                         <a class="text-dark media py-2" href="javascript:void(0)">

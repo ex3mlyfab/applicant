@@ -14,4 +14,8 @@ class PhysicalExam extends Model
     {
         return $this->belongsTo(Encounter::class);
     }
+    public function seenBy(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'seen_by');
+    }
 }

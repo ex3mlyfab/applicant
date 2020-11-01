@@ -11,7 +11,7 @@ class PharmacyBillDetail extends Model
 
     public function pharmacyBill(): BelongsTo
     {
-        return $this->belongsTo(PharmacyBill::class, 'pharmacybill_id');
+        return $this->belongsTo(PharmacyBill::class);
     }
     public function drugModel(): BelongsTo
     {

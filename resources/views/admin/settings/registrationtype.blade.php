@@ -165,8 +165,12 @@ add regtype
             data: formData,
             dataType: 'json',
             success: function (data) {
-
-                var link = '<tr id="regtype' + data.id + '"><td>' + data.id + '</td><td>' + data.name + '</td><td>' + data.max_enrollment + '</td><td>' + data.amount + '</td><td>' + data.status + '</td>';
+                let numeric = 1;
+                let tbl_row= $('tbody tr');
+                    tbl_row.each(function(){
+                        numeric++;
+                    });
+                var link = '<tr id="regtype' + data.id + '"><td>' + numeric + '</td><td>' + data.name + '</td><td>' + data.max_enrollment + '</td><td>' + data.amount + '</td><td>' + data.status + '</td>';
                 link += '<td><button class="btn btn-info open-modal" value="' + data.id + '">Edit</button>&nbsp;';
                 link += '<button class="btn btn-danger delete-link" value="' + data.id + '">Delete</button></td></tr>';
                 if (state == "add") {

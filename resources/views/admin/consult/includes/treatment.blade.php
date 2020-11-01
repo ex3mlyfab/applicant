@@ -10,7 +10,10 @@
         <div class="block-content block-content-full">
             <div class="py-1 text-center">
                 <button type="button" class="btn btn-md btn-primary mb-2 text-uppercase" data-toggle="modal" data-target="#pharmacy-block-normal">Prescribe Drugs</button>
+
+                @if (!($patient->admission_status))
                 <button type="button" class="btn btn-md btn-gray mb-2 text-uppercase" data-toggle="modal" data-target="#admit">Admit</button>
+                @endif
                 <button type="button" class="btn btn-md btn-success text-white mb-2 text-uppercase" data-toggle="modal" data-target="#tca">TCA</button>
             </div>
 

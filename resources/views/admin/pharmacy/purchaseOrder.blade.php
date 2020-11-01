@@ -37,7 +37,7 @@
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$item->generatedBy->fullname}}</td>
                                     <td>{{$item->supplier->name}}</td>
-                                    <td>₦ {{$item->total}}</td>
+                                    <td>₦ {{number_format($item->total,2, '.', ',')}}</td>
                                 <td> {{ $item->status }}</td>
                                     <td>
                                         <div class="btn-group">
@@ -228,8 +228,8 @@
                     success:function(response) {
 
 
-                        $('#price').val(response.price);
-                        $('#avail').val(response.minimum_level + '/'+ response.maximum_level);
+                        $('#price').val(response.sales_price);
+                        $('#avail').val(response.minimum_level + '/'+ response.available);
 
                         }
                         });

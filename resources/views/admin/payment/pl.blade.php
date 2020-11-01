@@ -51,7 +51,7 @@ Revenue &amp; Expenses
                                      <td>
                                          {{$item->service}}
                                      </td>
-                                     <td>
+                                     <td class="text-right">
                                         ₦{{$item->amount}}
                                      </td>
                                  </tr>
@@ -60,7 +60,7 @@ Revenue &amp; Expenses
                              </tbody>
                              <tfoot class="bg-success-light">
                                  <th colspan="3">Total</th>
-                                 <th> ₦ {{$payments->sum('amount')}}</th>
+                                 <th class="text-right"> ₦ {{number_format($payments->sum('amount'),2, '.', ',')}}</th>
                              </tfoot>
                          </table>
                      </div>
@@ -108,7 +108,7 @@ Revenue &amp; Expenses
                             </tbody>
                             <tfoot class="bg-danger-light text-white">
                                 <th colspan="3">Total</th>
-                                <th> ₦ {{$expenditure->sum('amount')}}</th>
+                                <th class="text-right"> ₦ {{number_format($expenditure->sum('amount'),2 , '.',',')}}</th>
                             </tfoot>
                         </table>
                     </div>
@@ -116,7 +116,7 @@ Revenue &amp; Expenses
             </div>
             <div class="content bg-sucess-light">
                 <h3 class="font-w600 text-center">
-                    Balance: ₦ {{ $payments->sum('amount') - $expenditure->sum('amount')}}
+                    Balance: ₦ {{ number_format($payments->sum('amount') - $expenditure->sum('amount'), 2, '.', ',')}}
                 </h3>
             </div>
         </div>

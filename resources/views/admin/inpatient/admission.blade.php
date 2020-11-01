@@ -14,6 +14,11 @@
     <div class="block block-fx-pop pentacare-bg">
         <div class="block-header" style="background: rgb(51, 70, 128, 0.8)">
             <h3 class="block-title text-white"> Patient List</h3>
+            <div class="block-option">
+                <a href="{{route('inpatient.dashboard')}}" class="btn btn-success">
+                    <i class="fa fa-door-open"></i> Dashboard
+                </a>
+            </div>
         </div>
         <div class="block-content block-content-full">
             <h4 class="font-w400">Pending Admissions List</h4>
@@ -26,6 +31,7 @@
                                 <th>sex</th>
                                 <th>Age</th>
                                 <th>status</th>
+                                <th>Room</th>
                                 <th>action</th>
                             </thead>
                                 <tbody>
@@ -55,9 +61,20 @@
                                             <span class="badge badge-primary"> {{$item->status}}</span>
                                         </td>
                                         <td>
+                                            <span class="badge badge-secondary">
+                                                {{ $item->bed->wardModel->name}} -Bed-{{$item->bed->id}}
+                                            </span>
+
+                                        </td>
+                                        <td>
                                             <div class="btn-group">
-                                            <a type="button" class="btn btn-md btn-outline-secondary text-uppercase takevitals" href="{{route('wardround', $item->id)}}" ><span data-toggle="tooltip" title="Record ward round activities"> <i class="fa fa-fw fa-clipboard"></i>Doctors' Round </span></a>
-                                            <a type="button" class="btn btn-md btn-outline-success text-uppercase takevitals" href="{{route('nurseround', $item->id)}}" ><span data-toggle="tooltip" title="Record Nursing round activities"> <i class="fa fa-fw fa-notes-medical"></i>Nurse Round </span></a>
+                                            @can('wardround-create')
+                                                <a type="button" class="btn btn-md btn-outline-secondary text-uppercase takevitals" href="{{route('wardround', $item->id)}}" ><span data-toggle="tooltip" title="Record ward round activities"> <i class="fa fa-fw fa-clipboard"></i>Doctors' Round </span></a>
+                                            @endcan
+                                            @can('nurseround-create')
+                                                <a type="button" class="btn btn-md btn-outline-success text-uppercase takevitals" href="{{route('nurseround', $item->id)}}" ><span data-toggle="tooltip" title="Record Nursing round activities"> <i class="fa fa-fw fa-notes-medical"></i>Nurse Round </span></a>
+                                            @endcan
+
 
                                             </div>
                                         </td>

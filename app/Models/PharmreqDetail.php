@@ -17,4 +17,8 @@ class PharmreqDetail extends Model
     {
         return $this->belongsTo(Pharmreq::class);
     }
+    public function invoiceItem(): BelongsTo
+    {
+        return $this->belongsTo(InvoiceItem::class);
+    }
 }

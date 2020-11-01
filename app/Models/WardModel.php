@@ -19,4 +19,16 @@ class WardModel extends Model
     {
         return $this->belongsTo(Floor::class);
     }
+    public function getBedStatusAttribute()
+    {
+        return $this->beds->filter(function($item){
+            return $item['status'] == 'occupied';
+        })->count();
+    }
+    public function getUnoccupiedBedAttribute()
+    {
+        return $this->beds->filter(function($item){
+            return $item['status'] != 'occupied';
+        });
+    }
 }

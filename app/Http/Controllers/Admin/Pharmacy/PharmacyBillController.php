@@ -75,7 +75,24 @@ class PharmacyBillController extends Controller
     {
         //
     }
+    public function filtersearch(Request $request)
+    {
+        if ($request->has('date')) {
+            $dob = strtotime($request->date);
+            $newDate = date('Y-m-d', $dob);
+            $results = PharmacyBill::whereDate('created_at', $newDate)->get();
+        } else if ($request->has('year')) {
+            $results = PharmacyBill::whereYear('created_at', $request->year)->get();
+        } else {
+            $start = strtotime($request->daterange1);
+            $newDate = date('Y-m-d', $start);
+            $end = strtotime($request->daterange2);
+            $newDate2 = date('Y-m-d', $end);
+            $results = PharmacyBill::whereBetween('created_at', [$newDate, $newDate2])->get();
+        }
 
+        return view('admin.pharmacy.dispensed', compact('results'));
+    }
     /**
      * Store a newly created resource in storage.
      *

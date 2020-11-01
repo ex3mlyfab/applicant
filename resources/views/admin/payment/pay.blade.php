@@ -64,58 +64,68 @@
                             route('payment.pay')
 
 
-                        }}" method="post" id="payment">
+                        }}" method="post" id="payment-form" >
                             @csrf
                         <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
 
                             <tbody>
 
                                 @foreach ($invoice->invoiceItems as $item)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>
-                                        <input type="text" name="service[]" class="form-control" value="{{ $item->item_description}}" readonly>
-                                        <input type="hidden" name="invoice_item_id[]" value="{{$item->id}}">
-                                        </td>
+                                    @if ($item->status== 'NYP')
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>
+                                            <input type="text" name="service[]" class="form-control" value="{{ $item->item_description}}" readonly>
+                                            <input type="hidden" name="invoice_item_id[]" value="{{$item->id}}">
+                                            </td>
 
-                                        <td>
-                                            @if (!(($invoice->user->payment_method == 'mdaccount')||($invoice->user->payment_method == 'insured')))
-                                        <input type="checkbox" name="pay[]" class="form-control form-check paycheck" value="{{$item->id}}" data-amount="{{$item->amount}}" >
-                                            @endif
+                                            <td>
 
-                                        </td>
-                                        <td>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        ₦
-                                                    </span>
+                                            <input type="checkbox" name="pay[]" class="form-control form-check paycheck" value="{{$item->id}}" data-amount="{{$item->amount}}" >
+
+
+                                            </td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            ₦
+                                                        </span>
+                                                    </div>
+                                                    <input type="number" name="amount[]" id="description" class="form-control"  value="{{$item->amount}}" readonly>
+
                                                 </div>
-                                                <input type="number" name="amount[]" id="description" class="form-control"  value="{{$item->amount}}" readonly>
+                                            </td>
 
-                                            </div>
-                                        </td>
+                                        </tr>
+                                    @endif
 
-                                    </tr>
                                 @endforeach
 
                                 <tr>
+
                                     <td colspan="3" class="font-w600 text-right">Total Balance</td>
-                                    <td class="text-right totaldue">₦{{$invoice->total_amount }}</td>
-                                </tr>
-                                @if (($invoice->user->payment_method == 'mdaccount')||($invoice->user->payment_method == 'insured'))
-                                <tr>
-
-                                    <td colspan="3" class="font-w600 text-right">Due Amount
-                                    <p>{{$message}}</p>
-                                    </td>
-                                    <td class="text-right totaldue">₦{{ $due_payment}}</td>
+                                    <td class="text-right totaldue">₦{{ $invoice->invoiceItems->reduce(function($carry,$item){
+                                        if($item->status=='NYP'){
+                                            return $carry + $item->amount;
+                                        }
+                                    })}}</td>
                                 </tr>
 
-                                @endif
                                 <tr>
                                     <td colspan="3" class="font-w700 text-uppercase text-right bg-body-light">Total Paid</td>
-                                    <td class="font-w700 text-right bg-body-light totalpaid"></td>
+                                    <td class="font-w700 text-right bg-body-light totalpaid">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    ₦
+                                                </span>
+                                            </div>
+                                            <input type="number" name="totalpaid" id="paidtotal" class="form-control text-right"   readonly>
+
+                                        </div>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -124,7 +134,9 @@
                     <input type="hidden" name="user_id" value="{{$invoice->user_id}}">
                     <input type="hidden" name="invoice_no" value={{ $invoice->invoice_no}}>
                     <input type="hidden" name="payment_method" value="{{$invoice->user->payment_method}}" >
-                    <input type="hidden" name="due_payment" value="{{$due_payment}}">
+                <input type="hidden" name="invoice_type" value="{{$invoice->invoiceable_type}}" >
+                <input type="hidden" name="invoice_type_id" value="{{$invoice->invoiceable_id}}" >
+
 
 
 
@@ -133,6 +145,7 @@
                     <input type="hidden" name="name" value="{{$invoice->name}}">
 
                     @endif
+                    <input type="hidden" name="pay_control" id="pay-control">
                     <div class="row">
                             @include('admin.paymentmode2')
                         <div class="col-md-6 offset-col-md-1  bg-amethyst rounded" id="payment-mode">
@@ -168,26 +181,43 @@
     $(function(){
             var totalpaid = 0;
           let payment_mode =  $('input[name=payment_method]').val();
-    if(!(payment_mode=='insured'|| payment_mode == 'mdaccount'))
-    {
-         $(".paycheck").bind('change', function(){
-            if(this.checked){
-                totalpaid +=  parseInt($(this).data("amount"));
-            }else{
-                totalpaid -= parseInt( $(this).data("amount"));
-            }
-        });
-    }else{
-        totalpaid = {{$due_payment}};
+    if((payment_mode=='insured'|| payment_mode == 'mdaccount')){
+        $(".paycheck").attr('disabled', true).prop('checked', true);
     }
+
+
+
 
         $(".confirm").change(function(){
             if(this.checked){
-                if(totalpaid != 0)
+                let total = [];
+                let paycontrol = [];
+                $(".paycheck").each(function(){
+                    if($(this).is(':checked')){
+                        total.push(parseFloat($(this).data("amount")));
+                        paycontrol.push(parseFloat($(this).val()));
+                    }
+                 });
+                 let purchase = (Array.isArray(total) && total.length) ? total.reduce((total, amount) => total + amount, 0) : 0 ;
+                $('#totalBalance').val(parseFloat(purchase).toFixed(2));
+                if(purchase != 0){
+                    $('#pay-control').val(paycontrol);
                 $(".underscore").attr('disabled', false);
-                $(".totalpaid").html( "₦" + totalpaid);
+                $(".paycheck").prop('disabled', true);
+                $("#paidtotal").val( parseFloat(purchase).toFixed(2));
+                }
+
             }else{
+                let total = [];
+                $(".paycheck").each(function(){
+                    if($(this).is(':checked')){
+                        total.push(parseFloat($(this).data("amount")));
+                    }
+                 });
+                 let purchase = (Array.isArray(total) && total.length) ? total.reduce((total, amount) => total + amount, 0) : 0 ;
                 $(".underscore").attr('disabled', true);
+                $(".paycheck").prop('disabled', false);
+                $("#paidtotal").val( parseFloat(purchase).toFixed(2));
             }
         });
 
@@ -201,14 +231,17 @@
                     $('#payment-mode').show();
                     $('.bank-check').prop('disabled', false);
                     $('#payment-status').show();
+                    $(".underscore").attr('disabled', true);
                 }else if(identity.prop('id') == 'pos-4'){
                     $('#payment-status').hide();
                     $('.bank-check').prop('disabled', true);
                     $('#payment-mode').hide();
+                    $(".underscore").attr('disabled',false);
                 }else{
                     $('#payment-mode').hide();
                     $('.bank-check').prop('disabled', true);
                     $('#payment-status').show();
+                    $(".underscore").attr('disabled', true);
                 }
             }
 

@@ -9,6 +9,7 @@ use App\Models\Charge;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\MdAccount;
+use App\Models\PatientStatistic;
 use App\Models\Payment;
 use App\Models\PaymentMode;
 use App\Models\PaymentReceipt;
@@ -113,7 +114,7 @@ class PatientController extends Controller
         //         break;
         // }
 
-        $validated['folder_number'] = assign_Fno($validated['source']);
+        $validated['folder_number'] = assign_Fno($request->registration_type_id);
 
 
         if ($request->has('avatar')) {
@@ -135,6 +136,8 @@ class PatientController extends Controller
         $validated['password'] = Hash::make('pentacare');
 
         $new = User::create($validated);
+        $f_update = PatientStatistic::where('registration_type_id', $new->registrationType->id)->whereYear('year', date('Y'))->first();
+        $f_update->increment('number', 1);
         switch ($request->payment_mode) {
             case 2:
                 BankTransfer::create([
@@ -210,11 +213,23 @@ class PatientController extends Controller
                 ]);
                 break;
             case 5 :
-                $new->retainership()->create([
-                    'credit' => $new->registrationType->charge->amount,
-                    'comment' => 'New registration charge',
-                    'balance' => number_format($new->retainership_balance - $new->registrationType->charge->amount,2, '.', ''),
+                $invoice= Invoice::create([
+                    'user_id' => $new->id,
+                    'invoice_no' => generate_invoice_no(),
+                    'amount' => $new->registrationType->charge->amount ,
+                    'admin_id' => auth()->user()->id,
+                    'p_status' => 'NYP',
+                    'status' => 'credit'
                 ]);
+
+                $new->invoice()->save($invoice);
+
+                $invoice->invoiceItems()->create([
+                    'item_description' => 'New Registration Charge ',
+                    'amount' => number_format($new->registrationType->charge->amount, 2, '.', '') ,
+                    'status' => 'NYP'
+                ]);
+
                 break;
             default:
                 # code...

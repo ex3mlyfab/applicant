@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
+
 
 class PresentingComplaint extends Model
 {
@@ -15,6 +14,10 @@ class PresentingComplaint extends Model
     public function encounter(): BelongsTo
     {
         return $this->belongsTo(Encounter::class);
+    }
+    public function seenBy(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'seen_by');
     }
 
 }

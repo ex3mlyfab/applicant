@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
@@ -38,6 +39,10 @@ class Inpatient extends Model
     {
         return $this->hasMany(NursingFunctionalhp::class);
     }
+    public function bed(): BelongsTo
+    {
+        return $this->belongsTo(Bed::class);
+    }
 
     public function nursingPhysicalAssessments(): HasMany
     {
@@ -47,5 +52,30 @@ class Inpatient extends Model
     {
         return $this->morphMany(PaymentReceipt::class, 'paymentable');
     }
+    public function invoice(): MorphMany
+    {
+        return $this->morphMany(Invoice::class, 'invoiceable');
+    }
 
+    public function dischargeSummaries(): HasMany
+    {
+        return $this->hasMany(DischargeSummary::class);
+    }
+
+    public function getDoctorsDischargeAttribute()
+    {
+       return $this->dischargeSummaries->filter(function($item){
+            return $item['professional'] == 'doctor';
+       });
+    }
+    public function getNurseDischargeAttribute()
+    {
+       return $this->dischargeSummaries->filter(function($item){
+            return $item['professional'] == 'nurse';
+       });
+    }
+    public function inpatientBill(): HasOne
+    {
+        return $this->hasOne(InpatientBill::class);
+    }
 }

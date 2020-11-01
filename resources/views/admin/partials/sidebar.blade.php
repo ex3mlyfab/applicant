@@ -2,7 +2,7 @@
     <!-- Side Header -->
     <div class="content-header" style="background: rgb(51, 70, 128)">
         <!-- Logo -->
-        <a class="font-w600 text-dual" href="index.html">
+    <a class="font-w600 text-dual" href="{{route('admin.dashboard')}}">
 
             <span class="smini-hide text-center">
                 <img src="{{asset('backend')}}/images/pentacare.png" style="width:50px; height: 50px; border-radius: 5px"alt="">
@@ -26,13 +26,19 @@
                 </a>
                 <ul class="nav-main-submenu">
                     <li class="nav-main-item">
+                        <a class="nav-main-link" href="{{route('patient-statistics.index')}}">
+                            <span class="nav-main-link-name">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                             <span class="nav-main-link-name">Registrations</span>
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
-                                <a class="nav-main-link" href="{{route('patient.create')}}">
-                                    <span class="nav-main-link-name">Individual Account</span>
+                                <a class="nav-main-link {{(Request::path()=='admin/patient/create') ? 'active': ''}}" href="{{route('patient.create')}}">
+                                    <span class="nav-main-link-name">Individual Account
+                                    </span>
                                 </a>
                             </li>
                             <li class="nav-main-item">
@@ -106,6 +112,13 @@
                 <ul class="nav-main-submenu">
 
                     <li class="nav-main-item">
+
+                    <a class="nav-main-link" href="{{route('inpatient.dashboard')}}">
+                            <span class="nav-main-link-name">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-main-item">
+
                     <a class="nav-main-link" href="{{route('admitpatient.index')}}">
                             <span class="nav-main-link-name">New Admission</span>
                         </a>
@@ -165,7 +178,7 @@
 
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('pharmacy.index')}}">
-                            <span class="nav-main-link-name">Dispense Drugs</span>
+                            <span class="nav-main-link-name">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
@@ -307,7 +320,7 @@
                <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                     <i class="nav-main-link-icon fa fa-file-invoice"></i>
-                    <span class="nav-main-link-name">Inventory</span>
+                    <span class="nav-main-link-name">Assets</span>
                 </a>
                 <ul class="nav-main-submenu">
                     <li class="nav-main-item">
@@ -359,12 +372,12 @@
                 <ul class="nav-main-submenu">
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('chargecategory.index')}}">
-                            <span class="nav-main-link-name">charge categories</span>
+                            <span class="nav-main-link-name">Charge Categories</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('charge.index')}}">
-                            <span class="nav-main-link-name">charges</span>
+                            <span class="nav-main-link-name">Charges</span>
                         </a>
                     </li>
                     <li class="nav-main-item">
@@ -374,12 +387,12 @@
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
                                 <a href="{{route('ward.index')}}" class="nav-main-link">
-                                    <span class="nav-main-link-name">wards</span>
+                                    <span class="nav-main-link-name">Wards</span>
                                 </a>
                             </li>
                             <li class="nav-main-item">
                                 <a href="{{route('floor.index')}}" class="nav-main-link">
-                                    <span class="nav-main-link-name">floors</span>
+                                    <span class="nav-main-link-name">Floors</span>
                                 </a>
                             </li>
                             <li class="nav-main-item">
@@ -389,7 +402,7 @@
                             </li>
                             <li class="nav-main-item">
                                 <a href="{{route('bedtype.index')}}" class="nav-main-link">
-                                    <span class="nav-main-link-name">bed type</span>
+                                    <span class="nav-main-link-name">Bed Type</span>
                                 </a>
                             </li>
 
@@ -424,7 +437,7 @@
                     </li>
                     <li class="nav-main-item">
                         <a class="nav-main-link" href="{{route('mdaccount.index')}}">
-                            <span class="nav-main-link-name">Md's Account</span>
+                            <span class="nav-main-link-name">MD's Account</span>
                         </a>
                     </li>
                     <li class="nav-main-item">

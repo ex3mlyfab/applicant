@@ -12,7 +12,7 @@ class PharmacyBill extends Model
 
     public function pharmacyBillDetails(): HasMany
     {
-        return $this->hasMany(PharmacyBillDetail::class, 'pharmacybill_id');
+        return $this->hasMany(PharmacyBillDetail::class);
     }
     public function invoice(): BelongsTo
     {

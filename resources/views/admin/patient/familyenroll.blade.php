@@ -49,7 +49,7 @@
                         <div class="tab-pane active" id="wizard-validation2-step1" role="tabpanel">
                             <div class="form-group">
                                 <label class="d-block">Family Name</label>
-                            <input type="hidden"  name="registration_type_id" readonly value="{{ $family->registration_type_id }}">
+                            <input type="hidden"  name="registration_type_id" value="{{ $family->registration_type_id }}">
                             <input type="text"  class="form-control form-control-lg" readonly value="{{ $family->users->first()->last_name}}" >
                             <input type="hidden" name="belongs_to" value="{{$family->id}}" >
 

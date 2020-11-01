@@ -19,12 +19,12 @@
     <div class="content">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
             <h1 class="flex-sm-fill h5">
-                Companies Register
+                Companies Account
             </h1>
-            <span class="ml-md-auto">
-
-            <a style="margin-top: -15px;" href="{{route('company.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle mr-1"></i>Add New Company Account</a>
-            </span>
+            <div class="block-option">
+                <a href="{{route('patient-statistics.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+             <a  href="{{route('company.create')}}" class="btn btn-success"><i class="fa fa-plus-circle mr-1"></i>Add New Company Account</a>
+            </div>
         </div>
     </div>
 </div>
@@ -44,7 +44,7 @@
                         <th style="width: 20%">Name </th>
                         <th style="width: 17%">Address</th>
                         <th style="width: 16%;">Phone</th>
-                        <th style="width: 15%;">Reg. Type</th>
+                        <th style="width: 15%;">Reg. Type/ Folder Number</th>
                         <th style="width: 20%;">Number Enrolled</th>
                         <th>action</th>
                     </tr>
@@ -56,7 +56,7 @@
                     <tr>
                         <td class="text-center" style="font-size: 16px">{{$loop->iteration}}</td>
                         <td class="font-w600 font-size-sm">
-                        <a href="{{route('company.show',$item->id)}}" style="font-size: 16px">{{$item->organisation_name}}</a>
+                        <a href="{{route('company.show',$item->id)}}" style="font-size: 16px">{{ucfirst($item->organisation_name)}}</a>
                         </td>
                         <td class="d-none d-sm-table-cell font-size-sm" style="font-size: 16px">
                             {{$item->address}}
@@ -65,7 +65,7 @@
                             {{$item->contact_phone}}
                         </td>
                         <td class="d-none d-sm-table-cell" style="font-size: 16px">
-                            {{$item->registrationType->name}}
+                            {{$item->registrationType->name}} <span class="badge badge-success">{{$item->folder_number}} </span>
                         </td>
                         <td>
                             <em class="text-muted font-size-sm" style="font-size: 16px">{{$item->enrolment_count}}</em>

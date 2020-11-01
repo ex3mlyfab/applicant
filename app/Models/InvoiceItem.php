@@ -25,4 +25,9 @@ class InvoiceItem extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
+    public function pharmreqDetail(): HasOne
+    {
+        return $this->hasOne(PharmreqDetail::class);
+    }
 }

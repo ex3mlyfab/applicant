@@ -7,6 +7,7 @@
             @csrf
     <input type="hidden" name="clinical_appointment_id" value="{{ $appointment->id }}">
     <input type="hidden" name="encounter_id" value={{$encounter->id}}>
+    <input type="hidden" name="seen_by" value="{{auth()->user()->id}}">
             <div class="form-group bg-info-light p-2">
                 <label class="form-control-label-lg">Subjective complaints:</label>
                 <textarea name="subjective_complaints"   class="form-control" rows="5">{{old('subjective_complaints') ?? ''}}

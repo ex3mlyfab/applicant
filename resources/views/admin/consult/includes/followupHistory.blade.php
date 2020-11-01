@@ -1,7 +1,7 @@
 @if ($encounter->followUps->count())
 <div class="block block-fx-pop">
     <div class="block-header bg-black-50">
-        <h3 class="block-title">Recent Follow Up Record</h3>
+        <h3 class="block-title">Recent Follow up Record</h3>
     </div>
     <div class="block-content block-content-full">
         <div class="table-responsive">
@@ -10,6 +10,7 @@
                     <th>Subjective complaints</th>
                     <th>objective Findings</th>
                     <th>assessment</th>
+                    <th> recorded by</th>
                 </thead>
                 <tbody>
 
@@ -19,6 +20,12 @@
                                 <td>{{$consult->subjective_complaints}}</td>
                                 <td>{{$consult->objective_findings}}</td>
                                 <td>{{$consult->assessment}}</td>
+                                <td>
+                                    {{$consult->doneBy->name ?? ' '}}
+                                    <span class="badge badge-success">
+                                        {{$consult->created_at->format('d-M-Y H:i A')}}
+                                    </span>
+                                </td>
                             </tr>
 
                     @endforeach
@@ -29,34 +36,5 @@
 </div>
 
 @endif
-@if ($consults->count() > 2)
-    <div class="block block-fx-pop">
-    <div class="block-header bg-black-50">
-        <h3 class="block-title">Previous Follow up visit</h3>
-    </div>
-    <div class="block-content block-content-full">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <th>Subjective complaints</th>
-                    <th>objective Findings</th>
-                    <th>assessment</th>
-                </thead>
-                <tbody>
 
-                    @foreach ($consults as $consult)
-                        @if($consult->followUp)
-                            <tr>
-                                <td>{{$consult->followUp->subjective_complaints}}</td>
-                                <td>{{$consult->followUp->objective_finding}}</td>
-                                <td>{{$consult->followUp->assessment}}</td>
-                            </tr>
-                        @endif
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-@endif
 

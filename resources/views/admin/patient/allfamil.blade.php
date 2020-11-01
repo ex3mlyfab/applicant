@@ -19,12 +19,12 @@
     <div class="content">
         <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
             <h1 class="flex-sm-fill h5">
-                Patients Register
+                Family Account
             </h1>
-            <span class="ml-md-auto">
-
-            <a style="margin-top: -15px;" href="{{route('family.create')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle mr-1"></i>Add New Family Account</a>
-
+            <div class="block-option">
+                <a href="{{route('patient-statistics.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+                <a  href="{{route('family.create')}}" class="btn btn-sm btn-success"><i class="fa fa-plus-circle mr-1"></i>Add New Family Account</a>
+            </div>
         </div>
     </div>
 </div>

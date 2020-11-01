@@ -757,6 +757,17 @@
 
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Prescribed by:</strong>
+                            <p id="prescribed-by">
+
+
+                            </p>
+
+                        </div>
+
+                    </div>
                     <h3 class="text-center text-uppercase">Prescription sheet</h3>
                     <div class="table-responsive">
                         <form action="#" method="POST" class="form form-element" onsubmit="return false;">

@@ -121,7 +121,7 @@
                 </tbody>
                 <tfoot class="bg-success-light">
                     <th colspan="3">Total</th>
-                    <th> ₦ {{$results->sum('amount')}}</th>
+                    <th> ₦ {{number_format($results->sum('amount'), 2, '.', ',')}}</th>
                 </tfoot>
             </table>
             </table>

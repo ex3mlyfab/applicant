@@ -53,7 +53,7 @@
                                 <th>Product</th>
                                 <th class="text-center" style="width: 90px;">Qty</th>
                                 <th class="text-right" style="width: 120px;">Unit</th>
-                                <th class="text-right" style="width: 120px;">Amount</th>
+                                <th class="text-right" style="width: 120px;">Amount(₦)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,7 +71,7 @@
                                     <td class="text-right">
                                         {{ $item->price}}
                                     </td>
-                                    <td class="text-right">{{ $item->quantity_needed * $item->price}}</td>
+                                    <td class="text-right">{{ number_format($item->quantity_needed * $item->price, 2, '.',',')}}</td>
 
                                 </tr>
                             @endforeach
@@ -80,7 +80,7 @@
                                         <h4>Total:</h4>
                                     </td>
                                     <td>
-                                        {{ $purchaseOrder->total}}
+                                        ₦ {{ number_format($purchaseOrder->total, 2, '.', ',')}}
                                     </td>
                                 </tr>
                         </tbody>
@@ -92,7 +92,7 @@
                     @if ($purchaseOrder->status == 'completed')
 
                         <div class="col-6 font-size-sm text-right">
-                            <p class="h5">Approved by: {{$purchaseOrder->approvedBy->full_name?? ' '}}</p>
+                            <p class="h5">Approved by: {{$purchaseOrder->approvedBy->full_name ?? ' '}}</p>
                         </div>
                     @endif
 

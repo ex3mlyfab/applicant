@@ -49,7 +49,7 @@
             <li>
                 <div class="font-size-sm text-muted ">bmi:</div>
                 <div class="media-body">
-                    <div class="font-w600">{{$patient->vitalSigns->first()->bmi}}</div>
+                    <div class="font-w600">{{(float)($patient->vitalSigns->first()->bmi)}}</div>
                 </div>
 
             </li>
@@ -79,7 +79,7 @@
                                 <form action="{{route('allergy.remove', $item->id)}}" method="POST" >
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
+                                    <button class="btn btn-sm btn-outline-info" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
                                 </form>
                             </td>
                         </tr>

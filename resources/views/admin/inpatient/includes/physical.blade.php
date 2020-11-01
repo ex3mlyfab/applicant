@@ -9,7 +9,8 @@
         <div class="block-content block-content-full tab-content px-md-5" style="min-height: 314px;">
 
 
-                <input type="hidden" name="encounter_id" value={{$inpatient->encounter->id}}>
+                <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
+                <input type="hidden" name="seen_by" value="{{auth()->user()->id}}">
                 <div class="form-group bg-city-lighter p-2">
                     <label for="firstName5">1. General Examinations </label>
                     <textarea name="general_exam" class="form-control auto-expand" rows="4" placeholder="Patient's General examination"> {{old('general_exam') ?? ''}}</textarea>

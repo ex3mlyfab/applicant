@@ -9,6 +9,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('birthdays', function () {
             return view('admin.patient.birthday');
         })->name('birthdays'); //birthdays celebrant
+        Route::get('inpatient/dashboard', 'Admin\Inpatient\InpatientController@dashboard')->name('inpatient.dashboard')->middleware('permission:inpatient-view');
         Route::get('prescriptionreview/{pharmreq}', 'Admin\Consult\PharmreqController@prescriptionReview')->name('pharmreq.review');
         Route::post('wardround/changestatus', 'Admin\Inpatient\TreatmentSheetController@changeStatus');
         Route::post('nurseround/recordtreatment', 'Admin\Inpatient\TreatmentSheetController@recordTreatment')->name('recordtreatment');
@@ -28,7 +29,8 @@ Route::group(['prefix' => 'admin'], function () {
         /**
          * Inpatient Routes
          */
-        Route::get('wardround/{inpatient}', 'Admin\Inpatient\InpatientController@wardRound')->name('wardround')->middleware('permission:wardround-create');;
+        Route::resource('discharge', 'Admin\Inpatient\DischargeSummaryController')->middleware('permission:discharge-view');
+        Route::get('wardround/{inpatient}', 'Admin\Inpatient\InpatientController@wardRound')->name('wardround')->middleware('permission:wardround-create');
         Route::get('nurseround/{inpatient}', 'Admin\Inpatient\NursingCareController@nursingCare')->name('nurseround')->middleware('permission:nurseround-create');
         Route::resource('admitpatient', 'Admin\Inpatient\AdmitController');
         Route::resource('inpatient', 'Admin\Inpatient\InpatientController');
@@ -56,12 +58,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('consult/{consult}', 'Admin\Consult\ConsultController@consult')->middleware('permission:consult-view')->name('consult.create');
         Route::get('endconsult/{consult}', 'Admin\Consult\ConsultController@endConsult')->middleware('permission:consult-create')->name('consult.end');
         Route::resource('mdaccount', 'Admin\Setting\MdAccountController')->middleware('permission:mdaccount-create');
-
-        Route::post('pharmacy/calculate-drugs', 'Admin\Pharmacy\PharmacyController@prepare')->name('pharmacy.cost');
-        Route::post('pharmacy/billdrug', 'Admin\Pharmacy\PharmacyController@billdrug')->name('pharmacy.billdrug');
+        //pharmacy
+        Route::get('pharmacy/dispense-drugs', 'Admin\Pharmacy\PharmacyController@prepare')->middleware('permission:dispense-view')->name('dispense.drugs');
+        Route::get('pharmacy/view-dispensed', 'Admin\Pharmacy\PharmacyController@billdrug')->middleware('permission:dispense-view')->name('pharmacy.dispensed');
         Route::get('pharmacy/dispensedrug/{pharmreq}', 'Admin\Pharmacy\PharmacyController@dispensedrug')->name('pharmacy.dispensedrug');
         Route::post('pharmacy/confirmdispense', 'Admin\Pharmacy\PharmacyController@confirmdispense')->name('pharmacy.confirmdispense');
         Route::resource('pharmbill', 'Admin\Pharmacy\PharmacyBillController');
+        Route::post('filterdispensed', 'Admin\Pharmacy\PharmacyBillController@filtersearch')->name('filter.dispense');
+
         Route::resource('followup', 'Admin\Consult\FollowUpController');
         Route::resource('consults', 'Admin\Consult\ConsultController');
         Route::post('consult/pharmreq/create', 'Admin\Consult\PharmreqController@ajaxdrug');
@@ -77,7 +81,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('physical-assessment', 'Admin\Inpatient\PhysicalAssessmentController')->middleware('permission:nurseround');
         Route::resource('fun-health', 'Admin\Inpatient\FunHealthController')->middleware('permission:nurseround');
         Route::resource('daily-record', 'Admin\Inpatient\DailyRecordController')->middleware('permission:nurseround');
-
+        Route::resource('patient-statistics', 'Admin\Front\PatientStatisticController');
         Route::resource('haematologyreq', 'Admin\Consult\HaematologyReqController');
         Route::resource('pathologyreq', 'Admin\Consult\PathologyController');
         Route::resource('histopathologyreq', 'Admin\Consult\HistopathologyReController');
@@ -105,6 +109,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('purpose', 'Admin\Setting\VisitorPurposeSettingController');
         Route::resource('supplier', 'Admin\Account\Supplier')->middleware('permission:supplier-view');
         Route::get('suppliers/load', 'Admin\Account\Supplier@loadSuppliers')->middleware('permission:purchase-create');
+        Route::get('suppliers/payables/{supplier}', 'Admin\Account\Supplier@payables')->middleware('permission:supplier-view')->name('supplier.payable');
+        Route::post('suppliers/filter-payables', 'Admin\Account\Supplier@filterPayables')->middleware('permission:supplier-view')->name('payables.filter');
+        Route::get('suppliers/purchases/{supplier}', 'Admin\Account\Supplier@purchases')->middleware('permission:supplier-view')->name('supplier.purchase');
+        Route::post('suppliers/filter-purchases', 'Admin\Account\Supplier@filterPurchases')->middleware('permission:supplier-view')->name('purchases.filter');
         Route::resource('nhis', 'Admin\Front\NhisPatientController')->middleware('permission:patient-create');
 
         Route::resource('insuranceCategory', 'Admin\Setting\InsuranceCategory')->middleware('permission:setting-view');

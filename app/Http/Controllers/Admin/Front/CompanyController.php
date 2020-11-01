@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Front;
 use App\Http\Controllers\Controller;
 use App\Models\BankTransfer;
 use App\Models\Organization;
+use App\Models\PatientStatistic;
 use App\Models\Payment;
 use App\Models\PaymentReceipt;
 use App\Models\RegistrationType;
@@ -55,9 +56,11 @@ class CompanyController extends Controller
             'address' => 'nullable',
             'contact_phone' => 'nullable',
         ]);
-        $data['folder_number'] = assign_Fno_company();
+        $data['folder_number'] = assign_Fno($request->registration_type_id);
 
         $org = Organization::create($data);
+        $f_update = PatientStatistic::where('registration_type_id', $org->registrationType->id)->whereYear('year', date('Y'))->first();
+        $f_update->increment('number', 1);
         switch ($request->payment_mode) {
                 case 2:
                     BankTransfer::create([
@@ -200,7 +203,7 @@ class CompanyController extends Controller
 
         $validated['password'] = Hash::make('pentacare');
         $validated['registered_by'] = Auth::user()->id;
-        $number = Organization::where('id', $request->organization_id)->first();
+        // $number = Organization::where('id', $request->organization_id)->first();
 
         User::create($validated);
 

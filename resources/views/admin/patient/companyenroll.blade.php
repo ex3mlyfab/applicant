@@ -49,7 +49,7 @@
                         <div class="tab-pane active" id="wizard-validation2-step1" role="tabpanel">
                             <div class="form-group">
                                 <label class="d-block">Company Name</label>
-                            <input type="hidden"  name="registration_type_id" readonly value="{{ $company->registration_type_id }}">
+                            <input type="hidden"  name="registration_type_id" value="{{ $company->registration_type_id }}">
                             <input type="text"  class="form-control form-control-lg" readonly value="{{ $company->organisation_name}}" >
                             <input type="hidden" name="organization_id" value="{{$company->id}}" >
 

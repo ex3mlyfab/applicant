@@ -34,6 +34,7 @@
                     <!-- Company Info -->
                     <div class="col-6 font-size-sm text-right">
                         <p class="h5">R/NO:{{$recieveorder->receipt_no}}</p>
+                        <p> {{$recieveorder->created_at->format('d-M-Y')}}</p>
 
 
                     </div>
@@ -53,7 +54,7 @@
                                 <th>Product</th>
                                 <th class="text-center" style="width: 90px;">Qty</th>
                                 <th class="text-right" style="width: 120px;">Unit</th>
-                                <th class="text-right" style="width: 120px;">Amount</th>
+                                <th class="text-right" style="width: 120px;">Amount(₦)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,13 +66,13 @@
                                     <td>
                                         <p class="font-w600 mb-1">{{ $item->drugModel->name }}</p>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <span class="badge badge-pill badge-primary">{{ $item->quantity_needed }}</span>
                                     </td>
                                     <td class="text-right">
                                         {{ $item->price}}
                                     </td>
-                                    <td class="text-right">{{ $item->quantity_needed * $item->price}}</td>
+                                    <td class="text-right">{{number_format($item->quantity_needed * $item->price, 2, '.', ',')}}</td>
 
                                 </tr>
                             @endforeach
@@ -80,7 +81,7 @@
                                         <h4>Total:</h4>
                                     </td>
                                     <td>
-                                        {{ $recieveorder->costs}}
+                                        ₦ {{ number_format($recieveorder->costs, 2, '.', ',')}}
                                     </td>
                                 </tr>
                         </tbody>

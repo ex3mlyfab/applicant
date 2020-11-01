@@ -5,7 +5,10 @@ use App\Models\Family;
 use App\Models\Invoice;
 use App\Models\MdAccount;
 use App\Models\Organization;
+use App\Models\PatientStatistic;
+use App\Models\RegistrationType;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 if (!function_exists('startsWith')) {
@@ -48,20 +51,48 @@ if (!function_exists('generate_invoice_no')) {
 if (!function_exists('assign_Fno')) {
     function assign_Fno($account_type)
     {
-        $users = new User();
-        $count = $users->whereYear('created_at', '=', date('Y'))->whereIn('source', ['student', 'antenatal', 'individual', 'nhis'])->count();
-        $count += 1;
-        $formatted_value = sprintf("%04d", $count);
+        $regtype = RegistrationType::all();
+        $number = PatientStatistic::whereYear('year', date('Y'))->where('registration_type_id', $account_type)->first();
+        // dd($number);
+        if(!(isset($number))){
+        //  dd($number, 1);
+         foreach ($regtype as $key => $value) {
+                $data = array(
+                    'year' => Carbon::parse(date('Y')),
+                    'number' => 0,
+                    'registration_type_id' => $value->id
+                );
+                PatientStatistic::create($data);
+
+            }
+        $number = PatientStatistic::whereYear('year', date('Y'))->where('registration_type_id', $account_type)->first();
+        }
+        // dd($number, 2);
+        $count = $number->number + 1;
+        $formatted_value = sprintf("%03d", $count);
+        // if($account_type== $regtype->w)
         switch ($account_type) {
-            case 'student':
+            case $regtype->where('name', 'Student')->pluck('id')[0]:
                 $code = "/S/";
                 break;
-            case 'antenatal':
+            case $regtype->where('name', 'Ante-Natal')->pluck('id')[0]:
                 $code = "/ANC/";
                 break;
-            case 'nhis':
+            case $regtype->where('name', 'NHIS')->pluck('id')[0]:
                 $code = "/NHIS/";
-            default:
+                break;
+            case $regtype->where('name', 'Family (small)')->pluck('id')[0]:
+            case $regtype->where('name', 'Family (Medium)')->pluck('id')[0]:
+            case $regtype->where('name', 'Family (large)')->pluck('id')[0]:
+                $code = "/F/";
+                break;
+            case $regtype->where('name', 'Company (small)')->pluck('id')[0]:
+            case $regtype->where('name', 'Company (Medium)')->pluck('id')[0]:
+            case $regtype->where('name', 'Company (Large)')->pluck('id')[0]:
+            case $regtype->where('name', 'Company (Very Large)')->pluck('id')[0]:
+                $code = "/C/";
+                break;
+            case $regtype->where('name', 'individual')->pluck('id')[0]:
                 $code = "/I/";
                 break;
         }

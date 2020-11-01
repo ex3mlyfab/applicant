@@ -24,9 +24,13 @@ class RegistrationType extends Model
     {
         return $this->hasMany(Organization::class);
     }
- 
+
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+    public function patientStatistics(): HasMany
+    {
+        return $this->hasMany(PatientStatistic::class)->orderByDesc('year');
     }
 }

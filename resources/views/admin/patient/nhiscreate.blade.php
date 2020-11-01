@@ -59,6 +59,7 @@
 
                         <div class="tab-pane" id="wizard-validation2-step2" role="tabpanel">
                             <div class="form-group form-row">
+                                <input type="hidden"  name="registration_type_id" value="{{$registration->id}}" required>
                                 <div class="col-sm-4">
                                     <label for="wizard-validation2-lastname">Last Name</label>
                                 <input placeholder="Enter Last name" style="border: 1.5px solid rgb(51, 70, 128); background: #fafafa" class="form-control form-control-lg" type="text" id="wizard-validation2-lastname" name="last_name" value="{{old('last_name')}}" readonly required>

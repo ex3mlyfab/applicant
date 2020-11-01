@@ -9,7 +9,7 @@
 
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
 @endsection
- 
+
 @section('content')
 <div class="content">
     <div class="row">
@@ -92,7 +92,7 @@
                                                 @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
-                                                </form>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

@@ -32,7 +32,7 @@ Receive orders
                     <thead>
                         <th>S/No</th>
                         <th>Supplier</th>
-                        <th>Costs</th>
+                        <th>Costs( ₦ )</th>
                         <th>Receipt No</th>
                         <th>P. Status</th>
                         <th> Checked by</th>
@@ -46,8 +46,8 @@ Receive orders
                             <td>
                             <a href="{{route('recieveorder.show', $item->id)}}"> {{$item->supplier->name}}</a>
                             </td>
-                            <td>
-                                {{ $item->costs}}
+                            <td class="text-right">
+                                {{ number_format($item->costs, 2, '.', ',')}}
                             </td>
                             <td>
                                 {{$item->receipt_no }}

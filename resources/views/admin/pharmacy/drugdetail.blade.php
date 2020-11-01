@@ -105,7 +105,7 @@
                                             {{$item->packing_quantity}}
                                         </td>
                                         <td>
-                                            {{$item->balance}}
+                                            {{$item->drugModel->available}}
                                         </td>
                                         <td>
                                             {{$item->purchase_price}}

@@ -17,9 +17,16 @@
     <div class="block block-fx-pop pentacare-bg">
         <div class="block-header" style="background: rgb(51, 70, 128, 0.8)">
             <h3 class="block-title text-white"> Patient List</h3>
+            <div class="block-option">
+                <a href="{{route('inpatient.dashboard')}}" class="btn btn-success">
+                    <i class="fa fa-door-open"></i> Dashboard
+                </a>
+            </div>
         </div>
         <div class="block-content block-content-full">
+
             <h4 class="font-w400">Pending Admissions List</h4>
+
                 <div class="table-responsive">
                         <table class="table table-stripped table-bordered table-vcenter js-dataTable-buttons">
                             <thead>
@@ -103,7 +110,7 @@
                                     @csrf
                                     <div class="form-group form-row">
                                         <div class="col-md-4">
-                                        <img  alt="" id="picture">
+                                        <img  alt="" id="picture" style="width: 100%; border-radius: 10px;">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="patient_id"> PATIENT NAME</label>
@@ -132,8 +139,10 @@
                                         <div class="col-md-3">
                                             <label for="room">select Ward</label>
                                             <select name="ward_id" id="room" class="js-select2 form-control" style="width: 100%;" data-placeholder="Choose one..">
-                                                <option></option>
-                                                {!!create_option('ward_models', 'id', 'name')!!}
+                                                <option> select one...</option>
+                                                @foreach ($wards as $item)
+                                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-3">
@@ -161,52 +170,23 @@
                                     <div class="form-group form-row bg-amethyst-lighter">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Deposit</label>
+                                                <label>Bill</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text input-group-text-alt">
                                                         ₦
                                                     </span>
                                                 </div>
-                                                <input type="text" class="form-control form-control-alt text-center" id="deposit" name="deposit" placeholder="">
+                                                <input type="text" class="form-control form-control-alt text-center" id="deposit" name="bill" placeholder="" required>
                                                 <div class="input-group-append">
                                                     <span class="input-group-text input-group-text-alt">.00</span>
                                                 </div>
                                             </div>
                                         </div>
                                         </div>
-                                        <div class="col-md-6">
-
-                                            <div class="form-group">
-                                                <label>Credit Limit</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text input-group-text-alt">
-                                                        ₦
-                                                    </span>
-                                                </div>
-                                                <input type="text" class="form-control form-control-alt text-center" id="example-group1-input3-alt" name="credit_limit" placeholder="" required>
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text input-group-text-alt">.00</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" >
-                                        <span id="deposited">
-                                            <label class="d-block">Deposit Methods</label>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" id="example-radios-inline1" name="deposit_method" value="cash" checked required>
-                                                <label class="form-check-label" for="example-radios-inline1">Cash</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" id="example-radios-inline2" name="deposit_method" value="transfer" required>
-                                                <label class="form-check-label" for="example-radios-inline2">Transfer</label>
-                                            </div>
-                                        </span>
 
                                     </div>
+
 
 
 
@@ -247,53 +227,53 @@
             $('#patient_id').val( $(this).data('patient-id'));
             $('#admin_req_id').val( $(this).data('adminreq'));
         });
-        $('#deposited').hide();
-        $('#example-radios-inline1').prop('disabled', true);
-        $('#example-radios-inline2').prop('disabled', true);
 
-        $('#deposit').blur(function(){
-            if($(this).val() > 0){
-                 $('#deposited').show();
-                 $('#example-radios-inline1').prop('disabled', false);
-        $('#example-radios-inline2').prop('disabled', false);
-            }else{
-                $('#deposited').hide();
-                $('#example-radios-inline1').prop('disabled', true);
-        $('#example-radios-inline2').prop('disabled', true);
-            }
-
-        });
 
         $('tbody tr:nth-child(odd)').addClass("bg-city-lighter");
 
         $('#room').on("change", function(){
             var classID = $(this).val();
             var link = "{{ url('admin/wardmodelajax/') }}";
+            var url = link+"/"+classID;
+            $.get(url, assignRoom);
 
-            if(classID) {
-                $.ajax({
-                    url: link+"/"+classID,
-                    type: "GET",
-                    dataType: "json",
-                    success:function(data) {
+            // if(classID) {
+            //     $.ajax({
+            //         url: link+"/"+classID,
+            //         type: "GET",
+            //         dataType: "json",
+            //         success:function(data) {
+            //             console.log(data);
+            //             $('#bed').empty();
+            //             $.each(data, function(key, value) {
 
+            //                 $('#bed').append(
+            //                 '<option value="'+ value +'"> Bed-'+ value +'</option>');
 
-                        $.each(data, function(key, value) {
+            //                 });
+            //             }
+            //             });
 
-                            $('#bed').append(
-                            '<option value="'+ value +'"> Bed-'+ value +'</option>');
-
-                            });
-                        }
-                        });
-
-                        }
-                        else{
-                            $('select[name="drug_subcategory"]').empty();
-                            }
+            //             }
+            //             else{
+            //                 $('select[name="bed_id"]').empty();
+            //                 }
 
 
             });
+            function assignRoom(data)
+            {
+                $('#bed').empty();
+
+                $.each(data, function(key, value){
+                    $('#bed').append(
+                    '<option value="'+ value.name +'"> Bed-'+ value.name +'</option>'
+                    );
+
+                });
+
+            }
+
             $('#datetimepicker3').datetimepicker({
                 defaultDate: new Date(),
                 format: 'DD-MM-YYYY hh:mm:ss A',

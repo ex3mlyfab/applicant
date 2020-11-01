@@ -99,11 +99,15 @@ class WardModelController extends Controller
     }
     public function wardmodelajax(WardModel $ward)
     {
-        $real = $ward->beds->filter(function ($value, $key) {
-            return $value->status == "";
-        });
-        $real = $real->pluck("id");
-        return json_encode($real);
+        $real = $ward->unoccupied_bed;
+        $total= [];
+        foreach($real as $key =>$value){
+            array_push($total,[
+                'name' => $value->id
+            ]);
+        }
+
+        return response()->json($total);
     }
 
     /**

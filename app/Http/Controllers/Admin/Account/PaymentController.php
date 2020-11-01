@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankTransfer;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Payment;
 use App\Models\PaymentReceipt;
+use App\Models\Pharmreq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,23 +23,23 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::whereDate('created_at', now()->today())->get();
-        $weekly = Payment::where('created_at', '>=', now()->today()->subDays(7))->get();
-        $weekly = $weekly->groupBy(function (Payment $item) {
+        $payments = PaymentReceipt::whereDate('created_at', now()->today())->get();
+        $weekly = PaymentReceipt::where('created_at', '>=', now()->today()->subDays(7))->get();
+        $weekly = $weekly->groupBy(function (PaymentReceipt $item) {
             return $item->created_at->format('d/M/Y');
         })->map(function ($row) {
-            return $row->sum('amount');
+            return $row->sum('total');
         });
         $weeklychart = [];
         foreach ($weekly as $key => $value) {
             $weeklychart['label'][] = $key;
             $weeklychart['earnings'][] = $value;
         }
-        $monthly = Payment::whereYear('created_at', date('Y'))->get();
-        $monthly = $monthly->groupBy(function (Payment $item) {
+        $monthly = PaymentReceipt::whereYear('created_at', date('Y'))->get();
+        $monthly = $monthly->groupBy(function (PaymentReceipt $item) {
             return $item->created_at->format('M');
         })->map(function ($row) {
-            return $row->sum('amount');
+            return $row->sum('total');
         });
         $monthlychart = [];
         foreach ($monthly as $key => $value) {
@@ -46,10 +48,10 @@ class PaymentController extends Controller
         }
         $weeklychart['weekly_chart'] = json_encode($weeklychart);
         $monthlychart['monthly_chart'] = json_encode($monthlychart);
-        $collectors = $payments->groupBy(function (Payment $item) {
-            return $item->admin->full_name;
+        $collectors = $payments->groupBy(function (PaymentReceipt $item) {
+            return $item->admin->name;
         })->map(function ($row) {
-            return $row->sum('amount');
+            return $row->sum('total');
         });
 
 
@@ -89,60 +91,14 @@ class PaymentController extends Controller
     }
     public function settleInvoice(Invoice $invoice)
     {
-        $service = '';
-        if($invoice->invoiceable_type == 'App\Models\Pharmreq'){
-            $service = 'pharmacy';
-        }
-        $coverage = $invoice->user->payment_method;
-        switch ($coverage) {
-            case 'mdaccount':
-                $percentile =$invoice->user->mdAccount->mdAccountCovers->where('name', $service)->first();
 
-                if(($percentile && (($percentile->ends == NULL) ||(now()->between($percentile->starts, $percentile->ends))))){
-                    if($percentile->percentage < 100)
-                    {
-                        $message = "MD covers ".$percentile->percentage."% of charges";
-                        $due_payment= $invoice->total_amount - $percentile->percentage/100 * $invoice->total_amount;
-                    } else{
-                        $message = "MD covers ".$percentile->percentage."% of charges";
-                        $due_payment = 0;
-                    }
-                }
-                else{
-                    $message = 'out of Md coverage duration';
-                    $due_payment = $invoice->total_amount;
-                }
-                break;
-            case 'insured':
-                $percentile = $invoice->user->enrollUser->insurancePackage;
-                $covered= $percentile->insuranceServices->where('service_type',$service )->first();
-                if($covered){
-                    if($percentile->percentage < 100){
-                        $message = "insurance coverage of ".$percentile->percentage."% of charges";
-                        $due_payment= $invoice->total_amount - $percentile->percentage/100 * $invoice->total_amount;
-                    }else{
-                        $message = "insurance coverage of ".$percentile->percentage."% of charges";
-                        $due_payment = 0;
-                    }
-                }else{
-                    $message = "insurance enrollee out of coverage";
-                    $due_payment = $invoice->total_amount;
-
-                }
-            break;
-            default:
-            $message = '';
-            $due_payment = $invoice->total_amount;
-                break;
-        }
-
-        return view('admin.payment.pay', compact('invoice', 'due_payment', 'message'));
+        return view('admin.payment.pay', compact('invoice'));
     }
     public function printInvoice(Invoice $invoice)
     {
         return view('admin.payment.printinvoice', compact('invoice'));
     }
-    public function printReceipt(Payment $payment)
+    public function printReceipt(PaymentReceipt $payment)
     {
         return view('admin.payment.printreceipt', compact('payment'));
     }
@@ -197,6 +153,7 @@ class PaymentController extends Controller
                 $lab->bill()->update([
                     'status' => "item paid",
                 ]);
+
             }
             }
             $invoice = Invoice::where('invoice_no', $request->invoice_no)->first();
@@ -219,49 +176,108 @@ class PaymentController extends Controller
     }
     public function pharmacy(Request $request)
     {
-        dd($request->except('_token'));
+        // dd($request->except('_token'));
+        $invoice = Invoice::findOrFail($request->invoice_id);
+        $pharm = Pharmreq::findOrFail($request->invoice_type_id);
+        // dd($pharm->pharmreqDetails);
+        $drugs = $pharm->pharmreqDetails;
 
+
+        $pay = explode(',', $request->pay_control);
+        $pay= collect($pay);
+        // // dd($pay);
+
+        // foreach ($drugs as $key => $value) {
+        //     // array_search($drugs_id[$key], $pay);
+
+        //  if($pay->contains($value->invoice_item_id)){
+        //      $usekey = array_keys($request->invoice_item_id, $value->invoice_item_id );
+        //     //  dd($usekey[0]);
+        //      array_push($tests,$usekey[0]);
+        //  }
+        // }
+        // dd($tests);
+        //wonderful logic to know a slected row from the options
+    if($request->payment_mode != 5)
+    {
         $payment = PaymentReceipt::create([
             'user_id' => $request->user_id,
             'payment_mode_id' => $request->payment_mode,
-            'admin_id' => auth()->user()->id
+            'admin_id' => auth()->user()->id,
+            'total' => $request->totalpaid,
+            'receipt_no' => generate_invoice_no()
 
         ]);
-        foreach ($request->pay as $key => $value) {
-            $data = array(
-                'user_id' => $request->user_id,
-                'service' => $request->service[$key],
-                'invoice_item_id' => $request->invoice_item_id[$key],
-                'amount' => $request->amount[$key],
-                'admin_id' => Auth::user()->id,
-                'invoice_no' => $request->invoice_no,
+        foreach ($drugs as $key => $value) {
+            if ($pay->contains($value->invoice_item_id)) {
+                $usekey = array_keys($request->invoice_item_id, $value->invoice_item_id);
+                $data = array(
+                'service' => $request->service[$usekey[0]],
+                'payment_receipt_id' => $payment->id,
+                'amount' => $request->amount[$usekey[0]],
+                'status' => 'paid'
+
 
             );
-            Payment::create($data);
-
-            $lab = InvoiceItem::find($data['invoice_item_id']);
-            if($lab){
-                $lab->update([
+                Payment::create($data);
+                $value->invoiceItem()->update(['status'=> 'paid']);
+                $value->update([
                 'status' => 'paid'
             ]);
-            if ($lab->bill()) {
-                $lab->bill()->update([
-                    'status' => "item paid",
-                ]);
             }
-            }
-            $invoice = Invoice::where('invoice_no', $request->invoice_no)->first();
+        }
+        switch ($request->payment_mode) {
+                case 2:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $request->user_id,
+                        'amount_transfered' => $request->charges,
+                        'status' => 'Transfer'
+                    ]);
+                    break;
+                case 3:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $request->user_id,
+                        'amount_transfered' => $request->charges,
+                        'status' => 'POS'
+                    ]);
 
-            if ($invoice->invoiceItems->contains('status', '')) {
+                default:
+                    # code...
+                    break;
+            }
+
+            $pharm->update([
+                'status' => 'item paid'
+            ]);
+            $pharm->payments()->save($payment);
+            if ($invoice->invoiceItems->contains('status', 'NYP')) {
                 $invoice->update([
-                    'status' => 'partial paid',
+                    'p_status' => 'partial paid',
+                    'amount' => $invoice->invoiceItems->reduce(function($carry,$item){
+                        if($item->status=='NYP'){
+                            return $carry + $item->amount;
+                        }
+                    })
                 ]);
             } else {
                 $invoice->update([
-                    'status' => 'paid',
+                    'p_status' => 'paid',
                 ]);
             }
         }
+        else{
+            $pharm->update([
+                'status' => 'item paid'
+            ]);
+            $invoice->update([
+                'status' => 'credit',
+            ]);
+        }
+        $pharm->testable()->update([
+            'status' => 'item paid'
+        ]);
         $notification = array(
             'message' => 'Payment made successfully!',
             'alert-type' => 'success'

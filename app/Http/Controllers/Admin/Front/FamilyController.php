@@ -8,6 +8,7 @@ use App\Models\Family;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\MdAccount;
+use App\Models\PatientStatistic;
 use App\Models\Payment;
 use App\Models\PaymentMode;
 use App\Models\PaymentReceipt;
@@ -131,11 +132,12 @@ class FamilyController extends Controller
         if (!($request->has('belongs_to'))) {
             $id = Family::create([
                 'enrolment_count' => 1,
-                'folder_number' => assign_Fno_family(),
+                'folder_number' => assign_Fno($request->registration_type_id),
                 'registration_type_id' => $request->registration_type_id,
                 'user_id' => $anchor->id,
             ]);
-
+            $f_update = PatientStatistic::where('registration_type_id', $id->registrationType->id)->whereYear('year', date('Y'))->first();
+            $f_update->increment('number', 1);
             $anchor->update([
                 'folder_number' => $id->folder_number . num_to_letters(1),
                 'belongs_to' => $id->id,
@@ -218,11 +220,23 @@ class FamilyController extends Controller
 
                     break;
                 case 5 :
-                    $anchor->retainership()->create([
-                        'credit' => $id->registrationType->charge->amount,
-                        'comment' => 'New registration charge',
-                        'balance' => number_format($anchor->retainership_balance - $id->registrationType->charge->amount,2, '.', ''),
+                    $invoice= Invoice::create([
+                        'user_id' => $anchor->id,
+                        'invoice_no' => generate_invoice_no(),
+                        'amount' => $id->registrationType->charge->amount ,
+                        'admin_id' => auth()->user()->id,
+                        'p_status' => 'NYP',
+                        'status' => 'credit'
                     ]);
+
+                    $anchor->invoice()->save($invoice);
+
+                    $invoice->invoiceItems()->create([
+                        'item_description' => 'New Registration Charge ',
+                        'amount' => number_format($id->registrationType->charge->amount, 2, '.', '') ,
+                        'status' => 'NYP'
+                    ]);
+
                     break;
                 default:
                     # code...

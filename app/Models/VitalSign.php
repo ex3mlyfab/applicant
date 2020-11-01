@@ -13,4 +13,8 @@ class VitalSign extends Model
     {
         return $this->belongsTo(User::class, 'patient_id');
     }
+    public function doneBy(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'done_by');
+    }
 }

@@ -34,7 +34,7 @@
                                         <thead>
                                             <th>S/no</th>
                                             <th>Name</th>
-                                            <th>Picture/f-no</th>
+                                            <th class="text-center">Picture/f-no</th>
                                             <th>sex</th>
                                             <th>Age</th>
                                             <th>status</th>
@@ -47,9 +47,9 @@
                                                     {{$loop->iteration}}
                                                 </td>
                                                 <td>
-                                                    {{ $item->full_name}}
+                                                    {{ $item->user->full_name}}
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     <img src="{{ $item->user->avatar ? asset('backend/images/avatar/'. $item->user->avatar) : asset('backend/images/no_image.png')}}" alt="" class="img-avatar img-avatar96"><br>
                                                     <span class="badge badge-pill p-2 badge-light">
                                                         {{$item->user->folder_number}}
@@ -66,7 +66,7 @@
                                                 <td>
                                                     <span class="badge badge-primary"> {{$item->status}}</span>
                                                 </td>
-                                                <td>
+                                                <td class="text-center">
                                                     <div class="btn-group">
 
                                                         <button type="button" class="btn btn-md btn-danger text-uppercase takevitals" data-toggle="modal"  data-target="#modal-block-normal" data-pictures="{{asset('backend')}}/images/avatar/{{$item->user->avatar}}" data-fullname="{{ $item->user->full_name}}" data-patient-id="{{$item->user->id}}" data-folder-number="{{ $item->user->folder_number}}" data-sex="{{ $item->user->sex}}"><span data-toggle="tooltip" title="take vitals sign"> <i class="fa fa-fw fa-clipboard"></i> </span></button>

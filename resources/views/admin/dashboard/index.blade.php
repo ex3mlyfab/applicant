@@ -91,7 +91,7 @@
                     <div class="block block-fx-shadow">
                         <div class="block-header">
                         <h3 class="block-title text-center">Hospital survey
-                            <ex
+
                         </h3>
                         </div>
                         <div class="block-content block-content-full">
@@ -128,8 +128,6 @@
 <script src="{{asset('backend')}}/assets/js/oneui.core.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/oneui.app.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-<script src="{{asset('backend')}}/assets/js/pages/be_comp_charts.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
 <script>
 
@@ -142,6 +140,8 @@ new Chart($(".js-chartjs-bars"), {
                     "scales":{"yAxes":[{"ticks":{"beginAtZero":true}}]}
                 }
 });
+
+
 
 </script>
 

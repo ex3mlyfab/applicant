@@ -7,6 +7,7 @@ use App\Models\Charge;
 use App\Models\EnrollUser;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\RegistrationType;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -32,7 +33,8 @@ class NhisPatientController extends Controller
      */
     public function create()
     {
-        return view('admin.patient.nhiscreate');
+        $registration = RegistrationType::where('name', 'NHIS')->first();
+        return view('admin.patient.nhiscreate', compact('registration'));
     }
 
     /**
@@ -85,7 +87,7 @@ class NhisPatientController extends Controller
         }
         $validated['source'] ='nhis';
 
-        $validated['folder_number'] = assign_Fno( $validated['source']);
+        $validated['folder_number'] = assign_Fno( $request->registration_type_id);
 
 
         if ($request->has('avatar')) {
@@ -119,6 +121,7 @@ class NhisPatientController extends Controller
                 'amount' => number_format($charge->amount * $percentCoverage['patient_pays']/100, 2, '.', '') ,
                 'admin_id' => auth()->user()->id,
                 'p_status' => 'NYP',
+                'status' => 'Registration',
             ]);
 
             $new->enrollUser->insurancePackage->invoice()->save($invoice);
@@ -130,12 +133,12 @@ class NhisPatientController extends Controller
             ]);
         }
 
-        $new->user->enrollUser->enrollCharges()->create([
+        $new->enrollUser->enrollCharges()->create([
             'service' => 'New Registration Charge '.$percentCoverage['coverage'].'% insurance-charge',
             'charge' => $charge->amount,
             'patient_paid' => (isset($percentCoverage['patient_pays'])? number_format($charge->amount * $percentCoverage['patient_pays']/100, 2, '.', ''): 0 ),
             'insurance_cover' => number_format($charge->amount * $percentCoverage['coverage']/100, 2, '.', ''),
-            'status' => 'NYP'
+            'payment_status' => 'NYP'
         ]);
 
 

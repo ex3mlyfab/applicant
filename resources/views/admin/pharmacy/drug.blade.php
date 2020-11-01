@@ -1,10 +1,16 @@
 @extends('admin.admin')
+
+@section('title')
+    drug list
+@endsection
+
 @section('head_css')
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.css">
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css">
 
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
 @endsection
+
 @section('content')
 <div class="content">
     <div class="row">
@@ -51,9 +57,9 @@
                 </td>
 
                 <td class="d-none d-sm-table-cell text-center">
-                    <span class="badge-success">{{$drug->maximum_level}}</span><br>
-                    <span class="badge-warning">{{$drug->reorder_level}}</span><br>
-                    <span class="badge-danger">{{$drug->minimum_level}}</span>
+                    <span class="badge badge-success">{{$drug->maximum_level}}</span><br>
+                    <span class="badge badge-warning">{{$drug->reorder_level}}</span><br>
+                    <span class="badge badge-danger">{{$drug->minimum_level}}</span>
                 </td>
                 <td>
                     {{$drug->available}}

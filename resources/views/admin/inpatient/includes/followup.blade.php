@@ -1,12 +1,13 @@
 <div class="block block-fx-shadow pentacare-bg">
     <div class="block-header bg-info">
-        <h3 class="block-title">Follow Up Visit</h3>
+        <h3 class="block-title">Daily Monitor</h3>
     </div>
     <div class="block-content block-content-full">
     <form action="{{route('followup.store')}}" method="post">
             @csrf
 
-    <input type="hidden" name="encounter_id" value={{$inpatient->encounter->id}}>
+    <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
+    <input type="hidden" name="seen_by" value="{{auth()->user()->id}}">
             <div class="form-group bg-info-light p-2">
                 <label class="form-control-label-lg">Subjective complaints:</label>
                 <textarea name="subjective_complaints"   class="form-control" rows="5">

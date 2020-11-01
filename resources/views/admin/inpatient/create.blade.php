@@ -42,6 +42,12 @@
                                             {{\Carbon\Carbon::parse( $inpatient->date_of_admission)->format('d-M-Y, H:i:s') }}
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn mr-2 btn-md btn-danger mb-2 text-uppercase" data-toggle="modal" data-target="#discharge-block-normal">Discharge<br> Summary </button>
+                                        </td>
+
+                                    </tr>
 
 
                                 </tbody>
@@ -58,16 +64,16 @@
                          <div class="block">
                             <ul class="nav nav-tabs nav-tabs-alt text-uppercase bg-city-lighter" data-toggle="tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link @if (!($inpatient->user->consults->count() > 1))
+                                    <a class="nav-link @if (!($inpatient->user->encounters->count() > 1))
                                         active
                                     @endif " href="#btabs-alt-static-home">Presenting Complaints</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-profile">Physical Exam</a>
                                 </li>
-                                @if (($inpatient->user->consults->count() > 1))
+                                @if (($inpatient->user->encounters->count() > 1))
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="#btabs-alt-static-followup">Follow Up</a>
+                                    <a class="nav-link active" href="#btabs-alt-static-followup">Daily Monitor</a>
                                 </li>
                                 @endif
 
@@ -83,7 +89,7 @@
 
                             </ul>
                             <div class="block-content tab-content">
-                                <div class="tab-pane @if (!($inpatient->user->consults->count() > 1))
+                                <div class="tab-pane @if (!($inpatient->user->encounters->count() > 1))
                                     active
                                 @endif " id="btabs-alt-static-home" role="tabpanel">
 
@@ -103,7 +109,7 @@
                                     @include('admin.inpatient.includes.treatment')
 
                                 </div>
-                                @if (($inpatient->user->consults->count() > 1))
+                                @if (($inpatient->user->encounters->count() > 1))
                                     <div class="tab-pane active" id="btabs-alt-static-followup" role="tabpanel">
                                         <div class="block text-center" style="border-radius: 20%;">
                                             <div class="block-header" style="background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,34,121,0.6898109585631127) 26%, rgba(0,212,255,0.6337885495995272) 100%);">
@@ -189,6 +195,9 @@
                                                             <th>
                                                                 bmi
                                                             </th>
+                                                            <th>
+                                                                done by
+                                                            </th>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($inpatient->user->vitalsigns as $item)
@@ -221,6 +230,11 @@
                                                                 </td>
                                                                 <td>
                                                                     {{$item->bmi}}
+                                                                </td>
+                                                                <td>
+                                                                    {{
+                                                                    $item->doneBy->name
+                                                                    }}
                                                                 </td>
                                                             </tr>
 
@@ -293,6 +307,7 @@
                 @endif
                @endforeach
             @endif
+
             $('.prescribe-review').bind('click', function(){
                     let model = $(this).data('model');
                     let id = $(this).data('type');
@@ -307,6 +322,8 @@
                 $('#drugs-review tbody').html('');
                 $('#totalBalance-review').val(data.pharmreq.total);
                 $('#drugSubmit-review').text(data.pharmreq.status);
+                $('#prescribed-by').append(data.pharmreq.seen_by.name);
+
                 $.each(data.prescription, function(key, value){
                    setTimeout(function(){
                         let tablerow = `
@@ -552,7 +569,12 @@
             title: {
             display: true,
             text: '{{$inpatient->full_name}} Vital Signs Chart'
-            }
+            },
+            elements: {
+                    line: {
+                        tension: 0, // disables bezier curves
+                    }
+                }
         }
     });
 

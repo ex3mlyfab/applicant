@@ -75,7 +75,11 @@
                                 @foreach ($supplier as $item)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$item->name}}</td>
+                                    <td>
+                                        <a href="{{route('supplier.show', $item->id)}}">
+                                            {{$item->name}}
+                                        </a>
+                                        </td>
                                     <td>{{$item->contact_phone}}</td>
                                     <td>{{$item->contact_person_name}}</td>
                                     <td>

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class DrugModel extends Model
 {
     protected $guarded = [];
+    protected $appends = ['available', 'sales_price'];
 
     public function drugClass(): BelongsTo
     {
@@ -26,7 +27,7 @@ class DrugModel extends Model
     public function getPriceAttribute()
     {
 
-        return $this->drugBatchDetails->first()->cost;
+        return ($this->drugBatchDetails->count()) ? $this->drugBatchDetails->first()->cost: 0;
     }
 
     public function getBatchNoAttribute()
@@ -35,9 +36,13 @@ class DrugModel extends Model
         return $item->batch_no;
     }
 
+
     public function pharmreqDetails(): HasMany
     {
         return $this->hasMany(PharmreqDetail::class);
     }
-
+    public function getSalesPriceAttribute()
+    {
+        return ($this->drugBatchDetails->count()) ?$this->drugBatchDetails->first()->purchase_price: 0;
+    }
 }

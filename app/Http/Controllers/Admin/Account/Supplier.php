@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\Supplier as ModelsSupplier;
+use App\Models\SupplierPayable;
+use App\Models\SupplierPurchase;
 use Illuminate\Http\Request;
 
 class Supplier extends Controller
@@ -41,7 +43,52 @@ class Supplier extends Controller
 
         return response()->json($suppliers);
     }
-
+    public function payables(ModelsSupplier $supplier)
+    {
+        $results= $supplier->supplierPayables;
+        return view('admin.Account.supplierPayable', compact('supplier', 'results'));
+    }
+    public function filterPayables(Request $request)
+    {
+        $supplier = ModelsSupplier::find($request->supplier_id);
+        if ($request->has('date')) {
+            $dob = strtotime($request->date);
+            $newDate = date('Y-m-d', $dob);
+            $results = SupplierPayable::where('supplier_id', $request->supplier_id)->whereDate('created_at', $newDate)->get();
+        } else if ($request->has('year')) {
+            $results = SupplierPayable::where('supplier_id', $request->supplier_id)->whereYear('created_at', $request->year)->get();
+        } else {
+            $start = strtotime($request->daterange1);
+            $newDate = date('Y-m-d', $start);
+            $end = strtotime($request->daterange2);
+            $newDate2 = date('Y-m-d', $end);
+            $results = SupplierPayable::where('supplier_id', $request->supplier_id)->whereBetween('created_at', [$newDate, $newDate2])->get();
+        }
+        return view('admin.Account.supplierPayable', compact('results', 'supplier'));
+    }
+    public function purchases(ModelsSupplier $supplier)
+    {
+        $results= $supplier->supplierPurchases()->orderByDesc('created_at');
+        return view('admin.Account.supplierPurchases', compact('supplier', 'results'));
+    }
+    public function filterPurchases(Request $request)
+    {
+        $supplier = ModelsSupplier::find($request->supplier_id);
+        if ($request->has('date')) {
+            $dob = strtotime($request->date);
+            $newDate = date('Y-m-d', $dob);
+            $results = SupplierPurchase::where('supplier_id', $request->supplier_id)->whereDate('created_at', $newDate)->get();
+        } else if ($request->has('year')) {
+            $results = SupplierPurchase::where('supplier_id', $request->supplier_id)->whereYear('created_at', $request->year)->get();
+        } else {
+            $start = strtotime($request->daterange1);
+            $newDate = date('Y-m-d', $start);
+            $end = strtotime($request->daterange2);
+            $newDate2 = date('Y-m-d', $end);
+            $results = SupplierPurchase::where('supplier_id', $request->supplier_id)->whereBetween('created_at', [$newDate, $newDate2])->get();
+        }
+        return view('admin.Account.supplierPurchases', compact('results', 'supplier'));
+    }
     public function store(Request $request)
     {
         //
@@ -67,9 +114,10 @@ class Supplier extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ModelsSupplier $supplier)
     {
         //
+        return view('admin.Account.supplierdetail', compact('supplier'));
     }
 
     /**

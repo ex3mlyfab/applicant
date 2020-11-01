@@ -282,3 +282,78 @@
         </div>
     </div>
 </div>
+<div class="modal" id="discharge-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Discharge Summary</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="block block-fx-pop">
+                        <div class="block-header bg-info-dark"></div>
+                        <div class="block-content ">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                                </div>
+                                <div class="col-md-8 font-size-sm">
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
+
+                                </div>
+                            </div>
+                            <h3 class="text-center text-uppercase">Discharge Summary</h3>
+                            <form action="#" method="post">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="col-md-12 form-group">
+                                        <label class="d-block">Discharge Condition</label>
+                                        <div class="custom-control custom-radio custom-control-inline custom-control-lg">
+                                            <input type="radio" class="custom-control-input" id="status1" name="status" value="Improved" checked>
+                                            <label class="custom-control-label" for="status1">Improved</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline custom-control-lg">
+                                            <input type="radio" class="custom-control-input" id="status2" name="status" value="reffered">
+                                            <label class="custom-control-label" for="status2">Reffered</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline custom-control-lg">
+                                            <input type="radio" class="custom-control-input" id="status3" name="status" value="dead">
+                                            <label class="custom-control-label" for="status3">Died</label>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="professional" value="nurse">
+                                <input type="hidden" name="done_by" value="{{auth()->user()->id}}">
+                                <input type="hidden" name="inpatient_id" value="{{$inpatient->id}}">
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12 form-group bg-amethyst rounded">
+                                        <label for="discharge_summary">Discharge Summary</label>
+                                        <textarea name="discharge_summary" id="discharge_summary" class="form-control" rows="10"></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn mr-2 btn-md btn-success mb-2 w-100 text-uppercase" > Submit </button>
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -43,6 +43,11 @@
                                             {{\Carbon\Carbon::parse( $inpatient->date_of_admission)->format('d-M-Y, H:i:s') }}
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn mr-2 btn-md btn-danger mb-2 text-uppercase" data-toggle="modal" data-target="#discharge-block-normal">Discharge <br> Summary </button>
+                                        </td>
+                                    </tr>
 
 
                                 </tbody>
@@ -90,9 +95,9 @@
                                 </li>
 
 
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-action">Action Plan</a>
-                                </li>
+                                </li> --}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-vitals">Vital Signs chart</a>
                                 </li>
@@ -128,12 +133,12 @@
                                     @include('admin.Nursing.includes.physicalassessment')
                                     </div>
 
-                                <div class="tab-pane" id="btabs-alt-static-action" role="tabpanel">
+                                {{-- <div class="tab-pane" id="btabs-alt-static-action" role="tabpanel">
 
                                     @include('admin.Nursing.includes.actions')
 
 
-                                </div>
+                                </div> --}}
                                 <div class="tab-pane" id="btabs-alt-static-vitals" role="tabpanel">
                                     <div class="block">
                                         <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">

@@ -15,10 +15,7 @@ class DrugBatchDetail extends Model
         return $this->belongsTo(DrugModel::class);
     }
 
-    public function getBalanceAttribute()
-    {
-        return $this->where('drug_model_id', $this->drugModel->id)->sum('available_quantity');
-    }
+
 
 
 }

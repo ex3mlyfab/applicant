@@ -26,9 +26,7 @@
                         <div class="form-group">
                             <label for="name"></label>
                             <input type="text" name="name" id="name" class="form-control form-control-lg"
-                      @isset($task)  value="
-                            {{$task->name}}
-                       " @endisset >
+                      @isset($task) value="{{$task->name}}" @endisset >
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
@@ -68,9 +66,12 @@
                                             <a href="{{route('chargecategory.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                                 <i class="fa fa-fw fa-pencil-alt"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Delete">
-                                                <i class="fa fa-fw fa-times"></i>
-                                            </button>
+                                            <form action="{{route('chargecategory.destroy', $item->id)}}" method="POST" >
+                                                @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="top" title="delete expense" type="submit"><i class="fa fa-times text-danger ml-auto"></i></button>
+                                            </form>
+
                                         </div>
                                     </td>
                                 </tr>

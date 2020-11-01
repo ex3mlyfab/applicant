@@ -15,7 +15,7 @@
 
                         <div class="form-group form-row">
                             <div class="col-md-4">
-                            <img src="{{asset('backend')}}/images/avatar/{{$pharmreq->encounter->user->avatar}}" alt="" >
+                            <img class="rounded" style="max-width: 100%;" src="{{asset('backend')}}/images/avatar/{{$pharmreq->encounter->user->avatar}}" alt="{{$pharmreq->encounter->user->full_name}}" >
                             </div>
                             <div class="col-md-4">
                                 <label for="patient_id"> Patient Name</label>
@@ -42,6 +42,19 @@
 
 
                         </div>
+                        <h3 class="text-center text-uppercase">Prescription</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>
+                                <strong>Prescribed by:</strong>
+                                {{$pharmreq->seenBy->name}}
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p class="text-mute">status: {{$pharmreq->status}}</p>
+                        </div>
+                    </div>
+
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped table-condensed">
                                 <thead>
@@ -71,7 +84,7 @@
 
                                 <tbody>
                                     @foreach ($pharmreq->pharmreqDetails as $item)
-                                <tr id="row-{{$item->id}}">
+                                    <tr id="row-{{$item->id}}">
                                         <td class="drug_name">
                                             {{$item->drugModel->name}}
                                         </td>
@@ -139,85 +152,5 @@
             }
         });
 
-        $(".underscore").click(function(e){
-                    var drugmodel = [];
-                    var choosen =[];
-                    var quantity = [];
-                    var batch_no =[];
-                    var unit_cost = [];
-                    var drug_cost =[];
-                    var drug_name =[];
-
-                    var nurl = "{{route('pharmacy.index')}}";
-
-                    var pharmreq_id = $(this).data('user_id');
-
-                    $(".drug-model").each(function(){
-                        drugmodel.push($(this).val());
-
-                    });
-                    $(".drug_name").each(function(){
-                        drug_name.push($(this).text());
-                    });
-                    $(".batch_no").each(function(){
-                        batch_no.push($(this).val());
-
-                    });
-                    $(".unit_cost").each(function(){
-                        unit_cost.push($(this).val());
-
-                    });
-                    $(".drug-cost").each(function(){
-                        drug_cost.push($(this).val());
-
-                    });
-                    $(".quantity").each(function(){
-                        quantity.push($(this).val());
-
-                    });
-                    $(".paycheck").each(function(){
-                        choosen.push($(this).val());
-
-                    });
-                    console.log(drug_cost, choosen, quantity, drugmodel);
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                            }
-                            });
-
-                            e.preventDefault();
-                            var type = "POST";
-                            var ajaxurl = 'calculate-drugs';
-                                $.ajax({
-                                    type: type,
-                                    url: ajaxurl,
-                                    data: {
-                                        pharmid: pharmreq_id,
-                                        drug_id:drugmodel,
-                                        choosen:choosen,
-                                        quantity:quantity,
-                                        amount:totalpaid,
-                                        batch_no: batch_no,
-                                        unit_cost:unit_cost,
-                                        drug_amount: drug_cost,
-                                        drug_name: drug_name
-                                            },
-                                    dataType: 'json',
-                                    success: function (data){
-
-
-                                        $(location).attr('href',nurl);
-
-
-                                    },
-                                    error: function (data) {
-                                        console.log('Error:', data);
-                                    }
-                                });
-
-                                });
-
-        });
     </script>
 @endsection

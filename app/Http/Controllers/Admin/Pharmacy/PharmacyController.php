@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\PharmacyBill;
 use App\Models\PharmacyBillDetail;
 use App\Models\Pharmreq;
+use App\Models\PharmreqDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,41 +21,68 @@ class PharmacyController extends Controller
      */
     public function index()
     {
-        $prescriptions = Pharmreq::where('status', '!=', 'dispensed')->orWhere('status', NULL)->get();
-        // dd($prescriptions);
-        return view('admin.pharmacy.index', compact('prescriptions'));
-    }
-    public function billdrug(Request $request)
-    {
-        $pharmreq = Pharmreq::where('id', $request->item_id)->first();
 
-        return view('admin.pharmacy.costdrug', compact('pharmreq'));
+        $total_items = DrugModel::all()->count();
+        $dispensed = PharmacyBill::whereDate('created_at', now()->today())->get();
+        $awaiting = Pharmreq::where('status', '!=', 'dispensed')->get();
+        $topselling = 0;
+        return view('admin.pharmacy.dashboard', compact('total_items', 'dispensed', 'awaiting', 'topselling'));
+    }
+    public function billdrug()
+    {
+        $results = PharmacyBill::whereDate('created_at', now()->today())->get();
+
+        return view('admin.pharmacy.dispensed', compact('results'));
     }
     public function dispensedrug(Pharmreq $pharmreq)
     {
+        $paidfor = [];
+        foreach ($pharmreq->pharmreqDetails as $key => $value) {
+            if($pharmreq->encounter->encounterable_type == 'App\Models\Inpatient'|| ($value->status != NULL) ){
+                    array_unshift($paidfor, $value);
+            }
+        }
 
-        return view('admin.pharmacy.dispensedrug', compact('pharmreq'));
+        return view('admin.pharmacy.dispensedrug', compact('pharmreq', 'paidfor'));
     }
     public function confirmdispense(Request $request)
     {
+        // dd($request->except('_token'));
 
         $pharmreq = Pharmreq::find($request->pharmreq_id);
+        $dispense = PharmacyBill::create([
+            'user_id' => $pharmreq->encounter->user->id,
+            'consultant_id' => $pharmreq->seen_by,
+            'pharmacist_id' => auth()->user()->id,
+            'pharmreq_id' => $pharmreq->id,
+        ]);
+        foreach ($request->pharmreq_detail_id as $key => $value) {
+            $drug = PharmreqDetail::find($request->pharmreq_detail_id[$key]);
+            $data = array(
+                'pharmacy_bill_id' => $dispense->id,
+                'drug_model_id' => $request->drug_model_id[$key],
+                'quantity' => $request->dispensed_quantity[$key],
+                'unit_cost' => $drug->drugModel->price,
+                'amount' => $drug->drugModel->price * $request->dispensed_quantity[$key],
+                'dosage' =>$drug->dosage,
+                'duration' => $drug->duration
+            );
+            PharmacyBillDetail::create($data);
+
+            $remaining = $drug->drugModel->drugBatchDetails()->firstWhere('available_quantity', '>', (int) $request->quantity[$key]);
+
+            $remaining->decrement('available_quantity', (float) $request->dispensed_quantity[$key]);
+            $drug->update(['dispensed'=> true]);
+        }
+
         $pharmreq->update([
             'status' => 'dispensed'
         ]);
-        $pharmreq->pharmacyBill()->update([
+
+        $pharmreq->testable->update([
             'status' => 'Drug dispensed',
         ]);
-        $pharmreq->labinfos()->update([
-            'status' => 'Drug dispensed',
-        ]);
-        foreach ($request->drug_model_id as $key => $value) {
-            $drug = DrugModel::find($request->drug_model_id[$key]);
 
-            $remaining = $drug->drugBatchDetails()->firstWhere('available_quantity', '>', (int) $request->quantity[$key]);
-
-            $remaining->decrement('available_quantity', (int) $request->quantity[$key]);
-        }
         $notification = [
             'message' => 'Drug dispensed successfully',
             'alert-type' => 'success'
@@ -71,58 +99,11 @@ class PharmacyController extends Controller
         //
     }
 
-    public function prepare(Request $request)
+    public function prepare()
     {
-        $haempay = Pharmreq::findOrFail($request->pharmid);
-        $data = $request->except('_token');
-        $invoice = Invoice::where('user_id', $haempay->clinicalAppointment->user->id)->where('created_at', now()->today())->first();
-        if (!(isset($invoice))) {
-            $invoice =  Invoice::create([
-                'user_id' => $haempay->clinicalAppointment->user->id,
-                'invoice_no' => generate_invoice_no(),
+       $prescriptions = Pharmreq::where('status', '!=', 'dispensed')->orWhere('status', NULL)->get();
 
-            ]);
-        }
-
-
-        $pharmbill = PharmacyBill::create([
-            'pharmreq_id' => $haempay->id,
-            'consultant_id' => $haempay->seen_by,
-            'pharmacist_id' => Auth::user()->id,
-            'amount' => $request->amount,
-            'discount' => 0,
-            'vat' => 0,
-            'gross_amount' => $request->amount,
-            'status' => 'NYP',
-            'invoice_id' => $invoice->id,
-
-        ]);
-        foreach ($request->drug_id as $key => $value) {
-            if ($request->choosen[$key]) {
-                PharmacyBillDetail::create([
-                    'pharmacybill_id' => $pharmbill->id,
-                    'drug_model_id' => $request->drug_id[$key],
-                    'batch_no' => $request->batch_no[$key],
-                    'quantity' => $request->quantity[$key],
-                    'unit_cost' => $request->unit_cost[$key],
-                    'amount' => $request->drug_amount[$key],
-                ]);
-                $haempay->invoices()->create([
-                    'invoice_id' => $invoice->id,
-                    'item_description' => $request->drug_name[$key],
-                    'amount' => $request->drug_amount[$key],
-
-                ]);
-            }
-        }
-        $haempay->update([
-            'status' => 'invoice generated',
-        ]);
-        $notification = [
-            'message' => 'Invoice Generated Successfully',
-            'alert-type' => 'success'
-        ];
-        return json_encode($notification);
+        return view('admin.pharmacy.index', compact('prescriptions'));
     }
     /**
      * Store a newly created resource in storage.

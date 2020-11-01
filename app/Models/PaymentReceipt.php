@@ -30,5 +30,13 @@ class PaymentReceipt extends Model
     {
         return $this->morphTo();
     }
+    public function getBillingAttribute()
+    {
+        if (isset($this->user_id)) {
+            return $this->user->full_name;
+        } elseif (isset($this->name)) {
+            return $this->name;
+        }
+    }
 
 }
