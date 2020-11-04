@@ -4,7 +4,7 @@
 <div class="content">
     <h2 class="content-heading text-center">Drugsubcategories</h2>
     <div class="row">
-        <div class="col-sm-4"> 
+        <div class="col-sm-4">
             <div class="block block-theme">
                 <div class="block-header bg-primary">
                     <h3 class="block-title">Add Sub-Category of {{ $drugcategory->name}}</h3>

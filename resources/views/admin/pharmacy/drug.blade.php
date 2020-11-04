@@ -19,7 +19,8 @@
                 <div class="block-header with-border" style="background: rgb(51, 70, 128, 0.8)">
                     <h4 class="block-title text-white">Drugs Inventory</h4>
                     <div class="block-options">
-                    <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#drug-block-normal"> Add New Drug</button>
+                        <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+                        <button type="button" class="btn btn-sm btn-primary w-100 mb-2" data-toggle="modal" data-target="#drug-block-normal"> Add New Drug</button>
                 </div>
             </div>
                 <div class="block-content block-content-full pentacare-bg">

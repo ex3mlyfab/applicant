@@ -22,6 +22,96 @@
         </div>
     </div>
 </div>
+<div class="modal" id="clinical-tasks-tracker" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Clinical Tasks Tracker</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="block block-fx-pop">
+                        <div class="block-header bg-info-dark"></div>
+                        <div class="block-content ">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                                </div>
+                                <div class="col-md-8 font-size-sm">
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <p>Clinical task</p>
+                                </div>
+                                <div class="col-md-12 bg-amethyst text-uppercase mb-3 rounded">
+
+                                    <h3 class="text-center my-1" id="task-title"></h3>
+                                </div>
+                                <div class="col-md-12 text-right">
+
+                                </div>
+
+                            </div>
+
+                        <form action="{{route('recordtasks')}}" method="POST" id="tasks-step">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="hidden" name="id" id="clinical_tracker_id">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8 offset-md-2">
+
+                                        <div class="form-group">
+                                            <label class="d-block">Status</label>
+                                                <div class="custom-control custom-radio custom-control-inline custom-control-lg">
+                                                    <input type="radio" class="custom-control-input" id="complete1" name="complete" value="ongoing" checked>
+                                                    <label class="custom-control-label" for="complete1">In progress</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline custom-control-lg">
+                                                    <input type="radio" class="custom-control-input" id="complete2" value="completed" name="complete">
+                                                    <label class="custom-control-label" for="complete2">Completed</label>
+                                                </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 offset-md-2" id="another-duedate-keeper">
+                                        <div class="form-group mb-0">
+                                            <input type="text" id="another-duedate" class="js-datepicker form-control" name="due_date" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-flex justify-content-center align-item-center">
+                                    <button type="submit" class="btn btn-outline-primary btn-lg mt-3"><i class="fa fa-save"></i> Save</button>
+                                </div>
+
+                        </form>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" id="discharge-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -51,7 +141,7 @@
                                 </div>
                             </div>
                             <h3 class="text-center text-uppercase">Discharge Summary</h3>
-                            <form action="#" method="post">
+                            <form action="{{route('discharge.store')}}" method="post">
                                 @csrf
                                 <div class="form-row">
                                     <div class="col-md-12 form-group">
@@ -772,6 +862,7 @@
     </div>
 </div>
 <!-- END microbiology Modal -->
+<!--Pharmacy -->
 <div class="modal" id="pharmacy-block-normal" tabindex="-1" role="dialog" aria-labelledby="pharmacy-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg modal-dialog-top" role="document" >
         <div class="modal-content">
@@ -909,13 +1000,13 @@
                         <div class="block-content ">
                             <div class="row">
                                 <div class="col-md-4 text-center">
-                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->avatar}}" alt="" class="img-avatar img-avatar96">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
                                 </div>
                                 <div class="col-md-8 font-size-sm">
-                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->full_name}}</strong></p>
-                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->folder_number}}</strong></p>
-                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->sex}}</p>
-                                    <p>Age:&nbsp; {{$inpatient->age}}</p>
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
 
                                 </div>
                             </div>
@@ -1522,7 +1613,7 @@
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-gray">
-                    <h3 class="block-title">Admit request
+                    <h3 class="block-title">Procedure request
                     </h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
@@ -1549,18 +1640,18 @@
 
                         </div>
                     </div>
-                    <form action="{{route('admitpatient.store')}}" method="post" class="bg-flat text-white px-2">
+                    <form action="{{route('procedurerequest.store')}}" method="post" class="bg-flat text-white px-2">
                         @csrf
-                        <input type="hidden" name="encounter_id" value="{{$inpatient->encounter->id}}">
+                        <input type="hidden" name="inpatient_id" value="{{$inpatient->id}}">
+                        <input type="hidden" name="requested_by" value="{{auth()->user()->id}}">
 
                         <div class="form-group">
                             <label>Clinical Information</label>
                             <input type="text" name="clinical_information"  class="form-control form-control-lg" required>
                         </div>
                         <div class="form-group">
-                            <label> Reason for Admission</label>
-                            <textarea class="form-control form-control-lg" name="reason" row="4" placeholder="reasons for admission">
-                            </textarea>
+                            <label> Procedure Request</label>
+                            <input type="text" name="procedure_type" class="form-control form-control-lg">
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">Submit</button>
                     </form>
@@ -1576,6 +1667,7 @@
         </div>
     </div>
 </div>
+<!--treatment sheet -->
 <div class="modal" id="tca" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-lg" role="document"style=" width: 80%;">
         <div class="modal-content">
@@ -1635,7 +1727,90 @@
         </div>
     </div>
 </div>
-<!--End xray request-->
+<!--end-treatment sheet-->
+<div class="modal" id="clinicaltasks" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Clinical Tasks Tracker</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="block block-fx-pop">
+                        <div class="block-header bg-info-dark"></div>
+                        <div class="block-content ">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                     <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                                </div>
+                                <div class="col-md-8 font-size-sm">
+                                     <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                                    <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                                    <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                                    <p>Age:&nbsp; {{$inpatient->user->age}}</p>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 bg-amethyst text-uppercase mb-3 rounded">
+                                    <h3 class="text-center my-1">Clinical Tasks</h3>
+                                </div>
+                                <div class="col-md-12 text-right">
+
+                                </div>
+
+                            </div>
+
+                        <form action="{{route('clinicaltask.store')}}" method="POST" id="task-sheet">
+                                @csrf
+                                <input type="hidden" name="inpatient_id" value="{{$inpatient->id}}">
+                                <input type="hidden" name="prepared_by" value="{{auth()->user()->id}}">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover mb-0" id="clinical-task">
+                                        <thead>
+                                            <tr>
+                                                <th>Tasks</th>
+                                                <th style="width: 20%;">Due date</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody id="clinical-task-body">
+                                            <tr>
+                                                <td>
+                                                    <input type="text" name="clinical_tasks" class="form-control form-control-lg" required>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="js-datepicker form-control" name="due_date" data-week-start="1" data-autoclose="true" data-today-highlight="true" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" required>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row d-flex justify-content-center align-item-center">
+                                    <button type="submit" class="btn btn-outline-primary btn-lg mt-3"><i class="fa fa-save"></i> Save</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--End xray request-->
 <!-- Pathology Block Modal-->
 <div class="modal" id="pathology" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-top modal-lg" role="document"style=" width: 80%;">

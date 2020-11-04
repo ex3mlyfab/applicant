@@ -15,7 +15,7 @@
                             <h3 class="bg-aqua">
                                 Presumptive Diagnosis
                             </h3>
-                            <p>{{$tree->presentingComplaints->last()->presumptive_diagnosis}}</p>
+                            <p>{{$tree->presentingComplaints->last()->presumptive_diagnosis ?? ''}}</p>
                         </div>
                         <div class="col-md-6">
                             <h3 class="bg-aqua">

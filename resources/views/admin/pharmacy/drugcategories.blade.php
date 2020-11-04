@@ -43,6 +43,9 @@
             <div class="block block-fx-shadow block-rounded pentacare-bg">
                 <div class="block-header bg-primary-light">
                     <h3 class="block-title text-white">Drug Class List</h3>
+                    <div class="block-option">
+                        <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-vcenter">

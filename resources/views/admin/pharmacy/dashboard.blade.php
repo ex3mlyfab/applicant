@@ -106,7 +106,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item my-1">
-                                        <a class="nav-link d-flex justify-content-between align-items-center" href="{{route('pharmacy.dispensed')}}">
+                                            <a class="nav-link d-flex justify-content-between align-items-center" href="{{route('pharmacy.dispensed')}}">
                                                 <span>
                                                     <i class="fa fa-fw fa-thumbs-up mr-1"></i> Dispensed
                                                 </span>
@@ -133,6 +133,14 @@
                                             <a class="nav-link d-flex justify-content-between align-items-center" href="{{route('recieveorder.index')}}">
                                                 <span>
                                                     <i class="fa fa-fw fa-dolly-flatbed mr-1"></i> Receive order
+                                                </span>
+                                                <span class="badge badge-pill badge-secondary"></span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item my-1">
+                                            <a class="nav-link d-flex justify-content-between align-items-center" href="{{route('recieveorder.index')}}">
+                                                <span>
+                                                    <i class="fa fa-fw fa-file-invoice mr-1"></i> Stock Report
                                                 </span>
                                                 <span class="badge badge-pill badge-secondary"></span>
                                             </a>

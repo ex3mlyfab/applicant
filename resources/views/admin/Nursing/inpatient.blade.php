@@ -84,6 +84,9 @@
                                     <a class="nav-link active" href="#btabs-alt-static-treatment">Treatment Chart</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="#btabs-alt-static-fluid">Fluid Intake/Output</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-home">History Taking</a>
                                 </li>
                                 <li class="nav-item">
@@ -93,11 +96,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-followup">Physical Assessment</a>
                                 </li>
+                                @if ($inpatient->dischargeSummaries->count())
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#btabs-alt-static-discharge">Discharge Summary</a>
+                                </li>
+                                @endif
 
-
-                                {{-- <li class="nav-item">
-                                    <a class="nav-link" href="#btabs-alt-static-action">Action Plan</a>
-                                </li> --}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-vitals">Vital Signs chart</a>
                                 </li>
@@ -106,6 +110,13 @@
                             <div class="block-content tab-content">
                                 <div class="tab-pane active" id="btabs-alt-static-treatment" role="tabpanel">
                                     @include('admin.Nursing.includes.treatmentsheet')
+
+                                </div>
+                                <div class="tab-pane" id="btabs-alt-static-fluid" role="tabpanel">
+
+
+                                    @include('admin.Nursing.includes.getfluidhistory')
+
 
                                 </div>
                                 <div class="tab-pane" id="btabs-alt-static-home" role="tabpanel">
@@ -133,12 +144,12 @@
                                     @include('admin.Nursing.includes.physicalassessment')
                                     </div>
 
-                                {{-- <div class="tab-pane" id="btabs-alt-static-action" role="tabpanel">
 
-                                    @include('admin.Nursing.includes.actions')
-
-
-                                </div> --}}
+                                @if ($inpatient->dischargeSummaries->count())
+                                    <div class="tab-pane" id="btabs-alt-static-discharge" role="tabpanel">
+                                        @include('admin.inpatient.includes.discharge')
+                                    </div>
+                                @endif
                                 <div class="tab-pane" id="btabs-alt-static-vitals" role="tabpanel">
                                     <div class="block">
                                         <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">

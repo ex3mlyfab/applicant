@@ -43,7 +43,7 @@
                             </table>
                         </div>
                     </div>
-                    @if ($$patient->encounters->count() == 1)
+                    @if ($consults->count() == 1)
                         @if($encounter->physicalExams->count())
                             <a href="{{route('consult.end', $appointment->id)}}">
                                 <button  type="button" class="btn btn-outline-dark w-100">

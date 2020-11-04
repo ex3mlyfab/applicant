@@ -6,6 +6,8 @@
 @section('head_css')
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css">
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.skinHTML5.css">
 @endsection
 
 @section('content')
@@ -81,11 +83,20 @@
                                     <a class="nav-link" href="#btabs-alt-static-action">Action Plan</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="#btabs-alt-static-tracker">Clinical Tasks Tracker</a>
+                                </li>
+
+                                <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-vitals">Vital Signs chart</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-nursing">Nursing Report</a>
                                 </li>
+                                @if ($inpatient->dischargeSummaries->count())
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#btabs-alt-static-discharge">Discharge Summary</a>
+                                </li>
+                                @endif
 
                             </ul>
                             <div class="block-content tab-content">
@@ -138,6 +149,12 @@
                                     </div>
                                 @endif
 
+                                <div class="tab-pane" id="btabs-alt-static-tracker" role="tabpanel">
+
+                                    @include('admin.inpatient.includes.clinicaltracker')
+
+
+                                </div>
                                 <div class="tab-pane" id="btabs-alt-static-action" role="tabpanel">
 
                                     @include('admin.inpatient.includes.actions')
@@ -258,6 +275,12 @@
                                 <div class="tab-pane" id="btabs-alt-static-nursing" role="tabpanel">
                                     @include('admin.inpatient.includes.nursing')
                                 </div>
+                                @if ($inpatient->dischargeSummaries->count())
+                                    <div class="tab-pane" id="btabs-alt-static-discharge" role="tabpanel">
+                                        @include('admin.inpatient.includes.discharge')
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -279,7 +302,8 @@
 <script src="{{asset('backend')}}/assets/js/pages/be_forms_wizard.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
-<script>jQuery(function(){ One.helpers(['datepicker', 'select2']); });</script>
+<script src="{{asset('backend')}}/assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+<script>jQuery(function(){ One.helpers(['datepicker', 'select2', 'rangeslider']); });</script>
 
 <script>
     $(function(){
@@ -393,6 +417,26 @@
                 });
 
             })
+            $('.clinical-task').bind('click', function(){
+                $('#clinical_tracker_id').val($(this).data('id'));
+                $('#task-title').html($(this).data('task'));
+                $('#percent-complete').data('min', $(this).data('complete'));
+            });
+
+            $('#complete2').click(function(){
+                        if($(this).is(':checked')){
+                         $('#another-duedate-keeper').hide();
+                         $('#another-duedate').prop('disabled', true);
+                        }
+            });
+
+            $('#complete1').on('click', function(){
+                        if($(this).is(':checked')){
+                         $('#another-duedate-keeper').show();
+                         $('#another-duedate').prop('disabled', false);
+                        }
+            });
+
             $('#treatment-add').click(function(){
 
 
@@ -477,6 +521,9 @@
 
 
             });
+            $('.clinical-tasks').bind('click', function(){
+
+            })
                 $('#addDrug').attr('disabled', true);
 
                 $('#dosage').blur(function(){
@@ -703,6 +750,7 @@
             $(this).parent('tr').remove();
         });
     }
+
 
 
 </script>

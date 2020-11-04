@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DischargeSummary extends Model
+class SurgicalPatient extends Model
 {
-    protected $guarded =[];
+    protected $guarded = [];
 
     public function inpatient(): BelongsTo
     {
         return $this->belongsTo(Inpatient::class);
     }
-    public function doneBy(): BelongsTo
-    {
-        return $this->belongsTo(Admin::class);
-    }
 
+    public function requestedBy(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'requested_by');
+    }
 }

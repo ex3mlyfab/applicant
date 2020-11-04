@@ -14,6 +14,9 @@
         <div class="block block-fx-shadow pentacare-bg">
             <div class="block-header" style="background: rgb(51, 70, 128, 0.8)">
                 <h3 class="block-title text-white">{{$drug->name  }}</h3>
+                <div class="block-option">
+                    <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+                </div>
 
             </div>
             <div class="block-content block-content-full pentcare-bg">

@@ -8,6 +8,9 @@
     <div class="block">
         <div class="block-header">
             <h3 class="block-title">Dispense Drugs </h3>
+            <div class="block-option">
+                <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+            </div>
         </div>
         <div class="block-content block-content-full">
             <div class="block block-fx-shadow">

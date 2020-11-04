@@ -17,6 +17,7 @@
             <div class="block block-fx-shadow pentacare-bg">
                 <div class="block-header text-white" style="background: rgb(51, 70, 128, 0.8)">All Purchase Orders for {{ date('Y') }}
                     <div class="block-options">
+                        <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
                         <button id="btn-add" name="btn-add" style="font-size: 13px" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#purchase-block-normal"><i class="fa fa-plus-circle"></i> Add New Purchase Order</button>
                     </div>
                 </div>

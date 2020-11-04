@@ -311,7 +311,7 @@
                                 </div>
                             </div>
                             <h3 class="text-center text-uppercase">Discharge Summary</h3>
-                            <form action="#" method="post">
+                        <form action="{{route('discharge.store')}}" method="post">
                                 @csrf
                                 <div class="form-row">
                                     <div class="col-md-12 form-group">

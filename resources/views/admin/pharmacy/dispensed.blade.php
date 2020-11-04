@@ -13,6 +13,9 @@
     <div class="block">
     <div class="block-header bg-success-light">
         <h3 class="block-title"> Search Dispensed activity</h3>
+        <div class="block-option">
+            <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+        </div>
     </div>
     <div class="block-content block-content-full">
         <div class="block block-fx-pop">

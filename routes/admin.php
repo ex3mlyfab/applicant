@@ -13,6 +13,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('prescriptionreview/{pharmreq}', 'Admin\Consult\PharmreqController@prescriptionReview')->name('pharmreq.review');
         Route::post('wardround/changestatus', 'Admin\Inpatient\TreatmentSheetController@changeStatus');
         Route::post('nurseround/recordtreatment', 'Admin\Inpatient\TreatmentSheetController@recordTreatment')->name('recordtreatment');
+        Route::post('wardround/recordtask', 'Admin\Inpatient\ClinicalTrackerController@recordTask')->name('recordtasks');
         Route::post('patient/classajax/{patient}', 'Admin\Front\PatientController@patientAjax');
         Route::get('balance', 'Admin\Account\PaymentController@balance')->name('balance');
         Route::get('filterpayments', 'Admin\Account\PaymentController@filter')->name('filter.payment');
@@ -29,6 +30,9 @@ Route::group(['prefix' => 'admin'], function () {
         /**
          * Inpatient Routes
          */
+        Route::resource('clinicaltask', 'Admin\Inpatient\ClinicalTrackerController');
+        Route::resource('fluidreport', 'Admin\Inpatient\FluidReporController')->middleware('permission:fluidreport-view');
+        Route::resource('procedurerequest', 'Admin\Inpatient\ProcedureRequestController')->middleware('permission:procedure-view');
         Route::resource('discharge', 'Admin\Inpatient\DischargeSummaryController')->middleware('permission:discharge-view');
         Route::get('wardround/{inpatient}', 'Admin\Inpatient\InpatientController@wardRound')->name('wardround')->middleware('permission:wardround-create');
         Route::get('nurseround/{inpatient}', 'Admin\Inpatient\NursingCareController@nursingCare')->name('nurseround')->middleware('permission:nurseround-create');

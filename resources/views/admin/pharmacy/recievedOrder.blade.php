@@ -7,8 +7,10 @@ Receive orders
 <div class="content">
     <div class="block pentacare-bg">
         <div class="block-header text-white" style="background: rgb(51, 70, 128, 0.8)">All Orders Recieved for {{ date('Y') }}
-            @if ($approved->count())
-                <div class="block-options">
+           <div class="block-options">
+            <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+                @if ($approved->count())
+
                     <form action="{{ route('recieveorder.createOne')}}" class="form-inline" method="post">
                         @csrf
                         <select name="id" id="" class="form-control" required>
@@ -21,9 +23,9 @@ Receive orders
 
                     </form>
 
-                </div>
-            @endif
 
+            @endif
+            </div>
         </div>
         <div class="block-content block-content-full">
             <h3 class="text-center"> Recieved Orders</h3>

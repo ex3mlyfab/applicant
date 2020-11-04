@@ -9,7 +9,9 @@
         <div class="block pentacare-bg">
             <div class="block-header with-border text-white" style="background: rgb(51, 70, 128, 0.8)">
                 <h4 class="block-title text-white">Prescription List</h4>
-
+                <div class="block-option">
+                    <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+                </div>
 
             </div>
         <!-- /.block-header -->

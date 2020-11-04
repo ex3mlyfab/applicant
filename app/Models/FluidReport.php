@@ -4,18 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class DischargeSummary extends Model
+class FluidReport extends Model
 {
-    protected $guarded =[];
+    //
+    protected $guarded = [];
 
     public function inpatient(): BelongsTo
     {
         return $this->belongsTo(Inpatient::class);
     }
-    public function doneBy(): BelongsTo
-    {
-        return $this->belongsTo(Admin::class);
-    }
 
+    public function fluidReportDetails(): HasMany
+    {
+        return $this->hasMany(FluidReportDetail::class);
+    }
 }

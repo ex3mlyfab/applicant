@@ -78,4 +78,19 @@ class Inpatient extends Model
     {
         return $this->hasOne(InpatientBill::class);
     }
+
+    public function procedureRequest(): HasMany
+    {
+        return $this->hasMany(ProcedureRequest::class);
+    }
+    public function fluidReports(): HasMany
+    {
+        return $this->hasMany(FluidReport::class);
+    }
+
+    public function clinicalTrackers(): HasMany
+    {
+        return $this->hasMany(ClinicalTracker::class)->orderBy('done');
+    }
+
 }
