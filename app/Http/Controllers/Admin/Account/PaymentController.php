@@ -124,7 +124,7 @@ class PaymentController extends Controller
     }
     public function pay(Request $request)
     {
-        dd($request->except('_token'));
+        // dd($request->except('_token'));
 
         $payment = PaymentReceipt::create([
             'user_id' => $request->user_id,
@@ -216,14 +216,14 @@ class PaymentController extends Controller
                 'payment_receipt_id' => $payment->id,
                 'amount' => $request->amount[$usekey[0]],
                 'status' => 'paid'
-
-
             );
                 Payment::create($data);
                 $value->invoiceItem()->update(['status'=> 'paid']);
+                //update invoice item
                 $value->update([
                 'status' => 'paid'
             ]);
+            //highlight paid for section and update details to indicate payment
             }
         }
         switch ($request->payment_mode) {

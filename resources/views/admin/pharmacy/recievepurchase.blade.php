@@ -44,7 +44,7 @@
                             <th rowspan="2">
                                 Drug Name
                             </th>
-                            <th colspan="2">
+                            <th colspan="3">
                                 Request
                             </th>
                             <th colspan="5" class="text-center bg-modern-op text-white">
@@ -53,7 +53,8 @@
                         </tr>
                         <tr>
                             <th>qty</th>
-                            <th>price</th>
+                            <th>C. price</th>
+                            <th>S. price</th>
                             <th class="text-center bg-info-light">qty</th>
                             <th class="text-center bg-info-light">price</th>
                             <th class="text-center bg-info-light">total cost</th>
@@ -73,6 +74,9 @@
                                 </td>
                                 <td>
                                     {{ $item->price }}
+                                </td>
+                                <td>
+                                    {{ $item->drugModel->price}}
                                 </td>
                                 <td>
                                     <input type="text" name="quantity_needed[]"  class="form-control qty" required>

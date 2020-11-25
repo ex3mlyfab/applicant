@@ -1,42 +1,100 @@
-@if ($inpatient->fluidReports->count())
+
     <div class="block rounded">
         <div class="block-header bg-info-light">
             <h3 class="block-title">Fluid Intake/Output</h3>
+            <div class="block-option"><button class="btn btn-outline-primary btn-lg" data-toggle="modal"
+                data-target="#fluid-block-normal">Record Fluid</button>
+            </div>
         </div>
         <div class="block-content block-content-full">
+                @php
+                    $fluids = $inpatient->fluidReportDetails->groupBy(function($item){
 
+                       return \Carbon\Carbon::parse($item->done_at)->format('d/M/Y H');
+                    });
+                @endphp
                 <div class="table-responsive">
-                    <table class="table table-hover table-vcenter">
-                        <tbody>
-                        @foreach ($inpatient->fluidReports as $item)
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
                             <tr>
-                                <td>{{ucfirst($item->fluid)}}</td>
-                                @if ($item->fluidReportDetails->count())
-                                @foreach ($item->treatmentCharts as $base)
-                                    <td style="width: 5%">
-                                        <span class="badge badge-warning">
-
-                                            {{ \Carbon\Carbon::parse($base->done_at)->format('d/m/y H:i a')}} <br>
-                                            -by {{$base->admin->name }}
-                                        </span>
-
-                                    </td>
-                                @endforeach
-                                @endif
-                                @if (!$item->continue)
-                                <td class="text-right" style="width: 5%">
-                                    <button class="btn btn-primary treatment-charting" data-treatment="{{$item->treatment}}" data-id="{{$item->id}}" data-toggle="modal" data-target="#miniverse">Mark as done</button>
-
-                                </td>
-                                @endif
+                                <th rowspan="2">
+                                    time
+                                </th>
+                                <th colspan="2" class="bg-info-light text-center">
+                                   Intake
+                                </th>
+                                <th colspan="2" class="bg-danger-light text-center">
+                                    Output
+                                </th>
 
                             </tr>
-                        @endforeach
+                            <tr >
+                                <th class="bg-info-light">
+                                    Type
+                                </th>
+                                <th class="bg-info-light">
+                                    Vol. (ml)
+                                </th>
+                                <th class="bg-danger-light">
+                                    Type
+                                </th>
+                                <th class="bg-danger-light">
+                                    Vol.(ml)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($fluids as $item => $fluid_list)
+                            <tr>
+                                <td>
+                                    {{ $item}}:00
+                                </td>
+                                <td>
+                                    @foreach ($fluid_list as $field)
+                                        @if ($field->fluidReport->direction == 'input')
+                                            <p>{{$field->fluidReport->fluid}}</p>
+                                            <span class="badge badge-info">
+                                                {{ \Carbon\Carbon::parse($field->done_at)->format('d/m/y H:i a')}} <br>
+                                                -by {{$field->doneBy->name }}
+                                            </span>
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($fluid_list as $field)
+                                        @if ($field->fluidReport->direction == 'input')
+                                            <p>{{$field->measure}}</p>
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($fluid_list as $field)
+                                        @if ($field->fluidReport->direction == 'output')
+                                            <p>{{$field->fluidReport->fluid}}</p>
+                                            <span class="badge badge-danger">
+                                                {{ \Carbon\Carbon::parse($field->done_at)->format('d/m/y H:i a')}} <br>
+                                                -by {{$field->doneBy->name }}
+                                            </span>
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($fluid_list as $field)
+                                        @if ($field->fluidReport->direction == 'output')
+                                            <p>{{$field->measure}}</p>
+                                        @endif
+                                    @endforeach
+                                </td>
+
+                            </tr>
+
+                            @endforeach
                         </tbody>
+
                     </table>
                 </div>
 
         </div>
 
     </div>
-@endif
+

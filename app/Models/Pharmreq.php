@@ -27,7 +27,7 @@ class Pharmreq extends Model
     }
     public function payments(): MorphMany
     {
-        return $this->morphMany(Payment::class, 'paymentable');
+        return $this->morphMany(PaymentReceipt::class, 'paymentable');
     }
 
     public function invoice(): MorphOne

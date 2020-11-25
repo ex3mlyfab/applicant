@@ -16,6 +16,7 @@
                 <h3 class="block-title text-white">{{$drug->name  }}</h3>
                 <div class="block-option">
                     <a href="{{route('pharmacy.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Go to Dashboard</a>
+                    <a href="{{route('drug.index')}}" class="btn btn-primary"><i class="fa fa-arrow-alt-circle-left"></i> Go Back</a>
                 </div>
 
             </div>
@@ -26,6 +27,30 @@
                             <div class="col-md-12">
                                 <p class="mr-2" style="font-size: 17px">Drug Name</p>
                                 <h3 class="mr-2" style="font-size: 18px">{{$drug->name}}</h3>
+                                @if ($drug->available <=  $drug->minimum_level)
+                                    <div class="alert alert-danger alert-dismissable" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    <p class="mb-0 text-uppercase">The Minimum order level is exceeded by {{$drug->minimum_level - $drug->available}}. Make an order now!</p>
+                                    </div>
+                                @endif
+                                @if ($drug->available <=  $drug->reorder_level)
+                                    <div class="alert alert-warning alert-dismissable" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    <p class="mb-0 text-uppercase">The  reorder level is exceeded by {{$drug->reorder_level - $drug->available}}. Make an order now!</p>
+                                    </div>
+                                @endif
+                                @if ($drug->available >=  $drug->maximum_level)
+                                    <div class="alert alert-dark alert-dismissable" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    <p class="mb-0 text-uppercase">The  maximum level is exceeded by {{$drug->available - $drug->maximum_level}}. </p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="pentacare-bg border-top">
@@ -83,10 +108,6 @@
                                 <th>
                                     cost
                                 </th>
-
-                                <th>
-                                    Actions
-                                </th>
                             </thead>
                             <tbody>
                                 @foreach ($drug->drugBatchDetails as $item)
@@ -108,7 +129,7 @@
                                             {{$item->packing_quantity}}
                                         </td>
                                         <td>
-                                            {{$item->drugModel->available}}
+                                            {{$item->available_quantity}}
                                         </td>
                                         <td>
                                             {{$item->purchase_price}}
@@ -117,16 +138,7 @@
                                             {{$item->cost}}
                                         </td>
 
-                                        <td>
-                                            <div class="btn-group">
-                                                <a href="{{route('drugbatch.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
-                                                    <i class="fa fa-fw fa-pencil-alt"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete">
-                                                    <i class="fa fa-fw fa-times"></i>
-                                                </button>
-                                            </div>
-                                        </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>

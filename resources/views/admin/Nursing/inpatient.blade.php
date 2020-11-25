@@ -201,6 +201,9 @@
                                                             <th>
                                                                 bmi
                                                             </th>
+                                                            <th>
+                                                                done by
+                                                            </th>
                                                         </thead>
                                                         <tbody>
                                                             @foreach ($inpatient->user->vitalsigns as $item)
@@ -233,6 +236,11 @@
                                                                 </td>
                                                                 <td>
                                                                     {{$item->bmi}}
+                                                                </td>
+                                                                <td>
+                                                                    {{
+                                                                    $item->doneBy->name
+                                                                    }}
                                                                 </td>
                                                             </tr>
 
@@ -382,9 +390,24 @@
             }
         }
     });
+    $('#new-fluid').hide();
+
+    $('#select-fluid').change(function(){
+        if($(this).val()== 'others')
+        {
+            $('#new-fluid').show();
+        }else{
+            $('#new-fluid').hide();
+        }
+    });
     $('#datetimepicker3').datetimepicker({
                 defaultDate: new Date(),
-                format: 'DD-MM-YYYY hh:mm:ss A',
+                format: 'DD-MM-YYYY hh:mm A',
+                sideBySide: true
+            });
+    $('#datetimepicker4').datetimepicker({
+                defaultDate: new Date(),
+                format: 'DD-MM-YYYY hh:mm A',
                 sideBySide: true
             });
 

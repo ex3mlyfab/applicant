@@ -91,6 +91,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-action">Action Plan</a>
                                 </li>
+                                @if ($patient->operation)
+                                <li class="nav-item">
+                                     <a class="nav-link" href="#btabs-alt-static-operation">Operation Report</a>
+                                 </li>
+                                @endif
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-vitals">Vital Signs chart</a>
                                 </li>
@@ -152,6 +157,11 @@
 
 
                                 </div>
+                                @if ($patient->operation)
+                                <div class="tab-pane" id="btabs-alt-static-operation" role="tabpanel">
+                                    @include('admin.inpatient.includes.operation')
+                                </div>
+                                 @endif
                                 <div class="tab-pane" id="btabs-alt-static-vitals" role="tabpanel">
                                     <div class="block">
                                         <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">

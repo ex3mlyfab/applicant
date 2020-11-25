@@ -5,6 +5,9 @@
             <a class="nav-link active" href="#btabs-static2-home">Treatment Chart</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="#btabs-static2-fluid">Fluid Intake/Output</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#btabs-static2-fhp">Functional Health Pattern</a>
         </li>
         <li class="nav-item">
@@ -19,6 +22,9 @@
     <div class="block-content tab-content">
         <div class="tab-pane active" id="btabs-static2-home" role="tabpanel">
             @include('admin.inpatient.includes.treatmentsheet')
+        </div>
+        <div class="tab-pane" id="btabs-static2-fluid" role="tabpanel">
+            @include('admin.inpatient.includes.fluidhistory')
         </div>
         <div class="tab-pane" id="btabs-static2-profile" role="tabpanel">
            @include('admin.inpatient.includes.nursinghistory')

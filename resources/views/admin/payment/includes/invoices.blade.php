@@ -28,7 +28,7 @@
                     <td>{{$item->invoice_no}}</td>
                     <td>{{$item->status}}</td>
                     <td>
-                        @if(($item->p_status == 'NYP'|| $item->status =='consultation'))
+                        @if(($item->p_status == 'NYP') || ($item->p_status =='partial paid'))
                             <a href="{{route('payment.settle', $item->id)}}" class="text-info">Make Payment  </a>
                         @else
                         <a href="{{route('payment.invoice', $item->id)}}" class="text-info">print Receipt  </a>

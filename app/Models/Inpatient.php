@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -79,7 +80,7 @@ class Inpatient extends Model
         return $this->hasOne(InpatientBill::class);
     }
 
-    public function procedureRequest(): HasMany
+    public function procedureRequests(): HasMany
     {
         return $this->hasMany(ProcedureRequest::class);
     }
@@ -91,6 +92,11 @@ class Inpatient extends Model
     public function clinicalTrackers(): HasMany
     {
         return $this->hasMany(ClinicalTracker::class)->orderBy('done');
+    }
+
+    public function fluidReportDetails(): HasManyThrough
+    {
+        return $this->hasManyThrough(FluidReportDetail::class, FluidReport::class);
     }
 
 }

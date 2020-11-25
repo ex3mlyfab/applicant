@@ -82,4 +82,8 @@ class Encounter extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function operatingRooms(): HasMany
+    {
+        return $this->hasMany(OperatingRoom::class);
+    }
 }

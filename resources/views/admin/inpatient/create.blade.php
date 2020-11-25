@@ -17,6 +17,11 @@
                 <div class="block block-bordered block-rounded block-fx-shadow">
                     <div class="block-content">
                         <img class="img-fluid img-fluid-100 options-item" src="{{ $inpatient->user->avatar ? asset('backend/images/avatar/'. $inpatient->user->avatar) : asset('backend/images/no_image.png')}}" alt="">
+                        @if ($inpatient->procedureRequests->count())
+                            <span class="badge {{($inpatient->procedureRequests->last()->status=='done')? 'badge-success': 'badge-primary'}} badge-pill">{{
+                            ($inpatient->procedureRequests->last()->status=='done')?'Post-Operative': 'Pre-Operative'
+                        }}</span>
+                    @endif
                         <div class="table-responsive">
                             <table class="table table-borderless table-vcenter">
                                 <tbody>
@@ -36,12 +41,15 @@
                                     </tr>
                                     <tr>
 
-                                        <td>{{$inpatient->user->age}}</td>
+                                        <td>{{$inpatient->user->age}}
+
+                                        </td>
                                     </tr>
                                     <tr class="bg-city-light">
                                         <td>
                                             <p class="text-white text-center">admitted: {{\Carbon\Carbon::parse( $inpatient->date_of_admission)->diffForHumans()}} </p>
                                             {{\Carbon\Carbon::parse( $inpatient->date_of_admission)->format('d-M-Y, H:i:s') }}
+
                                         </td>
                                     </tr>
                                     <tr>
@@ -85,6 +93,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-tracker">Clinical Tasks Tracker</a>
                                 </li>
+                                @if ($inpatient->user->operation)
+                                   <li class="nav-item">
+                                        <a class="nav-link" href="#btabs-alt-static-operation">Operation Report</a>
+                                    </li>
+                                @endif
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-vitals">Vital Signs chart</a>
@@ -161,6 +174,11 @@
 
 
                                 </div>
+                                @if ($inpatient->user->operation)
+                                <div class="tab-pane" id="btabs-alt-static-operation" role="tabpanel">
+                                    @include('admin.inpatient.includes.operation')
+                                </div>
+                                 @endif
                                 <div class="tab-pane" id="btabs-alt-static-vitals" role="tabpanel">
                                     <div class="block">
                                         <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">
@@ -416,7 +434,7 @@
                     }
                 });
 
-            })
+            });
             $('.clinical-task').bind('click', function(){
                 $('#clinical_tracker_id').val($(this).data('id'));
                 $('#task-title').html($(this).data('task'));
@@ -521,9 +539,7 @@
 
 
             });
-            $('.clinical-tasks').bind('click', function(){
 
-            })
                 $('#addDrug').attr('disabled', true);
 
                 $('#dosage').blur(function(){

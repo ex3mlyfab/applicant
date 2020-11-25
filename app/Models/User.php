@@ -205,6 +205,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(TreatmentChart::class);
     }
+    public function getOperationAttribute()
+    {
+        return $this->encounters->filter(function($item){
+            return $item->operatingRooms->count();
+        })->count();
+    }
     /**
      * The attributes that should be cast to native types.
      *

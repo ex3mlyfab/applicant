@@ -357,3 +357,92 @@
         </div>
     </div>
 </div>
+<div class="modal" id="fluid-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Fluid Intake / Output Record</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                             <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                        </div>
+                        <div class="col-md-8 font-size-sm">
+                             <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                            <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                            <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                            <p>Age:&nbsp; {{$inpatient->user->age}}</p>
+
+                        </div>
+                    </div>
+                    <h3 class="text-center text-uppercase">Record Fluid Intake / Output</h3>
+                    <div class="bg-modern-lighter border rounded p-2">
+                    <form action="{{route('fluidreport.store')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="inpatient_id" value="{{$inpatient->id}}">
+                        <div class="form-row" id="scroll-fluid">
+                            <div class="form-group col-md-6">
+                                <label for="select-fluid">Select Fluid</label>
+                                <select class="js-select2 form-control form-control-lg" id="select-fluid" name="fluid_select" style="width: 100%;" data-placeholder="Choose one..">
+                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                    @foreach ($inpatient->fluidReports as $item)
+                                        <option value="{{$item->id}}"> {{$item->fluid}}</option>
+                                    @endforeach
+                                    <option value="others">Others</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row" id="new-fluid">
+                            <div class="form-group col-md-6">
+                                <label for="fluid_name">Fluid name</label>
+                                <input type="text" name="fluid_name" id="fluid_name" class="form-control form-control-lg">
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="direction"> Direction</label>
+                                <select name="direction" id="direction" class="form-control form-control-lg">
+                                    <option value="input">Intake</option>
+                                    <option value="output">Output</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="amount">Volume</label>
+                                <input type="number" name="measure" class="form-control form-control-lg" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="datetimepicker4">DAte time</label>
+                                <div class='input-group date' id='datetimepicker4'>
+                                    <input type='text' class="form-control" name="date_done" />
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <button type="submit" class="btn btn-lg btn-outline-success">Save</button>
+                        </div>
+                    </form>
+                    </div>
+
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

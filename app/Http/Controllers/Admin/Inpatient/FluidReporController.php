@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Inpatient;
 
 use App\Http\Controllers\Controller;
 use App\Models\FluidReport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FluidReporController extends Controller
@@ -36,14 +37,22 @@ class FluidReporController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ($request->fluid as $key => $value) {
-            FluidReport::create([
-                'inpatient_id' => $request->inpatient_id,
-                'fluid' => $request->fluid[$key],
-                'direction' => $request->direction[$key]
-            ]);
-         }
-             $notification = [
+       if($request->fluid_select == 'others'){
+           $fluid = FluidReport::create([
+               'inpatient_id' => $request->inpatient_id,
+               'fluid' => $request->fluid_name,
+               'direction' => $request->direction
+           ]);
+       }else{
+           $fluid = FluidReport::find($request->fluid_select);
+       }
+       $tip = date('Y-M-d H:i:s', strtotime($request->date_done));
+       $fluid->fluidReportDetails()->create([
+                'measure'=> $request->measure,
+                'done_at' => Carbon::parse($tip),
+                'done_by' => auth()->user()->id,
+       ]);
+         $notification = [
                  'message' => 'Fluid record added successfully',
                  'type' =>'success'
              ];

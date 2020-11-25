@@ -9,9 +9,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('birthdays', function () {
             return view('admin.patient.birthday');
         })->name('birthdays'); //birthdays celebrant
+        Route::post('pharmacy/filterstock', 'Admin\Pharmacy\PharmacyController@filterStock')->name('filter.stock');
+        Route::get('pharmacy/stockreport', 'Admin\Pharmacy\PharmacyController@stockReport')->name('stockreport.view');
         Route::get('inpatient/dashboard', 'Admin\Inpatient\InpatientController@dashboard')->name('inpatient.dashboard')->middleware('permission:inpatient-view');
         Route::get('prescriptionreview/{pharmreq}', 'Admin\Consult\PharmreqController@prescriptionReview')->name('pharmreq.review');
         Route::post('wardround/changestatus', 'Admin\Inpatient\TreatmentSheetController@changeStatus');
+        Route::post('surgicalpatient/confirmpayment', 'Admin\Procedure\SurgicalPatientController@confirmPayment')->name('surgical.confirm');
         Route::post('nurseround/recordtreatment', 'Admin\Inpatient\TreatmentSheetController@recordTreatment')->name('recordtreatment');
         Route::post('wardround/recordtask', 'Admin\Inpatient\ClinicalTrackerController@recordTask')->name('recordtasks');
         Route::post('patient/classajax/{patient}', 'Admin\Front\PatientController@patientAjax');
@@ -63,13 +66,18 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('endconsult/{consult}', 'Admin\Consult\ConsultController@endConsult')->middleware('permission:consult-create')->name('consult.end');
         Route::resource('mdaccount', 'Admin\Setting\MdAccountController')->middleware('permission:mdaccount-create');
         //pharmacy
+        Route::get('processtock/{id}', 'Admin\Pharmacy\StockCartController@processStock')->name('process.stock');
+        Route::post('recievestock', 'Admin\Pharmacy\StockCartController@recieveSupply')->name('receive.stock');
         Route::get('pharmacy/dispense-drugs', 'Admin\Pharmacy\PharmacyController@prepare')->middleware('permission:dispense-view')->name('dispense.drugs');
         Route::get('pharmacy/view-dispensed', 'Admin\Pharmacy\PharmacyController@billdrug')->middleware('permission:dispense-view')->name('pharmacy.dispensed');
         Route::get('pharmacy/dispensedrug/{pharmreq}', 'Admin\Pharmacy\PharmacyController@dispensedrug')->name('pharmacy.dispensedrug');
         Route::post('pharmacy/confirmdispense', 'Admin\Pharmacy\PharmacyController@confirmdispense')->name('pharmacy.confirmdispense');
         Route::resource('pharmbill', 'Admin\Pharmacy\PharmacyBillController');
         Route::post('filterdispensed', 'Admin\Pharmacy\PharmacyBillController@filtersearch')->name('filter.dispense');
-
+        Route::resource('stockcart','Admin\Pharmacy\StockCartController');
+        Route::resource('nursecart', 'Admin\Pharmacy\NursingCartController');
+        Route::resource('emergencycart', 'Admin\Pharmacy\EmergencyCartController');
+        Route::resource('theatercart', 'Admin\Pharmacy\TheaterCartController');
         Route::resource('followup', 'Admin\Consult\FollowUpController');
         Route::resource('consults', 'Admin\Consult\ConsultController');
         Route::post('consult/pharmreq/create', 'Admin\Consult\PharmreqController@ajaxdrug');
@@ -118,6 +126,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('suppliers/purchases/{supplier}', 'Admin\Account\Supplier@purchases')->middleware('permission:supplier-view')->name('supplier.purchase');
         Route::post('suppliers/filter-purchases', 'Admin\Account\Supplier@filterPurchases')->middleware('permission:supplier-view')->name('purchases.filter');
         Route::resource('nhis', 'Admin\Front\NhisPatientController')->middleware('permission:patient-create');
+        Route::resource('surgicalpatient', 'Admin\Procedure\SurgicalPatientController')->middleware('permission:surgical-view');
 
         Route::resource('insuranceCategory', 'Admin\Setting\InsuranceCategory')->middleware('permission:setting-view');
         Route::resource('insurance', 'Admin\Setting\Insurance')->middleware('permission:setting-view');

@@ -103,6 +103,22 @@
                 </ul>
             </li>
             @endcan
+            @can('surgical-view')
+            <li class="nav-main-item">
+                <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                    <i class="nav-main-link-icon fa fa-cut"></i>
+                    <span class="nav-main-link-name">Operating Theatre</span>
+                </a>
+                <ul class="nav-main-submenu">
+
+                    <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{route('surgicalpatient.index')}}">
+                            <span class="nav-main-link-name">awaiting procedure</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endcan
             @can('nursing-view')
                 <li class="nav-main-item">
                 <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">

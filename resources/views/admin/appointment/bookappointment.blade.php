@@ -41,10 +41,7 @@
                                 <div class="col-md-12">
                                     <label for="phone">Phone Number</label>
                                     <input type="text" name="phone" id="phone" class="form-control form-control-lg" value="{{$patient->phone}}" disabled>
-                                   {{-- <h4>{{
-                                        ( $patient->clinicalAppointments->count() && $patient->day_agos_appointment < 30)
-                                    }}
-                                    </h4> --}}
+
 
                                 </div>
                             </div>

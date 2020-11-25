@@ -51,7 +51,7 @@
                                     </form>
                                 @elseif(($item->status=='invoice generated'))
                                 <a href="{{route('pharmreq.review', $item->id)}}">review Prescription</a>
-                                @elseif (($item->status == 'item paid'))
+                                @elseif (($item->status == 'item paid')||($item->status == 'inpatient'))
 
                                     <a href="{{route('pharmacy.dispensedrug',$item->id )}}" class="btn btn-sm btn-primary">Dispense Drugs</a>
 

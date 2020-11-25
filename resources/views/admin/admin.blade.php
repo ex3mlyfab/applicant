@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-        <title>Pentacare | @yield('title')</title>
+        <title>Pentacare|@yield('title')</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
         <link rel="shortcut icon" href="{{asset('backend')}}/assets/media/favicons/favicon.png">

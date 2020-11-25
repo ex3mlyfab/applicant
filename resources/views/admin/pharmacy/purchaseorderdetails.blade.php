@@ -1,7 +1,9 @@
 @extends('admin.admin')
+
 @section('title')
 Purchase Order details
 @endsection
+
 @section('content')
 <div class="content">
     <div class="row">

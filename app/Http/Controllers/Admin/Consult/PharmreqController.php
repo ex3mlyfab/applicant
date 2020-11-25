@@ -111,15 +111,71 @@ class PharmreqController extends Controller
             );
          PharmreqDetail::create($data);
         }
-
-        switch ($pc->encounter->user->payment_method) {
+        if($request->has('inpatient_id')){
+            $pc->update([
+                'status' => 'inpatient'
+            ]);
+        }else{
+             switch ($pc->encounter->user->payment_method) {
             case 'insured':
                 $percentile =$pc->encounter->user->enrollUser->insurancePackage;
-                if($percentile->percentage < 100){
+                $covered= $percentile->insuranceServices->where('service_type','pharmacy' )->first();
+                if($covered->service_type === 'consultation'){
+                    if($percentile->percentage < 100){
+                        $invoice = Invoice::create([
+                            'user_id' =>$pc->encounter->user->id,
+                            'invoice_no' => generate_invoice_no(),
+                            'amount' => (100 - $percentile->percentage) /100 * $pc->total,
+                            'p_status' => 'NYP',
+                            'status' => 'pharmacy',
+                            'admin_id' => auth()->user()->id,
+                        ]);
+                        foreach ($pc->pharmreqDetails as $key => $value) {
+                            $data = array(
+                            'invoice_id' => $invoice->id,
+                            'item_description' =>'Pharmacy - '. $value->drugModel->name,
+                            'amount' => (100 - $percentile->percentage) /100 *  $value->cost,
+                            'status' => 'NYP'
+                            );
+                            $just=InvoiceItem::create($data);
+                            $value->update([
+                                'invoice_item_id' => $just->id,
+                            ]);
+                        }
+                        EnrollCharge::create([
+                            'enroll_user_id' => $pc->encounter->user->enrollUser->id,
+                            'service' => 'pharmacy',
+                            'charge' => $pc->total,
+                            'patient_paid' =>(100 - $percentile->percentage) /100 * $pc->total,
+                            'insurance_cover' =>  $percentile->percentage/100 * $pc->total,
+                            'payment_status' => 'NYP'
+                        ]);
+                        $pc->invoice()->save($invoice);
+
+                    }else{
+                        EnrollCharge::create([
+                            'enroll_user_id' => $pc->encounter->user->enrollUser->id,
+                            'service' => 'pharmacy',
+                            'charge' => $pc->total,
+                            'patient_paid' =>(100 - $percentile->percentage) /100 * $pc->total,
+                            'insurance_cover' =>  $percentile->percentage/100 * $pc->total,
+                            'payment_status' => 'NYP'
+                        ]);
+                        $pc->update([
+                            'status' => 'item paid'
+                        ]);
+                        $pc->pharmreqDetails->transform(function($item){
+                            $item->update([
+                                'status' => 'insurance'
+                            ]);
+                        });
+                        // $pc->pharmreqDetails->
+                    }
+                }else{
                     $invoice = Invoice::create([
                         'user_id' =>$pc->encounter->user->id,
                         'invoice_no' => generate_invoice_no(),
-                        'amount' => (100 - $percentile->percentage) /100 * $pc->total,
+                        'amount' => $pc->total,
                         'p_status' => 'NYP',
                         'status' => 'pharmacy',
                         'admin_id' => auth()->user()->id,
@@ -128,42 +184,15 @@ class PharmreqController extends Controller
                         $data = array(
                         'invoice_id' => $invoice->id,
                         'item_description' =>'Pharmacy - '. $value->drugModel->name,
-                        'amount' => (100 - $percentile->percentage) /100 *  $value->cost,
+                        'amount' =>  $value->cost,
                         'status' => 'NYP'
                         );
-                        $just=InvoiceItem::create($data);
+                       $just = InvoiceItem::create($data);
                         $value->update([
-                            'invoice_item_id' => $just->id,
+                            'invoice_item_id' => $just->id
                         ]);
                     }
-                    EnrollCharge::create([
-                        'enroll_user_id' => $pc->encounter->user->enrollUser->id,
-                        'service' => 'pharmacy',
-                        'charge' => $pc->total,
-                        'patient_paid' =>(100 - $percentile->percentage) /100 * $pc->total,
-                        'insurance_cover' =>  $percentile->percentage/100 * $pc->total,
-                        'payment_status' => 'NYP'
-                    ]);
                     $pc->invoice()->save($invoice);
-
-                }else{
-                    EnrollCharge::create([
-                        'enroll_user_id' => $pc->encounter->user->enrollUser->id,
-                        'service' => 'pharmacy',
-                        'charge' => $pc->total,
-                        'patient_paid' =>(100 - $percentile->percentage) /100 * $pc->total,
-                        'insurance_cover' =>  $percentile->percentage/100 * $pc->total,
-                        'payment_status' => 'NYP'
-                    ]);
-                    $pc->update([
-                        'status' => 'item paid'
-                    ]);
-                    $pc->pharmreqDetails->transform(function($item){
-                        $item->update([
-                            'status' => 'insurance'
-                        ]);
-                    });
-                    // $pc->pharmreqDetails->
                 }
 
                 break;
@@ -271,11 +300,14 @@ class PharmreqController extends Controller
                 break;
         }
 
+        }
+
+
 
 
         $pc->testable()->create([
             'encounter_id' => $pc->encounter_id,
-            'status' => 'invoice generated',
+            'status' =>($request->has('inpatient_id'))? 'inpatient' : 'invoice generated',
         ]);
 
         $notification = array(

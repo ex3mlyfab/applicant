@@ -19,10 +19,14 @@ class DrugModel extends Model
     {
         return $this->hasMany(DrugBatchDetail::class)->orderByDesc('created_at');
     }
+    public function pharmacyBillDetails(): HasMany
+    {
+        return $this->hasMany(PharmacyBillDetail::class);
+    }
     public function getAvailableAttribute()
     {
 
-        return $this->drugBatchDetails()->sum('available_quantity');
+        return $this->drugBatchDetails()->where('available_quantity', '>', 0)->sum('available_quantity');
     }
     public function getPriceAttribute()
     {
@@ -35,6 +39,7 @@ class DrugModel extends Model
         $item = $this->drugBatchDetails->first();
         return $item->batch_no;
     }
+
 
 
     public function pharmreqDetails(): HasMany

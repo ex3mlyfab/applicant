@@ -24,8 +24,8 @@
                     <label for="firstName7">3. Regional Examinations</label>
                     <textarea name="regional_exam" class="form-control auto-expand" rows="4" placeholder="Patient Regional Exam" id="firstName7">{{old('regional_exam') ?? ''}}</textarea>
                 </div>
-                <fieldset class="p-2" >
-                    <legend class="text-white"> 4. SYSTEMIC EXAMINATIONS</legend>
+                <fieldset class="p-0" >
+                    <legend class="text-white bg-dark text-center rounded"> 4. SYSTEMIC EXAMINATIONS</legend>
                     <div class="form-group form-row p-2 text-white" style="background: rgb(51, 70, 128)">
                     <div class="col-md-6">
                         <label for="int12" class="form-control-label-lg text-white">Central Nervous System(CNS) :</label>

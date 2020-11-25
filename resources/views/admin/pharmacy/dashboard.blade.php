@@ -32,7 +32,7 @@
                     <div class="block-content block-content-full">
                         <div class="font-size-sm font-w600 text-uppercase text-muted">
                            <i class="fa fa-capsules mr-2"></i> Total Items</div>
-                        <div class="font-size-h2 font-w400 text-dark">{{$total_items}}</div>
+                        <div class="font-size-h2 font-w400 text-dark">{{$total_items->count()}}</div>
                     </div>
                 </a>
             </div>
@@ -55,11 +55,14 @@
                 </a>
             </div>
             <div class="col-6 col-md-3 col-lg-6 col-xl-3">
-                <a class="block block-rounded block-link-pop border-left border-primary border-4x" href="javascript:void(0)">
+                <a class="block block-rounded block-link-pop border-left border-primary border-4x" href="javascript:void(0)" data-toggle="modal" data-target="#one-modal-apps">
                     <div class="block-content block-content-full">
-                        <div class="font-size-sm font-w600 text-uppercase text-muted">
-                        <i class="fa fa-exclamation-triangle mr-2"></i>    Attention</div>
-                        <div class="font-size-h2 font-w400 text-dark">0</div>
+                        <div class="font-size-sm font-w600 text-uppercase text-danger">
+                        <i class="fa fa-exclamation-triangle mr-2"></i>    Attention
+                    </div>
+                        <div class="font-size-h2 font-w400 text-dark">{{
+                         $reorder->count() + $minlevel->count() + $maxlevel->count() + $expired->count()
+                        }}</div>
                     </div>
                 </a>
             </div>
@@ -102,7 +105,7 @@
                                                 <span>
                                                     <i class="fa fa-fw fa-pills mr-1"></i> Drug list
                                                 </span>
-                                            <span class="badge badge-pill badge-secondary">{{$total_items}}</span>
+                                            <span class="badge badge-pill badge-secondary">{{$total_items->count()}}</span>
                                             </a>
                                         </li>
                                         <li class="nav-item my-1">
@@ -138,9 +141,25 @@
                                             </a>
                                         </li>
                                         <li class="nav-item my-1">
-                                            <a class="nav-link d-flex justify-content-between align-items-center" href="{{route('recieveorder.index')}}">
+                                            <a class="nav-link d-flex justify-content-between align-items-center" href="{{route('stockreport.view')}}">
                                                 <span>
                                                     <i class="fa fa-fw fa-file-invoice mr-1"></i> Stock Report
+                                                </span>
+                                                <span class="badge badge-pill badge-secondary"></span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item my-1">
+                                            <a class="nav-link d-flex justify-content-between align-items-center" href="{{route('stockcart.index')}}">
+                                                <span>
+                                                    <i class="fa fa-fw fa-file-import mr-1"></i> Stock Carts (Emergency/Nursing/Theatre)
+                                                </span>
+                                                <span class="badge badge-pill badge-secondary"></span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item my-1">
+                                            <a class="nav-link d-flex justify-content-between align-items-center" href="{{route('emergencycart.index')}}">
+                                                <span>
+                                                    <i class="fa fa-fw fa-file-import mr-1"></i> Check Cart (Emergency)
                                                 </span>
                                                 <span class="badge badge-pill badge-secondary"></span>
                                             </a>
@@ -160,7 +179,7 @@
             <div class="col-lg-8">
                 <div class="block block-rounded block-mode-loading-oneui">
                     <div class="block-header">
-                        <h3 class="block-title">Top Selling Drugs</h3>
+                        <h3 class="block-title">Sales BREAKDOWN</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                                 <i class="si si-refresh"></i>
@@ -209,7 +228,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($awaiting as $item)
+                                @foreach ($awaiting5 as $item)
                                   <tr>
                                     <td>
                                     <span class="font-w600">{{$item->encounter->user->folder_number}}</span>
@@ -296,6 +315,94 @@
         </div>
 
     </div>
+     <!-- Opens from the modal toggle button in the header -->
+     <div class="modal fade" id="one-modal-apps" tabindex="-1" role="dialog" aria-labelledby="one-modal-apps" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-top" role="document">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent mb-0">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Attention</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                <i class="si si-close"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content block-content-full">
+                        <div class="row gutters-tiny">
+
+                            <div class="col-6">
+                                <!-- CRM -->
+                                <a class="block block-rounded block-themed bg-default" href="javascript:void(0)">
+                                    <div class="block-content text-center">
+                                        <i class="si si-bell fa-2x text-white-75"></i>
+                                        <p class="font-w600 badge badge-default">
+                                          {{$reorder->count()}}  Reorder level exceeded
+                                        </p>
+                                        @foreach ($reorder as $item)
+                                        <p class="text-white mb-1">{{$loop->iteration}}.{{$item->name}}-{{$item->reorder_level}}/{{$item->available}}</p>
+                                        @endforeach
+                                    </div>
+                                </a>
+                                <!-- END CRM -->
+                            </div>
+
+
+                            <div class="col-6">
+                                <!-- Products -->
+                                <a class="block block-rounded block-themed bg-danger" href="javascript:void(0)">
+                                    <div class="block-content text-center">
+                                        <i class="fa fa-exclamation-triangle fa-2x text-white-75"></i>
+                                        <p class="font-w600 badge badge-danger">
+                                           {{ $minlevel->count()}}  Minimum level exceeded</p>
+                                             @foreach ($minlevel as $item)
+                                             <p class="text-white mb-1">{{$loop->iteration}}.{{$item->name}}-{{$item->minimum_level}}/{{$item->available}}</p>
+                                             @endforeach
+
+                                    </div>
+                                </a>
+                                <!-- END Products -->
+                            </div>
+                            @if ($expired->count())
+                            <div class="col-6">
+                                <!-- Sales -->
+                                <a class="block block-rounded block-themed bg-success mb-0" href="javascript:void(0)">
+                                    <div class="block-content text-center">
+                                        <i class="si si-plane fa-2x text-white-75"></i>
+                                        <p class="font-w600 badge badge-success">
+                                            Expired Batches.</p>
+                                            @foreach ($expired as $item)
+                                        <p class="text-white mb-1">{{$loop->iteration}}.{{$item->name}}</p>
+                                            @endforeach
+
+                                    </div>
+                                </a>
+                                <!-- END Sales -->
+                            </div>
+                            @endif
+
+                            <div class="col-6">
+                                <!-- Payments -->
+                                <a class="block block-rounded block-themed bg-warning mb-0" href="javascript:void(0)">
+                                    <div class="block-content text-center">
+                                        <i class="si si-target fa-2x text-white-75"></i>
+                                        <p class="font-w600 badge badge-warning">
+                                          {{$maxlevel->count()}} Maximum level exceeded</p>
+                                           @foreach ($maxlevel as $item)
+                                            <p class="text-white mb-1">{{$loop->iteration}}.{{$item->name}}-{{$item->maximum_level}}/{{$item->available}}</p>
+                                            @endforeach
+
+                                    </div>
+                                </a>
+                                <!-- END Payments -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Apps Modal -->
     <!-- END Page Content -->
 @endsection
 @section('foot_js')

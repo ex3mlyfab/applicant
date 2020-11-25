@@ -38,8 +38,8 @@ class ProcedureRequestController extends Controller
     {
        $pc = ProcedureRequest::create($request->except('_token'));
        $pc->testable()->create([
-        'encounter_id' => $pc->encounter_id,
-        'status' => 'invoice generated',
+        'encounter_id' => $pc->inpatient->encounter->id,
+        'status' => 'awaiting processing',
         ]);
         $notification =[
             'message' => 'operation request sent successfully',
@@ -47,6 +47,7 @@ class ProcedureRequestController extends Controller
         ];
         return back()->with($notification);
     }
+
 
     /**
      * Display the specified resource.

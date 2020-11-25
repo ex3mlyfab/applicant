@@ -98,6 +98,7 @@
 
 
 
+
                                     </ul>
                                 </div>
                             </div>
@@ -127,9 +128,9 @@
             <div class="col-lg-12">
                 <div class="block block-mode-loading-oneui">
                     <div class="block-header border-bottom">
-                        <h3 class="block-title">New Patients Registration</h3>
+                        <h3 class="block-title">In Patients List</h3>
                         <div class="block-options">
-                            <a href="{{route('patient.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Patient List</a>
+                            <a href="{{route('inpatient.index')}}" class="btn btn-primary"><i class="fa fa-door-open"></i> Patient List</a>
                         </div>
                     </div>
                     <div class="block-content block-content-full">

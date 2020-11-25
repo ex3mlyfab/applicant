@@ -16,7 +16,15 @@
 
         <div class="col-md-12">
             <div class="block block-fx-shadow pentacare-bg">
-            <div class="block-header bg-info-light">All Transfers to {{ $bank->name.'/'. $bank->account_name}}</div>
+            <div class="block-header bg-info-light">
+                <h3 class="block-title">
+                    All Transfers to {{ $bank->name.'/'. $bank->account_name}}
+                </h3>
+                <div class="block-option">
+                <a href="{{route('bank.index')}}" class="btn btn-outline-secondary"><i class="fa fa-door-open"></i>
+                Go back</a>
+                </div>
+            </div>
                 <div class="block-content block-content-full">
                     <div class="table-responsive ">
                         <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
@@ -31,7 +39,7 @@
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$item->user->full_name}}</td>
-                                    <td>₦ {{$item->amount}}</td>
+                                    <td>₦ {{number_format($item->amount_transfered,2, '.',',')}}</td>
                                     <td>
                                        {{$item->status}}
                                     </td>

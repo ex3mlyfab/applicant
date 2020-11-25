@@ -1,7 +1,7 @@
 @extends('admin.admin')
 
 @section('title')
-    add charge
+purchase order
 @endsection
 @section('head_css')
 <link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/datatables/dataTables.bootstrap4.css">
@@ -129,7 +129,7 @@
                                             <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="qty" class="form-control form-control-lg">
                                         </td>
                                         <td>
-                                            <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="avail" class="form-control form-control-lg" readonly>
+                                            <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="text" id="avail" class="form-control form-control-lg">
                                         </td>
                                         <td>
                                             <input style="border: 1px solid rgb(51, 70, 128, 0.8)" type="number" id="lineCost" class="form-control form-control-lg" readonly>
@@ -182,8 +182,13 @@
 
 <!-- Page JS Code -->
 <script src="{{asset('backend')}}/assets/js/pages/be_tables_datatables.min.js"></script>
+<script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
+<script>jQuery(function(){ One.helpers([ 'select2']); });</script>
 <script>
     $(function(){
+        $('#drug-subcategory').select2({
+                dropdownParent: $('#purchase-block-normal')
+            });
         $('#supplier').on("change", function(){
             let classID = $("#supplier option:selected").text();
             let selected = $('#selectedSupplier');

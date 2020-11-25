@@ -23,4 +23,5 @@ class OperatingRoom extends Model
     {
         return $this->belongsTo(Encounter::class);
     }
+
 }
