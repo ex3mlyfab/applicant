@@ -46,17 +46,16 @@ Purchase Order details
                                 <tr id="row-{{$item->id}}">
                                         <td>
                                             {{$loop->iteration}}
-                                        <input type="hidden" name="purchase_order_detail_id[]" value="{{$item->id}}">
+                                            <input type="hidden" name="purchase_order_detail_id[]" value="{{$item->id}}">
                                         </td>
                                         <td>
-                                            {{$item->drugModel->name}}
+                                            {{$item->drugModel->name}} - {{ $item->drugModel->forms }}
+                                            -{{$item->drugModel->strength}}
                                         </td>
                                         <td class="price">
                                             {{$item->price}}
                                         </td>
-                                        <td class="bg-secondary text-center">
-                                            <input type="checkbox" name="approved[]" value="{{$item->id}}" data-amount="{{$item->price}}" class="form-checkbox form-checkbox-lg approval">
-                                        </td>
+
                                         <td>
                                         <input type="number" name="qty[]" class="form-control form-control-lg qty" data-price="{{$item->price}}" data-id={{$item->id}} value="{{$item->quantity_needed}}" step="0.1">
 
@@ -64,6 +63,9 @@ Purchase Order details
                                         <td>
                                         <input type="text" name="price[]" class="form-control form-control-lg cost-price" value="{{$item->price * $item->quantity_needed}}" readonly>
 
+                                        </td>
+                                        <td class="bg-secondary text-center">
+                                            <input type="checkbox" name="approved[]" value="{{$item->id}}" data-amount="{{$item->price}}" class="form-checkbox form-checkbox-lg approval">
                                         </td>
 
                                     </tr>

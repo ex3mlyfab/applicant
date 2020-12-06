@@ -344,7 +344,7 @@
                                 @csrf
                                 <div class="form-group form-row">
                                     <div class="col-md-4">
-                                        <img  alt="" id="picture">
+                                        <img  alt="" id="picture" class="w-100 rounded">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="patient_identity"> PATIENT NAME</label>

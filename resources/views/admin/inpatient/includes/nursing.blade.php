@@ -8,6 +8,9 @@
             <a class="nav-link" href="#btabs-static2-fluid">Fluid Intake/Output</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="#btabs-static2-report">Nursing Report</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#btabs-static2-fhp">Functional Health Pattern</a>
         </li>
         <li class="nav-item">
@@ -25,6 +28,9 @@
         </div>
         <div class="tab-pane" id="btabs-static2-fluid" role="tabpanel">
             @include('admin.inpatient.includes.fluidhistory')
+        </div>
+        <div class="tab-pane" id="btabs-static2-report" role="tabpanel">
+            @include('admin.inpatient.includes.getreporthistory')
         </div>
         <div class="tab-pane" id="btabs-static2-profile" role="tabpanel">
            @include('admin.inpatient.includes.nursinghistory')

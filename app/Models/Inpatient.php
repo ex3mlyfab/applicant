@@ -22,7 +22,10 @@ class Inpatient extends Model
     {
         return $this->hasMany(TreatmentSheet::class)->orderBy('continue');
     }
-
+    public function nursingReports(): HasMany
+    {
+        return $this->hasMany(NursingReport::class)->orderByDesc('created_at');
+    }
     public function encounter(): MorphOne
     {
         return $this->morphOne(Encounter::class, 'encounterable');

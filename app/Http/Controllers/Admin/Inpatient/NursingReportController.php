@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Front;
+namespace App\Http\Controllers\Admin\Inpatient;
 
 use App\Http\Controllers\Controller;
-use App\Models\OtherProcedure;
-use App\Models\User;
+use App\Models\NursingReport;
 use Illuminate\Http\Request;
 
-class OtherProcedureController extends Controller
+class NursingReportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +16,6 @@ class OtherProcedureController extends Controller
     public function index()
     {
         //
-        $patients = User::all()->sortByDesc('full_name');
-        $procedures = OtherProcedure::where('status',Null)->get();
-        return view('admin.Nursing.otherprocedure', compact('patients', 'procedures'));
     }
 
     /**
@@ -41,6 +37,20 @@ class OtherProcedureController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'inpatient_id' => 'required',
+            'duty' => 'required',
+            'report' => 'required',
+            'written_by' => 'required'
+        ]);
+
+        NursingReport::create($data);
+
+        $notification = [
+            'message' => 'Nursing Report created',
+            'type' => 'success'
+        ];
+        return back()->with($notification);
 
     }
 

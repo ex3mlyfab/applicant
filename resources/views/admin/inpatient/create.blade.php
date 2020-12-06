@@ -321,7 +321,7 @@
 <script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
 <script src="{{asset('backend')}}/assets/js/plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
-<script>jQuery(function(){ One.helpers(['datepicker', 'select2', 'rangeslider']); });</script>
+<script>jQuery(function(){ One.helpers(['datepicker', 'select2',  'table-tools-sections']); });</script>
 
 <script>
     $(function(){

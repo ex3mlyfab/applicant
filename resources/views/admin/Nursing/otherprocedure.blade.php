@@ -5,6 +5,10 @@
 @section('title')
     Other Procedure
 @endsection
+@section('head_css')
+<!-- Page JS Plugins CSS -->
+<link rel="stylesheet" href="{{asset('backend')}}/assets/js/plugins/select2/css/select2.min.css">
+@endsection
 
 @section('content')
 <div class="content">
@@ -43,7 +47,7 @@
                                             <th>action</th>
                                         </thead>
                                         <tbody>
-                                            @foreach ($today as $item)
+                                            @foreach ($procedures as $item)
                                             <tr>
                                                 <td>
                                                     {{$loop->iteration}}
@@ -87,7 +91,7 @@
                     </div>
                     <div class="tab-pane" id="btabs-alt-static-profile" role="tabpanel">
                         <h4 class="font-w400">book patient</h4>
-                        <form action="{{route('clinicalappointment.store')}}" method="post" autocomplete="off">
+                        <form action="{{route('otherprocedure.store')}}" method="post" autocomplete="off">
                             @csrf
                             <div class="form-group form-row">
                                 <div class="col-md-4">
@@ -99,7 +103,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 w-100">
                                     <span id="space">
 
                                     </span>
@@ -108,19 +112,19 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label for="folder_number">folder number</label>
-                                            <input type="text" name="folder_number" id="folder_number" class="form-control form-control-lg" readonly>
+                                            <input type="text" id="folder_number" class="form-control form-control-lg" readonly>
 
 
                                         </div>
                                         <div class="col-md-12">
                                             <label for="sex">Sex</label>
-                                            <input type="text" name="sex" id="sex" class="form-control form-control-lg" readonly>
+                                            <input type="text" id="sex" class="form-control form-control-lg" readonly>
 
 
                                         </div>
                                         <div class="col-md-12">
                                             <label for="phone">Phone Number</label>
-                                            <input type="text" name="phone" id="phone" class="form-control form-control-lg" readonly>
+                                            <input type="text" id="phone" class="form-control form-control-lg" readonly>
 
 
                                         </div>
@@ -129,34 +133,16 @@
 
 
                             </div>
-                            <div class="form-group form-row">
-                                <div class="col-md-4">
-                                    <label for="see">To See</label>
-                                    <input type="text" name="to_see" id="see" class="form-control form-control-lg">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label>procedure type</label>
+                                    <input type="text" name="name" class="form-control form-control-lg">
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="appointment_due">Consultation Due</label>
-                                    <input type="text" name="appointment_due" id="appointment_due" class="js-datepicker form-control form-control-lg" data-week-start="1" data-autoclose="true" data-startDate="today" data-today-highlight="true" data-date-format="yyyy/mm/dd" placeholder="yyyy/mm/dd" >
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="">Charges</label>
-                                    <input type="text" name="charges" id="" class="form-control form-control-lg" value="{{$charge->amount}}" readonly>
+                                <div class="col-md-6">
+                                    <label>costs</label>
+                                    <input type="number" name="cost" class="form-control form-control-lg">
                                 </div>
                             </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" id="login-remember" name="payment" @if (old('payment')=='paid')
-                                            selected
-                                        @endif value="paid" required>
-                                        <label class="custom-control-label font-w400" for="login-remember"> Paid</label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" id="login-remember1" name="payment" @if (old('payment')=='deffered')
-                                            selected
-                                        @endif value="deffered" required>
-                                        <label class="custom-control-label font-w400" for="login-remember1">Defer Payment</label>
-                                    </div>
-                                </div>
 
 
                             <button type="submit" class="btn btn-lg btn-outline-primary">Submit</button>
@@ -174,13 +160,16 @@
 
 @endsection
 @section('foot_js')
+<script src="{{asset('backend')}}/assets/js/plugins/select2/js/select2.full.min.js"></script>
+<script>jQuery(function(){ One.helpers(['select2']); });</script>
+
 <script>
     $(function(){
 
         $('#patient_id').on('change', function(){
             var classID = $(this).val();
             var link = "{{ url('admin/patient/classajax/') }}";
-            var imgPath = "{{ asset('public/backend')}}/images/avatar";
+            var imgPath = "{{ asset('backend')}}/images/avatar";
 
             $.ajaxSetup({
             headers: {
@@ -189,33 +178,34 @@
             });
 
 
-        $.ajax({
-            type:"POST",
-            url:link+"/"+classID,
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                avatar : "value",
-                sex: "value",
-                folder_number: "value",
-                phone:"value"
-                }),
-             error : function(data){
-                 console.log("error:" + data)
-                },
+            $.ajax({
+                type:"POST",
+                url:link+"/"+classID,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    avatar : "value",
+                    sex: "value",
+                    folder_number: "value",
+                    phone:"value"
+                    }),
+                error : function(data){
+                    console.log("error:" + data)
+                    },
 
-             success : function(response) {
+                success : function(response) {
+                    console.log(response);
+                    $('#space').html('');
+                    response.forEach(function(data) {
 
-                 $('#space').html('');
-                response.forEach(function(data) {
-                    $('#space').append('<img src="'+ imgPath + '/' + data.avatar+ '" class="img-fluid img-avatar96 w-100">')
-                    $('#sex').val(data.sex);
-                    $('#folder_number').val(data.folder_number);
-                    $('#phone').val(data.phone);
-                });
+                        $('#space').append('<img src="'+ imgPath + '/' + data.avatar+ '" class="img-fluid rounded img-avatar96 w-100">')
+                        $('#sex').val(data.sex);
+                        $('#folder_number').val(data.folder_number);
+                        $('#phone').val(data.phone);
+                    });
 
-             }
-        });
+                }
+            });
 
             });
 

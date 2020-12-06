@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInpatientBillsTable extends Migration
+class CreateNursingReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateInpatientBillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('inpatient_bills', function (Blueprint $table) {
+        Schema::create('nursing_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('inpatient_id');
-            $table->decimal('bill', 20, 2)->nullable();
-            $table->decimal('discount', 20, 2)->nullable();
-            $table->decimal('paid', 20, 2)->nullable();
-            $table->string('p_status', 30)->nullable();
-            $table->boolean('discharge')->default(0)->nullable();
+            $table->text('report');
+            $table->unsignedBigInteger('written_by');
+            $table->string('duty', 20);
             $table->timestamps();
         });
+
     }
 
     /**
@@ -32,6 +31,6 @@ class CreateInpatientBillsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inpatient_bills');
+        Schema::dropIfExists('nursing_reports');
     }
 }

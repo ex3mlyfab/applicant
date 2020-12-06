@@ -446,3 +446,71 @@
         </div>
     </div>
 </div>
+<div class="modal" id="report-block-normal" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="block block-themed block-transparent mb-0">
+                <div class="block-header bg-secondary-dark">
+                    <h3 class="block-title">Record New Nursing Report</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-fw fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="block-content font-size-sm">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                             <img src="{{asset('backend')}}/images/avatar/{{$inpatient->user->avatar}}" alt="" class="img-avatar img-avatar96">
+                        </div>
+                        <div class="col-md-8 font-size-sm">
+                             <p class="my-0"> Name:&nbsp;<strong>{{$inpatient->user->full_name}}</strong></p>
+                            <p class="mb-0">F/No:&nbsp; <strong> {{$inpatient->user->folder_number}}</strong></p>
+                            <p class="mb-0">Sex:&nbsp;{{$inpatient->user->sex}}</p>
+                            <p>Age:&nbsp; {{$inpatient->user->age}}</p>
+
+                        </div>
+                    </div>
+                    <h3 class="text-center text-uppercase">Nursing Report</h3>
+                    <div class="bg-modern-lighter border rounded p-2">
+                    <form action="{{route('nursingreport.store')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="inpatient_id" value="{{$inpatient->id}}">
+                        <input type="hidden" name="written_by" value="{{auth()->user()->id}}">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="select-fluid">Select duty</label>
+                                <select class="form-control form-control-lg" id="duty" name="duty" style="width: 100%;" data-placeholder="Choose one..">
+
+
+                                    <option value="morning">Morning</option>
+                                    <option value="afternoon">Afternoon</option>
+                                    <option value="night">Night</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="fluid_name">Report</label>
+                                <textarea name="report"  rows="10" class="form-control"></textarea>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+                            <button type="submit" class="btn btn-lg btn-outline-success">Save</button>
+                        </div>
+                    </form>
+                    </div>
+
+
+                </div>
+                <div class="block-content block-content-full text-right border-top">
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal"><i class="fa fa-check mr-1"></i>Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -60,6 +60,12 @@ class InpatientController extends Controller
        }else{
            $encounter = $inpatient->encounter;
        }
+       $fluidstory = $inpatient->fluidReportDetails->groupBy(function($item){
+
+        return \Carbon\Carbon::parse($item->done_at)->format('d/M/Y');
+     } );
+
+
         $dataChart = [];
         foreach ($vitals as $item => $values) {
             $dataChart['label'][] = $item;
@@ -73,7 +79,8 @@ class InpatientController extends Controller
             }
         }
         $dataChart['chart_data'] = json_encode($dataChart);
-        return view('admin.inpatient.create', compact('dataChart', 'vitals', 'inpatient','encounter'));
+        return view('admin.inpatient.create', compact('fluidstory',
+            'dataChart', 'vitals', 'inpatient','encounter'));
     }
     public function create()
     {

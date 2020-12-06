@@ -87,6 +87,10 @@
                                     <a class="nav-link" href="#btabs-alt-static-fluid">Fluid Intake/Output</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="#btabs-alt-static-report">Nursing Report</a>
+                                </li>
+
+                                <li class="nav-item">
                                     <a class="nav-link" href="#btabs-alt-static-home">History Taking</a>
                                 </li>
                                 <li class="nav-item">
@@ -118,6 +122,9 @@
                                     @include('admin.Nursing.includes.getfluidhistory')
 
 
+                                </div>
+                                <div class="tab-pane" id="btabs-alt-static-report" role="tabpanel">
+                                    @include('admin.Nursing.includes.getreporthistory')
                                 </div>
                                 <div class="tab-pane" id="btabs-alt-static-home" role="tabpanel">
                                     @include('admin.Nursing.includes.patienthistory')
@@ -286,7 +293,7 @@
 <script src="{{asset('backend')}}/assets/js/plugins/chart.js/Chart.bundle.min.js"></script>
 
 
-<script>jQuery(function(){ One.helpers(['datepicker', 'select2']); });</script>
+<script>jQuery(function(){ One.helpers(['datepicker', 'select2', 'table-tools-sections']); });</script>
 
 <script>
     $(function(){

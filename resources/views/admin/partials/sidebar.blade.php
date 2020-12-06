@@ -160,6 +160,11 @@
                             <span class="nav-main-link-name">Record Vital Signs</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                    <a class="nav-main-link" href="{{route('otherprocedure.index')}}">
+                            <span class="nav-main-link-name">Minor Procedure</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan

@@ -1,4 +1,7 @@
 <?php
+
+
+
 Route::group(['prefix' => 'admin'], function () {
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login');
     Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.login.post');
@@ -35,6 +38,7 @@ Route::group(['prefix' => 'admin'], function () {
          */
         Route::resource('clinicaltask', 'Admin\Inpatient\ClinicalTrackerController');
         Route::resource('fluidreport', 'Admin\Inpatient\FluidReporController')->middleware('permission:fluidreport-view');
+        Route::resource('nursingreport', 'Admin\Inpatient\NursingReportController')->middleware('permission:fluidreport-view');
         Route::resource('procedurerequest', 'Admin\Inpatient\ProcedureRequestController')->middleware('permission:procedure-view');
         Route::resource('discharge', 'Admin\Inpatient\DischargeSummaryController')->middleware('permission:discharge-view');
         Route::get('wardround/{inpatient}', 'Admin\Inpatient\InpatientController@wardRound')->name('wardround')->middleware('permission:wardround-create');
@@ -65,6 +69,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('consult/{consult}', 'Admin\Consult\ConsultController@consult')->middleware('permission:consult-view')->name('consult.create');
         Route::get('endconsult/{consult}', 'Admin\Consult\ConsultController@endConsult')->middleware('permission:consult-create')->name('consult.end');
         Route::resource('mdaccount', 'Admin\Setting\MdAccountController')->middleware('permission:mdaccount-create');
+        Route::resource('otherprocedure', 'Admin\Front\OtherProcedureController');
         //pharmacy
         Route::get('processtock/{id}', 'Admin\Pharmacy\StockCartController@processStock')->name('process.stock');
         Route::post('recievestock', 'Admin\Pharmacy\StockCartController@recieveSupply')->name('receive.stock');
