@@ -15,7 +15,7 @@ class DischargeSummary extends Model
     }
     public function doneBy(): BelongsTo
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Admin::class, 'done_by');
     }
 
 }

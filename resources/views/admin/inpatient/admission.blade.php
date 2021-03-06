@@ -21,13 +21,13 @@
             </div>
         </div>
         <div class="block-content block-content-full">
-            <h4 class="font-w400">Pending Admissions List</h4>
+            <h4 class="font-w400">In-Patients List</h4>
                 <div class="table-responsive">
                         <table class="table table-stripped table-bordered table-vcenter js-dataTable-buttons">
                             <thead>
                                 <th>S/no</th>
                                 <th>Name</th>
-                                <th>Picture/f-no</th>
+                                <th class="text-center">Picture/f-no</th>
                                 <th>sex</th>
                                 <th>Age</th>
                                 <th>status</th>
@@ -48,6 +48,13 @@
                                             <span class="badge badge-pill p-2 badge-light">
                                                 {{$item->user->folder_number}}
                                             </span>
+                                            @if ($item->dischargeSummaries->count())
+                                               <span class="badge badge-pill p-2 badge-danger">
+                                                Recommended for discharge
+                                               </span>
+                                            @endif
+
+
                                         </td>
                                         <td>
                                             {{$item->user->sex}}
@@ -67,16 +74,19 @@
 
                                         </td>
                                         <td>
-                                            <div class="btn-group">
+
                                             @can('wardround-create')
                                                 <a type="button" class="btn btn-md btn-outline-secondary text-uppercase takevitals" href="{{route('wardround', $item->id)}}" ><span data-toggle="tooltip" title="Record ward round activities"> <i class="fa fa-fw fa-clipboard"></i>Doctors' Round </span></a>
                                             @endcan
                                             @can('nurseround-create')
-                                                <a type="button" class="btn btn-md btn-outline-success text-uppercase takevitals" href="{{route('nurseround', $item->id)}}" ><span data-toggle="tooltip" title="Record Nursing round activities"> <i class="fa fa-fw fa-notes-medical"></i>Nurse Round </span></a>
+                                                <a type="button" class="btn btn-md btn-outline-primary text-uppercase takevitals" href="{{route('nurseround', $item->id)}}" ><span data-toggle="tooltip" title="Record Nursing round activities"> <i class="fa fa-fw fa-notes-medical"></i>Nurse Round </span></a>
+                                            @endcan
+                                            @can('preparebill-create')
+                                                <a type="button" class="btn btn-md btn-outline-success text-uppercase takevitals" href="{{route('preparebill', $item->id)}}" ><span data-toggle="tooltip" title="update bills"> <i class="fa fa-fw fa-money-bill-wave"></i>update bill</span></a>
                                             @endcan
 
 
-                                            </div>
+
                                         </td>
 
                                     </tr>

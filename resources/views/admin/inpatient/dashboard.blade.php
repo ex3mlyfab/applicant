@@ -83,7 +83,7 @@
                                                 <span>
                                                     <i class="fa fa-fw fa-file-medical-alt mr-1"></i> Conduct Ward Round
                                                 </span>
-                                            <span class="badge badge-pill badge-secondary">{{$inpatients->count()}}</span>
+                                            <span class="badge badge-pill badge-secondary">{{$inpatients->where('status', 'admission active')->count()}}</span>
                                             </a>
                                         </li>
                                         <li class="nav-item my-1 bg-smooth-light">

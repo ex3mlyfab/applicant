@@ -15,7 +15,11 @@
         <div class="row gutters-tiny">
             <div class="col-md-2">
                 <div class="block block-bordered block-rounded block-fx-shadow">
+                    <div class="block-header">
+                        <a href="{{route('inpatient.index')}}" class="btn-sm btn-danger">&lAarr; In-Patient Lists</a>
+                    </div>
                     <div class="block-content">
+
                         <img class="img-fluid img-fluid-100 options-item" src="{{ $inpatient->user->avatar ? asset('backend/images/avatar/'. $inpatient->user->avatar) : asset('backend/images/no_image.png')}}" alt="">
                         @if ($inpatient->procedureRequests->count())
                             <span class="badge {{($inpatient->procedureRequests->last()->status=='done')? 'badge-success': 'badge-primary'}} badge-pill">{{

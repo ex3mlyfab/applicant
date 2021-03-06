@@ -56,9 +56,9 @@ class Inpatient extends Model
     {
         return $this->morphMany(PaymentReceipt::class, 'paymentable');
     }
-    public function invoice(): MorphMany
+    public function invoice(): MorphOne
     {
-        return $this->morphMany(Invoice::class, 'invoiceable');
+        return $this->morphOne(Invoice::class, 'invoiceable');
     }
 
     public function dischargeSummaries(): HasMany

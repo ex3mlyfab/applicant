@@ -159,10 +159,6 @@
                                             <label class="custom-control-label" for="status3">DAMA</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline custom-control-lg">
-                                            <input type="radio" class="custom-control-input" id="status5" name="status" value="lama">
-                                            <label class="custom-control-label" for="status5">LAMA</label>
-                                        </div>
-                                        <div class="custom-control custom-radio custom-control-inline custom-control-lg">
                                             <input type="radio" class="custom-control-input" id="status4" name="status" value="death">
                                             <label class="custom-control-label" for="status4">Death</label>
                                         </div>

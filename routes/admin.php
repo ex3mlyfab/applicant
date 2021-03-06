@@ -43,6 +43,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('discharge', 'Admin\Inpatient\DischargeSummaryController')->middleware('permission:discharge-view');
         Route::get('wardround/{inpatient}', 'Admin\Inpatient\InpatientController@wardRound')->name('wardround')->middleware('permission:wardround-create');
         Route::get('nurseround/{inpatient}', 'Admin\Inpatient\NursingCareController@nursingCare')->name('nurseround')->middleware('permission:nurseround-create');
+        Route::get('preparebill/{inpatient}', 'Admin\Inpatient\InpatientController@billUpdate')->name('preparebill')->middleware('permission:preparebill-create');
+        Route::post('addbill/{inpatient}', 'Admin\Inpatient\InpatientController@addBill')->name('addbill')->middleware('permission:preparebill-create');
+        Route::post('updateinvoice/{inpatient}', 'Admin\Inpatient\InpatientController@updateInvoice')->name('updateinvoice')->middleware('permission:preparebill-create');
         Route::resource('admitpatient', 'Admin\Inpatient\AdmitController');
         Route::resource('inpatient', 'Admin\Inpatient\InpatientController');
         Route::get('wardmodelajax/{ward}', 'Admin\Setting\WardModelController@wardmodelajax');

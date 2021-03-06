@@ -80,13 +80,23 @@ class LoginController extends Controller
     }
     public function locked()
     {
-        if (!session('lock-expires-at')) {
-            return redirect('/admin');
+        // if (!session('lock-expires-at')) {
+        //     return redirect('/admin');
+        // }
+        // if (session('lock-expires-at') > now()) {
+        //     return redirect('/admin');
+        // }
+        // only if user is logged in
+        if(Auth::check()){
+            session(['locked' => 'true', 'uri' => url()->previous()]);
+
+            return redirect('locked');
+
+
         }
-        if (session('lock-expires-at') > now()) {
-            return redirect('/admin');
-        }
-        return view('admin.auth.locked');
+
+        // return redirect('/login');
+        // return view('admin.auth.locked');
     }
 
     public function unlock(Request $request)

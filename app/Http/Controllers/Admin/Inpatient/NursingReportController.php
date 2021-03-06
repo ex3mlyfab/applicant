@@ -83,9 +83,19 @@ class NursingReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, NursingReport $nursingReport)
     {
         //
+        $nursingReport->update([
+            'duty' => $request->duty,
+            'report' => $request->report
+        ]);
+        $notification = [
+            'message' => 'Nursing Report updated successfully',
+            'type' => 'success'
+        ];
+        return back()->with($notification);
+
     }
 
     /**
@@ -94,8 +104,13 @@ class NursingReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(NursingReport $nursingReport)
     {
-        //
+        $nursingReport->delete();
+         $notification = [
+            'message' => 'Nursing Report deleted',
+            'type' => 'danger'
+        ];
+        return back()->with($notification);
     }
 }

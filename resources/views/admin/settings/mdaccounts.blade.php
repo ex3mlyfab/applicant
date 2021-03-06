@@ -208,7 +208,7 @@
             let selectedValuesTest = covers.map(function(item){
                 return item.name;
             });
-        
+
 
             $.ajaxSetup({
                 headers: {

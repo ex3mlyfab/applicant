@@ -24,7 +24,7 @@
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$item->billing }}</td>
-                    <td>{{$item->total_amount}}</td>
+                    <td>{{$item->amount}}</td>
                     <td>{{$item->invoice_no}}</td>
                     <td>{{$item->status}}</td>
                     <td>

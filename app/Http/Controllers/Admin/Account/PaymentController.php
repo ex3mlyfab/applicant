@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Account;
 use App\Http\Controllers\Controller;
 use App\Models\BankTransfer;
 use App\Models\Expense;
+use App\Models\Inpatient;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Payment;
@@ -124,55 +125,172 @@ class PaymentController extends Controller
     }
     public function pay(Request $request)
     {
-        // dd($request->except('_token'));
+        //  dd($request->except('_token'));
+        $invoice = Invoice::findOrFail($request->invoice_id);
+        $pay = explode(',', $request->pay_control);
+        $pay= collect($pay);
 
+        $totalpaid = $request->totalpaid;
+
+
+        if($request->part_payment){
+            if($request->payment_mode == 5 || $request->part_amount <= 0){
+                return back()->with([
+                    'message' => 'Cannot Pay Later with Part-Payment',
+                    'type' => 'danger'
+                ]);
+            }
+            $remaining = $invoice->amount - $totalpaid;
+            if ($remaining > 0){
+                $balance = $invoice->invoiceItems->filter(function($value){
+                    return $value->item_description == 'Balance';
+                });
+                if($balance->count()){
+                    $balance->first()->update([
+                        'amount' => (double) $remaining,
+                        'status' => 'NYP'
+                    ]);
+                }else{
+                    $invoice->invoiceItems()->create([
+                        'item_description' =>'Balance',
+                        'amount' =>  $remaining,
+                        'status' => 'NYP'
+                    ]);
+                }
+                $invoice->invoiceItems()->create([
+                    'item_description' =>'Part-payment paid on '. now()->format('d/M/Y'),
+                    'amount' =>  -$totalpaid,
+                    'status' => 'paid'
+                ]);
+
+              $invoice->update([
+                  'amount' => $remaining
+              ]);
+            }
+
+
+        }
+        //check if inpatient has been discharged from the hospital to ensure that invoice remains open
+        if($invoice->invoiceable_type == 'App\Models\Inpatient'){
+            //check if patient is discharged
+            $inpatientDetails = Inpatient::findOrFail($request->invoice_type_id);
+
+            if($inpatientDetails->status != 'discharged'){
+                //check if there's balance column
+                $balance = $invoice->invoiceItems->filter(function($value){
+                    return $value->item_description == 'Balance';
+                });
+                //and if there's none create one.
+                if(!($balance->count())){
+                    $invoice->invoiceItems()->create([
+                        'item_description' =>'Balance',
+                        'amount' =>  $remaining,
+                        'status' => 'NYP'
+                    ]);
+                }
+
+            }
+
+
+        }
+        if($request->payment_mode != 5)
+        {
         $payment = PaymentReceipt::create([
             'user_id' => $request->user_id,
             'payment_mode_id' => $request->payment_mode,
-            'admin_id' => auth()->user()->id
+            'admin_id' => auth()->user()->id,
+            'total' => $totalpaid,
+            'receipt_no' => generate_invoice_no()
 
         ]);
-        foreach ($request->pay as $key => $value) {
-            $data = array(
-                'user_id' => $request->user_id,
-                'service' => $request->service[$key],
-                'invoice_item_id' => $request->invoice_item_id[$key],
-                'amount' => $request->amount[$key],
-                'admin_id' => Auth::user()->id,
-                'invoice_no' => $request->invoice_no,
-
+        foreach ($invoice->invoiceItems as $key => $value) {
+            if ($pay->contains($value->id)) {
+                $usekey = array_keys($request->invoice_item_id, $value->id);
+                $data = array(
+                'service' => $request->service[$usekey[0]],
+                'payment_receipt_id' => $payment->id,
+                'amount' => $request->amount[$usekey[0]],
+                'status' => 'paid'
             );
             Payment::create($data);
 
-            $lab = InvoiceItem::find($data['invoice_item_id']);
-            if($lab){
-                $lab->update([
+                $value->update([
                 'status' => 'paid'
             ]);
-            if ($lab->bill()) {
-                $lab->bill()->update([
-                    'status' => "item paid",
-                ]);
-
+            //highlight paid for section and update details to indicate payment
             }
-            }
-            $invoice = Invoice::where('invoice_no', $request->invoice_no)->first();
+        }
 
-            if ($invoice->invoiceItems->contains('status', '')) {
+        switch ($request->payment_mode) {
+                case 2:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $request->user_id,
+                        'amount_transfered' => $totalpaid,
+                        'status' => 'Transfer'
+                    ]);
+                    break;
+                case 3:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $request->user_id,
+                        'amount_transfered' => $totalpaid,
+                        'status' => 'POS'
+                    ]);
+
+                    break;
+                case 7:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $request->user_id,
+                        'amount_transfered' => $request->bank_amount,
+                        'status' => 'Transfer'
+                    ]);
+                    break;
+
+                case 8:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $request->user_id,
+                        'amount_transfered' => $request->bank_amount,
+                        'status' => 'POS'
+                    ]);
+                    break;
+            }
+
+
+            // $pharm->payments()->save($payment);
+            if ($invoice->invoiceItems->contains('status', 'NYP')) {
                 $invoice->update([
-                    'status' => 'partial paid',
+                    'p_status' => 'partial paid',
+                    'amount' => $invoice->invoiceItems->reduce(function($carry,$item){
+                        if($item->status=='NYP'){
+                            return $carry + $item->amount;
+                        }
+                    })
+                ]);
+            } else if($request->part_payment && $invoice->amount > $totalpaid){
+                $invoice->update([
+                    'p_status' => 'partial paid',
                 ]);
             } else {
                 $invoice->update([
-                    'status' => 'paid',
+                    'p_status' => 'paid',
                 ]);
             }
+        }else{
+
+            $invoice->update([
+                'status' => 'credit',
+            ]);
         }
         $notification = array(
             'message' => 'Payment made successfully!',
             'alert-type' => 'success'
         );
         return redirect()->route('payment.index')->with($notification);
+
+
     }
     public function pharmacy(Request $request)
     {
@@ -181,7 +299,7 @@ class PaymentController extends Controller
         $pharm = Pharmreq::findOrFail($request->invoice_type_id);
         // dd($pharm->pharmreqDetails);
         $drugs = $pharm->pharmreqDetails;
-
+        $totalpaid = $request->totalpaid;
 
         $pay = explode(',', $request->pay_control);
         $pay= collect($pay);
@@ -198,13 +316,50 @@ class PaymentController extends Controller
         // }
         // dd($tests);
         //wonderful logic to know a slected row from the options
-    if($request->payment_mode != 5)
-    {
+        if($request->part_payment){
+            if($request->payment_mode == 5 || $request->part_amount <= 0){
+                return back()->with([
+                    'message' => 'Cannot Pay Later with Part-Payment',
+                    'type' => 'danger'
+                ]);
+            }
+            $remaining = $invoice->amount - $totalpaid;
+            if ($remaining > 0){
+                $balance = $invoice->invoiceItems->filter(function($value){
+                    return $value->item_description == 'Balance';
+                });
+                if($balance->count()){
+                    $balance->first()->update([
+                        'amount' => (double) $remaining,
+                        'status' => 'NYP'
+                    ]);
+                }else{
+                    $invoice->invoiceItems()->create([
+                        'item_description' =>'Balance',
+                        'amount' =>  $remaining,
+                        'status' => 'NYP'
+                    ]);
+                }
+                $invoice->invoiceItems()->create([
+                    'item_description' =>'Part-payment paid on '. now()->format('d/M/Y'),
+                    'amount' =>  -$totalpaid,
+                    'status' => 'paid'
+                ]);
+
+              $invoice->update([
+                  'amount' => $remaining
+              ]);
+            }
+
+
+        }
+        if($request->payment_mode != 5)
+        {
         $payment = PaymentReceipt::create([
             'user_id' => $request->user_id,
             'payment_mode_id' => $request->payment_mode,
             'admin_id' => auth()->user()->id,
-            'total' => $request->totalpaid,
+            'total' => $totalpaid,
             'receipt_no' => generate_invoice_no()
 
         ]);
@@ -217,7 +372,7 @@ class PaymentController extends Controller
                 'amount' => $request->amount[$usekey[0]],
                 'status' => 'paid'
             );
-                Payment::create($data);
+            Payment::create($data);
                 $value->invoiceItem()->update(['status'=> 'paid']);
                 //update invoice item
                 $value->update([
@@ -226,12 +381,28 @@ class PaymentController extends Controller
             //highlight paid for section and update details to indicate payment
             }
         }
+
+        if(in_array('Balance', $request->service)){
+
+            $usekey = array_keys($request->service, 'Balance');
+             $iteminvoice = InvoiceItem::findOrFail($request->invoice_item_id[$usekey[0]]);
+                $data = array(
+                'service' => $request->service[$usekey[0]]. ' Payment',
+                'payment_receipt_id' => $payment->id,
+                'amount' => $request->amount[$usekey[0]],
+                'status' => 'paid'
+            );
+            Payment::create($data);
+            $iteminvoice->update([
+                'status' => 'paid'
+            ]);
+        }
         switch ($request->payment_mode) {
                 case 2:
                     BankTransfer::create([
                         'bank_id' => $request->transfer_id,
                         'user_id' => $request->user_id,
-                        'amount_transfered' => $request->charges,
+                        'amount_transfered' => $totalpaid,
                         'status' => 'Transfer'
                     ]);
                     break;
@@ -239,12 +410,27 @@ class PaymentController extends Controller
                     BankTransfer::create([
                         'bank_id' => $request->transfer_id,
                         'user_id' => $request->user_id,
-                        'amount_transfered' => $request->charges,
+                        'amount_transfered' => $totalpaid,
                         'status' => 'POS'
                     ]);
 
-                default:
-                    # code...
+                    break;
+                case 7:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $request->user_id,
+                        'amount_transfered' => $request->bank_amount,
+                        'status' => 'Transfer'
+                    ]);
+                    break;
+
+                case 8:
+                    BankTransfer::create([
+                        'bank_id' => $request->transfer_id,
+                        'user_id' => $request->user_id,
+                        'amount_transfered' => $request->bank_amount,
+                        'status' => 'POS'
+                    ]);
                     break;
             }
 
@@ -261,13 +447,17 @@ class PaymentController extends Controller
                         }
                     })
                 ]);
+            } else if($request->part_payment && $invoice->amount > $totalpaid){
+                $invoice->update([
+                    'p_status' => 'partial paid',
+                ]);
             } else {
                 $invoice->update([
                     'p_status' => 'paid',
                 ]);
             }
-        }
-        else{
+        }else{
+
             $pharm->update([
                 'status' => 'item paid'
             ]);

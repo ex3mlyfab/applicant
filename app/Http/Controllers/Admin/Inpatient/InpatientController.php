@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Inpatient;
 use App\Http\Controllers\Controller;
 use App\Models\AdmitModel;
 use App\Models\Bed;
+use App\Models\Charge;
 use App\Models\Consult;
 use App\Models\Encounter;
 use App\Models\Inpatient;
@@ -12,8 +13,8 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Retainership;
 use App\Models\VitalSign;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class InpatientController extends Controller
@@ -132,8 +133,16 @@ class InpatientController extends Controller
             'invoice_no' => generate_invoice_no(),
             'amount' => $request->bill,
             'p_status' => 'NYP',
-            'status' => 'pharmacy',
+            'status' => 'admission',
             'admin_id' => auth()->user()->id,
+        ]);
+        $inpatient->inpatientBill()->create([
+            'bill' =>$request->bill,
+            'p_status' => 'NYP'
+        ]);
+        $inpatient->inpatientBill->inpatientBillDetails()->create([
+            'service' => 'Initial Bill',
+            'amount' => $request->bill
         ]);
 
             $data = array(
@@ -162,7 +171,126 @@ class InpatientController extends Controller
     {
         //
     }
+    public function billUpdate(Inpatient $inpatient)
+    {
+        $current = Carbon::now();
+        $days = $current->diffInDays(Carbon::parse($inpatient->date_of_admission)) + 1;
+        $bedcost = 6000;
+        $doctorscost = Charge::where('name', 'Doctors Charge')->first()->amount;
+        $nursecost = Charge::where('name', 'Nursing charge')->first()->amount ;
+        $doctorsCharge = $inpatient->inpatientBill->inpatientBillDetails->filter(function($value){
+            return $value->service == 'Doctors Charge';
+        });
+        $accomodation = $inpatient->inpatientBill->inpatientBillDetails->filter(function($value){
+            return $value->service == 'Accomodation';
+        });
+        $nurseCharge = $inpatient->inpatientBill->inpatientBillDetails->filter(function($value){
+            return $value->service == 'Nursing Charge';
+        });
+        if($nurseCharge->count()=== 0){
+            $inpatient->inpatientBill->inpatientBillDetails()->create([
+                'service' => 'Nursing Charge',
+                'amount' => (double)($days * $nursecost),
+            ]);
+        }else{
+            $nurseCharge->first()->update([
+                'amount' =>(double)($days * $nursecost)
+            ]);
+        }
+        if($doctorsCharge->count() === 0){
+            $inpatient->inpatientBill->inpatientBillDetails()->create([
+                'service' => 'Doctors Charge',
+                'amount' =>(double)($days * $doctorscost),
+            ]);
+        }else{
+            $doctorsCharge->first()->update([
+                'amount' => (double)($days * $doctorscost),
+            ]);
+         }
+         if($accomodation->count() === 0){
+            $inpatient->inpatientBill->inpatientBillDetails()->create([
+                'service' => 'Accomodation',
+                'amount' => (double)($days * $bedcost),
+            ]);
+         }else{
+             $accomodation->first()->update([
+                 'amount' => (double)($days * $bedcost),
+             ]);
+         }
+        //  dd($accomodation, $doctorsCharge, $nurseCharge);
+        return view('admin.inpatient.inpatientbill', compact('inpatient', 'days'));
 
+    }
+
+    public function addBill(Request $request, Inpatient $inpatient)
+    {
+        // dd($request->except('_token'));
+        $serviceable = $request->service_select;
+        $charges = $inpatient->inpatientBill->inpatientBillDetails->filter(function($value) use ($serviceable){
+            return $value->service ==  $serviceable;
+        });
+
+        if($charges->count() === 0){
+            $inpatient->inpatientBill->inpatientBillDetails()->create([
+                'service' => $serviceable,
+                'amount' =>(double)($request->amount),
+            ]);
+        }else{
+            $initials = $charges->first()->amount;
+            $charges->first()->update([
+                'amount' => (double)($request->amount + $initials),
+            ]);
+         }
+         $notification =  [
+             'message' => 'Bill Updated succesfully',
+             'alert-type' => 'success'
+         ];
+         return back()->with($notification);
+
+    }
+    public function updateInvoice(Request $request, Inpatient $inpatient)
+    {
+     if($request->has('confirm_discharge')){
+         $inpatient->update([
+            'status' => 'discharged',
+            'date_of_discharge' => now()
+         ]);
+         $inpatient->bed()->update([
+            'status' => '',
+        ]);
+     }
+
+
+     $outstanding = ($inpatient->inpatientBill->inpatientBillDetails->filter(function($item){
+        return $item->service != 'Initial Bill';
+    })->sum('amount')
+    - $inpatient->inpatientBill->inpatientBillDetails->filter(function($item){
+        return $item->service == 'Initial Bill';
+    })->sum('amount') + $inpatient->invoice->invoiceItems->filter(function($item){
+        return strpos($item->item_description, 'Part-payment');
+    })->sum('amount'));
+
+    $balance = $inpatient->invoice->invoiceItems->filter(function($value){
+                return $value->item_description == 'Balance';
+                    });
+        if($balance->count()){
+            $balance->first()->update([
+                'amount' => (double) $outstanding,
+                'status' => 'NYP'
+            ]);
+        }else{
+            $inpatient->invoice->invoiceItems()->create([
+                'item_description' =>'Balance',
+                'amount' =>  $outstanding,
+                'status' => 'NYP'
+            ]);
+        }
+        $inpatient->invoice->update([
+            'amount' => $outstanding,
+        ]);
+    return redirect()->route('inpatient.index');
+
+    }
     /**
      * Show the form for editing the specified resource.
      *

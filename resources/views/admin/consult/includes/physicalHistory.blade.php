@@ -2,9 +2,7 @@
 @foreach ($patient->encounters as $tree)
     @if($tree->physicalExams()->count())
         @foreach ($tree->physicalExams as $consult)
-<h1> {{$loop->iteration}} {{
-    $consult->encounter_id
-}}</h1>
+
             <div class="block block-bordered">
                 <div class="block-header bg-info-light">
                     <h4>Physical Examination History  For {{$appointment->user->full_name}} </h4>

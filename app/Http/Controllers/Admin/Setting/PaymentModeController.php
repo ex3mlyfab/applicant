@@ -112,7 +112,7 @@ class PaymentModeController extends Controller
     {
         $paymentmode->delete();
         $notification = array(
-            'message' => 'payment mode dleted successfully!',
+            'message' => 'payment mode deleted successfully!',
             'alert-type' => 'danger'
         );
 

@@ -62,8 +62,6 @@
                         <form action="{{($invoice->invoiceable_type == 'App\Models\Pharmreq')?
                             route('payment.pharmacy'):
                             route('payment.pay')
-
-
                         }}" method="post" id="payment-form" >
                             @csrf
                         <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
@@ -71,17 +69,17 @@
                             <tbody>
 
                                 @foreach ($invoice->invoiceItems as $item)
-                                    @if ($item->status== 'NYP')
+
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>
-                                            <input type="text" name="service[]" class="form-control" value="{{ $item->item_description}}" readonly>
-                                            <input type="hidden" name="invoice_item_id[]" value="{{$item->id}}">
+                                            <input type="text" @if ($item->status== 'NYP') name="service[]" @endif class="form-control" value="{{ $item->item_description}}" readonly>
+                                            @if ($item->status== 'NYP') <input type="hidden" name="invoice_item_id[]" value="{{$item->id}}"> @endif
                                             </td>
 
                                             <td>
-
-                                            <input type="checkbox" name="pay[]" class="form-control form-check paycheck" value="{{$item->id}}" data-amount="{{$item->amount}}" >
+                                                @if ($item->status== 'NYP')
+                                            <input type="checkbox" name="pay[]" class="form-control form-check paycheck" value="{{$item->id}}" data-amount="{{$item->amount}}" >@endif
 
 
                                             </td>
@@ -92,13 +90,13 @@
                                                             ₦
                                                         </span>
                                                     </div>
-                                                    <input type="number" name="amount[]" id="description" class="form-control"  value="{{$item->amount}}" readonly>
+                                                    <input type="number" @if ($item->status== 'NYP') name="amount[]" @endif id="description" class="form-control"  value="{{$item->amount}}" readonly>
 
                                                 </div>
                                             </td>
 
                                         </tr>
-                                    @endif
+
 
                                 @endforeach
 
@@ -130,16 +128,29 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="row" id="part_payment_wrapper">
+                        <div class="form-group col-md-6">
+                            <div class="custom-control custom-checkbox custom-checkbox-square custom-control-lg custom-control-secondary mb-1">
+                            <input type="checkbox" class="custom-control-input" id="part_payment" name="part_payment">
+                            <label class="custom-control-label" for="part_payment">Make Part-Payment</label>
+                    </div>
+                        </div>
+                        <div class="form-group col-md-6" id="part_pay_amount">
+                            <label for="part_amount">amount paid</label>
+                            <input type="number" name="part_amount" id="part_amount" class="form-control form-control-lg" max="{{ $invoice->invoiceItems->reduce(function($carry,$item){
+                                if($item->status=='NYP'){
+                                    return $carry + $item->amount;
+                                }
+                            })}}">
+                        </div>
+                    </div>
+
                     @if (isset($invoice->user_id))
                     <input type="hidden" name="user_id" value="{{$invoice->user_id}}">
                     <input type="hidden" name="invoice_no" value={{ $invoice->invoice_no}}>
                     <input type="hidden" name="payment_method" value="{{$invoice->user->payment_method}}" >
-                <input type="hidden" name="invoice_type" value="{{$invoice->invoiceable_type}}" >
-                <input type="hidden" name="invoice_type_id" value="{{$invoice->invoiceable_id}}" >
-
-
-
-
+                    <input type="hidden" name="invoice_type" value="{{$invoice->invoiceable_type}}" >
+                    <input type="hidden" name="invoice_type_id" value="{{$invoice->invoiceable_id}}" >
 
                     @else
                     <input type="hidden" name="name" value="{{$invoice->name}}">
@@ -151,10 +162,20 @@
                         <div class="col-md-6 offset-col-md-1  bg-amethyst rounded" id="payment-mode">
                              @include('admin.paymentmode')
                         </div>
-
+                        <div class="col-md-6" id="mixed-pay">
+                            <div class="form-group">
+                                <label for="cash_amount">cash amount</label>
+                                <input type="number" name="cash_amount" id="cash_amount" class="form-control form-control-lg">
+                            </div>
+                            <div class="form-group">
+                                <label for="bank_amount">bank amount</label>
+                                <input type="number" name="bank_amount" id="bank_amount" class="form-control form-control-lg">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group" id="payment-status">
+
+                    <div class="form-group mt-4" id="payment-status">
                         <div class="form-check">
                             <input type="checkbox" class="form-check confirm" id="example-cb-custom-circle-lg1" name="example-cb-custom-circle-lg1">
                             <label for="example-cb-custom-circle-lg1">Confirm Payment</label>
@@ -180,13 +201,26 @@
 <script>
     $(function(){
             var totalpaid = 0;
-          let payment_mode =  $('input[name=payment_method]').val();
-    if((payment_mode=='insured'|| payment_mode == 'mdaccount')){
-        $(".paycheck").attr('disabled', true).prop('checked', true);
-    }
+        let payment_mode =  $('input[name=payment_method]').val();
+            if((payment_mode=='insured'|| payment_mode == 'mdaccount')){
+                $(".paycheck").prop({checked:true,
+                disabled: true});
+                $('#part_payment_wrapper').hide();
+            }
 
+        $("#mixed-pay").hide();
+        $('#cash_amount').prop({disabled : true, required : false});
+        $('#bank_amount').prop({disabled : true, required : false});
 
+        $('#part_paymnet').click(function(){
+            if(this.checked){
+                $('#part_ammount').prop( 'required', true);
 
+            }else{
+                $('#part_ammount').prop('required', false);
+
+            }
+        });
 
         $(".confirm").change(function(){
             if(this.checked){
@@ -201,10 +235,12 @@
                  let purchase = (Array.isArray(total) && total.length) ? total.reduce((total, amount) => total + amount, 0) : 0 ;
                 $('#totalBalance').val(parseFloat(purchase).toFixed(2));
                 if(purchase != 0){
-                    $('#pay-control').val(paycontrol);
-                $(".underscore").attr('disabled', false);
+                $('#pay-control').val(paycontrol);
+                ($('#part_payment').is(':checked') && parseFloat($('#part_amount').val()) <= 0) ? $(".underscore").attr('disabled', true): $(".underscore").attr('disabled', false);
                 $(".paycheck").prop('disabled', true);
-                $("#paidtotal").val( parseFloat(purchase).toFixed(2));
+                    let showAmount =$('#part_payment').is(':checked') ? parseFloat($('#part_amount').val()).toFixed(2) : parseFloat(purchase).toFixed(2);
+
+                $("#paidtotal").val(showAmount);
                 }
 
             }else{
@@ -220,28 +256,62 @@
                 $("#paidtotal").val( parseFloat(purchase).toFixed(2));
             }
         });
+        $('#part_pay_amount').hide().prop('disabled', true);
+        $('#part_payment').click(function(){
+                if($(this).is(':checked')){
+                   $('#part_pay_amount').show();
+                   $('#part_amount').prop( 'required', true);
+                   $(".paycheck").prop({checked:true,
+                disabled: true});
 
+                }else{
+                    $('#part_pay_amount').hide();
+                    $(".paycheck").prop({checked:false,
+                disabled: false});
+                    $('#part_amount').prop( 'required', false);
+
+                }
+        });
         $('#payment-mode').hide();
         $('.bank-check').prop('disabled', true);
+
         $('.payment-option').bind('click',function(){
             let identity = $(this);
-
             if(identity.is(':checked')){
+
                 if(identity.prop('id')== 'pos-2'|| identity.prop('id') == 'pos-3'){
                     $('#payment-mode').show();
                     $('.bank-check').prop('disabled', false);
                     $('#payment-status').show();
                     $(".underscore").attr('disabled', true);
+                    $("#mixed-pay").hide();
+                    $('#cash_amount').prop({disabled : true, required : false});
+                    $('#bank_amount').prop({disabled : true, required : false});
                 }else if(identity.prop('id') == 'pos-4'){
                     $('#payment-status').hide();
                     $('.bank-check').prop('disabled', true);
                     $('#payment-mode').hide();
                     $(".underscore").attr('disabled',false);
-                }else{
+                    $("#mixed-pay").hide();
+                    $('#cash_amount').prop({disabled : true, required : false});
+                    $('#bank_amount').prop({disabled : true, required : false});
+                } else if(identity.prop('id') == 'pos-7'|| identity.prop('id') == 'pos-8'){
+                    $('#payment-mode').show();
+                    $('.bank-check').prop('disabled', false);
+                    $('#payment-status').show();
+                    $(".underscore").attr('disabled', true);
+                    $("#mixed-pay").show();
+                    $('#cash_amount').prop({disabled : false, required : true});
+                    $('#bank_amount').prop({disabled : false, required : true});
+                }
+                else{
                     $('#payment-mode').hide();
                     $('.bank-check').prop('disabled', true);
                     $('#payment-status').show();
                     $(".underscore").attr('disabled', true);
+                    $("#mixed-pay").hide();
+                    $('#cash_amount').prop({disabled : true, required : false});
+                    $('#bank_amount').prop({disabled : true, required : false});
                 }
             }
 

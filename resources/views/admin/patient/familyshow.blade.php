@@ -124,13 +124,13 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                   
+
                                     <a href="{{route('patient.edit', $item->id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </a>
-                                   
-                                   
-                                    @role('super-admin') 
+
+
+                                    @role('super-admin')
                                     @if (!($loop->first))
                                     <form action="{{route('patient.destroy', $item->id)}}" method="POST" >
                                         @csrf

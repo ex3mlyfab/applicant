@@ -317,8 +317,8 @@
                                     <div class="col-md-12 form-group">
                                         <label class="d-block">Discharge Condition</label>
                                         <div class="custom-control custom-radio custom-control-inline custom-control-lg">
-                                            <input type="radio" class="custom-control-input" id="status1" name="status" value="Improved" checked>
-                                            <label class="custom-control-label" for="status1">Improved</label>
+                                            <input type="radio" class="custom-control-input" id="status1" name="status" value="home" checked>
+                                            <label class="custom-control-label" for="status1">Home</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline custom-control-lg">
                                             <input type="radio" class="custom-control-input" id="status2" name="status" value="reffered">

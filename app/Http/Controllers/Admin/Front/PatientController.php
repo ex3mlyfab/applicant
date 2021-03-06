@@ -231,6 +231,28 @@ class PatientController extends Controller
                 ]);
 
                 break;
+            case 7:
+                BankTransfer::create([
+                    'bank_id' => $request->transfer_id,
+                    'user_id' => $new->id,
+                    'amount_transfered' => $new->registrationType->charge->amount,
+                    'status' => 'POS'
+                ]);
+                $paid = PaymentReceipt::create([
+                    'user_id' => $request->patient_id,
+                    'payment_mode_id' => $request->payment_mode,
+                    'admin_id' => auth()->user()->id,
+                    'receipt_no' => generate_invoice_no(),
+                    'total' => $new->registrationType->charge->amount,
+                ]);
+                Payment::create([
+                    'payment_receipt_id' => $paid->id,
+                    'service' => 'Payments for new ' . $new->source . ' registration',
+                    'amount' => $new->registrationType->charge->amount,
+
+                    ]);
+
+                break;
             default:
                 # code...
                 break;

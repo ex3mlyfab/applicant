@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pharmacy;
 
 use App\Http\Controllers\Controller;
 use App\Models\DrugModel;
+use App\Models\Inpatient;
 use App\Models\PharmacyBill;
 use App\Models\PharmacyBillDetail;
 use App\Models\Pharmreq;
@@ -58,7 +59,8 @@ class PharmacyController extends Controller
         foreach ($drugs as $key => $value) {
             $stockreports[$key]['drug_name'] = $value;
             $stockreports[$key]['inpatient'] =$value->pharmacyBillDetails->where('status', 'inpatient')->whereBetween('created_at',[$beginning, now() ])->sum('amount');
-            $stockreports[$key]['old_stock'] = $value->drugBatchDetails->where('available_quantity', '>', 0)->where('purchase_date', '<', $beginning)->sum('available_quantity');
+            $stockreports[$key]['old_stock'] = ($value->drugBatchDetails->where('available_quantity', '>', 0)->where('purchase_date', '<', $beginning)->sum('available_quantity') + $value->pharmacyBillDetails->where('created_at','>=',$beginning)->where('created_at','<=', now())->sum('quantity')-
+            $value->drugBatchDetails->whereBetween('purchase_date',[$beginning, now()->today()])->sum('quantity_supplied'));
             $stockreports[$key]['purchases'] = $value->drugBatchDetails->whereBetween('purchase_date',[$beginning, now()->today()])->sum('quantity_supplied');
             $stockreports[$key]['issued'] = $value->pharmacyBillDetails->where('created_at','>=',$beginning)->where('created_at','<=', now())->sum('quantity');
             $stockreports[$key]['sales_total'] = $value->pharmacyBillDetails->whereBetween('created_at',[$beginning, now() ])->sum('amount');
@@ -105,8 +107,10 @@ class PharmacyController extends Controller
         $stockreports = [];
         foreach ($drugs as $key => $value) {
             $stockreports[$key]['drug_name'] = $value;
-            $stockreports[$key]['inpatient'] = $value->$value->pharmacyBillDetails->where('status', 'inpatient')->whereBetween('created_at',[$beginning, $end ])->sum('amount');
-            $stockreports[$key]['old_stock'] = $value->drugBatchDetails->where('available_quantity', '>', 0)->where('purchase_date', '<', $beginning)->sum('available_quantity');
+            $stockreports[$key]['inpatient'] = $value->pharmacyBillDetails->where('status', 'inpatient')->whereBetween('created_at',[$beginning, $end ])->sum('amount');
+            $stockreports[$key]['old_stock'] = ($value->drugBatchDetails->where('available_quantity', '>', 0)->where('purchase_date', '<', $beginning)->sum('available_quantity') + $value->pharmacyBillDetails->where('created_at','>=',$beginning)->where('created_at','<=', now())->sum('quantity')-
+                $value->drugBatchDetails->whereBetween('purchase_date',[$beginning, $end])->sum('quantity_supplied'));
+            $stockreports[$key]['stock_balance'] = $stockreports[$key]['old_stock'] - $value->pharmacyBillDetails->where('created_at','>=',$beginning)->where('created_at','<=', $end)->sum('quantity');
             $stockreports[$key]['purchases'] = $value->drugBatchDetails->whereBetween('purchase_date',[$beginning, $end])->sum('quantity_supplied');
             $stockreports[$key]['issued'] = $value->pharmacyBillDetails->where('created_at','>=',$beginning)->where('created_at','<=', $end)->sum('quantity');
             $stockreports[$key]['sales_total'] = $value->pharmacyBillDetails->whereBetween('created_at',[$beginning, $end ])->sum('amount');
@@ -121,7 +125,7 @@ class PharmacyController extends Controller
         for ($i=0; $i < $stockreports->count() ; $i++) {
             $totalopening += $stockreports[$i]['drug_name']->sales_price * $stockreports[$i]['old_stock'];
             $totalnew += ($stockreports[$i]['drug_name']->sales_price * $stockreports[$i]['purchases']);
-           $totalstock += $stockreports[$i]['drug_name']->sales_price * $stockreports[$i]['drug_name']->available;
+           $totalstock += $stockreports[$i]['drug_name']->sales_price * $stockreports[$i]['stock_balance'];
             $totalsales += $stockreports[$i]['sales_total'];
             $totalinpatient += $stockreports[$i]['inpatient'];
         }
@@ -151,6 +155,24 @@ class PharmacyController extends Controller
         // dd($request->except('_token'));
 
         $pharmreq = Pharmreq::find($request->pharmreq_id);
+
+        if($pharmreq->encounter->encounterable_type == 'App\Models\Inpatient'){
+            $inpatient = Inpatient::find($pharmreq->encounter->encounterable_id);
+            $pharmacy = $inpatient->inpatientBill->inpatientBillDetails->filter(function($value){
+                return $value->service == 'Pharmacy';
+            });
+            if($pharmacy->count()=== 0){
+                $inpatient->inpatientBill->inpatientBillDetails()->create([
+                    'service' => 'Pharmacy',
+                    'amount' => $pharmreq->total,
+                ]);
+            }else{
+                $initial = $pharmacy->first()->amount;
+                $pharmacy->first()->update([
+                    'amount' => $initial + $pharmreq->total
+                ]);
+            }
+        }
         $dispense = PharmacyBill::create([
             'user_id' => $pharmreq->encounter->user->id,
             'consultant_id' => $pharmreq->seen_by,
@@ -205,7 +227,7 @@ class PharmacyController extends Controller
 
     public function prepare()
     {
-       $prescriptions = Pharmreq::where('status', '!=', 'dispensed')->orWhere('status', NULL)->get();
+       $prescriptions = Pharmreq::where('status', '!=', 'dispensed')->orWhere('status', NULL)->get()->sortByDesc('created_at');
 
         return view('admin.pharmacy.index', compact('prescriptions'));
     }
